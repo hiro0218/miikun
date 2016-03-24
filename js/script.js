@@ -154,15 +154,18 @@ function countResultText(val, target) {
 function togglePreview(target) {
     var preview = document.getElementsByClassName('preview-side')[0];
     var editor  = document.getElementsByClassName('editor-side')[0];
+    var btn = target.getElementsByClassName('octicon')[0];
 
     if ( preview.style.display == "none" ) {
         preview.style.display = "";
         editor.style.width = "";
-        target.value = ">>";
+        btn.classList.remove("octicon-chevron-left");
+        btn.classList.add("octicon-chevron-right");
     } else {
         preview.style.display = "none";
         editor.style.width = "100%";
-        target.value = "<<";
+        btn.classList.remove("octicon-chevron-right");
+        btn.classList.add("octicon-chevron-left");
     }
 }
 

@@ -1,6 +1,9 @@
 @import "bourbon/bourbon";
 @import "neat/neat";
 
+//
+@import "octicons";
+
 /////
 
 // framework variable
@@ -12,7 +15,7 @@ $gutter: golden-ratio(0em, 0);
 $fg-gutter: $gutter;
 
 // original variable
-$font-family: 'Open Sans',Helvetica Neue,Arial,游ゴシック,YuGothic,Noto Sans,Hiragino Sans,Hiragino Kaku Gothic ProN,ヒラギノ角ゴ ProN W3,メイリオ,Meiryo,sans-serif;
+$font-family: 游ゴシック,YuGothic,Noto Sans,Hiragino Sans,Hiragino Kaku Gothic ProN,ヒラギノ角ゴ ProN W3,メイリオ,Meiryo,sans-serif;
 $tool-height: 2.5rem;
 $header-height: 2rem;
 
@@ -81,7 +84,6 @@ body {
     font-size: $font-size-sm;
     border: 1px solid $color500;
     background: $color300;
-    padding: .25rem;
     border-radius: 2px;
     transition: background .3s, transform .1s;
 
