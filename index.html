@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.0.0/normalize.min.css">
+    <link rel="stylesheet" href="vendor/github-markdown-css/github-markdown.css">
+    <link rel="stylesheet" href="vendor/PrismJS/prism.css">
+    <link rel="stylesheet" href="css/style.min.css">
+    <title>Miikun - MarkDown Editor</title>
+</head>
+<body>
+    <!-- Modal -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <textarea id="export"></textarea>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="tool">
+            <!-- Button -->
+            <input type="button" value="Save" class="btn btn-save" title="localStorageへ保存" />
+            <input type="button" value="Clear" class="btn btn-clear" title="localStorageをクリア" />
+            <input type="button" value="Export" class="btn btn-export" title="HTMLを表示" />
+            <div class="count" title="プレビュー後の文字数">Words: <span id="chara-count"></span></div>
+        </div>
+        <div class="editor-side">
+            <div class="header">
+                <span>Markdown</span>
+                <input type="button" value=">>" class="btn btn-toggle" />
+            </div>
+            <textarea id="editor" placeholder="Please enter the text here." autofocus></textarea>
+        </div>
+        <div class="preview-side">
+            <div class="header">Preview</div>
+            <div id="result" class="markdown-body"></div>
+        </div>
+    </div>
+
+    <script src="vendor/marked/marked.min.js"></script>
+    <script src="vendor/behave.js/behave.min.js"></script>
+    <script src="vendor/PrismJS/prism.js"></script>
+    <script src="js/script.min.js"></script>
+</body>
+</html>
