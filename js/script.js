@@ -77,18 +77,11 @@ window.onload = function() {
 
     // tool
     btnSave.addEventListener("click", function(){
-        if (confirm("Save?")) {
-            saveStorage(editor);
-            keyup(editor, result, charaCount);
-        }
+        save();
     }, false);
 
     btnClear.addEventListener("click", function(){
-        if (confirm("Clear?")) {
-            editor.value = "";
-            clearStorage();
-            keyup(editor, result, charaCount);
-        }
+        clear();
     }, false);
 
     btnExport.addEventListener("click", function(){
@@ -169,21 +162,19 @@ function togglePreview(target) {
     }
 }
 
-// function enableInsertTAB(element) {
-//     element.onkeydown = function(e) {
-//         if (e.keyCode === 9) {
-//             var val = this.value;
-//             var start = this.selectionStart;
-//             var end = this.selectionEnd;
-//
-//             this.value = val.substring(0, start) + '\t' + val.substring(end);
-//
-//             this.selectionStart = this.selectionEnd = start + 1;
-//
-//             return false;
-//         }
-//     };
-// }
+function save() {
+    if (confirm("Save?")) {
+        saveStorage(editor);
+        keyup(editor, result, charaCount);
+    }
+}
+function clear() {
+    if (confirm("Clear?")) {
+        editor.value = "";
+        clearStorage();
+        keyup(editor, result, charaCount);
+    }
+}
 
 function saveStorage(element) {
     localStorage.setItem('markunVal', element.value);
