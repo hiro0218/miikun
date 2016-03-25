@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="vendor/normalize-css/normalize.css?4.0.0">
     <link rel="stylesheet" href="vendor/github-markdown-css/github-markdown.css">
+    <link rel="stylesheet" href="vendor/codemirror/lib/codemirror.css">
     <link rel="stylesheet" href="vendor/PrismJS/prism.css">
     <link rel="stylesheet" href="css/style.min.css">
     <title>Miikun - Markdown Editor</title>
@@ -28,7 +29,7 @@
                 <span><span class="octicon octicon-code"></span> Markdown</span>
                 <button class="btn btn-toggle octicon octicon-chevron-right"></button>
             </div>
-            <textarea id="editor" placeholder="Please enter the text here." autofocus></textarea>
+            <textarea id="editor"></textarea>
         </div>
         <div class="preview-side">
             <div class="header">
@@ -40,7 +41,14 @@
     </div>
 
     <script src="vendor/marked/marked.min.js"></script>
-    <script src="vendor/behave.js/behave.min.js"></script>
+
+    <script src="vendor/codemirror/lib/codemirror.js"></script>
+    <script src="vendor/codemirror/mode/markdown/markdown.js"></script>
+    <script src="vendor/codemirror/addon/edit/continuelist.js"></script>
+    <script src="vendor/codemirror/mode/gfm/gfm.js"></script>
+    <script src="vendor/codemirror/addon/mode/overlay.js"></script>
+    <script src="vendor/codemirror/addon/selection/active-line.js"></script>
+
     <script src="vendor/PrismJS/prism.js"></script>
     <script src="js/script.min.js"></script>
 </body>

@@ -11,21 +11,6 @@ window.onload = function() {
     var btnClear  = document.getElementsByClassName('btn-clear')[0];
     var btnExport = document.getElementsByClassName('btn-export')[0];
     var btnToggle = document.getElementsByClassName('btn-toggle')[0];
-    var timer = null;
-    var prev_val = editor.value;
-
-    // Behave.js
-    window.editor = new Behave({
-        textarea: editor,
-        replaceTab: true,
-        softTabs: true,
-        tabSize: 4,
-        autoOpen: true,
-        overwrite: true,
-        autoStrip: true,
-        autoIndent: true,
-        fence: false
-    });
 
     // ストレージから読み込む
     loadStorage(editor);
@@ -35,39 +20,52 @@ window.onload = function() {
         saveStorage(editor);
     }, 60000);
 
-    marked.setOptions({
+    // CodeMirror
+    var cm = window.CodeMirror.fromTextArea(editor, {
+        mode: {
+            name: 'markdown',
+            highlightFormatting: true
+        },
+        theme: 'markdown',
+        autofocus: true,
+        lineNumbers: true,
+        indentUnit: 4,
+        tabSize: 2,
+        electricChars: true,
+        styleActiveLine: true,
+        matchBrackets: true,
+        lineWrapping: true,
+        extraKeys: {
+            "Enter": "newlineAndIndentContinueMarkdownList"
+        }
+    });
+    cm.on('change', function(e){
+        // Trigger
+        var event = document.createEvent('HTMLEvents');
+            event.initEvent('change', true, false);
+        editor.dispatchEvent(event);
+
+        editor.value = cm.getValue();
+    });
+
+    editor.addEventListener("change", function(){
+        console.log("change");
+        keyup(editor, result, charaCount);
+    }, false);
+
+
+    window.marked.setOptions({
         langPrefix: 'language-',
         breaks: true
     });
 
     // テキスト入力を反映させる
-    keyup(editor, result, charaCount);
+    //keyup(editor, result, charaCount);
 
     // 初回実行
     if (editor.value) {
         keyup(editor, result, charaCount);
     }
-
-    // フォーカス
-    editor.addEventListener("focus", function(){
-        window.clearInterval(timer);
-
-        timer = window.setInterval(function(){
-            var new_val = editor.value;
-            // 変更があった場合
-            if( prev_val != editor.value ){
-                keyup(editor, result, charaCount);
-            }
-            prev_val = new_val;
-        }, 1000);
-
-    }, false);
-
-    // アウトフォーカス
-    editor.addEventListener("blur", function(){
-        //window.clearInterval(timer);
-        keyup(editor, result, charaCount);
-    }, false);
 
     // ページ移動の確認
     // window.onbeforeunload = function(event){
@@ -77,11 +75,11 @@ window.onload = function() {
 
     // tool
     btnSave.addEventListener("click", function(){
-        save();
+        save(editor, result, charaCount);
     }, false);
 
     btnClear.addEventListener("click", function(){
-        clear();
+        clear(editor, result, charaCount);
     }, false);
 
     btnExport.addEventListener("click", function(){
@@ -162,13 +160,13 @@ function togglePreview(target) {
     }
 }
 
-function save() {
+function save(editor, result, charaCount) {
     if (confirm("Save?")) {
         saveStorage(editor);
         keyup(editor, result, charaCount);
     }
 }
-function clear() {
+function clear(editor, result, charaCount) {
     if (confirm("Clear?")) {
         editor.value = "";
         clearStorage();

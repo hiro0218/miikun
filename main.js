@@ -106,7 +106,7 @@ function readyApplicationMenu() {
       }, {
         label: 'View',
         submenu: [{
-            label: 'Restart',
+            label: 'Reload',
             accelerator: 'CmdOrCtrl+R',
             click: function(item, focusedWindow) {
                 if (focusedWindow)
