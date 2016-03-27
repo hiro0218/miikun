@@ -4,9 +4,17 @@
   "description": "Markdown Editor",
   "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "electron ."
   },
+   "repository": {
+     "type": "git",
+     "url": "git@github.com:hiro0218/editor.git"
+   },
   "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "author": "hiro",
+  "license": "ISC",
+  "devDependencies": {
+    "electron-packager": "^5.2.1",
+    "electron-prebuilt": "^0.37.2"
+  }
 }

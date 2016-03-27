@@ -1,9 +1,11 @@
 window.onload = function() {
     "use strict";
 
+    // Global
+    window.editor = document.getElementById("editor");
+    window.result = document.getElementById("result");
+
     // 宣言
-    var editor = document.getElementById("editor");
-    var result = document.getElementById("result");
     var modal  = document.getElementById('modal');
     var output  = document.getElementById('export');
     var charaCount = document.getElementById('chara-count');
@@ -20,51 +22,16 @@ window.onload = function() {
         saveStorage(editor);
     }, 60000);
 
-    // CodeMirror
-    var cm = window.CodeMirror.fromTextArea(editor, {
-        mode: {
-            name: 'markdown',
-            highlightFormatting: true
-        },
-        theme: 'markdown',
-        autofocus: true,
-        lineNumbers: true,
-        indentUnit: 4,
-        tabSize: 2,
-        electricChars: true,
-        styleActiveLine: true,
-        matchBrackets: true,
-        lineWrapping: true,
-        extraKeys: {
-            "Enter": "newlineAndIndentContinueMarkdownList"
-        }
-    });
-    cm.on('change', function(e){
-        // Trigger
-        var event = document.createEvent('HTMLEvents');
-            event.initEvent('change', true, false);
-        editor.dispatchEvent(event);
-
-        editor.value = cm.getValue();
-    });
+    // プラグイン関連の初期設定
+    init();
 
     editor.addEventListener("change", function(){
-        console.log("change");
-        keyup(editor, result, charaCount);
+        setPreview();
     }, false);
-
-
-    window.marked.setOptions({
-        langPrefix: 'language-',
-        breaks: true
-    });
-
-    // テキスト入力を反映させる
-    //keyup(editor, result, charaCount);
 
     // 初回実行
     if (editor.value) {
-        keyup(editor, result, charaCount);
+        setPreview();
     }
 
     // ページ移動の確認
@@ -74,14 +41,6 @@ window.onload = function() {
     // };
 
     // tool
-    btnSave.addEventListener("click", function(){
-        save(editor, result, charaCount);
-    }, false);
-
-    btnClear.addEventListener("click", function(){
-        clear(editor, result, charaCount);
-    }, false);
-
     btnExport.addEventListener("click", function(){
         // export html
         output.value = getMarkedValue(editor.value);
@@ -108,7 +67,43 @@ window.onload = function() {
 
 };
 
-// other function
+// function
+function init() {
+    // CodeMirror
+    window.cm = window.CodeMirror.fromTextArea(window.editor, {
+        mode: {
+            name: 'markdown',
+            highlightFormatting: true
+        },
+        theme: 'markdown',
+        autofocus: true,
+        lineNumbers: true,
+        indentUnit: 4,
+        tabSize: 2,
+        electricChars: true,
+        styleActiveLine: true,
+        matchBrackets: true,
+        lineWrapping: true,
+        extraKeys: {
+            "Enter": "newlineAndIndentContinueMarkdownList"
+        }
+    });
+    cm.on('change', function(e){
+        // Trigger
+        var event = document.createEvent('HTMLEvents');
+            event.initEvent('change', true, false);
+        window.editor.dispatchEvent(event);
+
+        window.editor.value = cm.getValue();
+    });
+
+    // marked
+    window.marked.setOptions({
+        langPrefix: 'language-',
+        breaks: true
+    });
+}
+
 function getMarkedValue(value) {
     // エスケープされていない<script>タグを消去
     value = stripScriptTag(value);
@@ -116,15 +111,15 @@ function getMarkedValue(value) {
     return marked(value);
 }
 
-function keyup(from, to, count) {
+function setPreview() {
     // HTML変換
-    var mkval = getMarkedValue(from.value);
+    var mkval = getMarkedValue(window.editor.value);
 
     // 文字数カウント
-    countResultText(mkval, count);
+    setTextCount(mkval);
 
     // 反映
-    to.innerHTML = mkval;
+    window.result.innerHTML = mkval;
 
     // Prism.js(Highlight) re-render
     Prism.highlightAll();
@@ -138,9 +133,11 @@ function stripScriptTag(text) {
     return text;
 }
 
-function countResultText(val, target) {
-    target.innerHTML = val.length;
+function setTextCount(mkval) {
+    var charaCount = document.getElementById('chara-count');
+    charaCount.innerHTML = mkval.length;
 }
+
 
 function togglePreview(target) {
     var preview = document.getElementsByClassName('preview-side')[0];
@@ -160,17 +157,18 @@ function togglePreview(target) {
     }
 }
 
-function save(editor, result, charaCount) {
-    if (confirm("Save?")) {
-        saveStorage(editor);
-        keyup(editor, result, charaCount);
+function save() {
+    if (window.confirm("Save?")) {
+        saveStorage(window.editor);
+        setPreview();
     }
 }
-function clear(editor, result, charaCount) {
-    if (confirm("Clear?")) {
-        editor.value = "";
+function clear() {
+    if (window.confirm("Clear?")) {
+        cm.getDoc().setValue('');
+        //window.editor.value = "";
         clearStorage();
-        keyup(editor, result, charaCount);
+        setPreview();
     }
 }
 

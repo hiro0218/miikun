@@ -158,6 +158,17 @@ body {
     color: $color600;
 }
 
+.CodeMirror-focused .CodeMirror-selected,
+.CodeMirror-line::selection,
+.CodeMirror-line > span::selection,
+.CodeMirror-line > span > span::selection {
+    background: $color300 !important;
+}
+.CodeMirror-activeline-background {
+    background: $color300;
+}
+
+
 //
 // Preview
 // ---------------
