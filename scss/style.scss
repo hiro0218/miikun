@@ -40,6 +40,39 @@ $bg-color:   $color200;
     background: $color300;
 }
 
+// Chrome scrollbar
+.CodeMirror-vscrollbar,
+.markdown-body {
+    &::-webkit-scrollbar {
+        overflow: hidden;
+        width: 8px;
+        background: $color200;
+        border-radius: 4px;
+    }
+    &::-webkit-scrollbar:horizontal {
+        height: 8px;
+    }
+    &::-webkit-scrollbar-button {
+        display: none;
+    }
+    &::-webkit-scrollbar-piece {
+        background: $color200;
+    }
+    &::-webkit-scrollbar-piece:start {
+        background: $color200;
+    }
+    &::-webkit-scrollbar-thumb {
+        overflow: hidden;
+        border-radius: 4px;
+        background: $color400;
+    }
+    &::-webkit-scrollbar-corner {
+        overflow: hidden;
+        border-radius: 4px;
+        background: $color400;
+    }
+}
+
 html {
     font-size: $font-size-root;
     @include box-sizing(border-box);
