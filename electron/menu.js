@@ -1,7 +1,7 @@
 var remote = require('remote');
 var app = remote.app;
 var Menu = remote.require('menu');
-var MenuItem = remote.require('menu-item');
+// var MenuItem = remote.require('menu-item');
 
 var template = [
     {
@@ -10,8 +10,9 @@ var template = [
             {
                 label: 'Open',
                 click: function (item, focusedWindow) {
-                    // if (focusedWindow)
-                    // openFile();
+                    if (focusedWindow) {
+                        openFile();
+                    }
                 },
                 // accelerator: 'CmdOrCtrl+O',
             },
@@ -34,7 +35,7 @@ var template = [
             { type: 'separator' },
             {
                 label: 'Save as LocalStorage',
-                accelerator: 'CmdOrCtrl+S',
+                accelerator: 'CmdOrCtrl+Shift+S',
                 click: function (item, focusedWindow) {
                     if (focusedWindow) {
                         focusedWindow.webContents.executeJavaScript('save()');
@@ -43,7 +44,7 @@ var template = [
             },
             {
                 label: 'Clear as LocalStorage',
-                accelerator: 'CmdOrCtrl+Delete',
+                accelerator: 'CmdOrCtrl+Shift+Delete',
                 click: function (item, focusedWindow) {
                     if (focusedWindow) {
                         focusedWindow.webContents.executeJavaScript('clear()');
@@ -138,7 +139,7 @@ var template = [
             {
                 label: 'Learn More',
                 click: function () {
-                    require('shell').openExternal('http://electron.atom.io')
+                    require('shell').openExternal('http://electron.atom.io');
                 }
             },
             { type: 'separator' },

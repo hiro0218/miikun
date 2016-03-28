@@ -8,13 +8,6 @@
     <link rel="stylesheet" href="vendor/PrismJS/prism.css">
     <link rel="stylesheet" href="css/style.min.css">
     <title>Miikun - Markdown Editor</title>
-    <script>
-    // is electron
-    if (window && window.process && window.process.type) {
-        // load menu
-        document.write('<script src="electron/menu.js"><\/script>');
-    }
-    </script>
 </head>
 <body>
     <!-- Modal -->
@@ -52,5 +45,12 @@
 
     <script src="vendor/PrismJS/prism.js"></script>
     <script src="js/script.min.js"></script>
+    <script>
+    // is electron
+    if (window && window.process && window.process.type) {
+        document.write('<script src="electron/menu.js"><\/script>');
+        document.write('<script src="electron/files.js"><\/script>');
+    }
+    </script>
 </body>
 </html>

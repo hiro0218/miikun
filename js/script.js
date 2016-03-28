@@ -1,3 +1,5 @@
+var STORAGE_KEYNAME = "MiiKun";
+
 window.onload = function() {
     "use strict";
 
@@ -7,10 +9,10 @@ window.onload = function() {
 
     // 宣言
     var modal  = document.getElementById('modal');
-    var output  = document.getElementById('export');
+    var output = document.getElementById('export');
     var charaCount = document.getElementById('chara-count');
     var btnPreview = document.getElementsByClassName('btn-preview')[0];
-    var btnToggle = document.getElementsByClassName('btn-toggle')[0];
+    var btnToggle  = document.getElementsByClassName('btn-toggle')[0];
 
     // ストレージから読み込む
     loadStorage(editor);
@@ -32,9 +34,6 @@ window.onload = function() {
         setPreview();
     }
 
-    // drag & drop
-    dragdrop();
-
     // ページ移動の確認
     // window.onbeforeunload = function(event){
     //     event = event || window.event;
@@ -50,16 +49,16 @@ window.onload = function() {
         modal.style.display = "block";
     }, false);
 
-    output.addEventListener("focus", function(){
+    output.addEventListener("focus", function() {
         output.select();
     }, false);
 
-    btnToggle.addEventListener("click", function(e){
+    btnToggle.addEventListener("click", function(e) {
         togglePreview(e.target);
     }, false);
 
     // Modal
-    window.addEventListener("click", function(e){
+    window.addEventListener("click", function(e) {
         if (e.target == modal) {
             // hide modal
             modal.style.display = "none";
@@ -85,11 +84,12 @@ function initPlugin() {
         styleActiveLine: true,
         matchBrackets: true,
         lineWrapping: true,
+        dragDrop: false,
         extraKeys: {
             "Enter": "newlineAndIndentContinueMarkdownList"
         }
     });
-    cm.on('change', function(e){
+    cm.on('change', function(e) {
         // Trigger
         var event = document.createEvent('HTMLEvents');
             event.initEvent('change', true, false);
@@ -167,45 +167,20 @@ function save() {
 function clear() {
     if (window.confirm("Clear?")) {
         cm.getDoc().setValue('');
-        //window.editor.value = "";
+        window.editor.value = "";
         clearStorage();
         setPreview();
     }
 }
 
 function saveStorage(element) {
-    localStorage.setItem('markunVal', element);
+    localStorage.setItem(STORAGE_KEYNAME, element);
 }
 
 function loadStorage(element) {
-    element.innerHTML = localStorage.getItem('markunVal');
+    element.innerHTML = localStorage.getItem(STORAGE_KEYNAME);
 }
 
 function clearStorage() {
-    localStorage.removeItem('markunVal');
-}
-
-function dragdrop() {
-    //ドラッグオーバー
-    document.addEventListener('dragover',function(e){
-        e.preventDefault();
-        return false;
-    },false);
-
-    //ドロップ
-    document.addEventListener('drop',function(e){
-        e.preventDefault();
-        return false;
-    },false);
-
-    // dragイベントの処理
-    // cm.on('dragover', function(e){
-        // e.preventDefault();
-    // }, false);
-
-    // dropイベントの処理
-    // cm.on("drop",function(editor, e){
-    //     console.log(editor);
-    //     console.log(e);
-    // });
+    localStorage.removeItem(STORAGE_KEYNAME);
 }
