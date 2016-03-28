@@ -8,6 +8,13 @@
     <link rel="stylesheet" href="vendor/PrismJS/prism.css">
     <link rel="stylesheet" href="css/style.min.css">
     <title>Miikun - Markdown Editor</title>
+    <script>
+    // is electron
+    if (window && window.process && window.process.type) {
+        // load menu
+        document.write('<script src="electron/menu.js"><\/script>');
+    }
+    </script>
 </head>
 <body>
     <!-- Modal -->
@@ -18,10 +25,6 @@
     </div>
 
     <div class="container">
-        <div class="tool">
-            <!-- Button -->
-            <input type="button" value="Export" class="btn btn-export" title="HTMLを表示" />
-        </div>
         <div class="editor-side">
             <div class="header">
                 <span><span class="octicon octicon-code"></span> Markdown</span>
@@ -31,7 +34,7 @@
         </div>
         <div class="preview-side">
             <div class="header">
-                <span><span class="octicon octicon-eye"></span> Preview</span>
+                <span class="btn-preview"><span class="octicon octicon-eye"></span> Preview</span>
                 <div class="count" title="プレビュー後の文字数">Words: <span id="chara-count">0</span></div>
             </div>
             <div id="result" class="markdown-body"></div>

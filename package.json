@@ -2,7 +2,7 @@
   "name": "editor",
   "version": "1.0.1",
   "description": "Markdown Editor",
-  "main": "main.js",
+  "main": "app.js",
   "scripts": {
     "start": "electron ."
   },

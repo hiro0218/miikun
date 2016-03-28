@@ -9,9 +9,7 @@ window.onload = function() {
     var modal  = document.getElementById('modal');
     var output  = document.getElementById('export');
     var charaCount = document.getElementById('chara-count');
-    var btnSave   = document.getElementsByClassName('btn-save')[0];
-    var btnClear  = document.getElementsByClassName('btn-clear')[0];
-    var btnExport = document.getElementsByClassName('btn-export')[0];
+    var btnPreview = document.getElementsByClassName('btn-preview')[0];
     var btnToggle = document.getElementsByClassName('btn-toggle')[0];
 
     // ストレージから読み込む
@@ -23,7 +21,7 @@ window.onload = function() {
     }, 60000);
 
     // プラグイン関連の初期設定
-    init();
+    initPlugin();
 
     editor.addEventListener("change", function(){
         setPreview();
@@ -34,6 +32,9 @@ window.onload = function() {
         setPreview();
     }
 
+    // drag & drop
+    dragdrop();
+
     // ページ移動の確認
     // window.onbeforeunload = function(event){
     //     event = event || window.event;
@@ -41,7 +42,7 @@ window.onload = function() {
     // };
 
     // tool
-    btnExport.addEventListener("click", function(){
+    btnPreview.addEventListener("click", function(){
         // export html
         output.value = getMarkedValue(editor.value);
 
@@ -68,7 +69,7 @@ window.onload = function() {
 };
 
 // function
-function init() {
+function initPlugin() {
     // CodeMirror
     window.cm = window.CodeMirror.fromTextArea(window.editor, {
         mode: {
@@ -140,18 +141,18 @@ function setTextCount(mkval) {
 
 
 function togglePreview(target) {
-    var preview = document.getElementsByClassName('preview-side')[0];
-    var editor  = document.getElementsByClassName('editor-side')[0];
+    var previewSide = document.getElementsByClassName('preview-side')[0];
+    var editorSide  = document.getElementsByClassName('editor-side')[0];
     var btnClassList = target.classList;
 
-    if ( preview.style.display == "none" ) {
-        preview.style.display = "";
-        editor.style.width = "";
+    if ( previewSide.style.display == "none" ) {
+        previewSide.style.display = "";
+        editorSide.style.width = "";
         btnClassList.remove("octicon-chevron-left");
         btnClassList.add("octicon-chevron-right");
     } else {
-        preview.style.display = "none";
-        editor.style.width = "100%";
+        previewSide.style.display = "none";
+        editorSide.style.width = "100%";
         btnClassList.remove("octicon-chevron-right");
         btnClassList.add("octicon-chevron-left");
     }
@@ -159,7 +160,7 @@ function togglePreview(target) {
 
 function save() {
     if (window.confirm("Save?")) {
-        saveStorage(window.editor);
+        saveStorage(window.editor.value);
         setPreview();
     }
 }
@@ -173,7 +174,7 @@ function clear() {
 }
 
 function saveStorage(element) {
-    localStorage.setItem('markunVal', element.value);
+    localStorage.setItem('markunVal', element);
 }
 
 function loadStorage(element) {
@@ -182,4 +183,29 @@ function loadStorage(element) {
 
 function clearStorage() {
     localStorage.removeItem('markunVal');
+}
+
+function dragdrop() {
+    //ドラッグオーバー
+    document.addEventListener('dragover',function(e){
+        e.preventDefault();
+        return false;
+    },false);
+
+    //ドロップ
+    document.addEventListener('drop',function(e){
+        e.preventDefault();
+        return false;
+    },false);
+
+    // dragイベントの処理
+    // cm.on('dragover', function(e){
+        // e.preventDefault();
+    // }, false);
+
+    // dropイベントの処理
+    // cm.on("drop",function(editor, e){
+    //     console.log(editor);
+    //     console.log(e);
+    // });
 }
