@@ -15,12 +15,12 @@ window.onload = function() {
     var btnToggle  = document.getElementsByClassName('btn-toggle')[0];
 
     // ストレージから読み込む
-    loadStorage(editor);
+    // loadStorage(editor);
 
     // ストレージに保存する
-    window.setInterval(function(){
-        saveStorage(editor);
-    }, 60000);
+    // window.setInterval(function(){
+    //     saveStorage(editor);
+    // }, 60000);
 
     // プラグイン関連の初期設定
     initPlugin();

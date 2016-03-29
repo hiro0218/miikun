@@ -29,3 +29,12 @@ function openFile(path) {
         window.cm.getDoc().setValue(content);
     });
 }
+
+function saveAsFile(path) {
+    var data =  window.cm.getValue();
+    fs.writeFile(path, data, function(error) {
+        if (error !== null) {
+            alert('error: ' + error);
+        }
+    });
+}
