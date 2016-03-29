@@ -1,10 +1,7 @@
 "use strict";
 
 const electron = require('electron');
-
-// アプリケーションをコントロールするモジュール
 const app = electron.app;
-// ウィンドウを作成するモジュール
 const BrowserWindow = electron.BrowserWindow;
 
 const Menu = electron.Menu;
