@@ -2,6 +2,7 @@
 @import "neat/neat";
 
 //
+@import "font";
 @import "octicons";
 
 /////
@@ -15,7 +16,8 @@ $fg-gutter: $gutter;
 $font-size-root: $em-base;
 $font-size-sm: .85rem;
 $font-size-xs: .75rem;
-$font-family: 游ゴシック,YuGothic,Noto Sans,Hiragino Sans,Hiragino Kaku Gothic ProN,ヒラギノ角ゴ ProN W3,メイリオ,Meiryo,sans-serif;
+$font-family: "Noto Sans CJK JP", 游ゴシック,YuGothic,Noto Sans,Hiragino Sans,Hiragino Kaku Gothic ProN,ヒラギノ角ゴ ProN W3,メイリオ,Meiryo,sans-serif;
+$font-family-monospace: Consolas, "Liberation Mono", Menlo, Courier, monospace;
 $tool-height: 2.5rem;
 $header-height: 2rem;
 
@@ -75,6 +77,8 @@ $bg-color:   $color200;
 html {
     font-size: $font-size-root;
     @include box-sizing(border-box);
+
+    -webkit-text-stroke: 1px rgba(0,0,0,0.1);
 
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -182,7 +186,7 @@ body {
 }
 .CodeMirror-linenumber {
     font-size: $font-size-xs;
-    font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    font-family: $font-family-monospace;
 }
 .cm-formatting,
 .cm-hr {
