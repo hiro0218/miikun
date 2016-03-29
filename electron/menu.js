@@ -1,7 +1,7 @@
 var remote = require('remote');
 var app = remote.app;
 var Menu = remote.require('menu');
-// var MenuItem = remote.require('menu-item');
+var Dialog = remote.require('dialog');
 
 var template = [
     {
@@ -9,12 +9,20 @@ var template = [
         submenu: [
             {
                 label: 'Open',
+                accelerator: 'CmdOrCtrl+O',
                 click: function (item, focusedWindow) {
-                    if (focusedWindow) {
-                        openFile();
-                    }
+                    Dialog.showOpenDialog({
+                        title: 'Open Dialog',
+                        filters: [
+                            {name: 'Documents', extensions: ['txt', 'md']},
+                        ],
+                        properties: ['openFile']
+                    }, function (item, focusedWindow) {
+                        if (item) {
+                            openFile(item[0]);
+                        }
+                    });
                 },
-                // accelerator: 'CmdOrCtrl+O',
             },
             {
                 label: 'Save',
