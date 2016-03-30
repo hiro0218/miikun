@@ -1,5 +1,8 @@
 var fs = require('fs');
 
+var OPEN_FILE_PATH = "";
+var MODIFY = false;
+
 // ドラッグオーバー
 document.addEventListener('dragover',function(e){
     e.preventDefault();
@@ -23,18 +26,76 @@ document.addEventListener('drop',function(e){
     return false;
 }, true);
 
+function newFile() {
+    // 編集中
+    if (MODIFY) {
+        chooseSave();
+    }
+
+    // 編集中でない場合は初期化
+    if (!MODIFY) {
+        OPEN_FILE_PATH = "";
+        window.editor.value = "";
+        window.cm.getDoc().setValue("");
+    }
+}
+
+function chooseSave() {
+    var response = dialogCloseModifyFile();
+
+    switch (response) {
+        case 0: // Yes
+            // 既存ファイルの保存
+            if (OPEN_FILE_PATH) {
+                save();
+            } else {
+                saveAsFile();
+            }
+            break;
+        case 1: // No
+            // 保存しない
+            MODIFY = false;
+            break;
+        case 2: // Cancel
+            // スルー
+            break;
+    }
+}
+
 function openFile(path) {
     fs.readFile(path, 'utf8', function(err, content) {
-        window.editor.value = content;
-        window.cm.getDoc().setValue(content);
+        if (err !== null) {
+            alert('error: ' + err);
+        } else {
+            MODIFY = false;
+            OPEN_FILE_PATH = path;
+            window.editor.value = content;
+            window.cm.getDoc().setValue(content);
+        }
     });
 }
 
-function saveAsFile(path) {
-    var data =  window.cm.getValue();
-    fs.writeFile(path, data, function(error) {
-        if (error !== null) {
-            alert('error: ' + error);
+function save(path, data) {
+    fs.writeFile(path, data, function(err) {
+        if (err !== null) {
+            alert('error: ' + err);
+        } else {
+            MODIFY = false;
+            OPEN_FILE_PATH = path;  // for new file
         }
     });
+}
+
+function saveFile() {
+    if (OPEN_FILE_PATH) {
+        var data =  window.cm.getValue();
+        save(OPEN_FILE_PATH, data);
+    } else {
+        dialogSaveAs();
+    }
+}
+
+function saveAsFile(path) {
+    var data = window.cm.getValue();
+    save(path, data);
 }

@@ -96,6 +96,11 @@ function initPlugin() {
         window.editor.dispatchEvent(event);
 
         window.editor.value = cm.getValue();
+
+        // 編集時フラグを立てる
+        if (!MODIFY) {
+            MODIFY = true;
+        }
     });
 
     // marked
