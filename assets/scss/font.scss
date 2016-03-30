@@ -1,8 +1,17 @@
 @font-face {
     font-family: "Noto Sans CJK JP";
     font-style: normal;
-    font-weight: 500;
+    font-weight: 300;
     src: local('Noto Sans CJK JP Light'),
+         url('../font/NotoSansCJKjp-Light.woff') format('woff'),
+         url('../font/NotoSansCJKjp-Light.otf') format('opentype')
+}
+
+@font-face {
+    font-family: "Noto Sans CJK JP";
+    font-style: normal;
+    font-weight: 500;
+    src: local('Noto Sans CJK JP Regular'),
          url('../font/NotoSansCJKjp-Regular.woff') format('woff'),
          url('../font/NotoSansCJKjp-Regular.otf') format('opentype')
 }
