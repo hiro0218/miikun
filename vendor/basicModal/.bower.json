@@ -1,0 +1,31 @@
+{
+  "name": "basicModal",
+  "authors": [
+    "Tobias Reich <tobias@electerious.com>"
+  ],
+  "description": "Easy-to-use modal window for your website or webapp",
+  "main": "dist/basicModal.min.js",
+  "keywords": [
+    "modal",
+    "js",
+    "window",
+    "popup"
+  ],
+  "license": "MIT",
+  "homepage": "http://github.com/electerious/basicModal",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/electerious/basicModal.git"
+  },
+  "version": "3.3.3",
+  "_release": "3.3.3",
+  "_resolution": {
+    "type": "version",
+    "tag": "v3.3.3",
+    "commit": "12782b59f7f97e2e8c210c831b1cf926f3dbb05c"
+  },
+  "_source": "git://github.com/electerious/basicModal.git",
+  "_target": "^3.3.3",
+  "_originalSource": "basicModal",
+  "_direct": true
+}

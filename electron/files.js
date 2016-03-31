@@ -26,7 +26,7 @@ document.addEventListener('drop',function(e){
             openFile(file.path);
         }
     } else {
-        alert("No Support");
+        basicModalAlert("This file format is not supported.");
     }
 
     return false;
@@ -75,11 +75,11 @@ function chooseSave() {
 
 function openFile(path) {
     if (OPEN_FILE_PATH === path) {
-        alert("This file is already open.");
+        basicModalAlert("This file is already open.");
     }
     fs.readFile(path, 'utf8', function(err, content) {
         if (err !== null) {
-            alert('error: ' + err);
+            basicModalAlert('error: ' + err);
         } else {
             MODIFY = false;
             OPEN_FILE_PATH = path;
@@ -92,7 +92,7 @@ function openFile(path) {
 function save(path, data) {
     fs.writeFile(path, data, function(err) {
         if (err !== null) {
-            alert('error: ' + err);
+            basicModalAlert('error: ' + err);
         } else {
             MODIFY = false;
             OPEN_FILE_PATH = path;  // for new file
@@ -112,4 +112,16 @@ function saveFile() {
 function saveAsFile(path) {
     var data = window.cm.getValue();
     save(path, data);
+}
+
+function basicModalAlert(str) {
+    basicModal.show({
+        body: "<p>"+ str +"</p>",
+        buttons: {
+            action: {
+                title: 'OK',
+                fn: basicModal.close
+            }
+        }
+    });
 }

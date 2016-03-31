@@ -7,13 +7,6 @@ window.onload = function() {
     window.editor = document.getElementById("editor");
     window.result = document.getElementById("result");
 
-    // 宣言
-    var modal  = document.getElementById('modal');
-    var output = document.getElementById('export');
-    var charaCount = document.getElementById('chara-count');
-    var btnPreview = document.getElementsByClassName('btn-preview')[0];
-    var btnToggle  = document.getElementsByClassName('btn-toggle')[0];
-
     // ストレージから読み込む
     // loadStorage(editor);
 
@@ -40,29 +33,11 @@ window.onload = function() {
     //     event.returnValue = 'Confirmation';
     // };
 
-    // tool
-    btnPreview.addEventListener("click", function(){
-        // export html
-        output.value = getMarkedValue(editor.value);
-
-        // show modal
-        modal.style.display = "block";
-    }, false);
-
-    output.addEventListener("focus", function() {
-        output.select();
-    }, false);
-
+    showHTML();
+    
+    var btnToggle  = document.getElementsByClassName('btn-toggle')[0];
     btnToggle.addEventListener("click", function(e) {
         togglePreview(e.target);
-    }, false);
-
-    // Modal
-    window.addEventListener("click", function(e) {
-        if (e.target == modal) {
-            // hide modal
-            modal.style.display = "none";
-        }
     }, false);
 
 };
@@ -89,15 +64,17 @@ function initPlugin() {
             "Enter": "newlineAndIndentContinueMarkdownList"
         }
     });
+
     window.cm.on('change', function(e) {
         // Trigger
         var event = document.createEvent('HTMLEvents');
             event.initEvent('change', true, false);
         window.editor.dispatchEvent(event);
 
-        window.editor.value = cm.getValue();
     });
+
     window.cm.on('keydown', function(e) {
+        window.editor.value = cm.getValue();
         // 編集時フラグを立てる
         if (!MODIFY) {
             MODIFY = true;
@@ -145,6 +122,24 @@ function setTextCount(mkval) {
     charaCount.innerHTML = mkval.length;
 }
 
+function showHTML() {
+    var preview  = document.getElementsByClassName('btn-preview')[0];
+    preview.addEventListener("click", function(){
+        var editorValue = window.editor.value;
+        if (editorValue) {
+            var htmlValue = getMarkedValue(editorValue);
+            basicModal.show({
+                body: '<textarea id="export" onclick="this.select(0,this.value.length);">'+ htmlValue +'</textarea>',
+                buttons: {
+                    action: {
+                        title: 'Close',
+                        fn: basicModal.close
+                    }
+                }
+            });
+        }
+    }, false);
+}
 
 function togglePreview(target) {
     var previewSide = document.getElementsByClassName('preview-side')[0];
