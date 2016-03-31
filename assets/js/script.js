@@ -27,14 +27,8 @@ window.onload = function() {
         setPreview();
     }
 
-    // ページ移動の確認
-    // window.onbeforeunload = function(event){
-    //     event = event || window.event;
-    //     event.returnValue = 'Confirmation';
-    // };
-
     showHTML();
-    
+
     var btnToggle  = document.getElementsByClassName('btn-toggle')[0];
     btnToggle.addEventListener("click", function(e) {
         togglePreview(e.target);
