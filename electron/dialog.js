@@ -27,7 +27,7 @@ function dialogSaveAs() {
             {name: 'Markdown file', extensions: ['md']},
             {name: 'Text file', extensions: ['txt']},
         ],
-    }, function (item, focusedWindow) {
+    }, function (item) {
         if (item) {
             saveAsFile(item);
         }

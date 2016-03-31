@@ -33,6 +33,11 @@ document.addEventListener('drop',function(e){
 }, true);
 
 function newFile() {
+    // 新規ファイルで未編集
+    if (!MODIFY && !OPEN_FILE_PATH) {
+        return;
+    }
+
     // 編集中
     if (MODIFY) {
         chooseSave();
