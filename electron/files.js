@@ -18,7 +18,13 @@ document.addEventListener('drop',function(e){
 
     // MIMEタイプをチェック
     if ( file.type === "text/plain" || file.type === "application/text" ) {
-        openFile(file.path);
+        // 編集中
+        if (MODIFY) {
+            chooseSave();
+        }
+        if (!MODIFY) {
+            openFile(file.path);
+        }
     } else {
         alert("No Support");
     }
@@ -63,6 +69,9 @@ function chooseSave() {
 }
 
 function openFile(path) {
+    if (OPEN_FILE_PATH === path) {
+        alert("This file is already open.");
+    }
     fs.readFile(path, 'utf8', function(err, content) {
         if (err !== null) {
             alert('error: ' + err);

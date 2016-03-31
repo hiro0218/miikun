@@ -89,14 +89,15 @@ function initPlugin() {
             "Enter": "newlineAndIndentContinueMarkdownList"
         }
     });
-    cm.on('change', function(e) {
+    window.cm.on('change', function(e) {
         // Trigger
         var event = document.createEvent('HTMLEvents');
             event.initEvent('change', true, false);
         window.editor.dispatchEvent(event);
 
         window.editor.value = cm.getValue();
-
+    });
+    window.cm.on('keydown', function(e) {
         // 編集時フラグを立てる
         if (!MODIFY) {
             MODIFY = true;
