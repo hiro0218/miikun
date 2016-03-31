@@ -4,13 +4,13 @@ var OPEN_FILE_PATH = "";
 var MODIFY = false;
 
 // ドラッグオーバー
-document.addEventListener('dragover',function(e){
+document.addEventListener('dragover', function(e) {
     e.preventDefault();
     return false;
 }, true);
 
 // ドロップ
-document.addEventListener('drop',function(e){
+document.addEventListener('drop', function(e) {
     e.preventDefault();
 
     // File API ファイルオブジェクトを取得

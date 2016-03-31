@@ -3,6 +3,7 @@ var app = remote.app;
 var Menu = remote.require('menu');
 var Dialog = remote.require('dialog');
 
+// Menu bar
 var template = [{
     label: 'File',
     submenu: [
@@ -141,5 +142,5 @@ var template = [{
     ]
 }];
 
-menu = Menu.buildFromTemplate(template);
+var menu = Menu.buildFromTemplate(template);
 Menu.setApplicationMenu(menu);

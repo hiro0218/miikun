@@ -46,7 +46,7 @@ function dialogAbout() {
 function dialogCloseModifyFile() {
     var response = 0;
 
-    // 同期的
+    // 同期
     response = Dialog.showMessageBox(FocusedWindow, {
         title: packagejson.name,
         type: 'warning',
