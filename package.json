@@ -5,7 +5,9 @@
   "main": "app.js",
   "scripts": {
     "start": "electron .",
-    "build": "electron-packager . Miikun --platform=win32 --arch=x64 --version=0.37.2"
+    "build": "electron-packager . Miikun --platform=darwin,win32 --arch=x64 --version=0.37.2",
+    "build:win": "electron-packager . Miikun --platform=win32 --arch=x64 --version=0.37.2",
+    "build:osx": "electron-packager . Miikun --platform=darwin --arch=x64 --version=0.37.2"
   },
    "repository": {
      "type": "git",
