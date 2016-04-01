@@ -23,7 +23,9 @@ document.addEventListener('drop', function(e) {
     var file = e.dataTransfer.files[0];
 
     // MIMEタイプをチェック
-    if ( file.type === "text/plain" || file.type === "application/text" ) {
+    if ( file.type === "text/plain" || file.type === "application/text" ||
+         file.name.split(".")[1] === "txt" || file.name.split(".")[1] === "md"
+    ) {
         // 編集中
         if (MODIFY) {
             chooseSave();
