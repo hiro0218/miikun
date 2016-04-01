@@ -115,6 +115,7 @@ function save(path, data) {
             MODIFY = false;
             OPEN_FILE_PATH = path;  // for new file
             setWindowTitle(path);   // for new file
+            snackSave();
         }
     });
 }
@@ -140,6 +141,24 @@ function basicModalAlert(str) {
             action: {
                 title: 'OK',
                 fn: basicModal.close
+            }
+        }
+    });
+}
+
+function snackSave() {
+    iqwerty.toast.Toast("Document saved.", {
+        settings: {
+            duration: 2000
+        },
+        style: {
+            main: {
+                'left': 'auto',
+                'right': '1rem',
+                'bottom': '.5rem',
+                'max-width': '50%',
+                'box-shadow': "none",
+                'padding': '.5rem 1rem',
             }
         }
     });
