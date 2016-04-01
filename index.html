@@ -45,9 +45,9 @@
     <script>
     // is electron
     if (window && window.process && window.process.type) {
-        document.write('<script src="electron/menu.js"><\/script>');
-        document.write('<script src="electron/files.js"><\/script>');
-        document.write('<script src="electron/dialog.js"><\/script>');
+        require('./electron/menu.js');
+        require('./electron/files.js');
+        require('./electron/dialog.js');
     }
     </script>
 </body>
