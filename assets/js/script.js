@@ -1,4 +1,5 @@
 var STORAGE_KEYNAME = "MiiKun";
+var createValidator = require("codemirror-textlint");
 
 window.onload = function() {
     "use strict";
@@ -38,6 +39,13 @@ window.onload = function() {
 
 // function
 function initPlugin() {
+    // https://github.com/textlint/textlint/wiki/Collection-of-textlint-rule
+    // var noDroppingTheRa = require("textlint-rule-no-dropping-the-ra");
+    var noMixDearuDesumasu = require("textlint-rule-no-mix-dearu-desumasu");
+    var noDoubleNegativeJa = require("textlint-rule-no-double-negative-ja");
+    var noDoubledConjunction = require("textlint-rule-no-doubled-conjunction");
+    var noDoubledConjunctiveParticleGa = require("textlint-rule-no-doubled-conjunctive-particle-ga");
+
     // CodeMirror
     window.cm = window.CodeMirror.fromTextArea(window.editor, {
         mode: {
@@ -54,8 +62,23 @@ function initPlugin() {
         matchBrackets: true,
         lineWrapping: true,
         dragDrop: false,
+        autoCloseBrackets: true,
         extraKeys: {
             "Enter": "newlineAndIndentContinueMarkdownList"
+        },
+        gutters: ["CodeMirror-lint-markers"],
+        lint: {
+            "getAnnotations": createValidator({
+                rules: {
+                    "no-todo": noTodo,
+                    // "no-dropping-the-ra": noDroppingTheRa,
+                    "no-mix-dearu-desumasu": noMixDearuDesumasu,
+                    "no-double-negative-ja": noDoubleNegativeJa,
+                    "no-doubled-conjunction": noDoubledConjunction,
+                    "no-doubled-conjunctive-particle-ga": noDoubledConjunctiveParticleGa,
+                }
+            }),
+            "async": true
         }
     });
 

@@ -9,15 +9,25 @@
     "build:win": "electron-packager . Miikun --platform=win32 --arch=x64 --version=0.37.2",
     "build:osx": "electron-packager . Miikun --platform=darwin --arch=x64 --version=0.37.2"
   },
-   "repository": {
-     "type": "git",
-     "url": "git@github.com:hiro0218/editor.git"
-   },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:hiro0218/editor.git"
+  },
   "keywords": [],
   "author": "hiro",
   "license": "ISC",
   "devDependencies": {
     "electron-packager": "^5.2.1",
     "electron-prebuilt": "^0.37.2"
+  },
+  "dependencies": {
+    "codemirror-textlint": "^1.0.1",
+    "textlint": "^6.2.0",
+    "textlint-rule-incremental-headers": "^0.2.0",
+    "textlint-rule-no-double-negative-ja": "^1.0.3",
+    "textlint-rule-no-doubled-conjunction": "^1.0.1",
+    "textlint-rule-no-doubled-conjunctive-particle-ga": "^1.0.2",
+    "textlint-rule-no-dropping-the-ra": "^1.0.1",
+    "textlint-rule-no-mix-dearu-desumasu": "^1.4.0"
   }
 }

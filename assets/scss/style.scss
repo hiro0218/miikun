@@ -209,6 +209,10 @@ body {
     background: $color300;
 }
 
+.CodeMirror-lint-mark-error {
+    background: #ECACB5;
+    border-radius: 2px;
+}
 
 //
 // Preview
