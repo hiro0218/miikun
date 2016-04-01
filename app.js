@@ -9,6 +9,7 @@ const Tray = electron.Tray;
 const Platform = process.platform;
 
 let mainWindow = null;
+var packagejson = require('./package.json');
 
 // Electronの初期化完了後に実行
 app.on('ready', function () {
@@ -25,6 +26,8 @@ function readyMainWindow(baseDir) {
         resizable: true,
     });
     mainWindow.loadURL('file://' + __dirname + '/index.html');
+
+    mainWindow.setTitle(packagejson.name);
 
     // mainWindow.setAutoHideMenuBar(true);
 

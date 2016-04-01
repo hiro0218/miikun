@@ -1,4 +1,10 @@
 var fs = require('fs');
+var remote = require('remote');
+var packagejson = require('./package.json');
+var app = remote.app;
+var Dialog = remote.require('dialog');
+var browserWindow = remote.require('browser-window');
+var FocusedWindow = browserWindow.getFocusedWindow();
 
 var OPEN_FILE_PATH = "";
 var MODIFY = false;
@@ -32,6 +38,14 @@ document.addEventListener('drop', function(e) {
     return false;
 }, true);
 
+function setWindowTitle(path) {
+    if (path) {
+        FocusedWindow.setTitle(path +" - " + packagejson.name);
+    } else {
+        FocusedWindow.setTitle(packagejson.name);
+    }
+}
+
 function newFile() {
     // 新規ファイルで未編集
     if (!MODIFY && !OPEN_FILE_PATH) {
@@ -46,6 +60,7 @@ function newFile() {
     // 編集中でない場合は初期化
     if (!MODIFY) {
         OPEN_FILE_PATH = "";
+        setWindowTitle('');
         window.editor.value = "";
         window.cm.getDoc().setValue("");
     }
@@ -83,6 +98,7 @@ function openFile(path) {
         } else {
             MODIFY = false;
             OPEN_FILE_PATH = path;
+            setWindowTitle(path);
             window.editor.value = content;
             window.cm.getDoc().setValue(content);
         }
@@ -96,6 +112,7 @@ function save(path, data) {
         } else {
             MODIFY = false;
             OPEN_FILE_PATH = path;  // for new file
+            setWindowTitle(path);   // for new file
         }
     });
 }
