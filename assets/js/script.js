@@ -40,10 +40,13 @@ window.onload = function() {
 // function
 function initPlugin() {
     // https://github.com/textlint/textlint/wiki/Collection-of-textlint-rule
-    // var noDroppingTheRa = require("textlint-rule-no-dropping-the-ra");
+    var maxTen = require("textlint-rule-max-ten");
+    var noDoubledJoshi = require("textlint-rule-no-doubled-joshi");
     var noMixDearuDesumasu = require("textlint-rule-no-mix-dearu-desumasu");
     var noDoubleNegativeJa = require("textlint-rule-no-double-negative-ja");
+    var incrementalHeaders = require("textlint-rule-incremental-headers");
     var noDoubledConjunction = require("textlint-rule-no-doubled-conjunction");
+    var maxAppearenceCountOfWords = require("textlint-rule-max-appearence-count-of-words");
     var noDoubledConjunctiveParticleGa = require("textlint-rule-no-doubled-conjunctive-particle-ga");
 
     // CodeMirror
@@ -70,11 +73,14 @@ function initPlugin() {
         lint: {
             "getAnnotations": createValidator({
                 rules: {
-                    // "no-dropping-the-ra": noDroppingTheRa,
+                    "max-ten": maxTen,
+                    "no-doubled-joshi": noDoubledJoshi,
                     "no-mix-dearu-desumasu": noMixDearuDesumasu,
                     "no-double-negative-ja": noDoubleNegativeJa,
                     "no-doubled-conjunction": noDoubledConjunction,
+                    "incremental-headers": incrementalHeaders.default,
                     "no-doubled-conjunctive-particle-ga": noDoubledConjunctiveParticleGa,
+                    "textlint-rule-max-appearence-count-of-words": maxAppearenceCountOfWords,
                 }
             }),
             "async": true

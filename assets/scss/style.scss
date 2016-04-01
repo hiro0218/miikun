@@ -17,7 +17,7 @@ $font-size-root: $em-base;
 $font-size-sm: .85rem;
 $font-size-xs: .75rem;
 $font-family: "Noto Sans CJK JP", 游ゴシック,YuGothic,Noto Sans,Hiragino Sans,Hiragino Kaku Gothic ProN,ヒラギノ角ゴ ProN W3,メイリオ,Meiryo,sans-serif;
-$font-family-monospace: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+$font-family-monospace: "Noto Sans CJK JP", Consolas, "Liberation Mono", Menlo, Courier, monospace;
 $tool-height: 2.5rem;
 $header-height: 2rem;
 
@@ -32,6 +32,15 @@ $color600:#757575;
 $color700:#616161;
 $color800:#424242;
 $color900:#212121;
+
+$full-black:  rgba(0, 0, 0, 1);
+$dark-black:  rgba(0, 0, 0, 0.87);
+$light-black: rgba(0, 0, 0, 0.54);
+$min-black:   rgba(0, 0, 0, 0.26);
+$faint-black: rgba(0, 0, 0, 0.12);
+$full-white:  rgba(255, 255, 255, 1);
+$dark-white:  rgba(255, 255, 255, 0.87);
+$light-white: rgba(255, 255, 255, 0.54);
 
 $text-color: $color800;
 $bg-color:   $color200;
@@ -212,6 +221,13 @@ body {
 .CodeMirror-lint-mark-error {
     background: #ECACB5;
     border-radius: 2px;
+}
+.CodeMirror-lint-tooltip {
+    color: $color50;
+    background: $dark-black;
+    font-size: $font-size-sm;
+    font-family: $font-family-monospace;
+    padding: .25rem .5rem;
 }
 
 //
