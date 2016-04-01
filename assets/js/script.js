@@ -70,7 +70,6 @@ function initPlugin() {
         lint: {
             "getAnnotations": createValidator({
                 rules: {
-                    "no-todo": noTodo,
                     // "no-dropping-the-ra": noDroppingTheRa,
                     "no-mix-dearu-desumasu": noMixDearuDesumasu,
                     "no-double-negative-ja": noDoubleNegativeJa,
