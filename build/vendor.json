@@ -1,0 +1,33 @@
+{
+    "js":{
+        "vendor": [
+            "vendor/markdown-it/dist/markdown-it.min.js",
+
+            "vendor/codemirror/lib/codemirror.js",
+            "vendor/codemirror/mode/markdown/markdown.js",
+            "vendor/codemirror/mode/gfm/gfm.js",
+            "vendor/codemirror/addon/lint/lint.js",
+            "vendor/codemirror/addon/edit/continuelist.js",
+            "vendor/codemirror/addon/mode/overlay.js",
+            "vendor/codemirror/addon/selection/active-line.js",
+            "vendor/codemirror/addon/edit/closebrackets.js",
+
+            "vendor/PrismJS/prism.js",
+
+            "vendor/basicModal/dist/basicModal.min.js",
+
+            "vendor/spop/dist/spop.min.js"
+        ]
+    },
+    "css":{
+        "vendor": [
+            "vendor/normalize-css/normalize.css",
+            "vendor/github-markdown-css/github-markdown.css",
+            "vendor/codemirror/lib/codemirror.css",
+            "vendor/codemirror/addon/lint/lint.css",
+            "vendor/PrismJS/prism.css",
+            "vendor/basicModal/dist/basicModal.min.css",
+            "vendor/spop/dist/spop.min.css"
+        ]
+    }
+}

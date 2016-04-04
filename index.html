@@ -2,12 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="vendor/normalize-css/normalize.css?4.0.0">
-    <link rel="stylesheet" href="vendor/github-markdown-css/github-markdown.css">
-    <link rel="stylesheet" href="vendor/codemirror/lib/codemirror.css">
-    <link rel="stylesheet" href="vendor/codemirror/addon/lint/lint.css">
-    <link rel="stylesheet" href="vendor/PrismJS/prism.css">
-    <link rel="stylesheet" href="vendor/basicModal/dist/basicModal.min.css">
+    <link rel="stylesheet" href="dist/vendor.min.css">
     <link rel="stylesheet" href="assets/css/style.min.css">
 </head>
 <body>
@@ -22,26 +17,13 @@
         <div class="preview-side">
             <div class="header">
                 <span class="btn-preview"><span class="octicon octicon-eye"></span> Preview</span>
-                <div class="count" title="プレビュー後の文字数">Words: <span id="chara-count">0</span></div>
+                <div class="count">Words: <span id="chara-count">0</span></div>
             </div>
             <div id="result" class="markdown-body"></div>
         </div>
     </div>
 
-    <script src="vendor/markdown-it/dist/markdown-it.min.js"></script>
-
-    <script src="vendor/codemirror/lib/codemirror.js"></script>
-    <script src="vendor/codemirror/mode/markdown/markdown.js"></script>
-    <script src="vendor/codemirror/mode/gfm/gfm.js"></script>
-    <script src="vendor/codemirror/addon/lint/lint.js"></script>
-    <script src="vendor/codemirror/addon/edit/continuelist.js"></script>
-    <script src="vendor/codemirror/addon/mode/overlay.js"></script>
-    <script src="vendor/codemirror/addon/selection/active-line.js"></script>
-    <script src="vendor/codemirror/addon/edit/closebrackets.js"></script>
-
-    <script src="vendor/PrismJS/prism.js"></script>
-    <script src="vendor/basicModal/dist/basicModal.min.js"></script>
-    <script src="vendor/spop/dist/spop.min.js"></script>
+    <script src="dist/vendor.min.js"></script>
     <script src="assets/js/script.min.js"></script>
     <script>
     // is electron

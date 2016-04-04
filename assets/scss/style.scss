@@ -5,9 +5,6 @@
 @import "font";
 @import "octicons";
 
-//
-@import "../../vendor/spop/dist/spop.scss";
-
 /////
 
 // framework variable
@@ -55,36 +52,36 @@ $bg-color:   $color200;
 }
 
 // Chrome scrollbar
-* {
-    &::-webkit-scrollbar {
-        overflow: hidden;
-        width: 8px;
-        background: $color200;
-        border-radius: 4px;
-    }
-    &::-webkit-scrollbar:horizontal {
-        height: 8px;
-    }
-    &::-webkit-scrollbar-button {
-        display: none;
-    }
-    &::-webkit-scrollbar-piece {
-        background: $color200;
-    }
-    &::-webkit-scrollbar-piece:start {
-        background: $color200;
-    }
-    &::-webkit-scrollbar-thumb {
-        overflow: hidden;
-        border-radius: 4px;
-        background: $color400;
-    }
-    &::-webkit-scrollbar-corner {
-        overflow: hidden;
-        border-radius: 4px;
-        background: $color400;
-    }
+::-webkit-scrollbar {
+    overflow: hidden;
+    width: 8px;
+    height: 8px;
+    background: $color200;
+    border-radius: 4px;
 }
+::-webkit-scrollbar:horizontal {
+    height: 8px;
+}
+::-webkit-scrollbar-button {
+    display: none;
+}
+::-webkit-scrollbar-piece {
+    background: $color200;
+}
+::-webkit-scrollbar-piece:start {
+    background: $color200;
+}
+::-webkit-scrollbar-thumb {
+    overflow: hidden;
+    border-radius: 2px;
+    background: $color400;
+}
+::-webkit-scrollbar-corner {
+    overflow: hidden;
+    border-radius: 2px;
+    background: transparent;
+}
+
 
 html {
     font-size: $font-size-root;
