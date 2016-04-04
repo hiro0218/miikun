@@ -1,0 +1,39 @@
+{
+  "name": "markdown-it",
+  "main": "dist/markdown-it.js",
+  "homepage": "https://github.com/markdown-it/markdown-it",
+  "description": "Markdown parser, done right. Commonmark support, extensions, syntax plugins, high speed - all in one.",
+  "keywords": [
+    "markdown",
+    "md",
+    "commonmark",
+    "parser"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "benchmark",
+    "bower_components",
+    "coverage",
+    "demo",
+    "docs",
+    "apidoc",
+    "lib",
+    "node_modules",
+    "support",
+    "test",
+    "Makefile",
+    "index*"
+  ],
+  "version": "6.0.1",
+  "_release": "6.0.1",
+  "_resolution": {
+    "type": "version",
+    "tag": "6.0.1",
+    "commit": "8fcb93cdcfc653788bba5cc6030a89a8b41134db"
+  },
+  "_source": "git://github.com/markdown-it/markdown-it.git",
+  "_target": "^6.0.1",
+  "_originalSource": "markdown-it",
+  "_direct": true
+}

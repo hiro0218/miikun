@@ -22,8 +22,6 @@
   },
   "dependencies": {
     "codemirror-textlint": "^1.0.1",
-    "snack.js": "^0.1.2",
-    "textlint": "^6.2.0",
     "textlint-rule-incremental-headers": "^0.2.0",
     "textlint-rule-max-appearence-count-of-words": "^1.0.1",
     "textlint-rule-max-ten": "^2.0.1",

@@ -103,18 +103,23 @@ function initPlugin() {
         }
     });
 
-    // marked
-    window.marked.setOptions({
-        langPrefix: 'language-',
-        breaks: true
+    // markdownit
+    window.md = window.markdownit({
+        html:         true,
+        xhtmlOut:     false,
+        breaks:       true,
+        langPrefix:   'language-',
+        linkify:      false,
+        typographer:  true,
     });
+
 }
 
 function getMarkedValue(value) {
     // エスケープされていない<script>タグを消去
     value = stripScriptTag(value);
 
-    return marked(value);
+    return window.md.render(value);
 }
 
 function setPreview() {
