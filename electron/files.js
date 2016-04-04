@@ -115,7 +115,7 @@ function save(path, data) {
             MODIFY = false;
             OPEN_FILE_PATH = path;  // for new file
             setWindowTitle(path);   // for new file
-            snackSave();
+            spopSave();
         }
     });
 }
@@ -146,20 +146,13 @@ function basicModalAlert(str) {
     });
 }
 
-function snackSave() {
-    iqwerty.toast.Toast("Document saved.", {
-        settings: {
-            duration: 2000
-        },
-        style: {
-            main: {
-                'left': 'auto',
-                'right': '1rem',
-                'bottom': '.5rem',
-                'max-width': '50%',
-                'box-shadow': "none",
-                'padding': '.5rem 1rem',
-            }
-        }
+function spopSave() {
+    spop({
+    	template  : "Document saved.",
+    	style     : 'success',
+    	autoclose : 2000,
+    	position  : 'bottom-right',    // top-left top-center bottom-left bottom-center bottom-right
+    	icon      : true,
+    	group     : false,
     });
 }
