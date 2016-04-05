@@ -108,6 +108,10 @@ function openFile(path) {
 }
 
 function save(path, data) {
+    // 未編集の場合はお帰り願う
+    if (!MODIFY) {
+        return;
+    }
     fs.writeFile(path, data, function(err) {
         if (err !== null) {
             basicModalAlert('error: ' + err);
