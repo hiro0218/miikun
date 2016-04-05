@@ -23,7 +23,6 @@
         "vendor": [
             "vendor/normalize-css/normalize.css",
             "vendor/github-markdown-css/github-markdown.css",
-            "vendor/codemirror/lib/codemirror.css",
             "vendor/codemirror/addon/lint/lint.css",
             "vendor/PrismJS/prism.css",
             "vendor/basicModal/dist/basicModal.min.css",
