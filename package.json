@@ -26,6 +26,7 @@
   "dependencies": {
     "clean-css": "^3.4.11",
     "codemirror-textlint": "^1.0.1",
+    "markdown-it": "^6.0.1",
     "textlint-rule-incremental-headers": "^0.2.0",
     "textlint-rule-max-appearence-count-of-words": "^1.0.1",
     "textlint-rule-max-ten": "^2.0.1",
@@ -34,6 +35,7 @@
     "textlint-rule-no-doubled-conjunctive-particle-ga": "^1.0.2",
     "textlint-rule-no-doubled-joshi": "^3.2.0",
     "textlint-rule-no-mix-dearu-desumasu": "^1.4.0",
-    "uglify-js": "^2.6.2"
+    "uglify-js": "^2.6.2",
+    "vue": "^1.0.20"
   }
 }

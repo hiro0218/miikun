@@ -6,25 +6,24 @@
     <link rel="stylesheet" href="assets/css/style.min.css">
 </head>
 <body>
-    <div class="container">
+    <div id="app" class="container">
         <div class="editor-side">
             <div class="header">
                 <span><span class="octicon octicon-code"></span> Markdown</span>
-                <button class="btn btn-toggle octicon octicon-chevron-right"></button>
+                <button class="btn btn-toggle octicon octicon-chevron-right" v-on:click="toggleEditor"></button>
             </div>
-            <textarea id="editor"></textarea>
+            <textarea id="editor" v-model="input" debounce="300"></textarea>
         </div>
         <div class="preview-side">
             <div class="header">
-                <span class="btn-preview"><span class="octicon octicon-eye"></span> Preview</span>
-                <div class="count">Words: <span id="chara-count">0</span></div>
+                <span class="btn-preview" v-on:click="convertData"><span class="octicon octicon-eye"></span> Preview</span>
             </div>
-            <div id="result" class="markdown-body"></div>
+            <div id="result" class="markdown-body" v-html="input | markdown"></div>
         </div>
     </div>
 
     <script src="dist/vendor.min.js"></script>
-    <script src="assets/js/script.min.js"></script>
+    <script src="assets/js/script.js"></script>
     <script>
     // is electron
     if (window && window.process && window.process.type) {

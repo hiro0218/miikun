@@ -1,8 +1,6 @@
 {
     "js":{
         "vendor": [
-            "vendor/markdown-it/dist/markdown-it.min.js",
-
             "vendor/codemirror/lib/codemirror.js",
             "vendor/codemirror/mode/markdown/markdown.js",
             "vendor/codemirror/mode/gfm/gfm.js",

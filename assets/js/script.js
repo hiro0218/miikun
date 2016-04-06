@@ -1,5 +1,8 @@
 var STORAGE_KEYNAME = "MiiKun";
+
+var Vue = require('vue');
 var createValidator = require("codemirror-textlint");
+var MarkdownIt = require('markdown-it');
 
 window.onload = function() {
     "use strict";
@@ -8,32 +11,34 @@ window.onload = function() {
     window.editor = document.getElementById("editor");
     window.result = document.getElementById("result");
 
-    // ストレージから読み込む
-    // loadStorage(editor);
-
-    // ストレージに保存する
-    // window.setInterval(function(){
-    //     saveStorage(editor);
-    // }, 60000);
-
     // プラグイン関連の初期設定
     initPlugin();
 
-    editor.addEventListener("change", function(){
-        setPreview();
-    }, false);
+    // Vue
+    window.app = new Vue({
+        el: "#app",
+        data: {
+            input: "",
+        },
+        filters: {
+            markdown: function() {
+                return getMarkedValue(this.input);
+            }
+        },
+        methods: {
+            convertData: function(e) {
+                showHTML();
+            },
+            toggleEditor: function(e) {
+                toggleEditor(e.target);
+            }
+        }
 
-    // 初回実行
-    if (editor.value) {
-        setPreview();
-    }
+    });
 
-    showHTML();
-
-    var btnToggle  = document.getElementsByClassName('btn-toggle')[0];
-    btnToggle.addEventListener("click", function(e) {
-        togglePreview(e.target);
-    }, false);
+    app.$watch('input', function(value) {
+        Prism.highlightAll();  // Highlight Re-render
+    });
 
 };
 
@@ -88,15 +93,13 @@ function initPlugin() {
     });
 
     window.cm.on('change', function(e) {
+        window.cm.save();
+
         // Trigger
         var event = document.createEvent('HTMLEvents');
-            event.initEvent('change', true, false);
+        event.initEvent('change', true, false);
         window.editor.dispatchEvent(event);
 
-    });
-
-    window.cm.on('keydown', function(e) {
-        window.editor.value = cm.getValue();
         // 編集時フラグを立てる
         if (!MODIFY) {
             MODIFY = true;
@@ -104,7 +107,7 @@ function initPlugin() {
     });
 
     // markdownit
-    window.md = window.markdownit({
+    window.md = new MarkdownIt({
         html:         true,
         xhtmlOut:     false,
         breaks:       true,
@@ -122,20 +125,6 @@ function getMarkedValue(value) {
     return window.md.render(value);
 }
 
-function setPreview() {
-    // HTML変換
-    var mkval = getMarkedValue(window.editor.value);
-
-    // 文字数カウント
-    setTextCount(mkval);
-
-    // 反映
-    window.result.innerHTML = mkval;
-
-    // Prism.js(Highlight) re-render
-    Prism.highlightAll();
-}
-
 function stripScriptTag(text) {
     var SCRIPT_REGEX = /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi;
     while(SCRIPT_REGEX.test(text)) {
@@ -144,31 +133,23 @@ function stripScriptTag(text) {
     return text;
 }
 
-function setTextCount(mkval) {
-    var charaCount = document.getElementById('chara-count');
-    charaCount.innerHTML = mkval.length;
-}
-
 function showHTML() {
-    var preview  = document.getElementsByClassName('btn-preview')[0];
-    preview.addEventListener("click", function(){
-        var editorValue = window.editor.value;
-        if (editorValue) {
-            var htmlValue = getMarkedValue(editorValue);
-            basicModal.show({
-                body: '<textarea id="export" onclick="this.select(0,this.value.length);">'+ htmlValue +'</textarea>',
-                buttons: {
-                    action: {
-                        title: 'Close',
-                        fn: basicModal.close
-                    }
+    var editorValue = window.editor.value;
+    if (editorValue) {
+        var htmlValue = getMarkedValue(editorValue);
+        basicModal.show({
+            body: '<textarea id="export" onclick="this.select(0,this.value.length);">'+ htmlValue +'</textarea>',
+            buttons: {
+                action: {
+                    title: 'Close',
+                    fn: basicModal.close
                 }
-            });
-        }
-    }, false);
+            }
+        });
+    }
 }
 
-function togglePreview(target) {
+function toggleEditor(target) {
     var previewSide = document.getElementsByClassName('preview-side')[0];
     var editorSide  = document.getElementsByClassName('editor-side')[0];
     var btnClassList = target.classList;
@@ -186,29 +167,29 @@ function togglePreview(target) {
     }
 }
 
-function save() {
-    if (window.confirm("Save?")) {
-        saveStorage(window.editor.value);
-        setPreview();
-    }
-}
-function clear() {
-    if (window.confirm("Clear?")) {
-        cm.getDoc().setValue('');
-        window.editor.value = "";
-        clearStorage();
-        setPreview();
-    }
-}
+// function save() {
+//     if (window.confirm("Save?")) {
+//         saveStorage(window.editor.value);
+//         setPreview();
+//     }
+// }
+// function clear() {
+//     if (window.confirm("Clear?")) {
+//         cm.getDoc().setValue('');
+//         window.editor.value = "";
+//         clearStorage();
+//         setPreview();
+//     }
+// }
 
-function saveStorage(element) {
-    localStorage.setItem(STORAGE_KEYNAME, element);
-}
-
-function loadStorage(element) {
-    element.innerHTML = localStorage.getItem(STORAGE_KEYNAME);
-}
-
-function clearStorage() {
-    localStorage.removeItem(STORAGE_KEYNAME);
-}
+// function saveStorage(element) {
+//     localStorage.setItem(STORAGE_KEYNAME, element);
+// }
+//
+// function loadStorage(element) {
+//     element.innerHTML = localStorage.getItem(STORAGE_KEYNAME);
+// }
+//
+// function clearStorage() {
+//     localStorage.removeItem(STORAGE_KEYNAME);
+// }

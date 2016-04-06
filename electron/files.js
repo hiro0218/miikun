@@ -77,7 +77,7 @@ function chooseSave() {
             if (OPEN_FILE_PATH) {
                 save();
             } else {
-                saveAsFile();
+                dialogSaveAs();
             }
             break;
         case 1: // No
@@ -98,11 +98,11 @@ function openFile(path) {
         if (err !== null) {
             basicModalAlert('error: ' + err);
         } else {
-            MODIFY = false;
-            OPEN_FILE_PATH = path;
             setWindowTitle(path);
             window.editor.value = content;
             window.cm.getDoc().setValue(content);
+            MODIFY = false;
+            OPEN_FILE_PATH = path;
         }
     });
 }

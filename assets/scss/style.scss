@@ -33,6 +33,9 @@ $color700:#616161;
 $color800:#424242;
 $color900:#212121;
 
+$white: #fff;
+$black: #000;
+
 $full-black:  rgba(0, 0, 0, 1);
 $dark-black:  rgba(0, 0, 0, 0.87);
 $light-black: rgba(0, 0, 0, 0.54);
@@ -110,7 +113,7 @@ body {
         weight: 300;
     }
     color: $text-color;
-    background: $color50;
+    background: $white;
     margin: 0;
     overflow: hidden;
 }
