@@ -24,13 +24,10 @@
 
     <script src="dist/vendor.min.js"></script>
     <script src="assets/js/script.js"></script>
-    <script>
-    // is electron
-    if (window && window.process && window.process.type) {
-        document.write('<script src="electron/menu.js"><\/script>');
-        document.write('<script src="electron/files.js"><\/script>');
-        document.write('<script src="electron/dialog.js"><\/script>');
-    }
-    </script>
+
+    <script src="electron/menu.js"></script>
+    <script src="electron/files.js"></script>
+    <script src="electron/dialog.js"></script>
+
 </body>
 </html>
