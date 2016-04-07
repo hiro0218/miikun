@@ -10,9 +10,13 @@ http://jp.vuejs.org/
 
 * Editor - CodeMirror
 http://codemirror.net/
+ * codemirror-textlint
+ https://www.npmjs.com/package/codemirror-textlint
 
 * Markdown - markdown-it
 https://github.com/markdown-it/markdown-it
+ * markdown-it-checkbox
+ https://www.npmjs.com/package/markdown-it-checkbox
 
 * Syntax Highlight - Prism.js
 http://prismjs.com/
@@ -25,7 +29,6 @@ https://github.com/silvio-r/spop
 
 * textlint
 https://github.com/textlint/textlint
-codemirror-textlint and more.
 
 
 ## 更新履歴
