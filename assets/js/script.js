@@ -112,7 +112,7 @@ function initPlugin() {
         langPrefix:   'language-',
         linkify:      false,
         typographer:  true,
-    });
+    }).use(require('markdown-it-checkbox'));
 
 }
 
