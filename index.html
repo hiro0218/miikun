@@ -7,10 +7,12 @@
 </head>
 <body>
     <div id="app" class="container">
-        <div class="editor-side">
+        <div class="editor-side" v-bind:class="{open:isOpenEditor}">
             <div class="header">
                 <span><span class="octicon octicon-code"></span> Markdown</span>
-                <button class="btn btn-toggle octicon octicon-chevron-right" v-on:click="toggleEditor"></button>
+                <button class="btn btn-toggle octicon"
+                        v-bind:class="{ 'octicon-chevron-right': !isOpenEditor, 'octicon-chevron-left': isOpenEditor }"
+                        v-on:click="isOpenEditor=!isOpenEditor"></button>
             </div>
             <textarea id="editor" v-model="input" debounce="300"></textarea>
         </div>
@@ -23,7 +25,7 @@
     </div>
 
     <script src="dist/vendor.min.js"></script>
-    <script src="assets/js/script.js"></script>
+    <script src="assets/js/script.min.js"></script>
 
     <script src="electron/menu.js"></script>
     <script src="electron/files.js"></script>

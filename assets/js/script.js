@@ -19,6 +19,7 @@ window.onload = function() {
         el: "#app",
         data: {
             input: "",
+            isOpenEditor: false,
         },
         filters: {
             markdown: function() {
@@ -28,9 +29,6 @@ window.onload = function() {
         methods: {
             convertData: function(e) {
                 showHTML();
-            },
-            toggleEditor: function(e) {
-                toggleEditor(e.target);
             }
         }
 
@@ -149,23 +147,6 @@ function showHTML() {
     }
 }
 
-function toggleEditor(target) {
-    var previewSide = document.getElementsByClassName('preview-side')[0];
-    var editorSide  = document.getElementsByClassName('editor-side')[0];
-    var btnClassList = target.classList;
-
-    if ( previewSide.style.display == "none" ) {
-        previewSide.style.display = "";
-        editorSide.style.width = "";
-        btnClassList.remove("octicon-chevron-left");
-        btnClassList.add("octicon-chevron-right");
-    } else {
-        previewSide.style.display = "none";
-        editorSide.style.width = "100%";
-        btnClassList.remove("octicon-chevron-right");
-        btnClassList.add("octicon-chevron-left");
-    }
-}
 
 // function save() {
 //     if (window.confirm("Save?")) {

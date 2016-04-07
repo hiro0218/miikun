@@ -175,6 +175,10 @@ body {
 
 .editor-side {
     overflow: hidden;
+
+    &.open {
+        width: 100%;
+    }
 }
 
 //
