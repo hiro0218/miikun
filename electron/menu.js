@@ -3,6 +3,9 @@ var app = remote.app;
 var Menu = remote.require('menu');
 var Dialog = remote.require('dialog');
 
+const OSX = process.platform === 'darwin';
+const WIN = process.platform === 'win32';
+
 // Menu bar
 var template = [{
     label: 'File',
@@ -98,10 +101,7 @@ var template = [{
         {
             label: 'Toggle Full Screen',
             accelerator: (function () {
-                if (process.platform == 'darwin')
-                return 'Ctrl+Command+F';
-                else
-                return 'F11';
+                return OSX ? 'Ctrl+Command+F' : 'F11';
             })(),
             click: function (item, focusedWindow) {
                 if (focusedWindow)
@@ -111,10 +111,7 @@ var template = [{
         {
             label: 'Toggle Developer Tools',
             accelerator: (function () {
-                if (process.platform == 'darwin')
-                return 'Alt+Command+I';
-                else
-                return 'Ctrl+Shift+I';
+                return OSX ? 'Alt+Command+I' :'Ctrl+Shift+I';
             })(),
             click: function (item, focusedWindow) {
                 if (focusedWindow)
