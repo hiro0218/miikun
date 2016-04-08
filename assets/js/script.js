@@ -4,12 +4,22 @@ var Vue = require('vue');
 var createValidator = require("codemirror-textlint");
 var MarkdownIt = require('markdown-it');
 
-window.onload = function() {
-    "use strict";
-
+(function () {
     // Global
     window.editor = document.getElementById("editor");
     window.result = document.getElementById("result");
+
+    // Progress bar
+    NProgress.configure({
+        speed: 1000,
+        showSpinner: false
+    });
+    NProgress.start();
+
+})();
+
+window.onload = function() {
+    "use strict";
 
     // プラグイン関連の初期設定
     initPlugin();
@@ -38,6 +48,7 @@ window.onload = function() {
         Prism.highlightAll();  // Highlight Re-render
     });
 
+    NProgress.done();
 };
 
 // function
@@ -110,7 +121,7 @@ function initPlugin() {
         xhtmlOut:     false,
         breaks:       true,
         langPrefix:   'language-',
-        linkify:      false,
+        linkify:      true,
         typographer:  true,
     }).use(require('markdown-it-checkbox'));
 

@@ -14,7 +14,10 @@
 
             "vendor/basicModal/dist/basicModal.min.js",
 
-            "vendor/spop/dist/spop.min.js"
+            "vendor/spop/dist/spop.min.js",
+
+            "node_modules/nprogress/nprogress.js"
+
         ]
     },
     "css":{
@@ -24,7 +27,8 @@
             "vendor/codemirror/addon/lint/lint.css",
             "vendor/PrismJS/prism.css",
             "vendor/basicModal/dist/basicModal.min.css",
-            "vendor/spop/dist/spop.min.css"
+            "vendor/spop/dist/spop.min.css",
+            "node_modules/nprogress/nprogress.css"
         ]
     }
 }

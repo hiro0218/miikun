@@ -31,6 +31,7 @@
     "codemirror-textlint": "^1.0.1",
     "markdown-it": "^6.0.1",
     "markdown-it-checkbox": "^1.1.0",
+    "nprogress": "^0.2.0",
     "textlint-rule-incremental-headers": "^0.2.0",
     "textlint-rule-max-appearence-count-of-words": "^1.0.1",
     "textlint-rule-max-ten": "^2.0.1",

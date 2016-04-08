@@ -27,6 +27,9 @@ http://basicmodal.electerious.com/
 * Toast - SmallPop
 https://github.com/silvio-r/spop
 
+* Progress bar - nprogress
+https://github.com/rstacruz/nprogress
+
 * textlint
 https://github.com/textlint/textlint
 
