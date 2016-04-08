@@ -31,5 +31,9 @@
     <script src="electron/files.js"></script>
     <script src="electron/dialog.js"></script>
 
+    <script>
+        const electron = require('electron');
+        electron.webFrame.setZoomLevelLimits(1, 1);
+    </script>
 </body>
 </html>
