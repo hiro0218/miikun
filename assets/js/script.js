@@ -8,6 +8,7 @@ var MarkdownIt = require('markdown-it');
     // Global
     window.editor = document.getElementById("editor");
     window.result = document.getElementById("result");
+    window.export = document.getElementById("export");
 
     // Progress bar
     NProgress.configure({
@@ -29,7 +30,10 @@ window.onload = function() {
         el: "#app",
         data: {
             input: "",
+            exportHTML: "",
             isOpenEditor: false,
+            tabNav: ['Preview', 'HTML',],
+            tabContents: 0
         },
         filters: {
             markdown: function() {
@@ -37,15 +41,19 @@ window.onload = function() {
             }
         },
         methods: {
-            convertData: function(e) {
-                showHTML();
+            changeTab: function(index) {
+                this.tabContents = index;
             }
         }
 
     });
 
     app.$watch('input', function(value) {
+        // for Preview
         Prism.highlightAll();  // Highlight Re-render
+
+        // for Export
+        this.exportHTML = getMarkedValue(value);
     });
 
     NProgress.done();
@@ -83,7 +91,6 @@ function initPlugin() {
         extraKeys: {
             "Enter": "newlineAndIndentContinueMarkdownList"
         },
-        gutters: ["CodeMirror-lint-markers"],
         lint: {
             "getAnnotations": createValidator({
                 rules: {
@@ -143,11 +150,9 @@ function stripScriptTag(text) {
 }
 
 function showHTML() {
-    var editorValue = window.editor.value;
-    if (editorValue) {
-        var htmlValue = getMarkedValue(editorValue);
+    if (app.input) {
         basicModal.show({
-            body: '<textarea id="export" onclick="this.select(0,this.value.length);">'+ htmlValue +'</textarea>',
+            body: '<textarea id="export" onclick="this.select(0,this.value.length);">'+ window.md.render(app.input) +'</textarea>',
             buttons: {
                 action: {
                     title: 'Close',

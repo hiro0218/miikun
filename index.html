@@ -9,18 +9,34 @@
     <div id="app" class="container">
         <div class="editor-side" v-bind:class="{open:isOpenEditor}">
             <div class="header">
-                <span><span class="octicon octicon-code"></span> Markdown</span>
-                <button class="btn btn-toggle octicon"
-                        v-bind:class="{ 'octicon-chevron-right': !isOpenEditor, 'octicon-chevron-left': isOpenEditor }"
-                        v-on:click="isOpenEditor=!isOpenEditor"></button>
+                <button class="btn btn-toggle "
+                        v-on:click="isOpenEditor=!isOpenEditor">
+                <span class="octicon"
+                      v-bind:class="{'octicon-arrow-right': !isOpenEditor, 'octicon-arrow-left': isOpenEditor}"></span>
+                </button>
             </div>
             <textarea id="editor" v-model="input" debounce="300"></textarea>
         </div>
         <div class="preview-side">
             <div class="header">
-                <span class="btn-preview" v-on:click="convertData"><span class="octicon octicon-eye"></span> Preview</span>
+                <div class="tabs">
+                    <div class="tab-list"
+                         v-bind:class="{'active': tabContents == 0}"
+                         v-on:click="changeTab(0)">Preview</div>
+                    <div class="tab-list"
+                         v-bind:class="{'active': tabContents == 1}"
+                         v-on:click="changeTab(1)">HTML</div>
+                </div>
             </div>
-            <div id="result" class="markdown-body" v-html="input | markdown"></div>
+            <div id="result">
+                <div class="preview markdown-body"
+                     v-html="input | markdown"
+                     v-if="tabContents == 0"></div>
+                <div class="preview"
+                     v-if="tabContents == 1">
+                     <textarea id="export" v-html="exportHTML" readonly onclick="this.select(0,this.value.length);"></textarea>
+                </div>
+            </div>
         </div>
     </div>
 

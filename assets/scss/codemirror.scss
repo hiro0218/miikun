@@ -1,9 +1,8 @@
 // BASICS
 .CodeMirror {
-    font-family: $font-family;
+    font-family: $font-family-regular;
     height: calc(100vh - #{$header-height});
     width: 100%;
-    top: 1px; // for CodeMirror's position
     background: inherit;
 }
 
@@ -22,21 +21,23 @@
 /* GUTTER */
 
 .CodeMirror-gutters {
-    border-right: 1px solid #ddd;
-    background-color: #f7f7f7;
+    border-right: 1px solid $color300;
+    background-color: $color100;
     white-space: nowrap;
 }
 .CodeMirror-linenumbers {}
 .CodeMirror-linenumber {
+    font-family: $font-family-monospace;
+    font-size: $font-size-sm;
     padding: 0 3px 0 5px;
     min-width: 20px;
     text-align: right;
-    color: #999;
+    color: $color500;
     white-space: nowrap;
 }
 
 .CodeMirror-guttermarker { color: black; }
-.CodeMirror-guttermarker-subtle { color: #999; }
+.CodeMirror-guttermarker-subtle { color: $color500; }
 
 
 /* CURSOR */
@@ -176,7 +177,6 @@ flickering artifacts. */
 }
 .CodeMirror-gutter-wrapper {
     -webkit-user-select: none;
-    -moz-user-select: none;
     user-select: none;
 }
 
@@ -347,6 +347,7 @@ CodeMirror-selectedtext { background: none; }
 .cm-hr,
 .cm-formatting {
     color: $color500;
+    font-family: $font-family-monospace;
     font-weight: bold;
 }
 
@@ -359,5 +360,6 @@ CodeMirror-selectedtext { background: none; }
     color: $color50;
     background: $dark-black;
     font-size: $font-size-xs;
-    padding: .25rem .5rem;
+    font-family: $font-family-monospace;
+    padding: $btn-padding;
 }

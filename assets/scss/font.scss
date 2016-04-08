@@ -17,3 +17,13 @@
          url('../font/NotoSansCJKjp-Regular.woff') format('woff'),
          url('../font/NotoSansCJKjp-Regular.otf') format('opentype');
 }
+
+@font-face {
+    font-family: "Source Code Pro";
+    font-style: normal;
+    font-weight: 300;
+    text-rendering: optimizeLegibility;
+    src: local('Source Code Pro Light'),
+         url('../font/SourceCodePro-Light.otf.woff') format('woff'),
+         url('../font/SourceCodePro-Light.otf') format('opentype');
+}

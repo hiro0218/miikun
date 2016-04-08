@@ -16,10 +16,15 @@ $fg-gutter: $gutter;
 $font-size-root: $em-base;
 $font-size-sm: .85rem;
 $font-size-xs: .75rem;
-$font-family: "Noto Sans CJK JP", 游ゴシック,YuGothic,Noto Sans,Hiragino Sans,Hiragino Kaku Gothic ProN,ヒラギノ角ゴ ProN W3,メイリオ,Meiryo,sans-serif;
-$font-family-monospace: "Noto Sans CJK JP", Consolas, "Liberation Mono", Menlo, Courier, monospace;
-$tool-height: 2.5rem;
-$header-height: 2rem;
+$font-family-regular: "Noto Sans CJK JP";
+$font-family-monospace: "Source Code Pro", $font-family-regular;
+
+$btn-padding: .25rem .5rem;
+$header-height: 2rem + (.5rem);
+
+$border-radius: .25rem;
+$border-radius-lg: .3rem;
+$border-radius-sm: .2rem;
 
 // color
 $color50: #fafafa;
@@ -52,6 +57,10 @@ $bg-color:   $color200;
 
 @include selection {
     background: $color300;
+}
+
+[v-cloak] {
+    display: none;
 }
 
 // Chrome scrollbar
@@ -109,7 +118,7 @@ html {
 body {
     font: {
         size: 100%;
-        family: $font-family;
+        family: $font-family-regular;
         weight: 300;
     }
     color: $text-color;
@@ -123,15 +132,16 @@ body {
 }
 
 .btn {
-    color: $color800;
     font-size: $font-size-sm;
-    border: 1px solid $color500;
+    color: $color800;
     background: $color300;
-    border-radius: 2px;
+    padding: $btn-padding;
+    border: none;
+    border-radius: $border-radius-sm;
     transition: background .3s, transform .1s;
 
     &:hover {
-        background: $color400;
+        background: darken($color300, 15%);
     }
     &:focus {
         outline: 0;
@@ -140,22 +150,11 @@ body {
         transform: scale(.95);
     }
 }
+
 .btn-toggle {
-    float: right;
-    padding: .25rem;
-}
-.btn-preview {
-    cursor: pointer;
+    // float: right;
 }
 
-.count {
-    float: right;
-    font-size: $font-size-xs;
-    line-height: 2;
-}
-#chara-count {
-    color: $color600;
-}
 
 // main
 .editor-side,
@@ -166,10 +165,11 @@ body {
     .header {
          @include span-columns(6 of 6);
         //  font-size: $font-size-xs;
+        border-bottom: 1px solid $color300;
          height: $header-height;
          padding: .25rem 0 .25rem .5rem;
-         position: relative;
-         box-shadow: 0 0 3px 0 rgba(0,0,0,.26);
+        //  position: relative;
+        //  box-shadow: 0 0 3px 0 rgba(0,0,0,.26);
     }
 }
 
@@ -199,27 +199,65 @@ body {
     overflow: hidden;
 }
 .markdown-body {
-    font-family: $font-family;
+    font-family: $font-family-regular;
     height: calc(100vh - #{$header-height});
     overflow: auto;
     line-height: 1.6em;
     padding: .25rem .5rem;
 
     pre, code {
-        font-family: $font-family;
+        font-family: $font-family-monospace;
     }
 }
 
 
 // Modal
 #export {
-    font-size: .85em;
+    font-family: $font-family-monospace;
     width: 100%;
-    height: 100%;
-    border: 1px solid $color400;
+    height: calc(100vh - #{$header-height});
+    border: none;
     resize: none;
+    padding: .25rem .5rem;
 
     &:focus {
         outline: none !important;
     }
+}
+
+// tab
+.tabs {
+    // position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    font-family: $font-family-monospace;
+    font-size: $font-size-sm;
+
+    .tab-list {
+        float: left;
+        // position: relative;
+        padding: $btn-padding;
+        color: $color600;
+        background: $color300;
+        cursor: pointer;
+        border-radius: $border-radius-sm;
+        transition: background .2s;
+
+        &:hover {
+            background: darken($color300, 15%);
+        }
+
+        &.active {
+            color: $color900;
+            background: darken($color300, 20%);
+        }
+
+        &:first-child:not(:last-child) {
+            @include border-right-radius(0);
+        }
+        &:last-child:not(:first-child) {
+            @include border-left-radius(0);
+        }
+    }
+
 }
