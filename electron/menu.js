@@ -66,8 +66,8 @@ var template = [{
         {
             label: 'Exit',
             accelerator: 'CmdOrCtrl+Q',
-            click: function () {
-                app.quit();
+            click: function (item, focusedWindow) {
+                focusedWindow.close();
             }
         }
     ]
