@@ -5,32 +5,32 @@ ElectronベースのMarkdownエディタ。
 
 ## 使用モジュール
 
-* JavaScript Framework - vue.js
+* JavaScript Framework - vue.js  
 http://jp.vuejs.org/
 
-* Editor - CodeMirror
+* Editor - CodeMirror  
 http://codemirror.net/
- * codemirror-textlint
+ * codemirror-textlint  
  https://www.npmjs.com/package/codemirror-textlint
-
-* Markdown - markdown-it
+ 
+* Markdown - markdown-it  
 https://github.com/markdown-it/markdown-it
- * markdown-it-checkbox
+ * markdown-it-checkbox  
  https://www.npmjs.com/package/markdown-it-checkbox
 
-* Syntax Highlight - Prism.js
+* Syntax Highlight - Prism.js  
 http://prismjs.com/
 
-* Modal - basicModal
+* Modal - basicModal  
 http://basicmodal.electerious.com/
 
-* Toast - SmallPop
+* Toast - SmallPop  
 https://github.com/silvio-r/spop
 
-* Progress bar - nprogress
+* Progress bar - nprogress  
 https://github.com/rstacruz/nprogress
 
-* textlint
+* textlint  
 https://github.com/textlint/textlint
 
 
