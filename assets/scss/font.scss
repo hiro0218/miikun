@@ -4,8 +4,8 @@
     font-weight: 300;
     text-rendering: optimizeLegibility;
     src: local('Noto Sans CJK JP Light'),
-         url('../font/NotoSansCJKjp-Light.woff') format('woff'),
-         url('../font/NotoSansCJKjp-Light.otf') format('opentype');
+         url('../assets/font/NotoSansCJKjp-Light.woff') format('woff'),
+         url('../assets/font/NotoSansCJKjp-Light.otf') format('opentype');
 }
 
 @font-face {
@@ -14,8 +14,8 @@
     font-weight: 500;
     text-rendering: optimizeLegibility;
     src: local('Noto Sans CJK JP Regular'),
-         url('../font/NotoSansCJKjp-Regular.woff') format('woff'),
-         url('../font/NotoSansCJKjp-Regular.otf') format('opentype');
+         url('../assets/font/NotoSansCJKjp-Regular.woff') format('woff'),
+         url('../assets/font/NotoSansCJKjp-Regular.otf') format('opentype');
 }
 
 @font-face {
@@ -24,6 +24,6 @@
     font-weight: 300;
     text-rendering: optimizeLegibility;
     src: local('Source Code Pro Light'),
-         url('../font/SourceCodePro-Light.otf.woff') format('woff'),
-         url('../font/SourceCodePro-Light.otf') format('opentype');
+         url('../assets/font/SourceCodePro-Light.otf.woff') format('woff'),
+         url('../assets/font/SourceCodePro-Light.otf') format('opentype');
 }

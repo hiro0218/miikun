@@ -11,13 +11,9 @@
             "vendor/codemirror/addon/edit/closebrackets.js",
 
             "vendor/PrismJS/prism.js",
-
             "vendor/basicModal/dist/basicModal.min.js",
-
             "vendor/spop/dist/spop.min.js",
-
             "node_modules/nprogress/nprogress.js"
-
         ]
     },
     "css":{

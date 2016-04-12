@@ -4,7 +4,7 @@ var fs = require('fs');
 var uglify = require("uglify-js");
 
 // 定義json取得
-var json = JSON.parse(fs.readFileSync('./build/vendor.json', 'utf8'));
+var json = JSON.parse(fs.readFileSync('./build/manifest.json', 'utf8'));
 
 // uglify.minify
 var uglified = uglify.minify(json.js.vendor);
