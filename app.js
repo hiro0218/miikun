@@ -16,6 +16,20 @@ app.on('ready', function () {
     readyMainWindow(process.cwd());
 });
 
+// 二重起動防止
+var shouldQuit = app.makeSingleInstance(function(argv, workingDirectory) {
+    if (mainWindow) {
+        if (mainWindow.isMinimized()) {
+            mainWindow.restore();
+        }
+        mainWindow.focus();
+    }
+    return true;
+});
+if (shouldQuit) {
+    app.quit();
+}
+
 function readyMainWindow(baseDir) {
     // メイン画面の表示。ウィンドウの幅、高さを指定できる
     mainWindow = new BrowserWindow({
