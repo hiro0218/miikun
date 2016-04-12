@@ -12,6 +12,13 @@ $em-base: 16px;
 $gutter: golden-ratio(0em, 0);
 $fg-gutter: $gutter;
 
+// Global Prefixer
+$prefix-for-webkit:    true;
+$prefix-for-mozilla:   false;
+$prefix-for-microsoft: false;
+$prefix-for-opera:     false;
+$prefix-for-spec:      false;
+
 // original variable
 $font-size-root: $em-base;
 $font-size-sm: .85rem;
@@ -51,7 +58,7 @@ $dark-white:  rgba(255, 255, 255, 0.87);
 $light-white: rgba(255, 255, 255, 0.54);
 
 $text-color: $color800;
-$bg-color:   $color200;
+$bg-color:   $white;
 
 /////
 
@@ -78,10 +85,10 @@ $bg-color:   $color200;
     display: none;
 }
 ::-webkit-scrollbar-piece {
-    background: $color200;
+    background: transparent;
 }
 ::-webkit-scrollbar-piece:start {
-    background: $color200;
+    background: transparent;
 }
 ::-webkit-scrollbar-thumb {
     overflow: hidden;
@@ -139,6 +146,7 @@ body {
     border: none;
     border-radius: $border-radius-sm;
     transition: background .3s, transform .1s;
+    @include user-select(none);
 
     &:hover {
         background: darken($color300, 15%);
@@ -163,11 +171,11 @@ body {
     transition: width .3s;
 
     .header {
-         @include span-columns(6 of 6);
+        @include span-columns(6 of 6);
         //  font-size: $font-size-xs;
         border-bottom: 1px solid $color300;
-         height: $header-height;
-         padding: .25rem 0 .25rem .5rem;
+        height: $header-height;
+        padding: .25rem 0 .25rem .5rem;
         //  position: relative;
         //  box-shadow: 0 0 3px 0 rgba(0,0,0,.26);
     }
@@ -242,6 +250,7 @@ body {
         cursor: pointer;
         border-radius: $border-radius-sm;
         transition: background .2s;
+        @include user-select(none);
 
         &:hover {
             background: darken($color300, 15%);
