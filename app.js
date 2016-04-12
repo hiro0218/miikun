@@ -21,8 +21,8 @@ function readyMainWindow(baseDir) {
     mainWindow = new BrowserWindow({
         width: 800,
         height: 600,
-        'min-width': 400,
-        'min-height': 300,
+        minWidth: 400,
+        minHeight: 300,
         resizable: true,
     });
     mainWindow.loadURL('file://' + __dirname + '/index.html');

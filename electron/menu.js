@@ -2,12 +2,24 @@ var remote = require('remote');
 var app = remote.app;
 var Menu = remote.require('menu');
 var Dialog = remote.require('dialog');
+var packageJson = require('./package.json');
 
 const OSX = process.platform === 'darwin';
 const WIN = process.platform === 'win32';
 
 // Menu bar
 var template = [{
+    label: packageJson.name,
+    submenu: [{
+        label: 'Exit',
+        accelerator: 'CmdOrCtrl+Q',
+        click: function (item, focusedWindow) {
+            focusedWindow.close();
+        }
+    }
+]
+},
+{
     label: 'File',
     submenu: [
         {
@@ -65,28 +77,20 @@ var template = [{
         //         }
         //     }
         // },
-        { type: 'separator' },
-        {
-            label: 'Exit',
-            accelerator: 'CmdOrCtrl+Q',
-            click: function (item, focusedWindow) {
-                focusedWindow.close();
-            }
-        }
     ]
 },
-// {
-//     label: 'Edit',
-//     submenu: [
-//         { label: 'Undo', accelerator: 'CmdOrCtrl+Z', },
-//         { label: 'Redo', accelerator: 'Shift+CmdOrCtrl+Z', },
-//         { type: 'separator' },
-//         { label: 'Cut', accelerator: 'CmdOrCtrl+X', },
-//         { label: 'Copy', accelerator: 'CmdOrCtrl+C', },
-//         { label: 'Paste', accelerator: 'CmdOrCtrl+V', },
-//         { label: 'Select All', accelerator: 'CmdOrCtrl+A', },
-//     ]
-// },
+{
+    label: 'Edit',
+    submenu: [
+        { label: "Undo", accelerator: "CmdOrCtrl+Z", selector: "undo:" },
+        { label: "Redo", accelerator: "Shift+CmdOrCtrl+Z", selector: "redo:" },
+        { type: "separator" },
+        { label: "Cut", accelerator: "CmdOrCtrl+X", selector: "cut:" },
+        { label: "Copy", accelerator: "CmdOrCtrl+C", selector: "copy:" },
+        { label: "Paste", accelerator: "CmdOrCtrl+V", selector: "paste:" },
+        { label: "Select All", accelerator: "CmdOrCtrl+A", selector: "selectAll:" }
+    ]
+},
 {
     label: 'Window',
     submenu: [
