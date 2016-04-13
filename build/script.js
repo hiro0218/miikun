@@ -1,13 +1,14 @@
 'use strict';
 
 var fs = require('fs');
-var uglify = require("uglify-js");
+var UglifyJS = require("uglify-js");
 
 // 定義json取得
 var json = JSON.parse(fs.readFileSync('./build/manifest.json', 'utf8'));
 
 // uglify.minify
-var uglified = uglify.minify(json.js.vendor);
+var uglified = UglifyJS.minify(json.js.vendor);
+
 fs.writeFile('./dist/vendor.min.js', uglified.code, function(err) {
     if(err) {
         console.log(err);

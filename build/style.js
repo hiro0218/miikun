@@ -7,9 +7,9 @@ var CleanCSS = require('clean-css');
 var json = JSON.parse(fs.readFileSync('./build/manifest.json', 'utf8'));
 
 // uglify
-var uglified = new CleanCSS().minify(json.css.vendor);
+var cleaned = new CleanCSS().minify(json.css.vendor);
 
-fs.writeFile('./dist/vendor.min.css', uglified.styles, function(err) {
+fs.writeFile('./dist/vendor.min.css', cleaned.styles, function(err) {
     if(err) {
         console.log(err);
     } else {
