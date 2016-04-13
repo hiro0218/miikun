@@ -9,7 +9,7 @@ const WIN = process.platform === 'win32';
 
 // Menu bar
 var template = [{
-    label: packageJson.name,
+    label: app.getName(),
     submenu: [{
         label: 'Exit',
         accelerator: 'CmdOrCtrl+Q',
