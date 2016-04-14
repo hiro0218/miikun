@@ -1,192 +1,172 @@
-var STORAGE_KEYNAME = "MiiKun";
-
-var Vue = require('vue');
-var createValidator = require("codemirror-textlint");
-var MarkdownIt = require('markdown-it');
-
 (function () {
-    // Global
-    window.editor = document.getElementById("editor");
-    window.result = document.getElementById("result");
-    window.export = document.getElementById("export");
-
-    // Progress bar
-    NProgress.configure({
-        speed: 1000,
-        showSpinner: false
-    });
-    NProgress.start();
-
-})();
-
-window.onload = function() {
     "use strict";
 
-    // プラグイン関連の初期設定
-    initPlugin();
+    // require -----------------------------------------------------
+    var NProgress = require('nprogress');
 
-    // Vue
-    window.app = new Vue({
-        el: "#app",
-        data: {
-            input: "",
-            exportHTML: "",
-            isOpenEditor: false,
-            tabNav: ['Preview', 'HTML',],
-            tabContents: 0
-        },
-        filters: {
-            markdown: function() {
-                return getMarkedValue(this.input);
-            }
-        },
-        methods: {
-            changeTab: function(index) {
-                this.tabContents = index;
-            }
-        }
+    // Global
+    window.export = document.getElementById("export");
 
-    });
+    document.addEventListener('DOMContentLoaded', function() {
+        // NProgress -----------------------------------------------
+        NProgress.configure({
+            speed: 1000,
+            showSpinner: false
+        });
 
-    app.$watch('input', function(value) {
-        // for Preview
-        Prism.highlightAll();  // Highlight Re-render
+        NProgress.start();
 
-        // for Export
-        this.exportHTML = getMarkedValue(value);
-    });
+        // markdown-it ----------------------------------------------
+        initMarkdown();
+        NProgress.inc();
 
-    NProgress.done();
-};
+    }, false);
 
-// function
-function initPlugin() {
-    // https://github.com/textlint/textlint/wiki/Collection-of-textlint-rule
-    var maxTen = require("textlint-rule-max-ten");
-    var noDoubledJoshi = require("textlint-rule-no-doubled-joshi");
-    var noMixDearuDesumasu = require("textlint-rule-no-mix-dearu-desumasu");
-    var noDoubleNegativeJa = require("textlint-rule-no-double-negative-ja");
-    var incrementalHeaders = require("textlint-rule-incremental-headers");
-    var noDoubledConjunction = require("textlint-rule-no-doubled-conjunction");
-    var maxAppearenceCountOfWords = require("textlint-rule-max-appearence-count-of-words");
-    var noDoubledConjunctiveParticleGa = require("textlint-rule-no-doubled-conjunctive-particle-ga");
+    window.addEventListener('load', function(){
+        // CodeMirror -----------------------------------------------
+        initCodeMirror();
+        NProgress.inc();
 
-    // CodeMirror
-    window.cm = window.CodeMirror.fromTextArea(window.editor, {
-        mode: {
-            name: 'markdown',
-            highlightFormatting: true
-        },
-        theme: 'markdown',
-        autofocus: true,
-        lineNumbers: true,
-        indentUnit: 4,
-        tabSize: 2,
-        electricChars: true,
-        styleActiveLine: true,
-        matchBrackets: true,
-        lineWrapping: true,
-        dragDrop: false,
-        autoCloseBrackets: true,
-        extraKeys: {
-            "Enter": "newlineAndIndentContinueMarkdownList"
-        },
-        lint: {
-            "getAnnotations": createValidator({
-                rules: {
-                    "max-ten": maxTen,
-                    "no-doubled-joshi": noDoubledJoshi,
-                    "no-mix-dearu-desumasu": noMixDearuDesumasu,
-                    "no-double-negative-ja": noDoubleNegativeJa,
-                    "no-doubled-conjunction": noDoubledConjunction,
-                    "incremental-headers": incrementalHeaders.default,
-                    "no-doubled-conjunctive-particle-ga": noDoubledConjunctiveParticleGa,
-                    "textlint-rule-max-appearence-count-of-words": maxAppearenceCountOfWords,
+        // Vue ------------------------------------------------------
+        initVue();
+        NProgress.inc();
+
+        // NProgress ------------------------------------------------
+        NProgress.done();
+
+    }, false);
+
+
+    function initVue() {
+        var Vue = require('vue');
+
+        var app = new Vue({
+            el: "#app",
+            data: {
+                input: "",
+                exportHTML: "",
+                isOpenEditor: false,
+                tabContents: 0
+            },
+            filters: {
+                markdown: function() {
+                    return getMarkedValue(this.input);
                 }
-            }),
-            "async": true
-        }
-    });
-
-    window.cm.on('change', function(e) {
-        window.cm.save();
-
-        // Trigger
-        var event = document.createEvent('HTMLEvents');
-        event.initEvent('change', true, false);
-        window.editor.dispatchEvent(event);
-
-        // 編集時フラグを立てる
-        if (!MODIFY) {
-            MODIFY = true;
-        }
-    });
-
-    // markdownit
-    window.md = new MarkdownIt({
-        html:         true,
-        xhtmlOut:     false,
-        breaks:       true,
-        langPrefix:   'language-',
-        linkify:      true,
-        typographer:  true,
-    }).use(require('markdown-it-checkbox'));
-
-}
-
-function getMarkedValue(value) {
-    // エスケープされていない<script>タグを消去
-    value = stripScriptTag(value);
-
-    return window.md.render(value);
-}
-
-function stripScriptTag(text) {
-    var SCRIPT_REGEX = /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi;
-    while(SCRIPT_REGEX.test(text)) {
-        text = text.replace(SCRIPT_REGEX, "");
-    }
-    return text;
-}
-
-function showHTML() {
-    if (app.input) {
-        basicModal.show({
-            body: '<textarea id="export" onclick="this.select(0,this.value.length);">'+ window.md.render(app.input) +'</textarea>',
-            buttons: {
-                action: {
-                    title: 'Close',
-                    fn: basicModal.close
+            },
+            methods: {
+                changeTab: function(index) {
+                    this.tabContents = index;
                 }
             }
         });
+
+        app.$watch('input', function(value) {
+            Prism.highlightAll();  // Highlight Re-render
+        });
     }
-}
 
+    function initCodeMirror() {
+        var rawEditor = document.getElementById("editor");
 
-// function save() {
-//     if (window.confirm("Save?")) {
-//         saveStorage(window.editor.value);
-//         setPreview();
-//     }
-// }
-// function clear() {
-//     if (window.confirm("Clear?")) {
-//         cm.getDoc().setValue('');
-//         window.editor.value = "";
-//         clearStorage();
-//         setPreview();
-//     }
-// }
+        var createValidator = require("codemirror-textlint");
+        // https://github.com/textlint/textlint/wiki/Collection-of-textlint-rule
+        // 一文に利用できる、の数をチェックする
+        var maxTen = require("textlint-rule-max-ten");
+        // 文中に同じ助詞が複数出てくるのをチェックする
+        var noDoubledJoshi = require("textlint-rule-no-doubled-joshi");
+        // 「ですます」調と「である」調の混在をチェックする
+        var noMixDearuDesumasu = require("textlint-rule-no-mix-dearu-desumasu");
+        // 二重否定をチェックする
+        var noDoubleNegativeJa = require("textlint-rule-no-double-negative-ja");
+        // 見出しは#(h1)から
+        // ページの始まり以外の見出しで#(h1)が使われていない。(##, ###,...を利用する。)
+        // 見出しの深さ(h1, h2, h3など)は必ず１つずつ増加する。(h1, h3のように急に深くならない)
+        var incrementalHeaders = require("textlint-rule-incremental-headers");
+        // 同じ接続詞が連続して出現していないかどうかをチェックする
+        var noDoubledConjunction = require("textlint-rule-no-doubled-conjunction");
+        // 段落内の単語の出現回数をチェックする
+        var maxAppearenceCountOfWords = require("textlint-rule-max-appearence-count-of-words");
+        // 逆接の接続助詞「が」は、特に否定の意味ではなく同一文中に複数回出現していないかどうかをチェックする
+        var noDoubledConjunctiveParticleGa = require("textlint-rule-no-doubled-conjunctive-particle-ga");
 
-// function saveStorage(element) {
-//     localStorage.setItem(STORAGE_KEYNAME, element);
-// }
-//
-// function loadStorage(element) {
-//     element.innerHTML = localStorage.getItem(STORAGE_KEYNAME);
-// }
-//
-// function clearStorage() {
-//     localStorage.removeItem(STORAGE_KEYNAME);
-// }
+        // CodeMirror
+        window.editor = CodeMirror.fromTextArea(rawEditor, {
+            mode: {
+                name: 'markdown',
+                highlightFormatting: true
+            },
+            theme: 'markdown',
+            autofocus: true,
+            lineNumbers: true,
+            indentUnit: 4,
+            tabSize: 2,
+            electricChars: true,
+            styleActiveLine: true,
+            matchBrackets: true,
+            lineWrapping: true,
+            dragDrop: false,
+            autoCloseBrackets: true,
+            extraKeys: {
+                "Enter": "newlineAndIndentContinueMarkdownList"
+            },
+            lint: {
+                "getAnnotations": createValidator({
+                    rules: {
+                        "max-ten": maxTen,
+                        "no-doubled-joshi": noDoubledJoshi,
+                        "no-mix-dearu-desumasu": noMixDearuDesumasu,
+                        "no-double-negative-ja": noDoubleNegativeJa,
+                        "no-doubled-conjunction": noDoubledConjunction,
+                        "incremental-headers": incrementalHeaders.default,
+                        "no-doubled-conjunctive-particle-ga": noDoubledConjunctiveParticleGa,
+                        "textlint-rule-max-appearence-count-of-words": maxAppearenceCountOfWords,
+                    }
+                }),
+                "async": true
+            }
+        });
+
+        window.editor.on('change', function(e) {
+            window.editor.save();
+
+            // Trigger
+            var event = document.createEvent('HTMLEvents');
+            event.initEvent('change', true, false);
+            rawEditor.dispatchEvent(event);
+
+            if (!MODIFY) {  // 編集時フラグを立てる
+                MODIFY = true;
+            }
+        });
+
+    }
+
+    function initMarkdown() {
+        var MarkdownIt = require('markdown-it');
+
+        window.markdown = new MarkdownIt({
+            html:         true,
+            xhtmlOut:     false,
+            breaks:       true,
+            langPrefix:   'language-',
+            linkify:      true,
+            typographer:  true,
+        }).use(require('markdown-it-checkbox'));
+    }
+
+    function getMarkedValue(value) {
+        // エスケープされていない<script>タグを消去
+        value = stripScriptTag(value);
+
+        return window.markdown.render(value);
+    }
+
+    function stripScriptTag(text) {
+        var SCRIPT_REGEX = /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi;
+        while(SCRIPT_REGEX.test(text)) {
+            text = text.replace(SCRIPT_REGEX, "");
+        }
+        return text;
+    }
+
+})();

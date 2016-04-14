@@ -4,6 +4,7 @@
             "node_modules/codemirror/lib/codemirror.js",
             "node_modules/codemirror/mode/markdown/markdown.js",
             "node_modules/codemirror/mode/gfm/gfm.js",
+            "node_modules/codemirror/mode/xml/xml.js",
             "node_modules/codemirror/addon/lint/lint.js",
             "node_modules/codemirror/addon/edit/continuelist.js",
             "node_modules/codemirror/addon/mode/overlay.js",
@@ -12,8 +13,7 @@
 
             "vendor/PrismJS/prism.js",
             "node_modules/basicmodal/dist/basicModal.min.js",
-            "vendor/spop/dist/spop.min.js",
-            "node_modules/nprogress/nprogress.js"
+            "vendor/spop/dist/spop.min.js"
         ]
     },
     "css":{

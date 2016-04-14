@@ -63,8 +63,7 @@ function newFile() {
     if (!MODIFY) {
         OPEN_FILE_PATH = "";
         setWindowTitle('');
-        window.editor.value = "";
-        window.cm.getDoc().setValue("");
+        window.editor.getDoc().setValue("");
     }
 }
 
@@ -99,8 +98,7 @@ function openFile(path) {
             basicModalAlert('error: ' + err);
         } else {
             setWindowTitle(path);
-            window.editor.value = content;
-            window.cm.getDoc().setValue(content);
+            window.editor.getDoc().setValue(content);
             MODIFY = false;
             OPEN_FILE_PATH = path;
         }
@@ -126,7 +124,7 @@ function save(path, data) {
 
 function saveFile() {
     if (OPEN_FILE_PATH) {
-        var data =  window.cm.getValue();
+        var data =  window.editor.getValue();
         save(OPEN_FILE_PATH, data);
     } else {
         dialogSaveAs();
@@ -134,7 +132,7 @@ function saveFile() {
 }
 
 function saveAsFile(path) {
-    var data = window.cm.getValue();
+    var data = window.editor.getValue();
     save(path, data);
 }
 
