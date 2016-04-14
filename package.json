@@ -25,10 +25,10 @@
   "copyright": "Copyright (c) 2016 hiro. All rights reserved.",
   "license": "MIT",
   "devDependencies": {
-    "uglify-js": "^2.6.2",
     "clean-css": "^3.4.11",
     "electron-packager": "^6.0.0",
-    "electron-prebuilt": "^0.37.4"
+    "electron-prebuilt": "^0.37.4",
+    "uglify-js": "^2.6.2"
   },
   "dependencies": {
     "basicmodal": "^3.3.5",

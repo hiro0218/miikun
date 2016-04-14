@@ -2,6 +2,16 @@
     "use strict";
 
     // require -----------------------------------------------------
+    require("codemirror/lib/codemirror.js");
+    require("codemirror/mode/markdown/markdown.js");
+    require("codemirror/mode/gfm/gfm.js");
+    require("codemirror/mode/xml/xml.js");
+    require("codemirror/addon/lint/lint.js");
+    require("codemirror/addon/edit/continuelist.js");
+    require("codemirror/addon/mode/overlay.js");
+    require("codemirror/addon/selection/active-line.js");
+    require("codemirror/addon/edit/closebrackets.js");
+    var CodeMirror = require('codemirror/lib/codemirror');
     var NProgress = require('nprogress');
 
     // Global
@@ -60,9 +70,6 @@
             }
         });
 
-        app.$watch('input', function(value) {
-            Prism.highlightAll();  // Highlight Re-render
-        });
     }
 
     function initCodeMirror() {
@@ -109,21 +116,25 @@
             extraKeys: {
                 "Enter": "newlineAndIndentContinueMarkdownList"
             },
-            lint: {
-                "getAnnotations": createValidator({
-                    rules: {
-                        "max-ten": maxTen,
-                        "no-doubled-joshi": noDoubledJoshi,
-                        "no-mix-dearu-desumasu": noMixDearuDesumasu,
-                        "no-double-negative-ja": noDoubleNegativeJa,
-                        "no-doubled-conjunction": noDoubledConjunction,
-                        "incremental-headers": incrementalHeaders.default,
-                        "no-doubled-conjunctive-particle-ga": noDoubledConjunctiveParticleGa,
-                        "textlint-rule-max-appearence-count-of-words": maxAppearenceCountOfWords,
-                    }
-                }),
-                "async": true
-            }
+            // lint: {
+            //     "getAnnotations": createValidator({
+            //         rules: {
+            //             "max-ten": maxTen,
+            //             "no-doubled-joshi": noDoubledJoshi,
+            //             "no-mix-dearu-desumasu": noMixDearuDesumasu,
+            //             "no-double-negative-ja": noDoubleNegativeJa,
+            //             "no-doubled-conjunction": noDoubledConjunction,
+            //             "incremental-headers": incrementalHeaders.default,
+            //             "no-doubled-conjunctive-particle-ga": noDoubledConjunctiveParticleGa,
+            //             "textlint-rule-max-appearence-count-of-words": maxAppearenceCountOfWords,
+            //         }
+            //     }),
+            //     "async": true
+            // }
+        });
+
+        window.editor.on('blur', function(){
+            Prism.highlightAll();  // Highlight Re-render
         });
 
         window.editor.on('change', function(e) {
