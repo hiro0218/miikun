@@ -50,13 +50,16 @@
     function initVue() {
         var Vue = require('vue');
 
+        var VueMdl = require('vue-mdl');
+        Vue.use(VueMdl.default);
+
         var app = new Vue({
             el: "#app",
             data: {
                 input: "",
                 exportHTML: "",
                 isOpenEditor: false,
-                tabContents: 0
+                tabContents: 0,
             },
             filters: {
                 markdown: function() {
@@ -67,7 +70,10 @@
                 changeTab: function(index) {
                     this.tabContents = index;
                 }
-            }
+            },
+
+              components: VueMdl.components,
+              directives: VueMdl.directives,
         });
 
     }

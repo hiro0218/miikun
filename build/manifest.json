@@ -3,7 +3,8 @@
         "vendor": [
             "vendor/PrismJS/prism.js",
             "node_modules/basicmodal/dist/basicModal.min.js",
-            "vendor/spop/dist/spop.min.js"
+            "vendor/spop/dist/spop.min.js",
+            "node_modules/material-design-lite/material.min.js"
         ]
     },
     "css":{
