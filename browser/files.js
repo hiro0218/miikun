@@ -117,7 +117,7 @@ function save(path, data) {
             MODIFY = false;
             OPEN_FILE_PATH = path;  // for new file
             setWindowTitle(path);   // for new file
-            spopSave();
+            snackSave();
         }
     });
 }
@@ -148,13 +148,13 @@ function basicModalAlert(str) {
     });
 }
 
-function spopSave() {
-    spop({
-    	template  : "Document saved.",
-    	style     : 'success',
-    	autoclose : 2000,
-    	position  : 'bottom-right',    // top-left top-center bottom-left bottom-center bottom-right
-    	icon      : true,
-    	group     : false,
+function snackSave() {
+    window.app.$broadcast('fileSaved', {
+        message: 'Document saved.',
+        timeout: 1000,
+        // actionText: '',
+        // actionHandler: function(e) {
+        //     console.log(e);
+        // },
     });
 }

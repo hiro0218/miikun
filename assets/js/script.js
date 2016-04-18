@@ -53,7 +53,7 @@
         var VueMdl = require('vue-mdl');
         Vue.use(VueMdl.default);
 
-        var app = new Vue({
+        window.app = new Vue({
             el: "#app",
             data: {
                 input: "",
@@ -69,13 +69,11 @@
             methods: {
                 changeTab: function(index) {
                     this.tabContents = index;
-                }
+                },
             },
-
               components: VueMdl.components,
               directives: VueMdl.directives,
         });
-
     }
 
     function initCodeMirror() {
@@ -122,21 +120,21 @@
             extraKeys: {
                 "Enter": "newlineAndIndentContinueMarkdownList"
             },
-            // lint: {
-            //     "getAnnotations": createValidator({
-            //         rules: {
-            //             "max-ten": maxTen,
-            //             "no-doubled-joshi": noDoubledJoshi,
-            //             "no-mix-dearu-desumasu": noMixDearuDesumasu,
-            //             "no-double-negative-ja": noDoubleNegativeJa,
-            //             "no-doubled-conjunction": noDoubledConjunction,
-            //             "incremental-headers": incrementalHeaders.default,
-            //             "no-doubled-conjunctive-particle-ga": noDoubledConjunctiveParticleGa,
-            //             "textlint-rule-max-appearence-count-of-words": maxAppearenceCountOfWords,
-            //         }
-            //     }),
-            //     "async": true
-            // }
+            lint: {
+                "getAnnotations": createValidator({
+                    rules: {
+                        "max-ten": maxTen,
+                        "no-doubled-joshi": noDoubledJoshi,
+                        "no-mix-dearu-desumasu": noMixDearuDesumasu,
+                        "no-double-negative-ja": noDoubleNegativeJa,
+                        "no-doubled-conjunction": noDoubledConjunction,
+                        "incremental-headers": incrementalHeaders.default,
+                        "no-doubled-conjunctive-particle-ga": noDoubledConjunctiveParticleGa,
+                        "textlint-rule-max-appearence-count-of-words": maxAppearenceCountOfWords,
+                    }
+                }),
+                "async": true
+            }
         });
 
         window.editor.on('blur', function(){

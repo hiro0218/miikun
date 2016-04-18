@@ -12,6 +12,11 @@
 // Material Design Lite
 @import "../../node_modules/material-design-lite/src/material-design-lite.scss";
 
+.mdl-snackbar {
+    z-index: 10;
+}
+
+
 /////
 
 @include selection {

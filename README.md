@@ -8,11 +8,14 @@ ElectronベースのMarkdownエディタ。
 * JavaScript Framework - vue.js  
 http://jp.vuejs.org/
 
+* Material Design Components - Material Design Lite  
+https://www.getmdl.io/
+
 * Editor - CodeMirror  
 http://codemirror.net/
  * codemirror-textlint  
  https://www.npmjs.com/package/codemirror-textlint
- 
+
 * Markdown - markdown-it  
 https://github.com/markdown-it/markdown-it
  * markdown-it-checkbox  
@@ -23,9 +26,6 @@ http://prismjs.com/
 
 * Modal - basicModal  
 http://basicmodal.electerious.com/
-
-* Toast - SmallPop  
-https://github.com/silvio-r/spop
 
 * Progress bar - nprogress  
 https://github.com/rstacruz/nprogress
