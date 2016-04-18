@@ -26,8 +26,8 @@
   "license": "MIT",
   "devDependencies": {
     "clean-css": "^3.4.11",
-    "electron-packager": "^6.0.0",
-    "electron-prebuilt": "^0.37.4",
+    "electron-packager": "^6.0.2",
+    "electron-prebuilt": "^0.37.6",
     "uglify-js": "^2.6.2"
   },
   "dependencies": {
