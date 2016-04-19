@@ -6,20 +6,27 @@ var packageJson = require('./package.json');
 
 const OSX = process.platform === 'darwin';
 const WIN = process.platform === 'win32';
+const isDevelop = /[\\/]electron-prebuilt[\\/]/.test(process.execPath);
 
 // Menu bar
-var template = [{
-    label: app.getName(),
-    submenu: [{
-        label: 'Exit',
-        accelerator: 'CmdOrCtrl+Q',
-        click: function (item, focusedWindow) {
-            focusedWindow.close();
-        }
-    }
-]
-},
-{
+var template = [];
+
+// Mac
+if (OSX) {
+    template.push({
+        label: app.getName(),
+        submenu: [{
+            label: 'Exit',
+            accelerator: 'CmdOrCtrl+Q',
+            click: function (item, focusedWindow) {
+                focusedWindow.close();
+            }
+        }]
+    });
+}
+
+// 共通
+template.push({
     label: 'File',
     submenu: [
         {
@@ -58,25 +65,6 @@ var template = [{
                 }
             },
         },
-        // { type: 'separator' },
-        // {
-        //     label: 'Save as LocalStorage',
-        //     accelerator: 'CmdOrCtrl+Shift+S',
-        //     click: function (item, focusedWindow) {
-        //         if (focusedWindow) {
-        //             focusedWindow.webContents.executeJavaScript('save()');
-        //         }
-        //     }
-        // },
-        // {
-        //     label: 'Clear as LocalStorage',
-        //     accelerator: 'CmdOrCtrl+Shift+Delete',
-        //     click: function (item, focusedWindow) {
-        //         if (focusedWindow) {
-        //             focusedWindow.webContents.executeJavaScript('clear()');
-        //         }
-        //     }
-        // },
     ]
 },
 {
@@ -89,39 +77,6 @@ var template = [{
         { label: "Copy", accelerator: "CmdOrCtrl+C", selector: "copy:" },
         { label: "Paste", accelerator: "CmdOrCtrl+V", selector: "paste:" },
         { label: "Select All", accelerator: "CmdOrCtrl+A", selector: "selectAll:" }
-    ]
-},
-{
-    label: 'Window',
-    submenu: [
-        {
-            label: 'Reload',
-            accelerator: 'CmdOrCtrl+R',
-            click: function (item, focusedWindow) {
-                if (focusedWindow)
-                focusedWindow.reload();
-            }
-        },
-        {
-            label: 'Toggle Full Screen',
-            accelerator: (function () {
-                return OSX ? 'Ctrl+Command+F' : 'F11';
-            })(),
-            click: function (item, focusedWindow) {
-                if (focusedWindow)
-                focusedWindow.setFullScreen(!focusedWindow.isFullScreen());
-            }
-        },
-        {
-            label: 'Toggle Developer Tools',
-            accelerator: (function () {
-                return OSX ? 'Alt+Command+I' :'Ctrl+Shift+I';
-            })(),
-            click: function (item, focusedWindow) {
-                if (focusedWindow)
-                focusedWindow.toggleDevTools();
-            }
-        },
     ]
 },
 {
@@ -141,7 +96,58 @@ var template = [{
             }
         },
     ]
-}];
+});
+
+// Windows
+if (WIN) {
+    console.log(template[0].submenu);
+    template[0].submenu.push({
+        type: "separator"
+    },{
+        label: 'Exit',
+        accelerator: 'CmdOrCtrl+Q',
+        click: function (item, focusedWindow) {
+            focusedWindow.close();
+        }
+    });
+}
+
+// 開発時のみ
+if (isDevelop) {
+    template.push({
+        label: 'Window',
+        submenu: [
+            {
+                label: 'Reload',
+                accelerator: 'CmdOrCtrl+R',
+                click: function (item, focusedWindow) {
+                    if (focusedWindow)
+                    focusedWindow.reload();
+                }
+            },
+            {
+                label: 'Toggle Full Screen',
+                accelerator: (function () {
+                    return OSX ? 'Ctrl+Command+F' : 'F11';
+                })(),
+                click: function (item, focusedWindow) {
+                    if (focusedWindow)
+                    focusedWindow.setFullScreen(!focusedWindow.isFullScreen());
+                }
+            },
+            {
+                label: 'Toggle Developer Tools',
+                accelerator: (function () {
+                    return OSX ? 'Alt+Command+I' :'Ctrl+Shift+I';
+                })(),
+                click: function (item, focusedWindow) {
+                    if (focusedWindow)
+                    focusedWindow.toggleDevTools();
+                }
+            },
+        ]
+    });
+}
 
 var menu = Menu.buildFromTemplate(template);
 Menu.setApplicationMenu(menu);
