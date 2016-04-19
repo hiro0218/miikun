@@ -32,6 +32,8 @@
   },
   "dependencies": {
     "basicmodal": "^3.3.5",
+    "bourbon": "^4.2.7",
+    "bourbon-neat": "^1.7.4",
     "codemirror": "^5.13.4",
     "codemirror-textlint": "^1.0.1",
     "github-markdown-css": "^2.2.1",

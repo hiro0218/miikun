@@ -1,21 +1,17 @@
-@import "bourbon/bourbon";
-@import "neat/neat";
-
-//
-@import "font";
-@import "octicons";
-
-/////
+// framework
+@import "../../node_modules/bourbon/app/assets/stylesheets/bourbon";
+@import "../../node_modules/bourbon-neat/app/assets/stylesheets/neat";
 
 @import "variables";
 
 // Material Design Lite
-@import "../../node_modules/material-design-lite/src/material-design-lite.scss";
+@import "plugin/mdl";
+// CodeMirror
+@import "plugin/codemirror";
 
-.mdl-snackbar {
-    z-index: 10;
-}
-
+// font
+@import "font/font-face";
+@import "font/octicons";
 
 /////
 
@@ -153,9 +149,6 @@ body {
 
 // Textarea
 #editor { display: none; }
-
-// CodeMirror
-@import "codemirror";
 
 
 //
