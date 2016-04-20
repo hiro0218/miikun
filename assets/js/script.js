@@ -63,7 +63,8 @@
             },
             filters: {
                 markdown: function() {
-                    return getMarkedValue(this.input);
+                    // プレビュが表示されている時だけMarkdownを変換する
+                    return this.isOpenEditor ? this.input : getMarkedValue(this.input);
                 }
             },
             methods: {
@@ -71,8 +72,8 @@
                     this.tabContents = index;
                 },
             },
-              components: VueMdl.components,
-              directives: VueMdl.directives,
+            components: VueMdl.components,
+            directives: VueMdl.directives,
         });
     }
 
