@@ -20,6 +20,8 @@ http://codemirror.net/
 https://github.com/markdown-it/markdown-it
  * markdown-it-checkbox  
  https://www.npmjs.com/package/markdown-it-checkbox
+ * markdown-it-footnote  
+ https://github.com/markdown-it/markdown-it-footnote
 
 * Syntax Highlight - Prism.js  
 http://prismjs.com/

@@ -166,7 +166,9 @@
             langPrefix:   'language-',
             linkify:      true,
             typographer:  true,
-        }).use(require('markdown-it-checkbox'));
+        })
+        .use(require('markdown-it-checkbox'))
+        .use(require('markdown-it-footnote'));
     }
 
     function getMarkedValue(value) {
