@@ -100,7 +100,6 @@ template.push({
 
 // Windows
 if (WIN) {
-    console.log(template[0].submenu);
     template[0].submenu.push({
         type: "separator"
     },{
