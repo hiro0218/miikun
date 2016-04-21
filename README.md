@@ -34,8 +34,3 @@ https://github.com/rstacruz/nprogress
 
 * textlint  
 https://github.com/textlint/textlint
-
-
-## 更新履歴
-### v1.0.0
-* WebアプリからElectronアプリへ移植
