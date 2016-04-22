@@ -58,7 +58,7 @@ html {
     font-size: $font-size-root;
     @include box-sizing(border-box);
 
-    -webkit-text-stroke: 1px rgba(0,0,0,0.1);
+    // -webkit-text-stroke: 1px rgba(0,0,0,0.1);
 
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -84,6 +84,32 @@ body {
     background: $white;
     margin: 0;
     overflow: hidden;
+}
+
+
+// drop zone
+.dropzone {
+    opacity: 0;
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    left: 0;
+    top: 0;
+    z-index: -100;
+    background: $faint-black;
+    border: 6px dashed $color600;
+
+    transition: opacity .4s;
+    @include user-select(none);
+
+    span {
+        display: block;
+        font-size: 4rem;
+        font-weight: bold;
+        line-height: 100vh;
+        color: $color600;
+        text-align: center;
+    }
 }
 
 .container {

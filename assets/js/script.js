@@ -137,7 +137,7 @@
                 "async": true
             }
         });
-
+        
         window.editor.on('blur', function(){
             Prism.highlightAll();  // Highlight Re-render
         });
