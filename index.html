@@ -9,13 +9,13 @@
     <div id="app" class="container">
         <div class="editor-side" v-bind:class="{open:isOpenEditor}">
             <div class="header">
-              <button id="btnToggleEditor"
+                <!-- toggle -->
+                <button id="btnToggleEditor"
                       class="mdl-button mdl-js-button mdl-button--icon"
                       v-on:click="isOpenEditor=!isOpenEditor">
                           <i class="material-icons" v-if="isOpenEditor">visibility_off</i>
                           <i class="material-icons" v-if="!isOpenEditor">visibility</i>
                 </button>
-                <div class="mdl-tooltip" for="btnToggleEditor">When you click the area of editor will be enlarged or reduced.</div>
             </div>
             <textarea id="editor" v-model="input" debounce="300"></textarea>
         </div>
@@ -27,7 +27,7 @@
                          v-on:click="changeTab(0)">Preview</div>
                     <div class="tab-list"
                          v-bind:class="{'active': tabContents == 1}"
-                         v-on:click="changeTab(1)">HTML</div>
+                         v-on:click="changeTab(1)">Code</div>
                 </div>
             </div>
             <div id="result">
@@ -38,7 +38,7 @@
                      v-if="tabContents == 1">
                      <textarea id="export" v-html="input | markdown" readonly onclick="this.select(0,this.value.length);"></textarea>
                 </div>
-                <mdl-snackbar display-on="fileSaved"></mdl-snackbar>
+                <mdl-snackbar display-on="fileOperation"></mdl-snackbar>
             </div>
         </div>
     </div>

@@ -17,6 +17,10 @@ window.addEventListener('dragover', function(e) {
     e.preventDefault();
 });
 
+document.addEventListener('dragstart', function(e) {
+    e.preventDefault();
+});
+
 window.addEventListener('dragenter', function(e) {
     dropZone.style.opacity = 1;
     dropZone.style.zIndex = 100;

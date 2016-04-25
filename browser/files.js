@@ -95,6 +95,7 @@ function openFile(path) {
             window.editor.getDoc().setValue(content);
             MODIFY = false;
             OPEN_FILE_PATH = path;
+            snackLoad();
         }
     });
 }
@@ -142,8 +143,15 @@ function basicModalAlert(str) {
     });
 }
 
+function snackLoad() {
+    window.app.$broadcast('fileOperation', {
+        message: 'Document loaded.',
+        timeout: 1000,
+    });
+}
+
 function snackSave() {
-    window.app.$broadcast('fileSaved', {
+    window.app.$broadcast('fileOperation', {
         message: 'Document saved.',
         timeout: 1000,
         // actionText: '',

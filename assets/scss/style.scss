@@ -24,32 +24,27 @@
 
 // Chrome scrollbar
 ::-webkit-scrollbar {
-    overflow: hidden;
-    width: 6px;
-    height: 6px;
-    background: $color200;
-    border-radius: 2px;
-}
-::-webkit-scrollbar:horizontal {
-    height: 6px;
+    width: 8px;
+    height: 8px;
 }
 ::-webkit-scrollbar-button {
     display: none;
 }
-::-webkit-scrollbar-piece {
-    background: transparent;
-}
-::-webkit-scrollbar-piece:start {
-    background: transparent;
-}
 ::-webkit-scrollbar-thumb {
     overflow: hidden;
-    border-radius: 2px;
+    border-radius: 1rem;
+    border: none;
     background: $color400;
+
+    &:hover {
+        background: $color500;
+    }
+    &:active {
+        background: $color600;
+    }
 }
+::-webkit-scrollbar-piece,
 ::-webkit-scrollbar-corner {
-    overflow: hidden;
-    border-radius: 2px;
     background: transparent;
 }
 
@@ -137,8 +132,8 @@ body {
     }
 }
 
-.btn-toggle {
-    // float: right;
+#btnToggleEditor {
+    float: right;
     cursor: pointer;
 }
 
