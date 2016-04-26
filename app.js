@@ -38,6 +38,11 @@ function readyMainWindow(baseDir) {
         minWidth: 400,
         minHeight: 300,
         resizable: true,
+        "web-preferences": {
+            "direct-write": false,
+            'subpixel-font-scaling': false,
+            textAreasAreResizable: false,
+        }
     });
     mainWindow.loadURL('file://' + __dirname + '/index.html');
 
