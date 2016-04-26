@@ -49,9 +49,10 @@
 
     function initVue() {
         var Vue = require('vue');
-
         var VueMdl = require('vue-mdl');
         Vue.use(VueMdl.default);
+
+        var rickdom = new RickDOM();
 
         window.app = new Vue({
             el: "#app",
@@ -64,7 +65,23 @@
             filters: {
                 markdown: function() {
                     // プレビュが表示されている時だけMarkdownを変換する
-                    return this.isOpenEditor ? this.input : getMarkedValue(this.input);
+                    if ( this.isOpenEditor ) {
+                        return this.input;
+                    } else {
+                        // Markdownを変換
+                        var code = window.markdown.render(this.input);
+
+                        // HTMLをRickDOMに通す
+                        var sanitize = rickdom.build(code);
+                        var render = "";
+                        for (var i = 0; i < sanitize.length; i++) {
+                            var html = sanitize[i].outerHTML;
+                            if (html !== undefined) {
+                                render += html;
+                            }
+                        }
+                        return render;
+                    }
                 }
             },
             methods: {
@@ -170,21 +187,6 @@
         })
         .use(require('markdown-it-checkbox'))
         .use(require('markdown-it-footnote'));
-    }
-
-    function getMarkedValue(value) {
-        // エスケープされていない<script>タグを消去
-        value = stripScriptTag(value);
-
-        return window.markdown.render(value);
-    }
-
-    function stripScriptTag(text) {
-        var SCRIPT_REGEX = /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi;
-        while(SCRIPT_REGEX.test(text)) {
-            text = text.replace(SCRIPT_REGEX, "");
-        }
-        return text;
     }
 
 })();

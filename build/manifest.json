@@ -1,6 +1,7 @@
 {
     "js":{
         "vendor": [
+            "vendor/rickdom/rickdom-0.2.js",
             "vendor/PrismJS/prism.js",
             "node_modules/basicmodal/dist/basicModal.min.js",
             "node_modules/material-design-lite/material.min.js"
