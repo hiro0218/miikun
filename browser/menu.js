@@ -80,6 +80,20 @@ template.push({
     ]
 },
 {
+    label: 'Windows',
+    submenu: [
+        {
+            label: 'Always on Top',
+            accelerator: 'CmdOrCtrl+Shift+T',
+            click: function (item, focusedWindow) {
+                if (focusedWindow) {
+                    focusedWindow.setAlwaysOnTop(!focusedWindow.isAlwaysOnTop());
+                }
+            }
+        },
+    ]
+},
+{
     label: 'Help',
     submenu: [
         {
@@ -114,7 +128,7 @@ if (WIN) {
 // 開発時のみ
 if (isDevelop) {
     template.push({
-        label: 'Window',
+        label: 'Develop',
         submenu: [
             {
                 label: 'Reload',
