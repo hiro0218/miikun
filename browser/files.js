@@ -86,18 +86,19 @@ function chooseSave() {
 function openFile(path) {
     if (OPEN_FILE_PATH === path) {
         basicModalAlert("This file is already open.");
+    } else {
+        fs.readFile(path, 'utf8', function(err, content) {
+            if (err !== null) {
+                basicModalAlert('error: ' + err);
+            } else {
+                setWindowTitle(path);
+                window.editor.getDoc().setValue(content);
+                MODIFY = false;
+                OPEN_FILE_PATH = path;
+                snackLoad();
+            }
+        });
     }
-    fs.readFile(path, 'utf8', function(err, content) {
-        if (err !== null) {
-            basicModalAlert('error: ' + err);
-        } else {
-            setWindowTitle(path);
-            window.editor.getDoc().setValue(content);
-            MODIFY = false;
-            OPEN_FILE_PATH = path;
-            snackLoad();
-        }
-    });
 }
 
 function save(path, data) {
