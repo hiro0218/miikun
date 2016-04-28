@@ -1,18 +1,31 @@
 'use strict';
 
 var fs = require('fs');
-var CleanCSS = require('clean-css');
+var sass = require('node-sass');
+var options = {
+    file: './assets/scss/style.scss',
+    outFile: './dist/style.min.css',
+    includePaths: require('node-neat').includePaths,
+    outputStyle:  'expanded',
+};
 
-// 定義json取得
-var json = JSON.parse(fs.readFileSync('./build/manifest.json', 'utf8'));
+sass.render(options, function(error, result) {
+    if (error) {
+        console.log(error.status);
+        console.log(error.column);
+        console.log(error.message);
+        console.log(error.line);
 
-// uglify
-var cleaned = new CleanCSS().minify(json.css.vendor);
-
-fs.writeFile('./dist/vendor.min.css', cleaned.styles, function(err) {
-    if(err) {
-        console.log(err);
     } else {
-        console.log("CSS generated and saved:", 'vendor.min.css');
+        var CleanCSS = require('clean-css');
+        var cleaned = new CleanCSS().minify(result.css.toString()).styles;
+
+        fs.writeFile(options.outFile, cleaned, function(err) {
+            if(err) {
+                console.log(err);
+            } else {
+                console.log("CSS generated and saved:", 'style.min.css');
+            }
+        });
     }
 });
