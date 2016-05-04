@@ -3,12 +3,16 @@ var app = remote.app;
 var Menu = remote.require('menu');
 var Dialog = remote.require('dialog');
 var packageJson = require('./package.json');
+var browserWindow = remote.require('browser-window');
+var focusedWindow = browserWindow.getFocusedWindow();
 
 const OSX = process.platform === 'darwin';
 const WIN = process.platform === 'win32';
 const isDevelop = /[\\/]electron-prebuilt[\\/]/.test(process.execPath);
 
-// Menu bar
+/**
+ * Menu bar
+ */
 var template = [];
 
 // Mac
@@ -164,3 +168,21 @@ if (isDevelop) {
 
 var menu = Menu.buildFromTemplate(template);
 Menu.setApplicationMenu(menu);
+
+
+/**
+ * Menu
+ **/
+// Toggle Editor Area
+var btnToggleEditor = document.getElementById('btnToggleEditor');
+var toggleEditor = document.getElementsByClassName("toggleEditor")[0];
+toggleEditor.addEventListener("click", function(){
+    var event = new Event('click');
+    btnToggleEditor.dispatchEvent(event);
+}, false);
+
+// Always on Top
+var toggleAOT = document.getElementsByClassName("toggleAOT")[0];
+toggleAOT.addEventListener("click", function(){
+    focusedWindow.setAlwaysOnTop(!focusedWindow.isAlwaysOnTop());
+}, false);

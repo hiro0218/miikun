@@ -9,6 +9,15 @@
     <div id="app" class="container">
         <div class="editor-side" v-bind:class="{open:isOpenEditor}">
             <div class="header">
+                <!-- menu -->
+                <button id="menu" class="mdl-button mdl-js-button mdl-button--icon">
+                    <i class="material-icons">more_vert</i>
+                </button>
+                <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="menu">
+                  <li class="mdl-menu__item toggleEditor">Toggle Editor Area</li>
+                  <li class="mdl-menu__item toggleAOT mdl-menu__item--full-bleed-divider">Always on Top</li>
+                  <!-- <li class="mdl-menu__item openSettings">Settings</li> -->
+                </ul>
                 <!-- toggle -->
                 <button id="btnToggleEditor"
                       class="mdl-button mdl-js-button mdl-button--icon"
@@ -36,7 +45,7 @@
                      v-if="tabContents == 0"></div>
                 <div class="preview"
                      v-if="tabContents == 1">
-                     <textarea id="export" v-html="input | markdown" readonly onclick="this.select(0,this.value.length);"></textarea>
+                     <textarea id="export" v-html="input | markdown" readonly wrap="soft" onclick="this.select(0,this.value.length);"></textarea>
                 </div>
                 <mdl-snackbar display-on="fileOperation"></mdl-snackbar>
             </div>
