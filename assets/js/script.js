@@ -58,7 +58,6 @@
             el: "#app",
             data: {
                 input: "",
-                exportHTML: "",
                 isOpenEditor: false,
                 tabContents: 0,
             },
@@ -73,14 +72,15 @@
 
                         // HTMLをRickDOMに通す
                         var sanitize = rickdom.build(code);
-                        var render = "";
-                        for (var i = 0; i < sanitize.length; i++) {
+                        var length = sanitize.length;
+                        var rendered = "";
+                        for (var i = 0; i < length; i++) {
                             var html = sanitize[i].outerHTML;
                             if (html !== undefined) {
-                                render += html;
+                                rendered += html;
                             }
                         }
-                        return render;
+                        return rendered;
                     }
                 }
             },
