@@ -2,9 +2,9 @@ var remote = require('remote');
 var app = remote.app;
 var Menu = remote.require('menu');
 var Dialog = remote.require('dialog');
-var packageJson = require('./package.json');
 var browserWindow = remote.require('browser-window');
 var focusedWindow = browserWindow.getFocusedWindow();
+var packageJson = require('./package.json');
 
 const OSX = process.platform === 'darwin';
 const WIN = process.platform === 'win32';
@@ -179,6 +179,26 @@ var toggleEditor = document.getElementsByClassName("toggleEditor")[0];
 toggleEditor.addEventListener("click", function(){
     var event = new Event('click');
     btnToggleEditor.dispatchEvent(event);
+}, false);
+
+// Word Count
+var countWord = document.getElementsByClassName("countWord")[0];
+countWord.addEventListener("click", function() {
+    var text = window.editor.getValue().replace(/(\n|\t)/g, '');
+    var template = "<p><b>Characters (no spaces):</b> #1</p>" +
+                   "<p><b>Characters (with spaces):</b> #2</p>";
+        template = template.replace(/#1/g, text.length);
+        template = template.replace(/#2/g, text.replace(/ /g, '').length);
+
+    basicModal.show({
+        body: template,
+        buttons: {
+            action: {
+                title: 'OK',
+                fn: basicModal.close
+            }
+        }
+    });
 }, false);
 
 // Always on Top
