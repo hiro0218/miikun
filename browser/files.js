@@ -57,7 +57,9 @@ function newFile() {
     if (!MODIFY) {
         OPEN_FILE_PATH = "";
         setWindowTitle('');
-        window.editor.getDoc().setValue("");
+        var doc = window.editor.getDoc();
+        doc.setValue("");
+        doc.clearHistory();
     }
 }
 
@@ -92,7 +94,9 @@ function openFile(path) {
                 basicModalAlert('error: ' + err);
             } else {
                 setWindowTitle(path);
-                window.editor.getDoc().setValue(content);
+                var doc = window.editor.getDoc();
+                doc.setValue(content);
+                doc.clearHistory();
                 MODIFY = false;
                 OPEN_FILE_PATH = path;
                 snackLoad();
