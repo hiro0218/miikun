@@ -8,10 +8,11 @@ var option = {
     arch: 'x64',
 
     name: packageJson.name,
-    // icon: './icon',
-
+    icon: './assets/img/icon',
+    // darwin
     'app-bundle-id': 'jp.0218.app.Miikun',
     'app-version': packageJson.version,
+    // win32
     'version-string': {
         FileDescription: packageJson.description,
         FileVersion: packageJson.version,
@@ -36,6 +37,7 @@ var option = {
 };
 
 packager(option, function done(err, appPath) {
+    console.log('package start.');
     if (err) {
         throw new Error(err);
     }
