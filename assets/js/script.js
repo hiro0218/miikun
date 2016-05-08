@@ -53,6 +53,25 @@
         Vue.use(VueMdl.default);
 
         var rickdom = new RickDOM();
+        var allowings = {
+            "a": {
+                "id": "",
+                "href": "",
+            },
+            "li": {
+                "id": "",
+                "value": { "pattern" : "^-?[\\d]+$" }
+            },
+            "input" : {
+                "id": "",
+                "type": "checkbox",
+                "checked": "",
+            },
+            "label": {
+                "for": ""
+            }
+        };
+        rickdom.allowings = Object.assign(rickdom.allowings, allowings);
 
         window.app = new Vue({
             el: "#app",
