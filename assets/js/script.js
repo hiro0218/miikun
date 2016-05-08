@@ -4,59 +4,35 @@
     var NProgress = require('nprogress');
 
     document.addEventListener('DOMContentLoaded', function() {
-        // NProgress -----------------------------------------------
         NProgress.configure({
             speed: 1000,
             showSpinner: false
         });
         NProgress.start();
 
-        // markdown-it ----------------------------------------------
         initMarkdown();
         NProgress.inc();
 
     }, false);
 
     window.addEventListener('load', function(){
-        // CodeMirror -----------------------------------------------
         initCodeMirror();
         NProgress.inc();
 
-        // Vue ------------------------------------------------------
         initVue();
         NProgress.inc();
 
-        // NProgress ------------------------------------------------
         NProgress.done();
 
     }, false);
 
 
     function initVue() {
-        var Vue = require('vue');
+        var vuejs = require('./src/js/vue.js');
+
+        var Vue = vuejs.init();
         var VueMdl = require('vue-mdl');
         Vue.use(VueMdl.default);
-
-        var rickdom = new RickDOM();
-        var allowings = {
-            "a": {
-                "id": "",
-                "href": "",
-            },
-            "li": {
-                "id": "",
-                "value": { "pattern" : "^-?[\\d]+$" }
-            },
-            "input" : {
-                "id": "",
-                "type": "checkbox",
-                "checked": "",
-            },
-            "label": {
-                "for": ""
-            }
-        };
-        rickdom.allowings = Object.assign(rickdom.allowings, allowings);
 
         window.app = new Vue({
             el: "#app",
@@ -71,20 +47,10 @@
                     if ( this.isOpenEditor ) {
                         return this.input;
                     } else {
-                        // Markdownを変換
+                        // 入力されたMarkdownをHTMLに変換
                         var code = window.markdown.render(this.input);
 
-                        // HTMLをRickDOMに通す
-                        var sanitize = rickdom.build(code);
-                        var length = sanitize.length;
-                        var rendered = "";
-                        for (var i = 0; i < length; i++) {
-                            var html = sanitize[i].outerHTML;
-                            if (html !== undefined) {
-                                rendered += html;
-                            }
-                        }
-                        return rendered;
+                        return vuejs.domSafety(code);
                     }
                 }
             },
