@@ -3,7 +3,7 @@
 var fs = require('fs');
 var sass = require('node-sass');
 var options = {
-    file: './assets/scss/style.scss',
+    file: './src/scss/style.scss',
     outFile: './dist/style.min.css',
     includePaths: require('node-neat').includePaths,
     outputStyle:  'expanded',
