@@ -1,10 +1,10 @@
-var remote = require('remote');
-var app = remote.app;
-var Menu = remote.require('menu');
-var Dialog = remote.require('dialog');
-var browserWindow = remote.require('browser-window');
-var focusedWindow = browserWindow.getFocusedWindow();
-var packageJson = require('./package.json');
+const remote = require('remote');
+const app = remote.app;
+const Menu = remote.require('menu');
+const Dialog = remote.require('dialog');
+const browserWindow = remote.require('browser-window');
+const focusedWindow = browserWindow.getFocusedWindow();
+const packageJson = require('./package.json');
 
 const OSX = process.platform === 'darwin';
 const WIN = process.platform === 'win32';
