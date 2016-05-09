@@ -1,13 +1,13 @@
-const remote = require('remote');
-const fs = require('fs');
-const app = remote.app;
-const Dialog = remote.require('dialog');
-const browserWindow = remote.require('browser-window');
-const focusedWindow = browserWindow.getFocusedWindow();
-const packagejson = require('./package.json');
+var remote = require('remote');
+var fs = require('fs');
+var app = remote.app;
+var Dialog = remote.require('dialog');
+var browserWindow = remote.require('browser-window');
+var FocusedWindow = browserWindow.getFocusedWindow();
+var packagejson = require('./package.json');
 
 function dialogOpenFile() {
-    Dialog.showOpenDialog(focusedWindow, {
+    Dialog.showOpenDialog(FocusedWindow, {
         title: 'Open Dialog',
         filters: [
             {name: 'Documents', extensions: ['txt', 'md']},
@@ -21,7 +21,7 @@ function dialogOpenFile() {
 }
 
 function dialogSaveAs() {
-    Dialog.showSaveDialog(focusedWindow, {
+    Dialog.showSaveDialog(FocusedWindow, {
         title: 'Save Dialog',
         filters: [
             {name: 'Markdown file', extensions: ['md']},
@@ -35,7 +35,7 @@ function dialogSaveAs() {
 }
 
 function dialogAbout() {
-    Dialog.showMessageBox(focusedWindow, {
+    Dialog.showMessageBox(FocusedWindow, {
         title: 'About',
         type: 'none',
         buttons: ['OK'],
@@ -47,7 +47,7 @@ function dialogCloseModifyFile() {
     var response = 0;
 
     // 同期
-    response = Dialog.showMessageBox(focusedWindow, {
+    response = Dialog.showMessageBox(FocusedWindow, {
         title: packagejson.name,
         type: 'warning',
         buttons: ['Yes', 'No', 'Cancel'],

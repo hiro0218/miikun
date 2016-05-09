@@ -1,10 +1,10 @@
-const fs = require('fs');
-const remote = require('remote');
-const packagejson = require('./package.json');
-const app = remote.app;
-const Dialog = remote.require('dialog');
-const browserWindow = remote.require('browser-window');
-const focusedWindow = browserWindow.getFocusedWindow();
+var fs = require('fs');
+var remote = require('remote');
+var packagejson = require('./package.json');
+var app = remote.app;
+var Dialog = remote.require('dialog');
+var browserWindow = remote.require('browser-window');
+var FocusedWindow = browserWindow.getFocusedWindow();
 
 var OPEN_FILE_PATH = "";
 var MODIFY = false;
@@ -36,9 +36,9 @@ window.addEventListener('drop', function(e) {
 
 function setWindowTitle(path) {
     if (path) {
-        focusedWindow.setTitle(path +" - " + packagejson.name);
+        FocusedWindow.setTitle(path +" - " + packagejson.name);
     } else {
-        focusedWindow.setTitle(packagejson.name);
+        FocusedWindow.setTitle(packagejson.name);
     }
 }
 

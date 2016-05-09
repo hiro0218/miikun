@@ -31,7 +31,6 @@ var option = {
     ignore: [
         "vendor/",
         'assets/[^(font)]',
-        'src/[^(js)]',
         'build',
         "/(.gitignore|.bowerrc|.editorconfig|.gitattributes|bower.json|README.md)"
     ],
