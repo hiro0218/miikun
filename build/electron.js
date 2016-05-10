@@ -27,6 +27,8 @@ var option = {
     overwrite: true,
     prune: true,
     // asar: true,
+    
+    version: packageJson.dependencies['electron-prebuilt'],
 
     ignore: [
         "vendor/",
