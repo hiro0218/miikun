@@ -36,8 +36,8 @@ var option = {
     ],
 };
 
+console.log('package start.');
 packager(option, function done(err, appPath) {
-    console.log('package start.');
     if (err) {
         throw new Error(err);
     }

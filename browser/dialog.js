@@ -35,9 +35,11 @@ function dialogSaveAs() {
 }
 
 function dialogAbout() {
+    var iconPath = __dirname +'/about.png';
     Dialog.showMessageBox(FocusedWindow, {
         title: 'About',
         type: 'none',
+        icon: iconPath.toString(),
         buttons: ['OK'],
         detail: packagejson.name + "\n" + packagejson.version + "\n" + packagejson.description
     });
