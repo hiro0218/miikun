@@ -87,6 +87,17 @@ template.push({
     label: 'Windows',
     submenu: [
         {
+            label: 'Toggle Full Screen',
+            accelerator: (function () {
+                return OSX ? 'Ctrl+Command+F' : 'F11';
+            })(),
+            click: function (item, focusedWindow) {
+                if (focusedWindow)
+                focusedWindow.setFullScreen(!focusedWindow.isFullScreen());
+            }
+        },
+        { type: 'separator' },
+        {
             label: 'Always on Top',
             accelerator: 'CmdOrCtrl+Shift+T',
             click: function (item, focusedWindow) {
@@ -140,16 +151,6 @@ if (isDevelop) {
                 click: function (item, focusedWindow) {
                     if (focusedWindow)
                     focusedWindow.reload();
-                }
-            },
-            {
-                label: 'Toggle Full Screen',
-                accelerator: (function () {
-                    return OSX ? 'Ctrl+Command+F' : 'F11';
-                })(),
-                click: function (item, focusedWindow) {
-                    if (focusedWindow)
-                    focusedWindow.setFullScreen(!focusedWindow.isFullScreen());
                 }
             },
             {
