@@ -58,7 +58,5 @@ function readyMainWindow(baseDir) {
 
 // 全てのウィンドウが閉じたら終了
 app.on('window-all-closed', function () {
-    if (Platform != 'darwin') {
-        app.quit();
-    }
+    app.quit();
 });
