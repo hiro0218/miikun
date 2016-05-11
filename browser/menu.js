@@ -5,6 +5,7 @@ var Dialog = remote.require('dialog');
 var browserWindow = remote.require('browser-window');
 var focusedWindow = browserWindow.getFocusedWindow();
 var packageJson = require('./package.json');
+var recentFile = require('./browser/recentFile');
 
 const OSX = process.platform === 'darwin';
 const WIN = process.platform === 'win32';
@@ -13,11 +14,11 @@ const isDevelop = /[\\/]electron-prebuilt[\\/]/.test(process.execPath);
 /**
  * Menu bar
  */
-var template = [];
+global.menuTemplate = [];
 
 // Mac
 if (OSX) {
-    template.push({
+    global.menuTemplate.push({
         label: app.getName(),
         submenu: [{
             label: 'Exit',
@@ -30,7 +31,7 @@ if (OSX) {
 }
 
 // 共通
-template.push({
+global.menuTemplate.push({
     label: 'File',
     submenu: [
         {
@@ -68,6 +69,12 @@ template.push({
                     dialogSaveAs();
                 }
             },
+        },
+        { type: "separator" },
+        {
+            label: 'Recent Files',
+            role: 'recent',
+            submenu: []
         },
     ]
 },
@@ -127,9 +134,12 @@ template.push({
     ]
 });
 
+// set Recently File List
+recentFile.initMenu();
+
 // Windows
 if (WIN) {
-    template[0].submenu.push({
+    global.menuTemplate[0].submenu.push({
         type: "separator"
     },{
         label: 'Exit',
@@ -142,8 +152,8 @@ if (WIN) {
 
 // 開発時のみ
 if (isDevelop) {
-    template.push({
-        label: 'Develop',
+    global.menuTemplate.push({
+        label: '☺',
         submenu: [
             {
                 label: 'Reload',
@@ -167,7 +177,7 @@ if (isDevelop) {
     });
 }
 
-var menu = Menu.buildFromTemplate(template);
+var menu = Menu.buildFromTemplate(global.menuTemplate);
 Menu.setApplicationMenu(menu);
 
 

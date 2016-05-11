@@ -5,6 +5,7 @@ var app = remote.app;
 var Dialog = remote.require('dialog');
 var browserWindow = remote.require('browser-window');
 var FocusedWindow = browserWindow.getFocusedWindow();
+var recentFile = require('./browser/recentFile');
 
 var OPEN_FILE_PATH = "";
 var MODIFY = false;
@@ -99,6 +100,7 @@ function openFile(path) {
                 doc.clearHistory();
                 MODIFY = false;
                 OPEN_FILE_PATH = path;
+                recentFile.set(path);
                 snackLoad();
             }
         });
