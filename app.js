@@ -3,10 +3,7 @@
 const electron = require('electron');
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
-
 const Menu = electron.Menu;
-const Tray = electron.Tray;
-const Platform = process.platform;
 
 let mainWindow = null;
 var packagejson = require('./package.json');

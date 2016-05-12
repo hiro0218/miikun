@@ -1,13 +1,13 @@
-var remote = require('remote');
 var fs = require('fs');
+var remote = require('electron').remote;
 var app = remote.app;
-var Dialog = remote.require('dialog');
-var browserWindow = remote.require('browser-window');
+var dialog = remote.require('electron').dialog;
+var browserWindow = remote.BrowserWindow;
 var FocusedWindow = browserWindow.getFocusedWindow();
 var packagejson = require('./package.json');
 
 function dialogOpenFile() {
-    Dialog.showOpenDialog(FocusedWindow, {
+    dialog.showOpenDialog(FocusedWindow, {
         title: 'Open Dialog',
         filters: [
             {name: 'Documents', extensions: ['txt', 'md']},
@@ -21,7 +21,7 @@ function dialogOpenFile() {
 }
 
 function dialogSaveAs() {
-    Dialog.showSaveDialog(FocusedWindow, {
+    dialog.showSaveDialog(FocusedWindow, {
         title: 'Save Dialog',
         filters: [
             {name: 'Markdown file', extensions: ['md']},
@@ -36,7 +36,7 @@ function dialogSaveAs() {
 
 function dialogAbout() {
     var iconPath = __dirname +'/about.png';
-    Dialog.showMessageBox(FocusedWindow, {
+    dialog.showMessageBox(FocusedWindow, {
         title: 'About',
         type: 'none',
         icon: iconPath.toString(),
@@ -49,7 +49,7 @@ function dialogCloseModifyFile() {
     var response = 0;
 
     // 同期
-    response = Dialog.showMessageBox(FocusedWindow, {
+    response = dialog.showMessageBox(FocusedWindow, {
         title: packagejson.name,
         type: 'warning',
         buttons: ['Yes', 'No', 'Cancel'],

@@ -26,19 +26,20 @@
   "copyright": "Copyright (c) 2016 hiro. All rights reserved.",
   "license": "MIT",
   "devDependencies": {
-    "clean-css": "^3.4.11",
+    "clean-css": "^3.4.12",
+    "devtron": "^1.0.1",
     "electron-packager": "^7.0.1",
-    "electron-prebuilt": "^0.37.8",
+    "electron-prebuilt": "^1.0.1",
     "node-bourbon": "^4.2.8",
     "node-neat": "^1.7.2",
-    "node-sass": "^3.6.0",
+    "node-sass": "^3.7.0",
     "uglify-js": "^2.6.2"
   },
   "dependencies": {
     "basicmodal": "^3.3.5",
-    "codemirror": "^5.13.4",
+    "codemirror": "^5.14.2",
     "codemirror-textlint": "^1.0.1",
-    "github-markdown-css": "^2.2.1",
+    "github-markdown-css": "^2.3.0",
     "markdown-it": "^6.0.1",
     "markdown-it-checkbox": "^1.1.0",
     "markdown-it-footnote": "^2.0.0",
@@ -49,12 +50,12 @@
     "textlint-rule-incremental-headers": "^0.2.0",
     "textlint-rule-max-appearence-count-of-words": "^1.0.1",
     "textlint-rule-max-ten": "^2.0.1",
-    "textlint-rule-no-double-negative-ja": "^1.0.3",
+    "textlint-rule-no-double-negative-ja": "^1.0.4",
     "textlint-rule-no-doubled-conjunction": "^1.0.1",
     "textlint-rule-no-doubled-conjunctive-particle-ga": "^1.0.2",
-    "textlint-rule-no-doubled-joshi": "^3.2.0",
-    "textlint-rule-no-mix-dearu-desumasu": "^2.2.1",
-    "vue": "^1.0.20",
-    "vue-mdl": "^0.7.3"
+    "textlint-rule-no-doubled-joshi": "^3.2.1",
+    "textlint-rule-no-mix-dearu-desumasu": "^3.0.0",
+    "vue": "^1.0.24",
+    "vue-mdl": "^0.7.5"
   }
 }

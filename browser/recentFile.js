@@ -1,6 +1,6 @@
-var remote = require('remote');
+var remote = require('electron').remote;
 var app = remote.app;
-var Menu = remote.require('menu');
+var Menu = remote.require('electron').Menu;
 
 const recentFilesKey = "recentFiles";
 const recentFilesMax = 5;

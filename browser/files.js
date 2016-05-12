@@ -1,10 +1,10 @@
 var fs = require('fs');
-var remote = require('remote');
-var packagejson = require('./package.json');
+var remote = require('electron').remote;
 var app = remote.app;
-var Dialog = remote.require('dialog');
-var browserWindow = remote.require('browser-window');
+var dialog = remote.require('electron').dialog;
+var browserWindow = remote.BrowserWindow;
 var FocusedWindow = browserWindow.getFocusedWindow();
+var packagejson = require('./package.json');
 var recentFile = require('./browser/recentFile');
 
 var OPEN_FILE_PATH = "";
