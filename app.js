@@ -4,6 +4,7 @@ const electron = require('electron');
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 const Menu = electron.Menu;
+const dialog = electron.dialog;
 
 let mainWindow = null;
 var packagejson = require('./package.json');
@@ -35,23 +36,62 @@ function readyMainWindow(baseDir) {
         minWidth: 400,
         minHeight: 300,
         resizable: true,
-        "web-preferences": {
-            "direct-write": false,
-            'subpixel-font-scaling': false,
+        webPreferences: {
             textAreasAreResizable: false,
         }
     });
     mainWindow.loadURL('file://' + __dirname + '/index.html');
-
     mainWindow.setTitle(packagejson.name);
 
-    // mainWindow.setAutoHideMenuBar(true);
+    // クラッシュ
+    mainWindow.webContents.on('crashed', function(event) {
+        console.log('webContents crashed: '+ event);
+    });
+    mainWindow.webContents.on('crashed', function() {
+        console.log("webContents crashed");
+        const options = {
+            type: 'info',
+            title: 'Renderer Process Crashed',
+            message: 'This process has crashed.',
+            buttons: ['Reload', 'Close']
+        }
+        dialog.showMessageBox(options, function(index) {
+            if (index === 0) {
+                mainWindow.reload();
+            } else {
+                mainWindow.close();
+            }
+        })
+    });
+
+    // 応答なし
+    mainWindow.on('unresponsive', function() {
+        console.log("unresponsive");
+        const options = {
+            type: 'info',
+            title: 'Renderer Process Hanging',
+            message: 'This process is hanging.',
+            buttons: ['Reload', 'Close']
+        };
+        dialog.showMessageBox(options, function(index) {
+            if (index === 0) {
+                mainWindow.reload();
+            } else {
+                mainWindow.close();
+            }
+        });
+    });
+
 
     // ウィンドウが閉じられたらアプリも終了
     mainWindow.on('closed', function () {
         mainWindow = null;
     });
 }
+
+process.on('uncaughtException', function(err) {
+    console.log("uncaughtException: "+ err);
+});
 
 // 全てのウィンドウが閉じたら終了
 app.on('window-all-closed', function () {
