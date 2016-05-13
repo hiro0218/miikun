@@ -15,20 +15,24 @@ app.on('ready', function () {
 });
 
 // 二重起動防止
-var shouldQuit = app.makeSingleInstance(function(argv, workingDirectory) {
-    if (mainWindow) {
-        if (mainWindow.isMinimized()) {
-            mainWindow.restore();
+function makeSingleInstance() {
+    return app.makeSingleInstance(function() {
+        if (mainWindow) {
+            if (mainWindow.isMinimized()) {
+                mainWindow.restore();
+            }
+            mainWindow.focus();
         }
-        mainWindow.focus();
-    }
-    return true;
-});
-if (shouldQuit) {
-    app.quit();
+    });
 }
 
 function readyMainWindow(baseDir) {
+    // 二重起動防止
+    var shouldQuit = makeSingleInstance();
+    if (shouldQuit) {
+        return app.quit();
+    }
+
     // メイン画面の表示。ウィンドウの幅、高さを指定できる
     mainWindow = new BrowserWindow({
         width: 800,
@@ -89,6 +93,7 @@ function readyMainWindow(baseDir) {
     });
 }
 
+// 予期せぬエラー
 process.on('uncaughtException', function(err) {
     console.log("uncaughtException: "+ err);
 });
