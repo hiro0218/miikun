@@ -83,7 +83,7 @@ module.exports = {
             return false;
         }
 
-        for (var i = 0, len = array.length; i < len; i++) {
+        for (let i = 0, len = array.length; i < len; i++) {
             if (value == array[i]) {
                 return true;  // 存在
             }

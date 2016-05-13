@@ -37,9 +37,8 @@ module.exports = {
         }
 
         var sanitize = this.rickdom.build(code);
-        var length = sanitize.length;
         var rendered = "";
-        for (var i = 0; i < length; i++) {
+        for (let i = 0, length = sanitize.length; i < length; i++) {
             var html = sanitize[i].outerHTML;
             if (html !== undefined) {
                 rendered += html;

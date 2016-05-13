@@ -1,7 +1,5 @@
 var fs = require('fs');
 var remote = require('electron').remote;
-var app = remote.app;
-var dialog = remote.require('electron').dialog;
 var browserWindow = remote.BrowserWindow;
 var FocusedWindow = browserWindow.getFocusedWindow();
 var packagejson = require('./package.json');
@@ -57,10 +55,8 @@ function newFile() {
     // 編集中でない場合は初期化
     if (!MODIFY) {
         OPEN_FILE_PATH = "";
-        setWindowTitle('');
-        var doc = window.editor.getDoc();
-        doc.setValue("");
-        doc.clearHistory();
+        setWindowTitle("");
+        setEditor("");
     }
 }
 
@@ -87,6 +83,10 @@ function chooseSave() {
 }
 
 function openFile(path) {
+    if (basicModal.visible()) {
+        return;
+    }
+
     if (OPEN_FILE_PATH === path) {
         basicModalAlert("This file is already open.");
     } else {
@@ -94,17 +94,27 @@ function openFile(path) {
             if (err !== null) {
                 basicModalAlert('error: ' + err);
             } else {
-                setWindowTitle(path);
-                var doc = window.editor.getDoc();
-                doc.setValue(content);
-                doc.clearHistory();
-                MODIFY = false;
-                OPEN_FILE_PATH = path;
-                recentFile.set(path);
-                snackLoad();
+                loadSuccess(path, content);
             }
         });
     }
+}
+
+function loadSuccess(path, content) {
+    // タイトルに反映
+    setWindowTitle(path);
+    // メニューに追加
+    recentFile.set(path);
+
+    // エディタへ反映
+    setEditor(content);
+
+    // フラグ
+    MODIFY = false;
+    OPEN_FILE_PATH = path;
+
+    // 通知
+    snack('Document loaded.');
 }
 
 function save(path, data) {
@@ -112,6 +122,7 @@ function save(path, data) {
     if (!MODIFY) {
         return;
     }
+
     fs.writeFile(path, data, function(err) {
         if (err !== null) {
             basicModalAlert('error: ' + err);
@@ -119,23 +130,27 @@ function save(path, data) {
             MODIFY = false;
             OPEN_FILE_PATH = path;  // for new file
             setWindowTitle(path);   // for new file
-            snackSave();
+            snack('Document saved.');
         }
     });
 }
 
 function saveFile() {
     if (OPEN_FILE_PATH) {
-        var data =  window.editor.getValue();
-        save(OPEN_FILE_PATH, data);
+        save(OPEN_FILE_PATH, window.editor.getValue());
     } else {
         dialogSaveAs();
     }
 }
 
 function saveAsFile(path) {
-    var data = window.editor.getValue();
-    save(path, data);
+    save(path, window.editor.getValue());
+}
+
+function setEditor(content) {
+    var doc = window.editor.getDoc();
+    doc.setValue(content);
+    doc.clearHistory();
 }
 
 function basicModalAlert(str) {
@@ -150,20 +165,9 @@ function basicModalAlert(str) {
     });
 }
 
-function snackLoad() {
+function snack(msg) {
     window.app.$broadcast('fileOperation', {
-        message: 'Document loaded.',
+        message: msg,
         timeout: 1000,
-    });
-}
-
-function snackSave() {
-    window.app.$broadcast('fileOperation', {
-        message: 'Document saved.',
-        timeout: 1000,
-        // actionText: '',
-        // actionHandler: function(e) {
-        //     console.log(e);
-        // },
     });
 }
