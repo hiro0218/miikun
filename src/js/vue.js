@@ -33,7 +33,7 @@ module.exports = {
     },
     domSafety: function(code) {
         if (this.rickdom === null) {
-            this.rickdom = this.initDomSafety();
+            this.initDomSafety();
         }
 
         var sanitize = this.rickdom.build(code);
