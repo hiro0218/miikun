@@ -6,7 +6,7 @@ var UglifyJS = require("uglify-js");
 /**
  * js build
  */
-var uglified = UglifyJS.minify('./src/js/script.js');
+var uglified = UglifyJS.minify('./renderer/js/script.js');
 var out = './dist/script.min.js';
 
 fs.writeFile(out, uglified.code, function(err) {

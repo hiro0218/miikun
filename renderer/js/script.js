@@ -28,7 +28,7 @@
 
 
     function initVue() {
-        var vuejs = require('./src/js/vue.js');
+        var vuejs = require('./renderer/js/vue.js');
 
         var Vue = vuejs.init();
         var VueMdl = require('vue-mdl');
@@ -40,6 +40,11 @@
                 input: "",
                 isOpenEditor: false,
                 tabContents: 0,
+                font: 'Noto Sans CJK JP',
+                fonts: ['Noto Sans CJK JP'],
+                theme: 'Default',
+                themes: ['Default'],
+                switchTextLint: false,
             },
             filters: {
                 markdown: function() {
@@ -58,8 +63,20 @@
                 changeTab: function(index) {
                     this.tabContents = index;
                 },
+                openSetting: function() {
+                    this.$broadcast('modalSetting', function(){
+                        console.log();
+                    });
+                },
             },
             components: VueMdl.components,
+            // components: {
+            //     MdlDialog: VueMdl.MdlDialog,
+            //     MdlIconToggle: VueMdl.MdlIconToggle,
+            //     MdlMenu: VueMdl.MdlMenu,
+            //     MdlMenuItem: VueMdl.MdlMenuItem,
+            //     MdlSnackbar: VueMdl.MdlSnackbar,
+            // },
             directives: VueMdl.directives,
         });
     }
@@ -67,7 +84,7 @@
     function initCodeMirror() {
         var textarea = document.getElementById("editor");
 
-        var CodeMirror = require("./src/js/codemirror.js");
+        var CodeMirror = require("./renderer/js/codemirror.js");
         var cm = CodeMirror.init();
         window.editor = CodeMirror.create(cm, textarea);
 

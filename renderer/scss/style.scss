@@ -235,6 +235,7 @@ body {
         &.active {
             color: $color900;
             background: darken($color300, 20%);
+            font-weight: bold;
         }
 
         &:first-child:not(:last-child) {
