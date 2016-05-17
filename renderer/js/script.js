@@ -1,7 +1,10 @@
 (function () {
     "use strict";
 
+    const TEXTLINT_KEY = "textlint";
+
     var NProgress = require('nprogress');
+    var CodeMirror = require("./renderer/js/codemirror.js");
 
     document.addEventListener('DOMContentLoaded', function() {
         NProgress.configure({
@@ -44,7 +47,7 @@
                 fonts: ['Noto Sans CJK JP'],
                 theme: 'Default',
                 themes: ['Default'],
-                switchTextLint: false,
+                switchTextLint: str2bool(localStorage.getItem(TEXTLINT_KEY)),
             },
             filters: {
                 markdown: function() {
@@ -64,9 +67,7 @@
                     this.tabContents = index;
                 },
                 openSetting: function() {
-                    this.$broadcast('modalSetting', function(){
-                        console.log();
-                    });
+                    this.$broadcast('modalSetting', cancelSetting, saveSetting);
                 },
             },
             components: VueMdl.components,
@@ -80,11 +81,30 @@
             directives: VueMdl.directives,
         });
     }
+    function saveSetting() {
+        var switchValue = window.app.$data.switchTextLint;
+
+        // ストレージに値を保存
+        localStorage.setItem(TEXTLINT_KEY, switchValue);
+
+        // text-lint オン/オフ
+        if (switchValue) {
+            // lint を再設定する
+            window.editor.setOption("lint", CodeMirror.getTextLint().lint);
+        } else {
+            // lint の設定をオフにする
+            window.editor.setOption('lint', false);
+        }
+
+    }
+    function cancelSetting() {
+        // 値を元に戻す
+        window.app.$data.switchTextLint = str2bool(localStorage.getItem(TEXTLINT_KEY));
+    }
 
     function initCodeMirror() {
         var textarea = document.getElementById("editor");
 
-        var CodeMirror = require("./renderer/js/codemirror.js");
         var cm = CodeMirror.init();
         window.editor = CodeMirror.create(cm, textarea);
 
@@ -120,6 +140,10 @@
         })
         .use(require('markdown-it-checkbox'))
         .use(require('markdown-it-footnote'));
+    }
+
+    function str2bool(value) {
+        return (value === 'true');
     }
 
 })();

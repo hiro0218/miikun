@@ -1,4 +1,5 @@
 "use strict";
+const TEXTLINT_KEY = "textlint";
 
 module.exports = {
     load: function() {
@@ -36,7 +37,12 @@ module.exports = {
         return require('codemirror/lib/codemirror');
     },
     create: function(cm, textarea) {
-        var createValidator = require("codemirror-textlint");
+        var options = this.createOption(localStorage.getItem(TEXTLINT_KEY));
+        return cm.fromTextArea(textarea, options);
+    },
+    createOption: function(textlint) {
+        textlint = (textlint === null) ? false : textlint;
+
         var options = {
             mode: {
                 name: 'markdown',
@@ -55,7 +61,18 @@ module.exports = {
             autoCloseBrackets: true,
             extraKeys: {
                 "Enter": "newlineAndIndentContinueMarkdownList"
-            },
+            }
+        };
+
+        if (textlint === true) {
+            options = Object.assign(options, this.getTextLint());
+        }
+
+        return options;
+    },
+    getTextLint: function() {
+        var createValidator = require("codemirror-textlint");
+        return {
             lint: {
                 "getAnnotations": createValidator({
                     rules: {
@@ -71,8 +88,6 @@ module.exports = {
                 }),
                 "async": true
             }
-        };
-
-        return cm.fromTextArea(textarea, options);
+        }
     }
 }
