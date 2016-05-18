@@ -49,6 +49,8 @@ global.STORAGE_RECENTFILES_MAX = 5;
                 tabContents: 0,
                 font: 'Noto Sans CJK JP',
                 fonts: ['Noto Sans CJK JP'],
+                fontsize: '16',
+                fontsizes: [/*'8','9','10','11','12','14',*/'16'/*,'18','20','22','24','26','28','36','48','72'*/],
                 theme: 'Default',
                 themes: ['Default'],
                 switchTextLint: str2bool(localStorage.getItem(STORAGE_TEXTLINT_KEY)),
