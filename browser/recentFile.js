@@ -2,9 +2,6 @@ var remote = require('electron').remote;
 var app = remote.app;
 var Menu = remote.require('electron').Menu;
 
-const recentFilesKey = "recentFiles";
-const recentFilesMax = 5;
-
 // localStorage関連
 module.exports = {
     set: function(value) {
@@ -13,8 +10,8 @@ module.exports = {
         // 未追加なら追加する
         if (!this._isExists(fileList, value)) {
             // 規定値超の履歴を削除
-            if ( fileList.length >= recentFilesMax ) {
-                fileList.splice(recentFilesMax - 1, fileList.length);
+            if ( fileList.length >= STORAGE_RECENTFILES_MAX ) {
+                fileList.splice(STORAGE_RECENTFILES_MAX - 1, fileList.length);
             }
             // 先頭に追加
             fileList.unshift(value);
@@ -25,7 +22,7 @@ module.exports = {
         }
 
         // ローカルストレージに保存
-        localStorage.setItem(recentFilesKey, JSON.stringify(fileList));
+        localStorage.setItem(STORAGE_RECENTFILES_KEY, JSON.stringify(fileList));
 
         // メニューバーを更新
         this.initMenu();
@@ -33,14 +30,14 @@ module.exports = {
         Menu.setApplicationMenu(menu);
     },
     getAll: function() {
-        var list = JSON.parse(localStorage.getItem(recentFilesKey));
+        var list = JSON.parse(localStorage.getItem(STORAGE_RECENTFILES_KEY));
         if (!list) {
             list = [];
         }
         return list;
     },
     deleteAll: function() {
-        localStorage.removeItem(recentFilesKey);
+        localStorage.removeItem(STORAGE_RECENTFILES_KEY);
     },
     // アプリ起動時
     initMenu: function() {

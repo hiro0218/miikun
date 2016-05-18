@@ -5,9 +5,6 @@ var FocusedWindow = browserWindow.getFocusedWindow();
 var packagejson = require('./package.json');
 var recentFile = require('./browser/recentFile');
 
-var OPEN_FILE_PATH = "";
-var MODIFY = false;
-
 // ドロップ
 window.addEventListener('drop', function(e) {
     e.preventDefault();

@@ -1,5 +1,4 @@
 "use strict";
-const TEXTLINT_KEY = "textlint";
 
 module.exports = {
     load: function() {
@@ -37,7 +36,7 @@ module.exports = {
         return require('codemirror/lib/codemirror');
     },
     create: function(cm, textarea) {
-        var options = this.createOption(localStorage.getItem(TEXTLINT_KEY));
+        var options = this.createOption(localStorage.getItem(STORAGE_TEXTLINT_KEY));
         return cm.fromTextArea(textarea, options);
     },
     createOption: function(textlint) {

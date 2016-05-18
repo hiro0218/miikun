@@ -1,7 +1,11 @@
+global.OPEN_FILE_PATH = "";
+global.MODIFY = false;
+global.STORAGE_TEXTLINT_KEY =  "textlint";
+global.STORAGE_RECENTFILES_KEY = "recentFiles";
+global.STORAGE_RECENTFILES_MAX = 5;
+
 (function () {
     "use strict";
-
-    const TEXTLINT_KEY = "textlint";
 
     var NProgress = require('nprogress');
     var CodeMirror = require("./renderer/js/codemirror.js");
@@ -47,7 +51,7 @@
                 fonts: ['Noto Sans CJK JP'],
                 theme: 'Default',
                 themes: ['Default'],
-                switchTextLint: str2bool(localStorage.getItem(TEXTLINT_KEY)),
+                switchTextLint: str2bool(localStorage.getItem(STORAGE_TEXTLINT_KEY)),
             },
             filters: {
                 markdown: function() {
@@ -85,7 +89,7 @@
         var switchValue = window.app.$data.switchTextLint;
 
         // ストレージに値を保存
-        localStorage.setItem(TEXTLINT_KEY, switchValue);
+        localStorage.setItem(STORAGE_TEXTLINT_KEY, switchValue);
 
         // text-lint オン/オフ
         if (switchValue) {
@@ -99,7 +103,7 @@
     }
     function cancelSetting() {
         // 値を元に戻す
-        window.app.$data.switchTextLint = str2bool(localStorage.getItem(TEXTLINT_KEY));
+        window.app.$data.switchTextLint = str2bool(localStorage.getItem(STORAGE_TEXTLINT_KEY));
     }
 
     function initCodeMirror() {
