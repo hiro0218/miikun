@@ -170,6 +170,9 @@ body {
 // Textarea
 #editor { display: none; }
 
+.CodeMirror {
+    border-right: 1px solid $color200;
+}
 
 //
 // Preview
@@ -177,6 +180,7 @@ body {
 .preview-side {
     overflow: hidden;
 }
+
 .markdown-body {
     font-family: $font-family-regular;
     height: calc(100vh - #{$header-height});
@@ -211,15 +215,11 @@ body {
 
 // tab
 .tabs {
-    // position: relative;
     display: inline-block;
     vertical-align: middle;
-    font-family: $font-family-monospace;
-    font-size: $font-size-sm;
 
     .tab-list {
         float: left;
-        // position: relative;
         padding: $btn-padding;
         color: $color600;
         background: $color300;
@@ -235,7 +235,6 @@ body {
         &.active {
             color: $color900;
             background: darken($color300, 20%);
-            font-weight: bold;
         }
 
         &:first-child:not(:last-child) {

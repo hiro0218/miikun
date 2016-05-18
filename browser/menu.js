@@ -91,7 +91,7 @@ global.menuTemplate.push({
     ]
 },
 {
-    label: 'Windows',
+    label: 'Window',
     submenu: [
         {
             label: 'Toggle Full Screen',
@@ -184,36 +184,22 @@ Menu.setApplicationMenu(menu);
 /**
  * Menu
  **/
-// Toggle Editor Area
-var btnToggleEditor = document.getElementById('btnToggleEditor');
-var toggleEditor = document.getElementsByClassName("toggleEditor")[0];
-toggleEditor.addEventListener("click", function(){
-    var event = new Event('click');
-    btnToggleEditor.dispatchEvent(event);
-}, false);
-
 // Word Count
-var countWord = document.getElementsByClassName("countWord")[0];
-countWord.addEventListener("click", function() {
-    var text = window.editor.getValue().replace(/(\n|\t)/g, '');
-    var template = "<p><b>Characters (no spaces):</b> #1</p>" +
-                   "<p><b>Characters (with spaces):</b> #2</p>";
-        template = template.replace(/#1/g, text.length);
-        template = template.replace(/#2/g, text.replace(/ /g, '').length);
-
-    basicModal.show({
-        body: template,
-        buttons: {
-            action: {
-                title: 'OK',
-                fn: basicModal.close
-            }
-        }
-    });
-}, false);
-
-// Always on Top
-var toggleAOT = document.getElementsByClassName("toggleAOT")[0];
-toggleAOT.addEventListener("click", function(){
-    focusedWindow.setAlwaysOnTop(!focusedWindow.isAlwaysOnTop());
-}, false);
+// var countWord = document.getElementsByClassName("countWord")[0];
+// countWord.addEventListener("click", function() {
+//     var text = window.editor.getValue().replace(/(\n|\t)/g, '');
+//     var template = "<p><b>Characters (no spaces):</b> #1</p>" +
+//                    "<p><b>Characters (with spaces):</b> #2</p>";
+//         template = template.replace(/#1/g, text.length);
+//         template = template.replace(/#2/g, text.replace(/ /g, '').length);
+//
+//     basicModal.show({
+//         body: template,
+//         buttons: {
+//             action: {
+//                 title: 'OK',
+//                 fn: basicModal.close
+//             }
+//         }
+//     });
+// }, false);
