@@ -64,7 +64,7 @@ function chooseSave() {
         case 0: // Yes
             // 既存ファイルの保存
             if (OPEN_FILE_PATH) {
-                save();
+                saveFile();
             } else {
                 dialogSaveAs();
             }
@@ -77,6 +77,8 @@ function chooseSave() {
             // スルー
             break;
     }
+
+    return response;
 }
 
 function openFile(path) {
@@ -120,16 +122,19 @@ function save(path, data) {
         return;
     }
 
-    fs.writeFile(path, data, function(err) {
-        if (err !== null) {
-            basicModalAlert('error: ' + err);
-        } else {
+    try {
+        var error = fs.writeFileSync(path, data, 'utf8');
+
+        if (error === undefined) {
             MODIFY = false;
             OPEN_FILE_PATH = path;  // for new file
             setWindowTitle(path);   // for new file
             snack('Document saved.');
         }
-    });
+        
+    } catch (e) {
+        basicModalAlert('error: ' + e);
+    }
 }
 
 function saveFile() {
