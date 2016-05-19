@@ -18,8 +18,7 @@
     background-color: white; /* The little square between H and V scrollbars */
 }
 
-/* GUTTER */
-
+// GUTTER
 .CodeMirror-gutters {
     border-right: 1px solid $color300;
     background-color: $color100;
@@ -344,6 +343,25 @@ CodeMirror-selectedtext { background: none; }
 }
 
 //
+.cm-header-1 { font-size: 150%; }
+.cm-header-2 { font-size: 130%; }
+.cm-header-3 { font-size: 120%; }
+.cm-header-4 { font-size: 110%; }
+.cm-header-5 { font-size: 100%; }
+.cm-header-6 { font-size: 90%; }
+
+.cm-header-1,
+.cm-header-2,
+.cm-header-3,
+.cm-header-4,
+.cm-header-5,
+.cm-header-6 {
+    font-weight: bold;
+}
+
+.cm-strong { font-weight: bold; }
+.cm-em { font-style: italic; }
+
 .cm-hr,
 .cm-formatting {
     color: $color500;
