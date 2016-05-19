@@ -131,7 +131,7 @@ function save(path, data) {
             setWindowTitle(path);   // for new file
             snack('Document saved.');
         }
-        
+
     } catch (e) {
         basicModalAlert('error: ' + e);
     }
@@ -153,6 +153,7 @@ function setEditor(content) {
     var doc = window.editor.getDoc();
     doc.setValue(content);
     doc.clearHistory();
+    window.editor.setCursor(0);
 }
 
 function basicModalAlert(str) {
