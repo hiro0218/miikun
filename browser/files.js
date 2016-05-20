@@ -24,7 +24,7 @@ window.addEventListener('drop', function(e) {
             openFile(file.path);
         }
     } else {
-        basicModalAlert("This file format is not supported.");
+        openDialog("error", "This file format is not supported.");
     }
 
     return false;
@@ -87,11 +87,11 @@ function openFile(path) {
     }
 
     if (OPEN_FILE_PATH === path) {
-        basicModalAlert("This file is already open.");
+        openDialog("error", "This file is already open.");
     } else {
         fs.readFile(path, 'utf8', function(err, content) {
             if (err !== null) {
-                basicModalAlert('error: ' + err);
+                openDialog("error", e);
             } else {
                 loadSuccess(path, content);
             }
@@ -133,7 +133,7 @@ function save(path, data) {
         }
 
     } catch (e) {
-        basicModalAlert('error: ' + e);
+        openDialog("error", e);
     }
 }
 
@@ -156,17 +156,17 @@ function setEditor(content) {
     window.editor.setCursor(0);
 }
 
-function basicModalAlert(str) {
-    basicModal.show({
-        body: "<p>"+ str +"</p>",
-        buttons: {
-            action: {
-                title: 'OK',
-                fn: basicModal.close
-            }
-        }
-    });
-}
+// function basicModalAlert(str) {
+//     basicModal.show({
+//         body: "<p>"+ str +"</p>",
+//         buttons: {
+//             action: {
+//                 title: 'OK',
+//                 fn: basicModal.close
+//             }
+//         }
+//     });
+// }
 
 function snack(msg) {
     window.app.$broadcast('fileOperation', {

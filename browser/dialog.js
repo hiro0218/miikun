@@ -6,6 +6,15 @@ var browserWindow = remote.BrowserWindow;
 var FocusedWindow = browserWindow.getFocusedWindow();
 var packagejson = require('./package.json');
 
+function openDialog(type, msg) {
+    dialog.showMessageBox(FocusedWindow, {
+        title: type,
+        type: type,
+        buttons: ['OK'],
+        detail: msg
+    });
+}
+
 function dialogOpenFile() {
     dialog.showOpenDialog(FocusedWindow, {
         title: 'Open Dialog',
