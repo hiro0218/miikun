@@ -6,10 +6,10 @@
   "scripts": {
     "start": "electron .",
     "build": "npm run build:js && npm run build:css && npm run build:vendor",
-    "build:js": "node ./build/script.js",
-    "build:css": "node ./build/style.js",
-    "build:vendor": "node ./build/vendor.js",
-    "package": "node ./build/electron.js"
+    "build:js": "node ./task/script.js",
+    "build:css": "node ./task/style.js",
+    "build:vendor": "node ./task/vendor.js",
+    "package": "node ./task/electron.js"
   },
   "repository": {
     "type": "git",

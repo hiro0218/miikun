@@ -5,7 +5,7 @@ var UglifyJS = require("uglify-js");
 var CleanCSS = require('clean-css');
 
 // 定義json取得
-var json = JSON.parse(fs.readFileSync('./build/manifest.json', 'utf8'));
+var json = JSON.parse(fs.readFileSync('./task/manifest.json', 'utf8'));
 
 /**
  * vendor js build
