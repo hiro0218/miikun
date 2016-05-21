@@ -227,6 +227,7 @@ body {
         border-radius: $border-radius-sm;
         transition: background .2s;
         @include user-select(none);
+        outline: none;
 
         &:hover {
             background: darken($color300, 15%);

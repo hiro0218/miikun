@@ -361,6 +361,9 @@ CodeMirror-selectedtext { background: none; }
 
 .cm-strong { font-weight: bold; }
 .cm-em { font-style: italic; }
+.cm-comment {
+    font-family: $font-family-monospace;
+}
 
 .cm-hr,
 .cm-formatting {
