@@ -3,9 +3,10 @@
 var fs = require('fs');
 var UglifyJS = require("uglify-js");
 var CleanCSS = require('clean-css');
+var packageJson = require('../package.json');
 
 // 定義json取得
-var json = JSON.parse(fs.readFileSync('./task/manifest.json', 'utf8'));
+var json = JSON.parse(fs.readFileSync(packageJson.config.manifest, 'utf8'));
 
 /**
  * vendor js build

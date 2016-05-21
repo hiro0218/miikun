@@ -11,6 +11,11 @@
     "build:vendor": "node ./task/vendor.js",
     "package": "node ./task/electron.js"
   },
+  "config": {
+    "manifest": "./task/manifest.json",
+    "style": "./renderer/scss/style.scss",
+    "script": "./renderer/js/script.js"
+  },
   "repository": {
     "type": "git",
     "url": "git@github.com:hiro0218/editor.git"
@@ -29,7 +34,7 @@
     "clean-css": "^3.4.12",
     "devtron": "^1.1.2",
     "electron-packager": "^7.0.2",
-    "electron-prebuilt": "^1.1.0",
+    "electron-prebuilt": "^1.1.1",
     "node-bourbon": "^4.2.8",
     "node-neat": "^1.7.2",
     "node-sass": "^3.7.0",
@@ -37,7 +42,7 @@
   },
   "dependencies": {
     "basicmodal": "^3.3.5",
-    "codemirror": "^5.14.2",
+    "codemirror": "^5.15.2",
     "codemirror-textlint": "^1.0.1",
     "github-markdown-css": "^2.3.0",
     "markdown-it": "^6.0.2",
