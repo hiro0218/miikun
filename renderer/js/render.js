@@ -2,11 +2,7 @@
 
 module.exports = {
     rickdom: null,
-    init: function() {
-        this.initDomSafety();
-
-        return require('vue');
-    },
+    MarkdownIt: null,
     initDomSafety: function() {
         this.rickdom = new RickDOM();
 
@@ -44,7 +40,30 @@ module.exports = {
                 rendered += html;
             }
         }
+        sanitize = null;
 
         return rendered;
+    },
+    initMarkdown: function() {
+        var MarkdownIt = require('markdown-it');
+
+        this.MarkdownIt = new MarkdownIt({
+            html:         true,
+            xhtmlOut:     false,
+            breaks:       true,
+            langPrefix:   'language-',
+            linkify:      true,
+            typographer:  true,
+        })
+        .use(require('markdown-it-checkbox'))
+        .use(require('markdown-it-footnote'));
+
+    },
+    markdown2code: function(txt) {
+        if (this.MarkdownIt === null) {
+            this.initMarkdown();
+        }
+
+        return this.MarkdownIt.render(txt);
     }
 }

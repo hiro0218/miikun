@@ -10,8 +10,8 @@ module.exports = {
         // 未追加なら追加する
         if (!this._isExists(fileList, value)) {
             // 規定値超の履歴を削除
-            if ( fileList.length >= STORAGE_RECENTFILES_MAX ) {
-                fileList.splice(STORAGE_RECENTFILES_MAX - 1, fileList.length);
+            if ( fileList.length >= STORAGE.RECENTFILES_MAX ) {
+                fileList.splice(STORAGE.RECENTFILES_MAX - 1, fileList.length);
             }
             // 先頭に追加
             fileList.unshift(value);
@@ -22,7 +22,7 @@ module.exports = {
         }
 
         // ローカルストレージに保存
-        localStorage.setItem(STORAGE_RECENTFILES_KEY, JSON.stringify(fileList));
+        localStorage.setItem(STORAGE.RECENTFILES_KEY, JSON.stringify(fileList));
 
         // メニューバーを更新
         this.initMenu();
@@ -30,18 +30,18 @@ module.exports = {
         Menu.setApplicationMenu(menu);
     },
     getAll: function() {
-        var list = JSON.parse(localStorage.getItem(STORAGE_RECENTFILES_KEY));
+        var list = JSON.parse(localStorage.getItem(STORAGE.RECENTFILES_KEY));
         if (!list) {
             list = [];
         }
         return list;
     },
     deleteAll: function() {
-        localStorage.removeItem(STORAGE_RECENTFILES_KEY);
+        localStorage.removeItem(STORAGE.RECENTFILES_KEY);
     },
     // アプリ起動時
     initMenu: function() {
-        var that = this;
+        var self = this;
         var fileList = this.getAll();
         var submenu = this._getRecentFileSubmenu();
 
@@ -51,7 +51,7 @@ module.exports = {
 
         // ローカルストレージに保存している一覧を追加
         fileList.forEach(function(value, index, array) {
-            submenu.push(that._getMenuFunc(value));
+            submenu.push(self._getMenuFunc(value));
         });
     },
     _getRecentFileSubmenu: function() {

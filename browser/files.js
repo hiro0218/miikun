@@ -17,10 +17,10 @@ window.addEventListener('drop', function(e) {
          file.name.split(".")[1] === "txt" || file.name.split(".")[1] === "md"
     ) {
         // 編集中
-        if (MODIFY) {
+        if (FILE.MODIFY) {
             chooseSave();
         }
-        if (!MODIFY) {
+        if (!FILE.MODIFY) {
             openFile(file.path);
         }
     } else {
@@ -40,18 +40,18 @@ function setWindowTitle(path) {
 
 function newFile() {
     // 新規ファイルで未編集
-    if (!MODIFY && !OPEN_FILE_PATH) {
+    if (!FILE.MODIFY && !FILE.PATH) {
         return;
     }
 
     // 編集中
-    if (MODIFY) {
+    if (FILE.MODIFY) {
         chooseSave();
     }
 
     // 編集中でない場合は初期化
-    if (!MODIFY) {
-        OPEN_FILE_PATH = "";
+    if (!FILE.MODIFY) {
+        FILE.PATH = "";
         setWindowTitle("");
         setEditor("");
     }
@@ -63,7 +63,7 @@ function chooseSave() {
     switch (response) {
         case 0: // Yes
             // 既存ファイルの保存
-            if (OPEN_FILE_PATH) {
+            if (FILE.PATH) {
                 saveFile();
             } else {
                 dialogSaveAs();
@@ -71,7 +71,7 @@ function chooseSave() {
             break;
         case 1: // No
             // 保存しない
-            MODIFY = false;
+            FILE.MODIFY = false;
             break;
         case 2: // Cancel
             // スルー
@@ -86,7 +86,7 @@ function openFile(path) {
         return;
     }
 
-    if (OPEN_FILE_PATH === path) {
+    if (FILE.PATH === path) {
         openDialog("error", "This file is already open.");
     } else {
         fs.readFile(path, 'utf8', function(err, content) {
@@ -109,16 +109,16 @@ function loadSuccess(path, content) {
     setEditor(content);
 
     // フラグ
-    MODIFY = false;
-    OPEN_FILE_PATH = path;
+    FILE.MODIFY = false;
+    FILE.PATH = path;
 
     // 通知
-    snack('Document loaded.');
+    window.app.openSnackbar('Document loaded.');
 }
 
 function save(path, data) {
     // 未編集の場合はお帰り願う
-    if (!MODIFY) {
+    if (!FILE.MODIFY) {
         return;
     }
 
@@ -126,10 +126,10 @@ function save(path, data) {
         var error = fs.writeFileSync(path, data, 'utf8');
 
         if (error === undefined) {
-            MODIFY = false;
-            OPEN_FILE_PATH = path;  // for new file
+            FILE.MODIFY = false;
+            FILE.PATH = path;  // for new file
             setWindowTitle(path);   // for new file
-            snack('Document saved.');
+            window.app.openSnackbar('Document saved.');
         }
 
     } catch (e) {
@@ -138,8 +138,8 @@ function save(path, data) {
 }
 
 function saveFile() {
-    if (OPEN_FILE_PATH) {
-        save(OPEN_FILE_PATH, window.editor.getValue());
+    if (FILE.PATH) {
+        save(FILE.PATH, window.editor.getValue());
     } else {
         dialogSaveAs();
     }
@@ -154,23 +154,4 @@ function setEditor(content) {
     doc.setValue(content);
     doc.clearHistory();
     window.editor.setCursor(0);
-}
-
-// function basicModalAlert(str) {
-//     basicModal.show({
-//         body: "<p>"+ str +"</p>",
-//         buttons: {
-//             action: {
-//                 title: 'OK',
-//                 fn: basicModal.close
-//             }
-//         }
-//     });
-// }
-
-function snack(msg) {
-    window.app.$broadcast('fileOperation', {
-        message: msg,
-        timeout: 1000,
-    });
 }

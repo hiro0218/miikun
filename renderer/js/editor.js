@@ -1,6 +1,7 @@
 "use strict";
 
 module.exports = {
+    cm: null,
     load: function() {
         require("codemirror/mode/gfm/gfm.js");
         require("codemirror/mode/markdown/markdown.js");
@@ -35,9 +36,13 @@ module.exports = {
         this.load();
         return require('codemirror/lib/codemirror');
     },
-    create: function(cm, textarea) {
-        var options = this.createOption(localStorage.getItem(STORAGE_TEXTLINT_KEY));
-        return cm.fromTextArea(textarea, options);
+    create: function(textarea) {
+        if (this.cm === null) {
+            this.cm = this.init();
+        }
+
+        var options = this.createOption(this.str2bool(localStorage.getItem(STORAGE.TEXTLINT_KEY)));
+        return this.cm.fromTextArea(textarea, options);
     },
     createOption: function(textlint) {
         textlint = (textlint === null) ? false : textlint;
@@ -88,5 +93,8 @@ module.exports = {
                 "async": true
             }
         }
+    },
+    str2bool: function(value) {
+        return (value === 'true');
     }
 }

@@ -42,9 +42,10 @@
                      v-if="tabContents == 1">
                      <textarea id="export" v-html="input | markdown" readonly wrap="soft" onclick="this.select(0,this.value.length);"></textarea>
                 </div>
-                <mdl-snackbar display-on="fileOperation"></mdl-snackbar>
             </div>
         </div>
+        <!-- snackbar -->
+        <mdl-snackbar display-on="fileOperation"></mdl-snackbar>
         <!-- tooltip -->
         <mdl-tooltip for="btnOpenSetting">Setting</mdl-tooltip>
         <mdl-tooltip for="btnToggleEditor">Toggle resize</mdl-tooltip>
@@ -53,11 +54,11 @@
         <!-- modal -->
         <mdl-dialog title="Settings" display-on="modalSetting">
             <div>
-                <mdl-select id="selectFont" label="Font" :value.sync="font" :options="fonts"></mdl-select>
-                <mdl-select id="selectFontSize" label="FontSize" :value.sync="fontsize" :options="fontsizes"></mdl-select>
+                <mdl-select id="selectFont" label="Font" :value.sync="font.family.default" :options="font.family.list"></mdl-select>
+                <mdl-select id="selectFontSize" label="FontSize" :value.sync="font.size.default" :options="font.size.list"></mdl-select>
             </div>
             <div>
-                <mdl-select id="selectTheme" label="Theme" :value.sync="theme" :options="themes"></mdl-select>
+                <mdl-select id="selectTheme" label="Theme" :value.sync="theme.default" :options="theme.list"></mdl-select>
             </div>
             <div>
                 <mdl-switch id="switchTextLint" :checked.sync="switchTextLint" value="textlint" checked>text-lint</mdl-switch>
@@ -73,6 +74,7 @@
 
     <script src="dist/vendor.min.js"></script>
     <script src="dist/script.min.js"></script>
+    <script src="renderer/js/app.js"></script>
 
     <script src="browser/menu.js"></script>
     <script src="browser/files.js"></script>
