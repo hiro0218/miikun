@@ -90,7 +90,7 @@
         });
 
         function str2bool(value) {
-            return (value === 'true');
+            return (value.toLowerCase() === 'true');
         }
 
     }, false);

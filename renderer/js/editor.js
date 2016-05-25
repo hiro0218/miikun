@@ -95,6 +95,6 @@ module.exports = {
         }
     },
     str2bool: function(value) {
-        return (value === 'true');
+        return (value.toLowerCase() === 'true');
     }
 }
