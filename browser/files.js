@@ -90,10 +90,10 @@ function openFile(path) {
         openDialog("error", "This file is already open.");
     } else {
         fs.readFile(path, 'utf8', function(err, content) {
-            if (err !== null) {
-                openDialog("error", e);
-            } else {
+            if (err === null) {
                 loadSuccess(path, content);
+            } else {
+                openDialog("error", err.toString());
             }
         });
     }
