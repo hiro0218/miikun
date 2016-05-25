@@ -2,6 +2,7 @@ var remote = require('electron').remote;
 var app = remote.app;
 var Menu = remote.require('electron').Menu;
 var dialog = remote.require('electron').dialog;
+var shell = remote.shell;
 var browserWindow = remote.BrowserWindow;
 var focusedWindow = browserWindow.getFocusedWindow();
 var packageJson = require('./package.json');
@@ -121,7 +122,7 @@ global.menuTemplate.push({
         {
             label: 'Release Note',
             click: function () {
-                require('shell').openExternal('https://github.com/hiro0218/editor/releases');
+                shell.openExternal('https://github.com/hiro0218/editor/releases');
             }
         },
         { type: 'separator' },

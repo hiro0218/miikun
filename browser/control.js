@@ -1,4 +1,4 @@
-const shell = require('electron').shell;
+var shell = require('electron').shell;
 
 // リンク
 document.addEventListener('click', function (e) {
