@@ -28,13 +28,12 @@ $border-radius: .25rem;
 $border-radius-lg: .3rem;
 $border-radius-sm: .2rem;
 
-
 // Material Design Lite
 $preferred_font: $font-family-regular;
 $performance_font: $font-family-regular;
 
 
-// color
+// color const
 $color50: #fafafa;
 $color100:#f5f5f5;
 $color200:#eeeeee;
@@ -60,3 +59,11 @@ $light-white: rgba(255, 255, 255, 0.54);
 
 $text-color: $color800;
 $bg-color:   $white;
+
+
+// color
+$selection-bgColor: lighten(#97D3E3, 12%);
+$menu-bgColor: $color600;
+$editor-linenumber-color: $color500;
+$editor-linenumber-bgColor: $color300;
+$editor-activeline-bgColor: $color200;

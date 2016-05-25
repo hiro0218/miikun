@@ -1,42 +1,39 @@
 // BASICS
 .CodeMirror {
     font-family: $font-family-regular;
-    height: calc(100vh - #{$header-height});
+    height: calc(100vh - #{$header-height} + .5rem);  // header height + padding
     width: 100%;
     background: inherit;
 }
 
 // PADDING
 .CodeMirror-lines {
-    padding: 4px 0; /* Vertical padding around content */
+    padding: .25rem 0; /* Vertical padding around content */
 }
 .CodeMirror pre {
-    padding: 0 4px; /* Horizontal padding of content */
+    padding: 0 .25rem; /* Horizontal padding of content */
 }
 
 .CodeMirror-scrollbar-filler, .CodeMirror-gutter-filler {
-    background-color: white; /* The little square between H and V scrollbars */
+    background-color: transparent; /* The little square between H and V scrollbars */
 }
 
 // GUTTER
 .CodeMirror-gutters {
-    border-right: 1px solid $color300;
-    background-color: $color100;
+    background: $editor-linenumber-bgColor;
+    border-right: 1px solid darken($editor-linenumber-bgColor, 2%);
     white-space: nowrap;
 }
-.CodeMirror-linenumbers {}
+//.CodeMirror-linenumbers {}
 .CodeMirror-linenumber {
     font-family: $font-family-monospace;
     font-size: $font-size-sm;
-    padding: 0 3px 0 5px;
-    min-width: 20px;
+    padding: 0 .25rem 0 .5rem;
+    min-width: 2rem;
     text-align: right;
-    color: $color500;
+    color: $editor-linenumber-color;
     white-space: nowrap;
 }
-
-.CodeMirror-guttermarker { color: black; }
-.CodeMirror-guttermarker-subtle { color: $color500; }
 
 
 /* CURSOR */
@@ -94,7 +91,6 @@
 .CodeMirror CodeMirror-matchingbracket {color: #0f0;}
 .CodeMirror CodeMirror-nonmatchingbracket {color: #f22;}
 .CodeMirror-matchingtag { background: rgba(255, 150, 0, .3); }
-.CodeMirror-activeline-background {background: #e8f2ff;}
 
 // /* STOP */
 // /* The rest of this file contains styles related to the mechanics of
@@ -252,15 +248,13 @@ flickering artifacts. */
 }
 
 .CodeMirror-crosshair { cursor: crosshair; }
-.CodeMirror-selected {
-    background: $color300;
-    border-radius: 2px;
-}
-.CodeMirror-focused .CodeMirror-selected,
+
+.CodeMirror-selected,
 .CodeMirror-line::selection,
 .CodeMirror-line > span::selection,
 .CodeMirror-line > span > span::selection {
-    background: $color200;
+    border-radius: 2px;
+    background: $selection-bgColor;
 }
 
 .cm-searching {
@@ -279,18 +273,11 @@ CodeMirror-selectedtext { background: none; }
 
 ////////////
 
-.CodeMirror-gutters {
-    background: #f5f5f5;
-    border-right: 0;
-}
 .CodeMirror-guttermarker {
     color: #ac4142;
 }
 .CodeMirror-guttermarker-subtle {
-    color: #b0b0b0;
-}
-.CodeMirror-linenumber {
-    color: #b0b0b0;
+    color: #b0b0b0;//$color500
 }
 .cm-comment {
     color: $color600;
@@ -334,7 +321,7 @@ CodeMirror-selectedtext { background: none; }
     color: #505050;
 }
 .CodeMirror-activeline-background {
-    background: $color300;
+    background: $editor-activeline-bgColor;
 }
 
 .CodeMirror-matchingbracket {
