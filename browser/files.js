@@ -82,12 +82,19 @@ function chooseSave() {
 }
 
 function openFile(path) {
-    if (basicModal.visible()) {
-        return;
-    }
-
-    if (FILE.PATH === path) {
+    if (FILE.PATH === path) {  // 既に開いている
         openDialog("error", "This file is already open.");
+
+    } else if (FILE.MODIFY) {  // 編集中
+        // ファイル保存確認
+        var resp = chooseSave();
+
+        // ファイルを読み込む
+        if (resp !== 3) {  // ファイルを読み込む流れ
+            FILE.MODIFY = false;
+            openFile(path);
+        }
+
     } else {
         fs.readFile(path, 'utf8', function(err, content) {
             if (err === null) {

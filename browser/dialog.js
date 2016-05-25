@@ -30,17 +30,19 @@ function dialogOpenFile() {
 }
 
 function dialogSaveAs() {
-    dialog.showSaveDialog(FocusedWindow, {
+    var savePath = "";
+
+    savePath = dialog.showSaveDialog(FocusedWindow, {
         title: 'Save Dialog',
         filters: [
             {name: 'Markdown file', extensions: ['md']},
             {name: 'Text file', extensions: ['txt']},
         ],
-    }, function (item) {
-        if (item) {
-            saveAsFile(item);
-        }
     });
+
+    if (savePath) {
+        saveAsFile(savePath);
+    }
 }
 
 function dialogAbout() {
