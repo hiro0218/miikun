@@ -3,6 +3,7 @@
 $em-base: 16px;
 $gutter: golden-ratio(0em, 0);
 $fg-gutter: $gutter;
+// $grid-columns: 12;
 
 // Bourbon:: Global Prefixer
 $prefix-for-webkit:    true;
@@ -20,6 +21,8 @@ $font-family-monospace: "Source Code Pro", $font-family-regular;
 
 $btn-padding: .25rem .5rem;
 $header-height: 2rem + (.5rem);
+
+$menu-size-width: 40px;
 
 $border-radius: .25rem;
 $border-radius-lg: .3rem;

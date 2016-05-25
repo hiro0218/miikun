@@ -6,19 +6,23 @@
     <link rel="stylesheet" href="dist/style.min.css">
 </head>
 <body>
-    <div id="app" class="container">
-        <div class="editor-side" v-bind:class="{open:isOpenEditor}">
-            <div class="header">
-                <!-- menu -->
-                <button id="btnOpenSetting" class="mdl-button mdl-js-button mdl-button--icon"v-on:click="openSetting()">
-                    <i class="material-icons">settings</i>
-                </button>
-                <!-- toggle -->
-                <button id="btnToggleEditor"
-                      class="mdl-button mdl-js-button mdl-button--icon"
-                      v-on:click="isOpenEditor=!isOpenEditor">
-                          <i class="material-icons" v-if="isOpenEditor">fullscreen_exit</i>
-                          <i class="material-icons" v-if="!isOpenEditor">fullscreen</i>
+    <div id="app">
+        <div class="menu-side">
+            <!-- menu -->
+            <button id="btnOpenSetting" class="mdl-button mdl-js-button mdl-button--icon"
+                    v-on:click="openSetting()">
+                <i class="material-icons">settings</i>
+            </button>
+        </div>
+        <div class="main-container">
+            <div class="editor-side" v-bind:class="{open:isOpenEditor}">
+                <div class="header">
+                    <!-- toggle -->
+                    <button id="btnToggleEditor"
+                    class="mdl-button mdl-js-button mdl-button--icon"
+                    v-on:click="isOpenEditor=!isOpenEditor">
+                    <i class="material-icons" v-if="isOpenEditor">fullscreen_exit</i>
+                    <i class="material-icons" v-if="!isOpenEditor">fullscreen</i>
                 </button>
             </div>
             <textarea id="editor" v-model="input" debounce="300"></textarea>
@@ -27,27 +31,28 @@
             <div class="header">
                 <div class="tabs">
                     <div id="tabPreview" class="tab-list"
-                         v-bind:class="{'active': tabContents == 0}"
-                         v-on:click="changeTab(0)"><i class="material-icons">visibility</i></div>
+                    v-bind:class="{'active': tabContents == 0}"
+                    v-on:click="changeTab(0)"><i class="material-icons">visibility</i></div>
                     <div id="tabCode" class="tab-list"
-                         v-bind:class="{'active': tabContents == 1}"
-                         v-on:click="changeTab(1)"><i class="material-icons">code</i></div>
+                    v-bind:class="{'active': tabContents == 1}"
+                    v-on:click="changeTab(1)"><i class="material-icons">code</i></div>
                 </div>
             </div>
             <div id="result">
                 <div class="preview markdown-body"
-                     v-html="input | markdown"
-                     v-if="tabContents == 0"></div>
+                v-html="input | markdown"
+                v-if="tabContents == 0"></div>
                 <div class="preview"
-                     v-if="tabContents == 1">
-                     <textarea id="export" v-html="input | markdown" readonly wrap="soft" onclick="this.select(0,this.value.length);"></textarea>
+                v-if="tabContents == 1">
+                    <textarea id="export" v-html="input | markdown" readonly wrap="soft"></textarea>
                 </div>
-            </div>
         </div>
+    </div>
+</div>
         <!-- snackbar -->
         <mdl-snackbar display-on="fileOperation"></mdl-snackbar>
         <!-- tooltip -->
-        <mdl-tooltip for="btnOpenSetting">Setting</mdl-tooltip>
+        <mdl-tooltip for="btnOpenSetting" class="mdl-tooltip--right">Setting</mdl-tooltip>
         <mdl-tooltip for="btnToggleEditor">Toggle resize</mdl-tooltip>
         <mdl-tooltip for="tabPreview">Preview</mdl-tooltip>
         <mdl-tooltip for="tabCode">Code</mdl-tooltip>

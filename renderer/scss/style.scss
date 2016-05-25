@@ -139,27 +139,41 @@ body {
 
 
 // main
+.menu-side {
+    float: left;
+    width: $menu-size-width;
+    height: 100vh;
+    color: $color100;
+    background: $color700;
+    padding: .25rem;
+    text-align: center;
+}
+
+.main-container {
+    @include outer-container(100%);
+}
+.editor-side {
+    @include span-columns(6);
+    //overflow: hidden;
+
+    &.open {
+        // width: 100%;
+        width: calc( 100% - #{$menu-size-width} ); // menu width
+    }
+}
+.preview-side {
+    width: auto;
+}
 .editor-side,
 .preview-side {
-    @include span-columns(6);
     transition: width .3s;
 
     .header {
         @include span-columns(6 of 6);
-        //  font-size: $font-size-xs;
         border-bottom: 1px solid $color300;
         height: $header-height;
         padding: .25rem 0 .25rem .5rem;
-        //  position: relative;
-        //  box-shadow: 0 0 3px 0 rgba(0,0,0,.26);
-    }
-}
-
-.editor-side {
-    overflow: hidden;
-
-    &.open {
-        width: 100%;
+        @include user-select(none);
     }
 }
 
