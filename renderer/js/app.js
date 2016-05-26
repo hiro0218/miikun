@@ -37,9 +37,9 @@
                         return this.input;
                     } else {
                         // 入力されたMarkdownをHTMLに変換
-                        this.input = render.markdown2code(this.input);
+                        var code = render.markdown2code(this.input);
                         // チェックしたHTMLを返す
-                        return render.domSafety(this.input);
+                        return render.domSafety(code);
                     }
                 }
             },
