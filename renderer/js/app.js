@@ -6,6 +6,8 @@
     var render = require('./renderer/js/render.js');
     var CodeMirror = require("./renderer/js/editor.js");
 
+    setVueComponent();
+
     window.addEventListener('load', function() {
 
         window.app = new Vue({
@@ -14,21 +16,6 @@
                 input: "",
                 isOpenEditor: false,
                 tabContents: 0,
-                font: {
-                    family: {
-                        default: 'Noto Sans CJK JP',
-                        list: ['Noto Sans CJK JP'],
-                    },
-                    size: {
-                        default: '16',
-                        list: [/*'8','9','10','11','12','14',*/'16'/*,'18','20','22','24','26','28','36','48','72'*/],
-                    },
-                },
-                theme: {
-                    default: 'Default',
-                    list: ['Default'],
-                },
-                switchTextLint: str2bool(localStorage.getItem(STORAGE.TEXTLINT_KEY)),
             },
             filters: {
                 markdown: function() {
@@ -58,7 +45,7 @@
                     this.$broadcast('modalSetting', self.cancelSetting, self.saveSetting);
                 },
                 saveSetting: function() {
-                    var switchValue = this.switchTextLint;
+                    var switchValue = this.$refs.miiSetting.$data.switchTextLint;
 
                     // ストレージに値を保存
                     localStorage.setItem(STORAGE.TEXTLINT_KEY, switchValue);
@@ -71,27 +58,71 @@
                         // lint の設定をオフにする
                         window.editor.setOption('lint', false);
                     }
-
                 },
                 cancelSetting: function() {
                     // 値を元に戻す
-                    this.switchTextLint = str2bool(localStorage.getItem(STORAGE.TEXTLINT_KEY));
+                    this.$refs.miiSetting.$data.switchTextLint = str2bool(localStorage.getItem(STORAGE.TEXTLINT_KEY));
                 }
             },
             components: VueMdl.components,
-            // components: {
-            //     MdlDialog: VueMdl.MdlDialog,
-            //     MdlIconToggle: VueMdl.MdlIconToggle,
-            //     MdlMenu: VueMdl.MdlMenu,
-            //     MdlMenuItem: VueMdl.MdlMenuItem,
-            //     MdlSnackbar: VueMdl.MdlSnackbar,
-            // },
             directives: VueMdl.directives,
         });
 
-        function str2bool(value) {
-            return (value.toLowerCase() === 'true');
-        }
 
     }, false);
+
+    function setVueComponent() {
+        // ツールチップ
+        Vue.component("mii-tooltip", function(resolve) {
+            getData("./renderer/components/tooltip.vue", function(contents) {
+                resolve({
+                    template: contents,
+                });
+            });
+        });
+
+        // 設定画面
+        Vue.component("mii-setting", function(resolve) {
+            getData("./renderer/components/setting.vue", function(contents) {
+                resolve({
+                    template: contents,
+                    data: function() {
+                        return {
+                            font: {
+                                family: {
+                                    default: 'Noto Sans CJK JP',
+                                    list: ['Noto Sans CJK JP'],
+                                },
+                                size: {
+                                    default: '16',
+                                    list: [/*'8','9','10','11','12','14',*/'16'/*,'18','20','22','24','26','28','36','48','72'*/],
+                                },
+                            },
+                            theme: {
+                                default: 'Default',
+                                list: ['Default'],
+                            },
+                            switchTextLint: str2bool(localStorage.getItem(STORAGE.TEXTLINT_KEY)),
+                        }
+                    },
+                });
+            });
+        });
+    }
+
+    function str2bool(value) {
+        return (value.toLowerCase() === 'true');
+    }
+
+    function getData(url, callbak) {
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function(){
+            if (xhr.readyState === 4) {
+                callbak(xhr.status == 200 ? xhr.responseText : null);
+            }
+        }
+        xhr.open("GET", url, true);
+        xhr.send();
+    }
+
 })();

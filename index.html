@@ -67,46 +67,20 @@
                 v-if="tabContents == 1">
                     <textarea id="export" v-html="input | markdown" readonly wrap="soft"></textarea>
                 </div>
+            </div>
         </div>
     </div>
-</div>
-        <!-- snackbar -->
-        <mdl-snackbar display-on="fileOperation"></mdl-snackbar>
-        <!-- tooltip -->
-        <mdl-tooltip for="btnOpenSetting" class="mdl-tooltip--right">Setting</mdl-tooltip>
-        <mdl-tooltip for="formatBold">Bold</mdl-tooltip>
-        <mdl-tooltip for="formatItalic">Italic</mdl-tooltip>
-        <mdl-tooltip for="formatStrikethrough">Strikethrough</mdl-tooltip>
-        <mdl-tooltip for="formatList_bulleted">Bullet List</mdl-tooltip>
-        <mdl-tooltip for="formatList_numbered">Number List</mdl-tooltip>
-        <mdl-tooltip for="formatQuote">Quote</mdl-tooltip>
-        <mdl-tooltip for="btnToggleEditor">Toggle resize</mdl-tooltip>
-        <mdl-tooltip for="tabPreview">Preview</mdl-tooltip>
-        <mdl-tooltip for="tabCode">Code</mdl-tooltip>
-        <!-- modal -->
-        <mdl-dialog title="Settings" display-on="modalSetting">
-            <div>
-                <mdl-select id="selectFont" label="Font" :value.sync="font.family.default" :options="font.family.list"></mdl-select>
-                <mdl-select id="selectFontSize" label="FontSize" :value.sync="font.size.default" :options="font.size.list"></mdl-select>
-            </div>
-            <div>
-                <mdl-select id="selectTheme" label="Theme" :value.sync="theme.default" :options="theme.list"></mdl-select>
-            </div>
-            <div>
-                <mdl-switch id="switchTextLint" :checked.sync="switchTextLint" value="textlint" checked>text-lint</mdl-switch>
-            </div>
 
-            <template slot="actions">
-                <mdl-button>Cancel</mdl-button>
-                <mdl-button primary>Save</mdl-button>
-            </template>
-        </mdl-dialog>
+    <mdl-snackbar display-on="fileOperation"></mdl-snackbar>
+    <mii-tooltip v-ref:mii-tooltip></mii-tooltip>
+    <mii-setting v-ref:mii-setting></mii-setting>
+
     </div><!-- app -->
     <div class="dropzone"><span>Drop a file here.</span></div>
 
+    <script src="renderer/js/app.js"></script>
     <script src="dist/vendor.min.js"></script>
     <script src="dist/script.min.js"></script>
-    <script src="renderer/js/app.js"></script>
 
     <script src="browser/menu.js"></script>
     <script src="browser/files.js"></script>
