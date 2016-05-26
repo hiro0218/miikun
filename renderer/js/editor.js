@@ -41,7 +41,7 @@ module.exports = {
             this.cm = this.init();
         }
 
-        var options = this.createOption(this.str2bool(localStorage.getItem(STORAGE.TEXTLINT_KEY)));
+        var options = this.createOption(this._str2bool(localStorage.getItem(STORAGE.TEXTLINT_KEY)));
         return this.cm.fromTextArea(textarea, options);
     },
     createOption: function(textlint) {
@@ -94,7 +94,61 @@ module.exports = {
             }
         }
     },
-    str2bool: function(value) {
+    settingFormat: function() {
+        var self = this;
+        var tools = document.getElementById("editor-tools");
+        var buttons = tools.getElementsByTagName("button");
+
+        for (let i = 0, len = buttons.length; i < len; i++) {
+            buttons[i].addEventListener('click', function(e) {
+                var type = this.getAttribute('data-format');
+                var value = window.editor.getSelection();
+
+                if (value) {
+                    switch(type) {
+                        case 'bold':
+                        self._replaceSelection('**' + value + '**');
+                        break;
+                        case 'italic':
+                        self._replaceSelection('*' + value + '*');
+                        break;
+                        case 'strikethrough':
+                        self._replaceSelection('~~' + value + '~~');
+                        break;
+                        case 'list_bulleted':
+                        self._formatListValue(value, "bullet");
+                        break;
+                        case 'list_numbered':
+                        self._formatListValue(value, "number");
+                        break;
+                        case 'quote':
+                        self._replaceSelection("\n\n> " + value +"\n\n");
+                        break;
+                    }
+                }
+            });
+        }
+    },
+    _formatListValue(value, type) {
+        var tag = (type === "number") ? "1. " : "* ";
+        var arr = value.split(/\r\n|\r|\n/);
+        var len = arr.length;
+
+        for (let i = 0; i < len; i++) {
+            if (type === "number") {  // 番号を増やす
+                tag = (i+1) + ". ";
+            }
+            var val = "\n" + tag + arr[i];
+            if (i === len-1) {  // 最後の行だけ改行
+                val += "\n";
+            }
+            this._replaceSelection(val);
+        }
+    },
+    _replaceSelection(value) {
+        window.editor.replaceSelection(value);
+    },
+    _str2bool: function(value) {
         return (value.toLowerCase() === 'true');
     }
 }

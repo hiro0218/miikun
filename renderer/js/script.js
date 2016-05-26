@@ -42,6 +42,8 @@ require("./renderer/js/def.js");
                 FILE.MODIFY = true;
             }
         });
+
+        CodeMirror.settingFormat();
     }
 
 })();

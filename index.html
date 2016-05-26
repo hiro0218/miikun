@@ -17,13 +17,34 @@
         <div class="main-container">
             <div class="editor-side" v-bind:class="{open:isOpenEditor}">
                 <div class="header">
-                    <!-- toggle -->
+                    <!-- format -->
+                    <div id="editor-tools">
+                        <button id="formatBold" data-format="bold" class="mdl-button mdl-js-button mdl-button--icon">
+                            <i class="material-icons">format_bold</i>
+                        </button>
+                        <button id="formatItalic" data-format="italic" class="mdl-button mdl-js-button mdl-button--icon">
+                            <i class="material-icons">format_italic</i>
+                        </button>
+                        <button id="formatStrikethrough" data-format="strikethrough" class="mdl-button mdl-js-button mdl-button--icon">
+                            <i class="material-icons">format_strikethrough</i>
+                        </button>
+                        <button id="formatList_bulleted" data-format="list_bulleted" class="mdl-button mdl-js-button mdl-button--icon">
+                            <i class="material-icons">format_list_bulleted</i>
+                        </button>
+                        <button id="formatList_numbered" data-format="list_numbered" class="mdl-button mdl-js-button mdl-button--icon">
+                            <i class="material-icons">format_list_numbered</i>
+                        </button>
+                        <button id="formatQuote" data-format="quote" class="mdl-button mdl-js-button mdl-button--icon">
+                            <i class="material-icons">format_quote</i>
+                        </button>
+                    <!-- toggle screen -->
                     <button id="btnToggleEditor"
-                    class="mdl-button mdl-js-button mdl-button--icon"
-                    v-on:click="isOpenEditor=!isOpenEditor">
-                    <i class="material-icons" v-if="isOpenEditor">fullscreen_exit</i>
-                    <i class="material-icons" v-if="!isOpenEditor">fullscreen</i>
-                </button>
+                            class="mdl-button mdl-js-button mdl-button--icon"
+                            v-on:click="isOpenEditor=!isOpenEditor">
+                        <i class="material-icons" v-if="isOpenEditor">fullscreen_exit</i>
+                        <i class="material-icons" v-if="!isOpenEditor">fullscreen</i>
+                    </button>
+                </div>
             </div>
             <textarea id="editor" v-model="input" debounce="300"></textarea>
         </div>
@@ -53,6 +74,12 @@
         <mdl-snackbar display-on="fileOperation"></mdl-snackbar>
         <!-- tooltip -->
         <mdl-tooltip for="btnOpenSetting" class="mdl-tooltip--right">Setting</mdl-tooltip>
+        <mdl-tooltip for="formatBold">Bold</mdl-tooltip>
+        <mdl-tooltip for="formatItalic">Italic</mdl-tooltip>
+        <mdl-tooltip for="formatStrikethrough">Strikethrough</mdl-tooltip>
+        <mdl-tooltip for="formatList_bulleted">Bullet List</mdl-tooltip>
+        <mdl-tooltip for="formatList_numbered">Number List</mdl-tooltip>
+        <mdl-tooltip for="formatQuote">Quote</mdl-tooltip>
         <mdl-tooltip for="btnToggleEditor">Toggle resize</mdl-tooltip>
         <mdl-tooltip for="tabPreview">Preview</mdl-tooltip>
         <mdl-tooltip for="tabCode">Code</mdl-tooltip>
