@@ -94,6 +94,22 @@ module.exports = {
             }
         }
     },
+    settingEvent: function(target) {
+        target.on('blur', function(){
+            Prism.highlightAll();  // Highlight Re-render
+        });
+
+        target.on('change', function(e) {
+            target.save();
+
+            // Trigger
+            target.getTextArea().dispatchEvent(new Event('change'));
+
+            if (!FILE.MODIFY) {  // 編集時フラグを立てる
+                FILE.MODIFY = true;
+            }
+        });
+    },
     settingFormat: function() {
         var self = this;
         var tools = document.getElementById("editor-tools");

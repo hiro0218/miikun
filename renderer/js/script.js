@@ -22,27 +22,9 @@ require("./renderer/js/def.js");
 
     function initCodeMirror() {
         var CodeMirror = require("./renderer/js/editor.js");
-        var textarea = document.getElementById("editor");
 
-        window.editor = CodeMirror.create(textarea);
-
-        window.editor.on('blur', function(){
-            Prism.highlightAll();  // Highlight Re-render
-        });
-
-        window.editor.on('change', function(e) {
-            window.editor.save();
-
-            // Trigger
-            var event = document.createEvent('HTMLEvents');
-            event.initEvent('change', true, false);
-            textarea.dispatchEvent(event);
-
-            if (!FILE.MODIFY) {  // 編集時フラグを立てる
-                FILE.MODIFY = true;
-            }
-        });
-
+        window.editor = CodeMirror.create(document.getElementById("editor"));
+        CodeMirror.settingEvent(window.editor);
         CodeMirror.settingFormat();
     }
 
