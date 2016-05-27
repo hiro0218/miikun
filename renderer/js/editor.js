@@ -104,10 +104,6 @@ module.exports = {
 
             // Trigger
             target.getTextArea().dispatchEvent(new Event('change'));
-
-            if (!FILE.MODIFY) {  // 編集時フラグを立てる
-                FILE.MODIFY = true;
-            }
         });
     },
     settingFormat: function() {

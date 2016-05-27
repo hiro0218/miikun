@@ -17,10 +17,10 @@ window.addEventListener('drop', function(e) {
          file.name.split(".")[1] === "txt" || file.name.split(".")[1] === "md"
     ) {
         // 編集中
-        if (FILE.MODIFY) {
+        if (window.app.$data.file.modify) {
             chooseSave();
         }
-        if (!FILE.MODIFY) {
+        if (!window.app.$data.file.modify) {
             openFile(file.path);
         }
     } else {
@@ -40,18 +40,18 @@ function setWindowTitle(path) {
 
 function newFile() {
     // 新規ファイルで未編集
-    if (!FILE.MODIFY && !FILE.PATH) {
+    if (!window.app.$data.file.modify && !window.app.$data.file.path) {
         return;
     }
 
     // 編集中
-    if (FILE.MODIFY) {
+    if (window.app.$data.file.modify) {
         chooseSave();
     }
 
     // 編集中でない場合は初期化
-    if (!FILE.MODIFY) {
-        FILE.PATH = "";
+    if (!window.app.$data.file.modify) {
+        window.app.$data.file.path = "";
         setWindowTitle("");
         setEditor("");
     }
@@ -63,7 +63,7 @@ function chooseSave() {
     switch (response) {
         case 0: // Yes
             // 既存ファイルの保存
-            if (FILE.PATH) {
+            if (window.app.$data.file.path) {
                 saveFile();
             } else {
                 dialogSaveAs();
@@ -71,7 +71,7 @@ function chooseSave() {
             break;
         case 1: // No
             // 保存しない
-            FILE.MODIFY = false;
+            window.app.$data.file.modify = false;
             break;
         case 2: // Cancel
             // スルー
@@ -82,16 +82,16 @@ function chooseSave() {
 }
 
 function openFile(path) {
-    if (FILE.PATH === path) {  // 既に開いている
+    if (window.app.$data.file.path === path) {  // 既に開いている
         openDialog("error", "This file is already open.");
 
-    } else if (FILE.MODIFY) {  // 編集中
+    } else if (window.app.$data.file.modify) {  // 編集中
         // ファイル保存確認
         var resp = chooseSave();
 
         // ファイルを読み込む
         if (resp !== 3) {  // ファイルを読み込む流れ
-            FILE.MODIFY = false;
+            window.app.$data.file.modify = false;
             openFile(path);
         }
 
@@ -116,8 +116,8 @@ function loadSuccess(path, content) {
     setEditor(content);
 
     // フラグ
-    FILE.MODIFY = false;
-    FILE.PATH = path;
+    window.app.$data.file.modify = false;
+    window.app.$data.file.path = path;
 
     // 通知
     window.app.openSnackbar('Document loaded.');
@@ -125,7 +125,7 @@ function loadSuccess(path, content) {
 
 function save(path, data) {
     // 未編集の場合はお帰り願う
-    if (!FILE.MODIFY) {
+    if (!window.app.$data.file.modify) {
         return;
     }
 
@@ -133,8 +133,8 @@ function save(path, data) {
         var error = fs.writeFileSync(path, data, 'utf8');
 
         if (error === undefined) {
-            FILE.MODIFY = false;
-            FILE.PATH = path;  // for new file
+            window.app.$data.file.modify = false;
+            window.app.$data.file.path = path;  // for new file
             setWindowTitle(path);   // for new file
             window.app.openSnackbar('Document saved.');
         }
@@ -145,8 +145,8 @@ function save(path, data) {
 }
 
 function saveFile() {
-    if (FILE.PATH) {
-        save(FILE.PATH, window.editor.getValue());
+    if (window.app.$data.file.path) {
+        save(window.app.$data.file.path, window.editor.getValue());
     } else {
         dialogSaveAs();
     }

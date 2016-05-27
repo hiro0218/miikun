@@ -17,6 +17,21 @@
                 input: "",
                 isOpenEditor: false,
                 tabContents: 0,
+                file: {
+                    modify: false,
+                    path: "",
+                },
+            },
+            watch: {
+                input: function(val, old) {
+                    this.file.modify = true;
+                },
+                //'file.modify': function (val, old) {
+                    //console.log(val);
+                //},
+                'file.path': function (val, old) {
+                    this.file.modify = false;
+                },
             },
             filters: {
                 markdown: function() {
