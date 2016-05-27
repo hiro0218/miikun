@@ -31,10 +31,10 @@
   "copyright": "Copyright (c) 2016 hiro. All rights reserved.",
   "license": "MIT",
   "devDependencies": {
-    "clean-css": "^3.4.12",
+    "clean-css": "^3.4.13",
     "devtron": "^1.1.2",
     "electron-packager": "^7.0.2",
-    "electron-prebuilt": "^1.1.1",
+    "electron-prebuilt": "^1.2.0",
     "node-bourbon": "^4.2.8",
     "node-neat": "^1.7.2",
     "node-sass": "^3.7.0",
@@ -43,7 +43,7 @@
   "dependencies": {
     "basicmodal": "^3.3.5",
     "codemirror": "^5.15.2",
-    "codemirror-textlint": "^1.0.1",
+    "codemirror-textlint": "^1.1.0",
     "github-markdown-css": "^2.3.0",
     "markdown-it": "^6.0.2",
     "markdown-it-checkbox": "^1.1.0",
@@ -61,6 +61,6 @@
     "textlint-rule-no-doubled-joshi": "^3.2.1",
     "textlint-rule-no-mix-dearu-desumasu": "^3.0.0",
     "vue": "^1.0.24",
-    "vue-mdl": "^0.7.5"
+    "vue-mdl": "^0.8.2"
   }
 }
