@@ -48,7 +48,7 @@
             </div>
             <textarea id="editor" v-model="input" debounce="300"></textarea>
         </div>
-        <div class="preview-side">
+        <div class="preview-side" v-if="isOpenEditor == false">
             <div class="header">
                 <div class="tabs">
                     <div id="tabPreview" class="tab-list"
