@@ -29,16 +29,14 @@
                 //'file.modify': function (val, old) {
                     //console.log(val);
                 //},
-                'file.path': function (val, old) {
+                'file.path': function(val, old) {
                     this.file.modify = false;
                 },
             },
             filters: {
                 markdown: function() {
                     // プレビュが表示されている時だけMarkdownを変換する
-                    if ( this.isOpenEditor ) {
-                        return this.input;
-                    } else {
+                    if ( !this.isOpenEditor ) {
                         // 入力されたMarkdownをHTMLに変換
                         var code = render.markdown2code(this.input);
                         // チェックしたHTMLを返す
