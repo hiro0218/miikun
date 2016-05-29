@@ -108,6 +108,7 @@ global.menuTemplate.push({
         {
             label: 'Always on Top',
             accelerator: 'CmdOrCtrl+Shift+T',
+            type: 'checkbox', checked: false,
             click: function (item, focusedWindow) {
                 if (focusedWindow) {
                     focusedWindow.setAlwaysOnTop(!focusedWindow.isAlwaysOnTop());
