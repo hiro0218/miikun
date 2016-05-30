@@ -63,6 +63,6 @@
     "textlint-rule-no-doubled-joshi": "^3.2.1",
     "textlint-rule-no-mix-dearu-desumasu": "^3.0.0",
     "vue": "^1.0.24",
-    "vue-mdl": "^0.8.2"
+    "vue-mdl": "^0.8.3"
   }
 }
