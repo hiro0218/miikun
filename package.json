@@ -53,6 +53,7 @@
     "markdown-it": "^6.0.2",
     "markdown-it-checkbox": "^1.1.0",
     "markdown-it-footnote": "^2.0.0",
+    "markdown-pdf": "^7.0.0",
     "nprogress": "^0.2.0",
     "textlint-rule-incremental-headers": "^0.2.0",
     "textlint-rule-max-appearence-count-of-words": "^1.0.1",
