@@ -1,15 +1,15 @@
 require("./renderer/js/def.js");
 
+var NProgress = require('nprogress');
+NProgress.configure({
+    speed: 1000,
+    showSpinner: false
+});
+
 (function () {
     "use strict";
 
-    var NProgress = require('nprogress');
-
     document.addEventListener('DOMContentLoaded', function() {
-        NProgress.configure({
-            speed: 1000,
-            showSpinner: false
-        });
         NProgress.start();
         NProgress.inc();
     }, false);

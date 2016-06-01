@@ -71,6 +71,19 @@ global.menuTemplate.push({
                 }
             },
         },
+        {
+            label: "Export",
+            submenu: [
+                {
+                    label: "as PDF...",
+                    click: function (item, focusedWindow) {
+                        if (focusedWindow) {
+                            exportPDF();
+                        }
+                    }
+                }
+            ],
+        },
         { type: "separator" },
         {
             label: 'Recent Files',
