@@ -130,7 +130,10 @@
     }
 
     function str2bool(value) {
-        return (value.toLowerCase() === 'true');
+        if (typeof value === 'string') {
+          value = value.toLowerCase();
+        }
+        return (value === 'true');
     }
 
     function getData(url, callbak) {

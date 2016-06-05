@@ -161,6 +161,9 @@ module.exports = {
         window.editor.replaceSelection(value);
     },
     _str2bool: function(value) {
-        return (value.toLowerCase() === 'true');
+        if (typeof value === 'string') {
+          value = value.toLowerCase();
+        }
+        return (value === 'true');
     }
 }
