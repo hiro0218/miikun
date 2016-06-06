@@ -137,7 +137,25 @@ module.exports = {
                         self._replaceSelection("\n\n> " + value +"\n\n");
                         break;
                     }
+                } else {
+                    // 現在のカーソルの行を選択する
+                    self._selectionCurrentLine();
+                    // 値を取得する
+                    value = window.editor.getSelection();
+
+                    switch(type) {
+                        case 'list_bulleted':
+                        self._formatListValue(value, "bullet");
+                        break;
+                        case 'list_numbered':
+                        self._formatListValue(value, "number");
+                        break;
+                        case 'quote':
+                        self._replaceSelection("\n> " + value +"\n");
+                        break;
+                    }
                 }
+
             });
         }
     },
@@ -159,6 +177,18 @@ module.exports = {
     },
     _replaceSelection(value) {
         window.editor.replaceSelection(value);
+    },
+    _selectionCurrentLine() {
+        var cursor = editor.getCursor();
+        var headPos = cursor.line;
+        var footPos = cursor.length;
+        editor.setSelection({
+            line: headPos,
+            ch: 0
+        }, {
+            line: headPos,
+            ch: footPos
+        });
     },
     _str2bool: function(value) {
         if (typeof value === 'string') {
