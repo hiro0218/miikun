@@ -24,10 +24,8 @@ document.addEventListener('dragstart', function(e) {
 });
 
 window.addEventListener('dragenter', function(e) {
-    if (!basicModal.visible()) {
-        dropZone.style.opacity = 1;
-        dropZone.style.zIndex = 100;
-    }
+    dropZone.style.opacity = 1;
+    dropZone.style.zIndex = 100;
 });
 
 dropZone.addEventListener('dragleave', function(e) {

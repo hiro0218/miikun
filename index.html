@@ -7,17 +7,9 @@
 </head>
 <body>
     <div id="app">
-        <div class="menu-side">
-            <!-- menu -->
-            <button id="btnOpenSetting" class="mdl-button mdl-js-button mdl-button--icon"
-                    v-on:click="$refs.miiSetting.open()">
-                <i class="material-icons">settings</i>
-            </button>
-        </div>
-        <div class="main-container">
-            <div class="editor-side" v-bind:class="{open:isOpenEditor}">
-                <div class="header">
-                    <!-- format -->
+        <div class="mdl-layout mdl-js-layout">
+            <header id="header" class="mdl-layout__header-row mdl-shadow--2dp">
+                <nav class="" v-bind:class="{open:isOpenEditor}">
                     <div id="editor-tools">
                         <button id="formatBold" data-format="bold" class="mdl-button mdl-js-button mdl-button--icon">
                             <i class="material-icons">format_bold</i>
@@ -37,45 +29,45 @@
                         <button id="formatQuote" data-format="quote" class="mdl-button mdl-js-button mdl-button--icon">
                             <i class="material-icons">format_quote</i>
                         </button>
-                    <!-- toggle screen -->
-                    <button id="btnToggleEditor"
-                            class="mdl-button mdl-js-button mdl-button--icon"
-                            v-on:click="isOpenEditor=!isOpenEditor">
-                        <i class="material-icons" v-if="isOpenEditor">fullscreen_exit</i>
-                        <i class="material-icons" v-if="!isOpenEditor">fullscreen</i>
-                    </button>
-                </div>
+                        <!-- toggle screen -->
+                        <button id="btnToggleEditor" class="mdl-button mdl-js-button mdl-button--icon" v-on:click="isOpenEditor=!isOpenEditor">
+                            <i class="material-icons" v-if="isOpenEditor">fullscreen_exit</i>
+                            <i class="material-icons" v-if="!isOpenEditor">fullscreen</i>
+                        </button>
+                    </div>
+                </nav>
+                <div class="mdl-layout-spacer"></div>
+                <nav class="" v-if="isOpenEditor == false">
+                    <div class="tabs">
+                        <div id="tabPreview" class="tab-list" v-bind:class="{'active': tabContents == 0}" v-on:click="changeTab(0)"><i class="material-icons">visibility</i></div>
+                        <div id="tabCode" class="tab-list" v-bind:class="{'active': tabContents == 1}" v-on:click="changeTab(1)"><i class="material-icons">code</i></div>
+                    </div>
+                </nav>
+            </header>
+            <div class="mdl-layout__drawer">
+                <nav class="mdl-navigation">
+                    <a class="mdl-navigation__link" href="javascript:void(0)" v-on:click="$refs.miiSetting.open()"><i class="material-icons">settings</i> Settings</a>
+                </nav>
             </div>
-            <textarea id="editor" v-model="input" debounce="300"></textarea>
+            <main class="mdl-layout__content">
+                <div class="container">
+                    <div class="editor-side" v-bind:class="{open:isOpenEditor}">
+                        <textarea id="editor" style="display:none" v-model="input" debounce="300"></textarea>
+                    </div>
+                    <div class="preview-side" v-if="isOpenEditor == false">
+                        <div class="preview markdown-body" v-html="input | markdown" v-if="tabContents == 0"></div>
+                        <div class="preview" v-if="tabContents == 1">
+                            <textarea class="preview-code" v-html="input | markdown" readonly wrap="soft"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </main>
         </div>
-        <div class="preview-side" v-if="isOpenEditor == false">
-            <div class="header">
-                <div class="tabs">
-                    <div id="tabPreview" class="tab-list"
-                    v-bind:class="{'active': tabContents == 0}"
-                    v-on:click="changeTab(0)"><i class="material-icons">visibility</i></div>
-                    <div id="tabCode" class="tab-list"
-                    v-bind:class="{'active': tabContents == 1}"
-                    v-on:click="changeTab(1)"><i class="material-icons">code</i></div>
-                </div>
-            </div>
-            <div id="result">
-                <div class="preview markdown-body"
-                v-html="input | markdown"
-                v-if="tabContents == 0"></div>
-                <div class="preview"
-                v-if="tabContents == 1">
-                    <textarea id="export" v-html="input | markdown" readonly wrap="soft"></textarea>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <mdl-snackbar display-on="fileOperation"></mdl-snackbar>
-    <mii-tooltip v-ref:mii-tooltip></mii-tooltip>
-    <mii-setting v-ref:mii-setting></mii-setting>
-
+        <mdl-snackbar display-on="fileOperation"></mdl-snackbar>
+        <mii-tooltip v-ref:mii-tooltip></mii-tooltip>
+        <mii-setting v-ref:mii-setting></mii-setting>
     </div><!-- app -->
+
     <div class="dropzone"><span>Drop a file here.</span></div>
 
     <script src="renderer/js/app.js"></script>

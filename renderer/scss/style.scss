@@ -1,59 +1,17 @@
-// framework
 @import "bourbon";
 @import "neat";
 
 @import "variables";
-
-// Material Design Lite
 @import "plugin/mdl";
-// CodeMirror
 @import "plugin/codemirror";
-
-// font
 @import "font";
+@import "parts";
 
 /////
 
-@include selection {
-    background: $selection-bgColor;
-}
-
-[v-cloak] {
-    display: none;
-}
-
-// Chrome scrollbar
-::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-}
-::-webkit-scrollbar-button {
-    display: none;
-}
-::-webkit-scrollbar-thumb {
-    overflow: hidden;
-    border-radius: 1rem;
-    border: none;
-    background: $color400;
-
-    &:hover {
-        background: $color500;
-    }
-    &:active {
-        background: $color600;
-    }
-}
-::-webkit-scrollbar-piece,
-::-webkit-scrollbar-corner {
-    background: transparent;
-}
-
-
 html {
     font-size: $font-size-root;
-    @include box-sizing(border-box);
-
-    // -webkit-text-stroke: 1px rgba(0,0,0,0.1);
+    box-sizing: border-box;
 
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -87,118 +45,51 @@ body {
     overflow: hidden;
 }
 
+#header {
+    z-index: 3;  // .mdl-layout__drawer-button is 4
+}
 
-// drop zone
-.dropzone {
-    opacity: 0;
-    position: fixed;
-    width: calc( 100% - #{$menu-size-width} );
-    height: 100vh;
-    right: 0;
-    top: 0;
-    z-index: -100;
-    background: $faint-black;
-    border: 6px dashed $color600;
+.material-icons {
+    color: $text-color;
+}
 
-    transition: opacity .4s;
-    @include user-select(none);
-
-    span {
-        display: block;
-        font-size: 4rem;
-        font-weight: bold;
-        line-height: 100vh;
-        color: $color600;
-        text-align: center;
+.preview-code,
+.markdown-body {
+    // ヘッダの高さを除いたHeight
+    height: calc(100vh - #{$container-height});
+    @media screen and (max-width: $layout-screen-size-threshold) {
+        height: calc(100vh - #{$container-height-mb});
     }
+}
+
+.mdl-layout__content {
+    overflow: hidden !important;
 }
 
 .container {
     @include outer-container(100%);
 }
 
-.btn {
-    font-size: $font-size-sm;
-    color: $color800;
-    background: $color300;
-    padding: $btn-padding;
-    border: none;
-    border-radius: $border-radius-sm;
-    transition: background .3s, transform .1s;
-    @include user-select(none);
-
-    &:hover {
-        background: darken($color300, 15%);
-    }
-    &:focus {
-        outline: 0;
-    }
-    &:active {
-        transform: scale(.95);
-    }
-}
-
-// main
-.menu-side {
-    float: left;
-    width: $menu-size-width;
-    height: 100vh;
-    color: $color100;
-    background: $menu-bgColor;
-    padding: .25rem;
-    text-align: center;
-    @include user-select(none);
-}
-
-.main-container {
-    @include outer-container(100%);
-}
 .editor-side {
+    transition: width .3s;
     @include span-columns(6);
-    //overflow: hidden;
+    overflow: hidden;
 
     &.open {
-        // width: 100%;
-        width: calc( 100% - #{$menu-size-width} ); // menu width
-    }
-}
-.preview-side {
-    width: auto;
-}
-.editor-side,
-.preview-side {
-    transition: width .3s;
-
-    .header {
-        @include span-columns(6 of 6);
-        border-bottom: 1px solid $color300;
-        height: $header-height;
-        padding: .25rem 0 .25rem .5rem;
-        @include user-select(none);
+        width: calc( 100% );
     }
 }
 
-//
-// Markdown
-// ---------------
-
-// Textarea
-#editor { display: none; }
-
-.CodeMirror {
-    border-right: 1px solid $color200;
+.preview-side {
+    @include span-columns(6);
 }
 
 //
 // Preview
 // ---------------
-.preview-side {
-    overflow: hidden;
-}
 
 .markdown-body {
     font-family: $font-family-regular;
-    height: calc(100vh - #{$header-height});
     overflow: auto;
     line-height: 1.6em;
     padding: .25rem .5rem;
@@ -215,10 +106,9 @@ body {
 }
 
 
-#export {
+.preview-code {
     font-family: $font-family-monospace;
     width: 100%;
-    height: calc(100vh - #{$header-height});
     border: none;
     resize: none;
     padding: .25rem .5rem;
@@ -226,50 +116,4 @@ body {
     &:focus {
         outline: none !important;
     }
-}
-
-// tab
-.tabs {
-    display: inline-block;
-    vertical-align: middle;
-
-    .tab-list {
-        float: left;
-        padding: $btn-padding;
-        color: $color600;
-        background: $color300;
-        cursor: pointer;
-        border-radius: $border-radius-sm;
-        transition: background .2s;
-        @include user-select(none);
-        outline: none;
-
-        &:hover {
-            background: darken($color300, 15%);
-        }
-
-        &.active {
-            color: $color900;
-            background: darken($color300, 20%);
-        }
-
-        &:first-child:not(:last-child) {
-            @include border-right-radius(0);
-        }
-        &:last-child:not(:first-child) {
-            @include border-left-radius(0);
-        }
-    }
-
-}
-
-
-// button
-#btnToggleEditor {
-    float: right;
-}
-#btnOpenSetting {
-    position: absolute;
-    bottom: 0;
-    left: .25rem;  // same menu padding
 }

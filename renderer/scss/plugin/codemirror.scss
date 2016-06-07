@@ -1,9 +1,17 @@
 // BASICS
 .CodeMirror {
     font-family: $font-family-regular;
-    height: calc(100vh - #{$header-height} + .5rem);  // header height + padding
+    //height: calc(100vh - #{$header-height} + .5rem);  // header height + padding
+
+    // (ヘッダの高さを除いた + padding) Height
+    height: calc(100vh - #{$container-height} + .5rem);
+    @media screen and (max-width: $layout-screen-size-threshold) {
+        height: calc(100vh - #{$container-height-mb} + .5rem);
+    }
+
     width: 100%;
     background: inherit;
+    border-right: 1px solid $color200;
 }
 
 // PADDING

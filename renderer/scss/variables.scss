@@ -1,38 +1,3 @@
-
-// Bourbon
-$em-base: 16px;
-$gutter: golden-ratio(0em, 0);
-$fg-gutter: $gutter;
-// $grid-columns: 12;
-
-// Bourbon:: Global Prefixer
-$prefix-for-webkit:    true;
-$prefix-for-mozilla:   false;
-$prefix-for-microsoft: false;
-$prefix-for-opera:     false;
-$prefix-for-spec:      false;
-
-// original variable
-$font-size-root: $em-base;
-$font-size-sm: .85rem;
-$font-size-xs: .75rem;
-$font-family-regular: "Noto Sans CJK JP";
-$font-family-monospace: "Source Code Pro", $font-family-regular;
-
-$btn-padding: .25rem .5rem;
-$header-height: 2rem + (.5rem);
-
-$menu-size-width: 40px;
-
-$border-radius: .25rem;
-$border-radius-lg: .3rem;
-$border-radius-sm: .2rem;
-
-// Material Design Lite
-$preferred_font: $font-family-regular;
-$performance_font: $font-family-regular;
-
-
 // color const
 $color50: #fafafa;
 $color100:#f5f5f5;
@@ -67,3 +32,49 @@ $menu-bgColor: $color600;
 $editor-linenumber-color: $color500;
 $editor-linenumber-bgColor: $color300;
 $editor-activeline-bgColor: $color200;
+
+
+// Bourbon
+$em-base: 16px;
+$gutter: golden-ratio(0em, 0);
+$fg-gutter: $gutter;
+// $grid-columns: 12;
+
+// Bourbon:: Global Prefixer
+$prefix-for-webkit:    true;
+$prefix-for-mozilla:   false;
+$prefix-for-microsoft: false;
+$prefix-for-opera:     false;
+$prefix-for-spec:      false;
+
+// Material Design Lite
+@import "../../node_modules/material-design-lite/src/variables";
+
+$color-primary: "63,63,63";
+$color-primary-dark: "43,43,43";
+$color-primary-contrast: "114,160,224";
+$color-accent: "69,97,136";
+$color-accent-contrast: "255,255,255";
+
+// $preferred_font: $font-family-regular;
+// $performance_font: $font-family-regular;
+
+
+// original variable
+$font-size-root: $em-base;
+$font-size-sm: .85rem;
+$font-size-xs: .75rem;
+$font-family-regular: "Noto Sans CJK JP";
+$font-family-monospace: "Source Code Pro", $font-family-regular;
+
+$btn-padding: .25rem .5rem;
+$header-height: 64px;//2rem + (.5rem);
+
+$menu-size-width: 40px;
+
+$border-radius: .25rem;
+$border-radius-lg: .3rem;
+$border-radius-sm: .2rem;
+
+$container-height: $layout-desktop-header-height;//#{$layout-desktop-header-height};
+$container-height-mb: $layout-mobile-header-height;//#{$layout-mobile-header-height};
