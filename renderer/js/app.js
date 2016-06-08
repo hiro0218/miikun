@@ -4,8 +4,8 @@
     var VueMdl = require('vue-mdl');
     Vue.use(VueMdl.default);
 
-    var render = require('./renderer/js/render.js');
-    var CodeMirror = require("./renderer/js/editor.js");
+    var render = require('./render.js');
+    var CodeMirror = require("./editor.js");
 
     setVueComponent();
 
@@ -26,10 +26,8 @@
                 input: function(val, old) {
                     this.file.modify = true;
                 },
-                //'file.modify': function (val, old) {
-                    //console.log(val);
-                //},
                 'file.path': function(val, old) {
+                    // ファイルパスが変更された際は編集フラグはオフ
                     this.file.modify = false;
                 },
             },

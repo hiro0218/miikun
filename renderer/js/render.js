@@ -1,5 +1,3 @@
-"use strict";
-
 module.exports = {
     rickdom: null,
     MarkdownIt: null,
@@ -45,7 +43,7 @@ module.exports = {
         return rendered;
     },
     initMarkdown: function() {
-        var MarkdownIt = require('markdown-it');
+        var MarkdownIt = window.require('markdown-it');
 
         this.MarkdownIt = new MarkdownIt({
             html:         true,
@@ -55,8 +53,8 @@ module.exports = {
             linkify:      true,
             typographer:  true,
         })
-        .use(require('markdown-it-checkbox'))
-        .use(require('markdown-it-footnote'));
+        .use(window.require('markdown-it-checkbox'))
+        .use(window.require('markdown-it-footnote'));
 
     },
     markdown2code: function(txt) {
