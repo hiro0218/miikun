@@ -4,7 +4,7 @@ var packageJson = require('../package.json');
 var option = {
     dir: './',
     out: './release',
-    platform: 'darwin,win32',
+    platform: process.platform, //'darwin,win32',
     arch: 'x64',
 
     name: packageJson.name,
@@ -27,13 +27,15 @@ var option = {
     overwrite: true,
     prune: true,
     // asar: true,
-    
+
     version: packageJson.dependencies['electron-prebuilt'],
 
     ignore: [
-        "vendor/",
         'assets/[^(font)]',
-        'build',
+        'task/',
+        'build/',
+        "vendor/",
+        'renderer/',
         "/(.gitignore|.bowerrc|.editorconfig|.gitattributes|bower.json|README.md)"
     ],
 };

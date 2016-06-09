@@ -2,9 +2,16 @@
 
 var fs = require('fs');
 var sass = require('node-sass');
+
+// ベースのディレクトリが無い場合は作成する
+var baseDir = './dist/css';
+if (!fs.existsSync(baseDir)){
+    fs.mkdirSync(baseDir);
+}
+
 var options = {
     file: './renderer/scss/style.scss',
-    outFile: './dist/style.min.css',
+    outFile: baseDir + '/style.min.css',
     includePaths: require('node-neat').includePaths,
     outputStyle:  'expanded',
 };

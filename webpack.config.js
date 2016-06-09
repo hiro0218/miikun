@@ -6,9 +6,9 @@ var config = {
     target: 'atom',
     entry: './renderer/js/app.js',
     output: {
+        path: path.join(__dirname, './dist/js'),
+        publicPath: './dist/js/',
         filename: "app.js",
-        publicPath: './dist/',
-        path: path.join(__dirname, './dist'),
     },
     module: {
         loaders: [

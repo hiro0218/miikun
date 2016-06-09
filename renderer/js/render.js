@@ -32,7 +32,7 @@ module.exports = {
 
         var sanitize = this.rickdom.build(code);
         var rendered = "";
-        for (let i = 0, length = sanitize.length; i < length; i++) {
+        for (var i = 0, length = sanitize.length; i < length; i++) {
             var html = sanitize[i].outerHTML;
             if (html !== undefined) {
                 rendered += html;

@@ -1,15 +1,22 @@
-require('./def.js');
+var def = require('./def.js');
+global.STORAGE = def.STORAGE;
+
+var NProgress = require('nprogress');
+NProgress.configure({
+    speed: 1000,
+    showSpinner: false
+});
 
 (function () {
-    var Vue = require('vue');
-
-    var VueMdl = require('vue-mdl');
-    Vue.use(VueMdl.default);
-
     var render = require('./render.js');
     var CodeMirror = require("./editor.js");
 
+    var Vue = require('vue');
+    var VueMdl = require('vue-mdl');
+    Vue.use(VueMdl.default);
+
     setVueComponent();
+    setEditor();
 
     window.addEventListener('load', function() {
 
@@ -23,6 +30,12 @@ require('./def.js');
                     modify: false,
                     path: "",
                 },
+            },
+            init: function() {
+                NProgress.start();
+            },
+            ready: function() {
+                NProgress.done();
             },
             watch: {
                 input: function(val, old) {
@@ -77,22 +90,10 @@ require('./def.js');
         });
     }
 
-    function str2bool(value) {
-        if (typeof value === 'string') {
-          value = value.toLowerCase();
-        }
-        return (value === 'true');
+    function setEditor() {
+        window.editor = CodeMirror.create(document.getElementById("editor"));
+        CodeMirror.settingEvent(window.editor);
+        CodeMirror.settingFormat();
     }
-
-    // function getData(url, callbak) {
-    //     var xhr = new XMLHttpRequest();
-    //     xhr.onreadystatechange = function(){
-    //         if (xhr.readyState === 4) {
-    //             callbak(xhr.status == 200 ? xhr.responseText : null);
-    //         }
-    //     }
-    //     xhr.open("GET", url, true);
-    //     xhr.send();
-    // }
 
 })();

@@ -1,5 +1,7 @@
-global.STORAGE = {
-    TEXTLINT_KEY:  "textlint",
-    RECENTFILES_KEY: "recentFiles",
-    RECENTFILES_MAX: 5,
+module.exports = {
+    STORAGE: {
+        TEXTLINT_KEY:  "textlint",
+        RECENTFILES_KEY: "recentFiles",
+        RECENTFILES_MAX: 5,
+    }
 };
