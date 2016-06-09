@@ -31,7 +31,8 @@ var option = {
     version: packageJson.dependencies['electron-prebuilt'],
 
     ignore: [
-        'assets/[^(font)]',
+        // 'assets/[^(font)]',
+        'assets/img/iconset/',
         'task/',
         'build/',
         "vendor/",
