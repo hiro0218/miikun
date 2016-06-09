@@ -1,7 +1,7 @@
+### App
 /release
 /dist
-.editorconfig
-.gitattributes
+.bowerrc
 
 ### Node
 /node_modules
