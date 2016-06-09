@@ -68,7 +68,7 @@ module.exports = {
         },
         str2bool: function(value) {
             if (typeof value === 'string') {
-              value = value.toLowerCase();
+                value = value.toLowerCase();
             }
             return (value === 'true');
         }

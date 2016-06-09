@@ -2,12 +2,12 @@ var fs = require("fs");
 var markdownpdf = require("markdown-pdf");
 
 function exportPDF() {
-    if (!window.app.$data.file.path) {
+    if (!global.app.$data.file.path) {
         return;
     }
 
     // ファイルが未保存の場合
-    if (window.app.$data.file.modify) {
+    if (global.app.$data.file.modify) {
         // ファイルの保存確認をする
         var resp = chooseSave();
 
@@ -27,7 +27,7 @@ function exportPDF() {
     });
 
     // Markdown を PDF に変換する
-    markdownpdf().from(window.app.$data.file.path).to(savePath, function(e) {
+    markdownpdf().from(global.app.$data.file.path).to(savePath, function(e) {
         openDialog("info", "converts Markdown files to PDF.");
     });
 

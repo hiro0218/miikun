@@ -17,10 +17,10 @@ window.addEventListener('drop', function(e) {
          file.name.split(".")[1] === "txt" || file.name.split(".")[1] === "md"
     ) {
         // 編集中
-        if (window.app.$data.file.modify) {
+        if (global.app.$data.file.modify) {
             chooseSave();
         }
-        if (!window.app.$data.file.modify) {
+        if (!global.app.$data.file.modify) {
             openFile(file.path);
         }
     } else {
@@ -40,18 +40,18 @@ function setWindowTitle(path) {
 
 function newFile() {
     // 新規ファイルで未編集
-    if (!window.app.$data.file.modify && !window.app.$data.file.path) {
+    if (!global.app.$data.file.modify && !global.app.$data.file.path) {
         return;
     }
 
     // 編集中
-    if (window.app.$data.file.modify) {
+    if (global.app.$data.file.modify) {
         chooseSave();
     }
 
     // 編集中でない場合は初期化
-    if (!window.app.$data.file.modify) {
-        window.app.$data.file.path = "";
+    if (!global.app.$data.file.modify) {
+        global.app.$data.file.path = "";
         setWindowTitle("");
         setEditor("");
     }
@@ -63,7 +63,7 @@ function chooseSave() {
     switch (response) {
         case 0: // Yes
             // 既存ファイルの保存
-            if (window.app.$data.file.path) {
+            if (global.app.$data.file.path) {
                 saveFile();
             } else {
                 dialogSaveAs();
@@ -71,7 +71,7 @@ function chooseSave() {
             break;
         case 1: // No
             // 保存しない
-            window.app.$data.file.modify = false;
+            global.app.$data.file.modify = false;
             break;
         case 2: // Cancel
             // スルー
@@ -82,16 +82,16 @@ function chooseSave() {
 }
 
 function openFile(path) {
-    if (window.app.$data.file.path === path) {  // 既に開いている
+    if (global.app.$data.file.path === path) {  // 既に開いている
         openDialog("error", "This file is already open.");
 
-    } else if (window.app.$data.file.modify) {  // 編集中
+    } else if (global.app.$data.file.modify) {  // 編集中
         // ファイル保存確認
         var resp = chooseSave();
 
         // ファイルを読み込む
         if (resp !== 3) {  // ファイルを読み込む流れ
-            window.app.$data.file.modify = false;
+            global.app.$data.file.modify = false;
             openFile(path);
         }
 
@@ -116,16 +116,16 @@ function loadSuccess(path, content) {
     setEditor(content);
 
     // フラグ
-    window.app.$data.file.modify = false;
-    window.app.$data.file.path = path;
+    global.app.$data.file.modify = false;
+    global.app.$data.file.path = path;
 
     // 通知
-    window.app.openSnackbar('Document loaded.');
+    global.app.openSnackbar('Document loaded.');
 }
 
 function save(path, data) {
     // 未編集の場合はお帰り願う
-    if (!window.app.$data.file.modify) {
+    if (!global.app.$data.file.modify) {
         return;
     }
 
@@ -133,10 +133,10 @@ function save(path, data) {
         var error = fs.writeFileSync(path, data, 'utf8');
 
         if (error === undefined) {
-            window.app.$data.file.modify = false;
-            window.app.$data.file.path = path;  // for new file
+            global.app.$data.file.modify = false;
+            global.app.$data.file.path = path;  // for new file
             setWindowTitle(path);   // for new file
-            window.app.openSnackbar('Document saved.');
+            global.app.openSnackbar('Document saved.');
         }
 
     } catch (e) {
@@ -145,20 +145,20 @@ function save(path, data) {
 }
 
 function saveFile() {
-    if (window.app.$data.file.path) {
-        save(window.app.$data.file.path, window.editor.getValue());
+    if (global.app.$data.file.path) {
+        save(global.app.$data.file.path, global.editor.getValue());
     } else {
         dialogSaveAs();
     }
 }
 
 function saveAsFile(path) {
-    save(path, window.editor.getValue());
+    save(path, global.editor.getValue());
 }
 
 function setEditor(content) {
-    var doc = window.editor.getDoc();
+    var doc = global.editor.getDoc();
     doc.setValue(content);
     doc.clearHistory();
-    window.editor.setCursor(0);
+    global.editor.setCursor(0);
 }
