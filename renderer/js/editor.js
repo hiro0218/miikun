@@ -109,7 +109,7 @@ module.exports = {
         var tools = document.getElementById("editor-tools");
         var buttons = tools.getElementsByTagName("button");
 
-        for (let i = 0, len = buttons.length; i < len; i++) {
+        for (var i = 0, len = buttons.length; i < len; i++) {
             buttons[i].addEventListener('click', function(e) {
                 var type = this.getAttribute('data-format');
                 var value = window.editor.getSelection();
@@ -194,4 +194,4 @@ module.exports = {
         }
         return (value === 'true');
     }
-}
+};

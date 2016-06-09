@@ -1,5 +1,3 @@
-require("./renderer/js/def.js");
-
 var NProgress = require('nprogress');
 NProgress.configure({
     speed: 1000,

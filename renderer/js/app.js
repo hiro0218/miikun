@@ -1,3 +1,5 @@
+require('./def.js');
+
 (function () {
     var Vue = require('vue');
 
@@ -52,6 +54,9 @@
                         timeout: 1000,
                     });
                 },
+                getTextLint: function() {
+                    return CodeMirror.getTextLint().lint;
+                },
             },
             components: VueMdl.components,
             directives: VueMdl.directives,
@@ -63,67 +68,12 @@
     function setVueComponent() {
         // ツールチップ
         Vue.component("mii-tooltip", function(resolve) {
-            getData("./renderer/components/tooltip.vue", function(contents) {
-                resolve({
-                    template: contents,
-                });
-            });
+            require(['./../components/tooltip.vue'], resolve)
         });
 
         // 設定画面
         Vue.component("mii-setting", function(resolve) {
-            getData("./renderer/components/setting.vue", function(contents) {
-                resolve({
-                    template: contents,
-                    data: function() {
-                        return {
-                            font: {
-                                family: {
-                                    default: 'Noto Sans CJK JP',
-                                    list: ['Noto Sans CJK JP'],
-                                },
-                                size: {
-                                    default: '16',
-                                    list: [/*'8','9','10','11','12','14',*/'16'/*,'18','20','22','24','26','28','36','48','72'*/],
-                                },
-                            },
-                            theme: {
-                                default: 'Default',
-                                list: ['Default'],
-                            },
-                            switchTextLint: str2bool(localStorage.getItem(STORAGE.TEXTLINT_KEY)),
-                        }
-                    },
-                    methods: {
-                        open: function() {
-                            this.$refs.modalSetting.open();
-                        },
-                        saveSetting: function() {
-                            var switchValue = this.switchTextLint;
-
-                            // ストレージに値を保存
-                            localStorage.setItem(STORAGE.TEXTLINT_KEY, switchValue);
-
-                            // text-lint オン/オフ
-                            if (switchValue) {
-                                // lint を再設定する
-                                window.editor.setOption("lint", CodeMirror.getTextLint().lint);
-                            } else {
-                                // lint の設定をオフにする
-                                window.editor.setOption('lint', false);
-                            }
-
-                            this.$refs.modalSetting.close();
-                        },
-                        cancelSetting: function() {
-                            // 値を元に戻す
-                            this.switchTextLint = str2bool(localStorage.getItem(STORAGE.TEXTLINT_KEY));
-
-                            this.$refs.modalSetting.close();
-                        }
-                    }
-                });
-            });
+            require(['./../components/setting.vue'], resolve)
         });
     }
 
@@ -134,15 +84,15 @@
         return (value === 'true');
     }
 
-    function getData(url, callbak) {
-        var xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function(){
-            if (xhr.readyState === 4) {
-                callbak(xhr.status == 200 ? xhr.responseText : null);
-            }
-        }
-        xhr.open("GET", url, true);
-        xhr.send();
-    }
+    // function getData(url, callbak) {
+    //     var xhr = new XMLHttpRequest();
+    //     xhr.onreadystatechange = function(){
+    //         if (xhr.readyState === 4) {
+    //             callbak(xhr.status == 200 ? xhr.responseText : null);
+    //         }
+    //     }
+    //     xhr.open("GET", url, true);
+    //     xhr.send();
+    // }
 
 })();
