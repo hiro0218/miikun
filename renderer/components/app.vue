@@ -42,17 +42,7 @@
             </nav>
         </div>
         <main class="mdl-layout__content">
-            <div class="container">
-                <div class="editor-side" v-bind:class="{open:isOpenEditor}">
-                    <textarea id="editor" style="display:none" v-model="input" debounce="300"></textarea>
-                </div>
-                <div class="preview-side" v-if="isOpenEditor == false">
-                    <div class="preview markdown-body" v-html="input | markdown" v-if="tabContents == 0"></div>
-                    <div class="preview" v-if="tabContents == 1">
-                        <textarea class="preview-code" v-html="input | markdown" readonly wrap="soft"></textarea>
-                    </div>
-                </div>
-            </div>
+            <mii-editor v-ref:editor></mii-editor>
         </main>
     </div>
     <mdl-snackbar display-on="fileOperation"></mdl-snackbar>
@@ -61,61 +51,32 @@
 </template>
 
 <script>
-var render = require('./../js/render.js');
-var CodeMirror = require("./../js/editor.js");
-
-var Vue = require('vue');
-var VueMdl = require('vue-mdl');
-Vue.use(VueMdl.default);
-
+// NProgress
 var NProgress = require('nprogress');
 NProgress.configure({
     speed: 1000,
     showSpinner: false
 });
 
+var Vue = require('vue');
+var VueMdl = require('vue-mdl');
+Vue.use(VueMdl.default);
+
 module.exports = {
     data: function () {
         return {
-            input: "",
             isOpenEditor: false,
             tabContents: 0,
-            file: {
-                modify: false,
-                path: "",
-            },
         }
     },
     init: function() {
         NProgress.start();
     },
     ready: function() {
-        global.editor = CodeMirror.create(document.getElementById("editor"));
-        CodeMirror.settingEvent(global.editor);
-        CodeMirror.settingFormat();
-
         NProgress.done();
     },
-    watch: {
-        input: function(val, old) {
-            this.file.modify = true;
-        },
-        'file.path': function(val, old) {
-            // ファイルパスが変更された際は編集フラグはオフ
-            this.file.modify = false;
-        },
-    },
-    filters: {
-        markdown: function() {
-            // プレビュが表示されている時だけMarkdownを変換する
-            if ( !this.isOpenEditor ) {
-                // 入力されたMarkdownをHTMLに変換
-                var code = render.markdown2code(this.input);
-                // チェックしたHTMLを返す
-                return render.domSafety(code);
-            }
-        }
-    },
+    watch: {},
+    filters: {},
     methods: {
         changeTab: function(index) {
             this.tabContents = index;

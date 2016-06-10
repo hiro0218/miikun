@@ -1,5 +1,6 @@
 module.exports = {
     cm: null,
+    editor: null,
     load: function() {
         window.require("codemirror/mode/gfm/gfm.js");
         window.require("codemirror/mode/markdown/markdown.js");
@@ -30,19 +31,21 @@ module.exports = {
         // 逆接の接続助詞「が」は、特に否定の意味ではなく同一文中に複数回出現していないかどうかをチェックする
         noDoubledConjunctiveParticleGa: window.require("textlint-rule-no-doubled-conjunctive-particle-ga"),
     },
-    init: function() {
+    _init: function() {
         this.load();
         return window.require('codemirror/lib/codemirror');
     },
     create: function(textarea) {
         if (this.cm === null) {
-            this.cm = this.init();
+            this.cm = this._init();
         }
 
-        var options = this.createOption(this._str2bool(localStorage.getItem(STORAGE.TEXTLINT_KEY)));
-        return this.cm.fromTextArea(textarea, options);
+        var options = this._createOption(this._str2bool(localStorage.getItem(STORAGE.TEXTLINT_KEY)));
+        this.editor = this.cm.fromTextArea(textarea, options);
+
+
     },
-    createOption: function(textlint) {
+    _createOption: function(textlint) {
         textlint = (textlint === null) ? false : textlint;
 
         var options = {
@@ -92,16 +95,21 @@ module.exports = {
             }
         }
     },
-    settingEvent: function(target) {
-        target.on('blur', function(){
+    settingEvent: function() {
+        var self = this;
+        if (this.editor === null) {
+            return;
+        }
+
+        this.editor.on('blur', function(){
             Prism.highlightAll();  // Highlight Re-render
         });
 
-        target.on('change', function(e) {
-            target.save();
+        this.editor.on('change', function(e) {
+            self.editor.save();
 
             // Trigger
-            target.getTextArea().dispatchEvent(new Event('change'));
+            self.editor.getTextArea().dispatchEvent(new Event('change'));
         });
     },
     settingFormat: function() {
@@ -112,7 +120,7 @@ module.exports = {
         for (var i = 0, len = buttons.length; i < len; i++) {
             buttons[i].addEventListener('click', function(e) {
                 var type = this.getAttribute('data-format');
-                var value = window.editor.getSelection();
+                var value = self.editor.getSelection();
 
                 if (value) {
                     switch(type) {
@@ -139,7 +147,7 @@ module.exports = {
                     // 現在のカーソルの行を選択する
                     self._selectionCurrentLine();
                     // 値を取得する
-                    value = window.editor.getSelection();
+                    value = self.editor.getSelection();
 
                     switch(type) {
                         case 'list_bulleted':
@@ -157,7 +165,7 @@ module.exports = {
             });
         }
     },
-    _formatListValue(value, type) {
+    _formatListValue: function(value, type) {
         var tag = (type === "number") ? "1. " : "* ";
         var arr = value.split(/\r\n|\r|\n/);
         var len = arr.length;
@@ -173,14 +181,14 @@ module.exports = {
             this._replaceSelection(val);
         }
     },
-    _replaceSelection(value) {
-        window.editor.replaceSelection(value);
+    _replaceSelection: function(value) {
+        this.editor.replaceSelection(value);
     },
-    _selectionCurrentLine() {
-        var cursor = editor.getCursor();
+    _selectionCurrentLine: function() {
+        var cursor = this.editor.getCursor();
         var headPos = cursor.line;
         var footPos = cursor.length;
-        editor.setSelection({
+        this.editor.setSelection({
             line: headPos,
             ch: 0
         }, {
