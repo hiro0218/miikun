@@ -55,6 +55,10 @@ module.exports = {
             }
         }
     },
-    methods: {},
+    methods: {
+        setEditor: function(content) {
+            editor.setValue(content);
+        }
+    },
 };
 </script>

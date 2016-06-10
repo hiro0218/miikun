@@ -54,7 +54,7 @@ function newFile() {
         global.app.$refs.editor.$data.file.path = "";
         global.app.$refs.editor.$data.file.modify = false;
         setWindowTitle("");
-        setEditor("");
+        global.app.$refs.editor.setEditor("");
     }
 }
 
@@ -114,7 +114,7 @@ function loadSuccess(path, content) {
     recentFile.set(path);
 
     // エディタへ反映
-    setEditor(content);
+    global.app.$refs.editor.setEditor(content);
 
     // フラグ
     global.app.$refs.editor.$data.file.modify = false;
@@ -155,11 +155,4 @@ function saveFile() {
 
 function saveAsFile(path) {
     save(path, global.app.$refs.editor.$data.input);
-}
-
-function setEditor(content) {
-    var doc = global.editor.getDoc();
-    doc.setValue(content);
-    doc.clearHistory();
-    global.editor.setCursor(0);
 }

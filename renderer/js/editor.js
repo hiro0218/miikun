@@ -170,7 +170,7 @@ module.exports = {
         var arr = value.split(/\r\n|\r|\n/);
         var len = arr.length;
 
-        for (let i = 0; i < len; i++) {
+        for (var i = 0; i < len; i++) {
             if (type === "number") {  // 番号を増やす
                 tag = (i+1) + ". ";
             }
@@ -180,6 +180,12 @@ module.exports = {
             }
             this._replaceSelection(val);
         }
+    },
+    setValue: function(content) {
+        var doc = this.editor.getDoc();
+        doc.setValue(content);
+        doc.clearHistory();
+        this.editor.setCursor(0);
     },
     _replaceSelection: function(value) {
         this.editor.replaceSelection(value);
