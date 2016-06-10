@@ -20,7 +20,7 @@
 
 <script>
 module.exports = {
-    data() {
+    data: function () {
         return {
             font: {
                 family: {

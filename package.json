@@ -6,7 +6,7 @@
   "scripts": {
     "start": "electron .",
     "build": "npm run build:js && npm run build:css && npm run build:vendor",
-    "build:js": "webpack",
+    "build:js": "webpack -p --progress",
     "build:css": "node ./task/style.js",
     "build:vendor": "node ./task/vendor.js",
     "dest": "node ./task/dest.js",
