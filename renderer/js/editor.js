@@ -31,6 +31,9 @@ module.exports = {
         // 逆接の接続助詞「が」は、特に否定の意味ではなく同一文中に複数回出現していないかどうかをチェックする
         noDoubledConjunctiveParticleGa: window.require("textlint-rule-no-doubled-conjunctive-particle-ga"),
     },
+    setLintOption: function(opt) {
+        this.editor.setOption("lint", opt);
+    },
     _init: function() {
         this.load();
         return window.require('codemirror/lib/codemirror');

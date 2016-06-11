@@ -19,6 +19,8 @@
 </template>
 
 <script>
+var editor = require("./../js/editor.js");
+
 module.exports = {
     data: function () {
         return {
@@ -52,10 +54,10 @@ module.exports = {
             // text-lint オン/オフ
             if (switchValue) {
                 // lint を再設定する
-                window.editor.setOption("lint", this.$parent.getTextLint());
+                editor.setLintOption(this.$parent.getTextLint());
             } else {
                 // lint の設定をオフにする
-                window.editor.setOption('lint', false);
+                editor.setLintOption(false);
             }
 
             this.$refs.modalSetting.close();
