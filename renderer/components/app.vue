@@ -31,19 +31,19 @@
             <div class="mdl-layout-spacer"></div>
             <nav v-if="isOpenEditor == false">
                 <div class="tabs">
-                    <div id="tabPreview" class="tab-list" v-bind:class="{'active': tabContents == 0}" v-on:click="changeTab(0)"><i class="material-icons">visibility</i></div>
-                    <div id="tabCode" class="tab-list" v-bind:class="{'active': tabContents == 1}" v-on:click="changeTab(1)"><i class="material-icons">code</i></div>
+                    <div id="tabPreview" class="tab-list" v-bind:class="{'active': previewContents == 0}" v-on:click="changePreviewTab(0)"><i class="material-icons">visibility</i></div>
+                    <div id="tabCode" class="tab-list" v-bind:class="{'active': previewContents == 1}" v-on:click="changePreviewTab(1)"><i class="material-icons">code</i></div>
                 </div>
             </nav>
         </header>
+        <main class="mdl-layout__content">
+            <mii-editor v-ref:editor></mii-editor>
+        </main>
         <div class="mdl-layout__drawer">
             <nav class="mdl-navigation">
                 <a class="mdl-navigation__link" href="javascript:void(0)" v-on:click="$refs.miiSetting.open()"><i class="material-icons">settings</i> Settings</a>
             </nav>
         </div>
-        <main class="mdl-layout__content">
-            <mii-editor v-ref:editor></mii-editor>
-        </main>
     </div>
     <mdl-snackbar display-on="fileOperation"></mdl-snackbar>
     <mii-tooltip v-ref:mii-tooltip></mii-tooltip>
@@ -51,6 +51,8 @@
 </template>
 
 <script>
+var editor = require("./../js/editor.js");
+
 // NProgress
 var NProgress = require('nprogress');
 NProgress.configure({
@@ -66,11 +68,14 @@ module.exports = {
     data: function () {
         return {
             isOpenEditor: false,
-            tabContents: 0,
+            previewContents: 0,
         }
     },
     init: function() {
         NProgress.start();
+
+        //
+        this.$electron.remote.BrowserWindow.getFocusedWindow().setTitle("");
     },
     ready: function() {
         NProgress.done();
@@ -78,8 +83,12 @@ module.exports = {
     watch: {},
     filters: {},
     methods: {
-        changeTab: function(index) {
-            this.tabContents = index;
+        setWindowTitle: function(title) {
+            title = (title != "") ? title : "Untitled Document";
+            this.$electron.remote.BrowserWindow.getFocusedWindow().setTitle(title);
+        },
+        changePreviewTab: function(index) {
+            this.previewContents = index;
         },
         openSnackbar: function(msg){
             this.$broadcast('fileOperation', {
@@ -88,7 +97,7 @@ module.exports = {
             });
         },
         getTextLint: function() {
-            return CodeMirror.getTextLint().lint;
+            return editor.getTextLint().lint;
         },
     },
     components: VueMdl.components,

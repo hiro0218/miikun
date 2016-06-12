@@ -42,6 +42,9 @@ module.exports = {
                 // 編集フラグはオフ
                 this.file.modify = false;
             }
+
+            // ウィンドウタイトルへセット
+            this.$parent.setWindowTitle(val);
         },
     },
     filters: {

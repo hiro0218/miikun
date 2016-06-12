@@ -30,14 +30,6 @@ window.addEventListener('drop', function(e) {
     return false;
 }, true);
 
-function setWindowTitle(path) {
-    if (path) {
-        FocusedWindow.setTitle(path +" - " + packagejson.name);
-    } else {
-        FocusedWindow.setTitle(packagejson.name);
-    }
-}
-
 function newFile() {
     // 新規ファイルで未編集
     if (!global.app.$refs.editor.$data.file.modify && !global.app.$refs.editor.$data.file.path) {
@@ -53,7 +45,6 @@ function newFile() {
     if (!global.app.$refs.editor.$data.file.modify) {
         global.app.$refs.editor.$data.file.path = "";
         global.app.$refs.editor.$data.file.modify = false;
-        setWindowTitle("");
         global.app.$refs.editor.setEditor("");
     }
 }
@@ -108,8 +99,6 @@ function openFile(path) {
 }
 
 function loadSuccess(path, content) {
-    // タイトルに反映
-    setWindowTitle(path);
     // メニューに追加
     recentFile.set(path);
 
@@ -136,7 +125,6 @@ function save(path, data) {
         if (error === undefined) {
             global.app.$refs.editor.$data.file.modify = false;
             global.app.$refs.editor.$data.file.path = path;  // for new file
-            setWindowTitle(path);   // for new file
             global.app.openSnackbar('Document saved.');
         }
 
