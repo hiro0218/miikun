@@ -45,7 +45,7 @@ function readyMainWindow(baseDir) {
         }
     });
     mainWindow.loadURL('file://' + __dirname + '/index.html');
-    mainWindow.setTitle(packagejson.name);
+    //mainWindow.setTitle(packagejson.name);
     //mainWindow.webContents.openDevTools();
 
     // クラッシュ

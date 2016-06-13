@@ -4,8 +4,8 @@
             <textarea id="editor" style="display:none" v-model="input" debounce="300"></textarea>
         </div>
         <div class="preview-side" v-if="$parent.isOpenEditor == false">
-            <div class="preview markdown-body" v-html="input | markdown" v-if="$parent.tabContents == 0"></div>
-            <div class="preview" v-if="$parent.tabContents == 1">
+            <div class="preview markdown-body" v-html="input | markdown" v-if="$parent.previewContents == 0"></div>
+            <div class="preview" v-if="$parent.previewContents == 1">
                 <textarea class="preview-code" v-html="input | markdown" readonly wrap="soft"></textarea>
             </div>
         </div>
@@ -34,13 +34,17 @@ module.exports = {
     },
     watch: {
         input: function(val, old) {
-            this.file.modify = true;
+            // ウィンドウタイトルに更新マークを付ける
+            if (this.file.path != "" && !this.file.modify) {
+                this.$parent.setWindowTitle(this.file.path + " (*)");
+            }
+
+            this.file.modify = true;  // 編集フラグをオン
         },
         'file.path': function(val, old) {
             // 新規作成以外のとき
             if (val !== "") {
-                // 編集フラグはオフ
-                this.file.modify = false;
+                this.file.modify = false;  // 編集フラグはオフ
             }
 
             // ウィンドウタイトルへセット

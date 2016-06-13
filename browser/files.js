@@ -124,7 +124,8 @@ function save(path, data) {
 
         if (error === undefined) {
             global.app.$refs.editor.$data.file.modify = false;
-            global.app.$refs.editor.$data.file.path = path;  // for new file
+            global.app.$refs.editor.$data.file.path = path;
+            global.app.setWindowTitle(path);
             global.app.openSnackbar('Document saved.');
         }
 
@@ -134,9 +135,9 @@ function save(path, data) {
 }
 
 function saveFile() {
-    if (global.app.$refs.editor.$data.file.path) {
+    if (global.app.$refs.editor.$data.file.path) {  // 既存のファイル
         save(global.app.$refs.editor.$data.file.path, global.app.$refs.editor.$data.input);
-    } else {
+    } else {  // 新規
         dialogSaveAs();
     }
 }
