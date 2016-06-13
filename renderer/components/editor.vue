@@ -29,8 +29,6 @@ module.exports = {
     init: function() {},
     ready: function() {
         editor.create(document.getElementById("editor"));
-        editor.settingEvent();
-        editor.settingFormat();
     },
     watch: {
         input: function(val, old) {

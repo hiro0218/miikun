@@ -46,7 +46,8 @@ module.exports = {
         var options = this._createOption(this._str2bool(localStorage.getItem(STORAGE.TEXTLINT_KEY)));
         this.editor = this.cm.fromTextArea(textarea, options);
 
-
+        this.settingEvent();
+        this.settingFormat();
     },
     _createOption: function(textlint) {
         textlint = (textlint === null) ? false : textlint;
@@ -96,7 +97,7 @@ module.exports = {
                 }),
                 "async": true
             }
-        }
+        };
     },
     settingEvent: function() {
         var self = this;
@@ -117,8 +118,7 @@ module.exports = {
     },
     settingFormat: function() {
         var self = this;
-        var tools = document.getElementById("editor-tools");
-        var buttons = tools.getElementsByTagName("button");
+        var buttons = document.getElementById("editor-tools").getElementsByTagName("button");
 
         for (var i = 0, len = buttons.length; i < len; i++) {
             buttons[i].addEventListener('click', function(e) {
@@ -207,7 +207,7 @@ module.exports = {
     },
     _str2bool: function(value) {
         if (typeof value === 'string') {
-          value = value.toLowerCase();
+            value = value.toLowerCase();
         }
         return (value === 'true');
     }

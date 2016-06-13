@@ -3,7 +3,6 @@
         "vendor": [
             "vendor/rickdom/rickdom-0.2.js",
             "vendor/PrismJS/prism.js",
-            "node_modules/basicmodal/dist/basicModal.min.js",
             "node_modules/material-design-lite/material.min.js"
         ]
     },
@@ -13,7 +12,6 @@
             "node_modules/github-markdown-css/github-markdown.css",
             "node_modules/codemirror/addon/lint/lint.css",
             "vendor/PrismJS/prism.css",
-            "node_modules/basicmodal/dist/basicModal.min.css",
             "node_modules/nprogress/nprogress.css"
         ]
     }

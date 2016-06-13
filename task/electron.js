@@ -33,7 +33,7 @@ var option = {
     ignore: [
         // 'assets/[^(font)]',
         'assets/img/iconset/',
-        'task/',
+        // 'task/',
         'build/',
         "vendor/",
         'renderer/',

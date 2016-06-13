@@ -73,9 +73,9 @@ module.exports = {
     },
     init: function() {
         NProgress.start();
-        this.$electron.remote.BrowserWindow.getFocusedWindow().setTitle("Untitled Document");
     },
     ready: function() {
+        this.setWindowTitle("Untitled Document");
         NProgress.done();
     },
     watch: {},

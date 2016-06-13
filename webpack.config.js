@@ -37,7 +37,7 @@ var config = {
     },
     plugin:[
         new webpack.optimize.UglifyJsPlugin({
-            compressor: {
+            compress: {
                 warnings: false
             }
         }),

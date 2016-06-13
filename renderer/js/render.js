@@ -64,4 +64,4 @@ module.exports = {
 
         return this.MarkdownIt.render(txt);
     }
-}
+};
