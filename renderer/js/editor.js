@@ -5,11 +5,21 @@ module.exports = {
         window.require("codemirror/mode/gfm/gfm.js");
         window.require("codemirror/mode/markdown/markdown.js");
         window.require("codemirror/mode/xml/xml.js");
+        // editor
+        window.require("codemirror/addon/edit/closetag.js");
         window.require("codemirror/addon/edit/continuelist.js");
         window.require("codemirror/addon/edit/closebrackets.js");
+
         window.require("codemirror/addon/lint/lint.js");
         window.require("codemirror/addon/mode/overlay.js");
         window.require("codemirror/addon/selection/active-line.js");
+        // fold
+        window.require("codemirror/addon/fold/foldcode.js");
+        window.require("codemirror/addon/fold/foldgutter.js");
+        window.require("codemirror/addon/fold/brace-fold.js");
+        window.require("codemirror/addon/fold/xml-fold.js");
+        window.require("codemirror/addon/fold/markdown-fold.js");
+        window.require("codemirror/addon/fold/comment-fold.js");
     },
     rule: {
         // 一文に利用できる、の数をチェックする
@@ -59,18 +69,23 @@ module.exports = {
             },
             theme: 'markdown',
             autofocus: true,
+            autoCloseTags: true,
+            showCursorWhenSelecting: true,
+            inputStyle: "textarea",
             lineNumbers: true,
-            indentUnit: 4,
+            lineWrapping: true,
+            foldGutter: true,
             tabSize: 2,
             electricChars: true,
             styleActiveLine: true,
             matchBrackets: true,
-            lineWrapping: true,
             dragDrop: false,
             autoCloseBrackets: true,
+            autoRefresh: true,
             extraKeys: {
                 "Enter": "newlineAndIndentContinueMarkdownList"
-            }
+            },
+            gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],            indentUnit: 4,
         };
 
         if (textlint === true) {

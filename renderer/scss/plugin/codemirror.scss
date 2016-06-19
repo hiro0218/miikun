@@ -11,19 +11,21 @@
 
     width: 100%;
     background: inherit;
-    border-right: 1px solid $color200;
+    padding: .5rem;
+
 }
 
 // PADDING
 .CodeMirror-lines {
-    padding: .25rem 0; /* Vertical padding around content */
+    padding: .25rem 0; // Vertical padding around content
 }
 .CodeMirror pre {
-    padding: 0 .25rem; /* Horizontal padding of content */
+    padding: 0 .25rem; // Horizontal padding of content
 }
 
-.CodeMirror-scrollbar-filler, .CodeMirror-gutter-filler {
-    background-color: transparent; /* The little square between H and V scrollbars */
+.CodeMirror-scrollbar-filler,
+.CodeMirror-gutter-filler {
+    background-color: transparent; // The little square between H and V scrollbars
 }
 
 // GUTTER
@@ -35,19 +37,24 @@
 //.CodeMirror-linenumbers {}
 .CodeMirror-linenumber {
     font-family: $font-family-monospace;
-    font-size: $font-size-sm;
-    padding: 0 .25rem 0 .5rem;
-    min-width: 2rem;
+    padding: 0 .25rem;
+    min-width: 1rem;
     text-align: right;
     color: $editor-linenumber-color;
     white-space: nowrap;
 }
 
+.CodeMirror-activeline {
+    .CodeMirror-linenumber {
+        font-weight: bold;
+        color: darken($editor-linenumber-color, 16%);
+    }
+}
 
 /* CURSOR */
 
 .CodeMirror-cursor {
-    border-left: 1px solid black;
+    border-left: 2px solid $color800;
     border-right: none;
     width: 0;
 }
@@ -114,15 +121,15 @@
     overflow: scroll !important; /* Things will break if this is overridden */
     /* 30px is the magic margin used to hide the element's real scrollbars */
     /* See overflow: hidden in .CodeMirror */
-    margin-bottom: -30px; margin-right: -30px;
-    padding-bottom: 30px;
+    margin-bottom: -32px; margin-right: -32px;
+    padding-bottom: 32px;
     height: 100%;
     outline: none; /* Prevent dragging from highlighting the element */
     position: relative;
 }
 .CodeMirror-sizer {
     position: relative;
-    border-right: 30px solid transparent;
+    border-right: 32px solid transparent;
 }
 
 /* The fake, visible scrollbars. Used to force redraw during scrolling
@@ -157,7 +164,7 @@ flickering artifacts. */
 }
 .CodeMirror-gutter {
     white-space: normal;
-    height: 100%;
+    //height: 100%;
     display: inline-block;
     vertical-align: top;
     margin-bottom: -30px;
@@ -179,7 +186,6 @@ flickering artifacts. */
     z-index: 4;
 }
 .CodeMirror-gutter-wrapper {
-    -webkit-user-select: none;
     user-select: none;
 }
 
@@ -389,4 +395,25 @@ CodeMirror-selectedtext { background: none; }
         position: absolute;
         left: .5rem;
     }
+}
+
+// fold
+.CodeMirror-foldmarker {
+  line-height: .3;
+  cursor: pointer;
+  color: $color400;
+  margin: .25rem;
+}
+.CodeMirror-foldgutter {
+  width: .8em;
+}
+.CodeMirror-foldgutter-open,
+.CodeMirror-foldgutter-folded {
+  cursor: pointer;
+}
+.CodeMirror-foldgutter-open:after {
+  content: "\25BE";
+}
+.CodeMirror-foldgutter-folded:after {
+  content: "\25B8";
 }

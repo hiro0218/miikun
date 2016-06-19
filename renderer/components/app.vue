@@ -83,7 +83,10 @@ module.exports = {
     methods: {
         setWindowTitle: function(title) {
             title = (title != "") ? title : "Untitled Document";
-            this.$electron.remote.BrowserWindow.getFocusedWindow().setTitle(title);
+
+            if (this.$electron.remote.BrowserWindow) {
+                this.$electron.remote.BrowserWindow.getFocusedWindow().setTitle(title);
+            }
         },
         changePreviewTab: function(index) {
             this.previewContents = index;

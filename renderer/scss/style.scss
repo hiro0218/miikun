@@ -82,6 +82,7 @@ body {
 
 .preview-side {
     @include span-columns(6);
+    border-left: 2px solid $color300;
 }
 
 //
@@ -91,8 +92,7 @@ body {
 .markdown-body {
     font-family: $font-family-regular;
     overflow: auto;
-    line-height: 1.6em;
-    padding: .25rem .5rem;
+    padding: .5rem;
 
     h1, h2, h3, h4, h5, h6 {
         font-family: $font-family-regular;
@@ -116,4 +116,11 @@ body {
     &:focus {
         outline: none !important;
     }
+}
+
+
+//
+.mdl-layout__drawer-button {
+    width: 40px;
+    outline: 0;
 }
