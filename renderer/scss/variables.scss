@@ -64,8 +64,11 @@ $color-accent-contrast: "255,255,255";
 $font-size-root: $em-base;
 $font-size-sm: .85rem;
 $font-size-xs: .75rem;
-$font-family-regular: "Noto Sans CJK JP";
-$font-family-monospace: "Source Code Pro", $font-family-regular;
+
+$font-base:                -apple-system, BlinkMacSystemFont, "Noto Sans JP", YuGothic, "Yu Gothic", "游ゴシック体", "游ゴシック", "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "メイリオ", Meiryo;
+$font-family-regular:      #{$font-base}, Emoji, sans-serif !default;
+$font-mono:                "Source Code Pro", #{$font-base};
+$font-family-monospace:    #{$font-base-jpn}, Emoji, monospace !default;
 
 $btn-padding: .25rem .5rem;
 $header-height: 64px;//2rem + (.5rem);

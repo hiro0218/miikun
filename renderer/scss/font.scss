@@ -1,35 +1,3 @@
-// Noto Sans CJK JP
-@font-face {
-    font-family: "Noto Sans CJK JP";
-    font-style: normal;
-    font-weight: 300;
-    text-rendering: optimizeLegibility;
-    src: local('Noto Sans CJK JP Light'),
-         url('../../assets/font/NotoSansCJKjp-Light.woff') format('woff'),
-         url('../../assets/font/NotoSansCJKjp-Light.otf') format('opentype');
-}
-
-@font-face {
-    font-family: "Noto Sans CJK JP";
-    font-style: normal;
-    font-weight: 500;
-    text-rendering: optimizeLegibility;
-    src: local('Noto Sans CJK JP Regular'),
-         url('../../assets/font/NotoSansCJKjp-Regular.woff') format('woff'),
-         url('../../assets/font/NotoSansCJKjp-Regular.otf') format('opentype');
-}
-
-// Source Code Pro
-@font-face {
-    font-family: "Source Code Pro";
-    font-style: normal;
-    font-weight: 300;
-    text-rendering: optimizeLegibility;
-    src: local('Source Code Pro Light'),
-         url('../../assets/font/SourceCodePro-Light.otf.woff') format('woff'),
-         url('../../assets/font/SourceCodePro-Light.otf') format('opentype');
-}
-
 // Material Icons
 @font-face {
   font-family: 'Material Icons';
@@ -62,4 +30,15 @@
   // -moz-osx-font-smoothing: grayscale;
   // /* Support for IE. */
   // font-feature-settings: 'liga';
+}
+
+// Emoji
+@font-face {
+  font-family: 'Emoji';
+  src: local('Apple Color Emoji'),
+       local('Gecko Emoji'),
+       local('Noto Sans Emoji'),
+       local('Segoe UI Emoji'),
+       local('Segoe UI Symbol'),
+       local('Noto Sans Symbols');
 }
