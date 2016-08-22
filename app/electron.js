@@ -19,8 +19,8 @@ if (process.env.NODE_ENV === 'development') {
 
 function createWindow () {
   /**
-   * Initial window options
-   */
+  * Initial window options
+  */
   mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
@@ -28,7 +28,7 @@ function createWindow () {
     minHeight: 300,
     resizable: true,
     webPreferences: {
-        textAreasAreResizable: false,
+      textAreasAreResizable: false
     }
   })
 
@@ -40,44 +40,44 @@ function createWindow () {
     let installExtension = require('electron-devtools-installer')
 
     installExtension.default(installExtension.VUEJS_DEVTOOLS)
-      .then((name) => mainWindow.webContents.openDevTools())
-      .catch((err) => console.log('An error occurred: ', err))
+    .then((name) => mainWindow.webContents.openDevTools())
+    .catch((err) => console.log('An error occurred: ', err))
   }
 
-  mainWindow.on('closed', function() {
+  mainWindow.on('closed', function () {
     mainWindow = null
   })
 
-  mainWindow.webContents.on('crashed', function() {
-      console.log("webContents crashed");
-      dialog.showMessageBox({
-          type: 'info',
-          title: 'Renderer Process Crashed',
-          message: 'This process has crashed.',
-          buttons: ['Reload', 'Close']
-      }, function(index) {
-          if (index === 0) {
-              mainWindow.reload()
-          } else {
-              mainWindow.close()
-          }
-      })
+  mainWindow.webContents.on('crashed', function () {
+    console.log('webContents crashed')
+    dialog.showMessageBox({
+      type: 'info',
+      title: 'Renderer Process Crashed',
+      message: 'This process has crashed.',
+      buttons: ['Reload', 'Close']
+    }, function (index) {
+      if (index === 0) {
+        mainWindow.reload()
+      } else {
+        mainWindow.close()
+      }
+    })
   })
 
-  mainWindow.on('unresponsive', function() {
+  mainWindow.on('unresponsive', function () {
     console.log('unresponsive')
     dialog.showMessageBox({
-        type: 'info',
-        title: 'Renderer Process Hanging',
-        message: 'This process is hanging.',
-        buttons: ['Reload', 'Close']
-      }, function (index) {
-          if (index === 0) {
-            mainWindow.reload()
-          } else {
-            mainWindow.close()
-          }
-      })
+      type: 'info',
+      title: 'Renderer Process Hanging',
+      message: 'This process is hanging.',
+      buttons: ['Reload', 'Close']
+    }, function (index) {
+      if (index === 0) {
+        mainWindow.reload()
+      } else {
+        mainWindow.close()
+      }
+    })
   })
 
   mainWindow.webContents.on('crashed', function (event) {
@@ -89,13 +89,13 @@ function createWindow () {
 
 app.on('ready', createWindow)
 
-app.on('window-all-closed', function() {
+app.on('window-all-closed', function () {
   if (process.platform !== 'darwin') {
     app.quit()
   }
 })
 
-app.on('activate', function() {
+app.on('activate', function () {
   if (mainWindow === null) {
     createWindow()
   }
