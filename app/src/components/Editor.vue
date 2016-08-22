@@ -6,9 +6,12 @@
     <div class='input'><textarea id='editor' v-el:codemirror v-model='input' debounce='500'></textarea></div>
     <div class='preview' v-if="isPreview == true"><div class='markdown-body' v-html='input | markdown'></div></div>
   </div>
+  <div class='dropzone'></div>
 </template>
 
 <script>
+var shell = require('electron').shell
+
 import CodeMirror from 'codemirror/lib/codemirror'
 require('codemirror/mode/gfm/gfm.js')
 require('codemirror/mode/markdown/markdown.js')
@@ -106,6 +109,12 @@ export default {
       self.editor.getTextArea().dispatchEvent(new Event('change'))
       self.updateButtonStatus()
     })
+
+    this.openLinkExternal()
+
+    var dragDrop = require('../modules/dragdrop.js')
+    dragDrop.init()
+    dragDrop.openFile = self.$root.$children[0].$refs.miiToolbar.readFile
   },
   methods: {
     updateButtonStatus () {
@@ -151,6 +160,19 @@ export default {
       this.editor.markClean()
       this.editor.clearHistory()
       this.updateButtonStatus()
+    },
+    openLinkExternal () {
+      document.addEventListener('click', function (e) {
+        if (e.target.tagName.toLowerCase() !== 'a') {
+          return
+        }
+
+        if (e.target.getAttribute('href') && e.target.getAttribute('href').substring(0, 4) === 'http') {
+          e.preventDefault()
+          e.stopPropagation()
+          shell.openExternal(e.target.href)
+        }
+      })
     }
   },
   watch: {

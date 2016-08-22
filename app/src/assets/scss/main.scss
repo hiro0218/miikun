@@ -95,3 +95,19 @@ body {
 .statusbar-right {
   text-align: right;
 }
+
+// drop
+.dropzone {
+  opacity: 0;
+  position: fixed;
+  width: calc(100%);
+  height: 100vh;
+  right: 0;
+  top: 0;
+  z-index: -100;
+  background: $faint-black;
+  border: 4px dashed $color400;
+
+  transition: opacity .4s;
+  user-select: none;
+}
