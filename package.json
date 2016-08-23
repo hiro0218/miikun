@@ -15,6 +15,13 @@
     "postinstall": "cd app && npm install",
     "vue:route": "node tasks/vue/route.js"
   },
+  "keywords": [
+    "electron-app",
+    "electron",
+    "Markdown",
+    "Markdown Editor",
+    "Editor"
+  ],
   "author": "hiro <hiro@0218.jp>",
   "license": "MIT",
   "devDependencies": {
