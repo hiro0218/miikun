@@ -6,10 +6,10 @@
   "dependencies": {
     "bourbon": "^4.2.7",
     "bourbon-neat": "^1.8.0",
-    "codemirror": "^5.17.0",
+    "codemirror": "^5.18.0",
     "countable": "^2.1.1",
     "keen-ui": "^0.8.9",
-    "markdown-it": "^7.0.0",
+    "markdown-it": "^7.0.1",
     "markdown-it-checkbox": "^1.1.0",
     "markdown-it-footnote": "^3.0.1",
     "normalize.css": "^4.2.0",
