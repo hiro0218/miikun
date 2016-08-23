@@ -19,13 +19,16 @@ module.exports = {
   saveAsFile: function () {},
   dialogAbout: function () {
     dialog.showMessageBox(focusedWindow, {
-      title: 'About',
-      type: 'none',
-      icon: 'app/icons/about.png',
-      buttons: ['OK'],
-      message: pkg.name,
-      detail: pkg.version + '\n' +
-              pkg.description
+      title: pkg.name + ' - About',
+      type: 'question',
+      icon: './app/image/about.png',
+      message: pkg.name + ' Ver.' + pkg.version,
+      detail: pkg.description + '\n\n' +
+      'Electron: ' + process.versions.electron + '\n' +
+      'Chromium: ' + process.versions.chrome + '\n' +
+      'V8: ' + process.versions.v8 + '\n' +
+      'Node.js: ' + process.versions.node,
+      buttons: ['OK']
     })
   },
   ready: function () {
