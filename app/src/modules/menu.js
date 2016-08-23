@@ -84,7 +84,8 @@ module.exports = {
         {
           label: 'Always on Top',
           accelerator: 'CmdOrCtrl+Shift+T',
-          type: 'checkbox', checked: false,
+          type: 'checkbox',
+          checked: false,
           click: function () {
             focusedWindow.setAlwaysOnTop(!focusedWindow.isAlwaysOnTop())
           }
