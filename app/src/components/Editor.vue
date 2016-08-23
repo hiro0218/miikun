@@ -10,7 +10,10 @@
 </template>
 
 <script>
-var shell = require('electron').shell
+var remote = require('electron').remote
+var shell = remote.shell
+var browserWindow = remote.BrowserWindow
+var focusedWindow = browserWindow.getFocusedWindow()
 
 import CodeMirror from 'codemirror/lib/codemirror'
 require('codemirror/mode/gfm/gfm.js')
@@ -170,7 +173,14 @@ export default {
         if (e.target.getAttribute('href') && e.target.getAttribute('href').substring(0, 4) === 'http') {
           e.preventDefault()
           e.stopPropagation()
-          shell.openExternal(e.target.href)
+          var status = focusedWindow.isAlwaysOnTop()  // get status
+          focusedWindow.setAlwaysOnTop(true)  // on top
+          shell.openExternal(e.target.href)  // open link
+          if (!status) {
+            setTimeout(function () {
+              focusedWindow.setAlwaysOnTop(false)  // restore
+            }, 1000)
+          }
         }
       })
     }
