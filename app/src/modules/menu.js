@@ -1,12 +1,11 @@
-var remote = require('electron').remote
-var app = remote.app
-var Menu = remote.require('electron').Menu
-var dialog = remote.require('electron').dialog
-var shell = remote.shell
-var browserWindow = remote.BrowserWindow
-var focusedWindow = browserWindow.getFocusedWindow()
-var pkg = require('../../package.json')
+const remote = require('electron').remote
+const Menu = remote.require('electron').Menu
+const dialog = remote.require('electron').dialog
+const shell = remote.shell
+const nativeImage = remote.require('electron').nativeImage
+const iconImage = nativeImage.createFromPath('./app/static/icon.png')
 
+const pkg = require('../../package.json')
 const OSX = process.platform === 'darwin'
 const WIN = process.platform === 'win32'
 const isDevelop = /[\\/]electron-prebuilt[\\/]/.test(process.execPath)
@@ -17,20 +16,6 @@ module.exports = {
   openFile: function () {},
   saveFile: function () {},
   saveAsFile: function () {},
-  dialogAbout: function () {
-    dialog.showMessageBox(focusedWindow, {
-      title: pkg.name + ' - About',
-      type: 'question',
-      icon: './app/image/about.png',
-      message: pkg.name + ' Ver.' + pkg.version,
-      detail: pkg.description + '\n\n' +
-      'Electron: ' + process.versions.electron + '\n' +
-      'Chromium: ' + process.versions.chrome + '\n' +
-      'V8: ' + process.versions.v8 + '\n' +
-      'Node.js: ' + process.versions.node,
-      buttons: ['OK']
-    })
-  },
   ready: function () {
     var self = this
 
@@ -42,7 +27,7 @@ module.exports = {
         {
           label: 'New',
           accelerator: 'CmdOrCtrl+N',
-          click: function (item) {
+          click: function () {
             self.newFile()
           }
         },
@@ -76,7 +61,7 @@ module.exports = {
           accelerator: (function () {
             return OSX ? 'Ctrl+Command+F' : 'F11'
           })(),
-          click: function () {
+          click: function (item, focusedWindow) {
             focusedWindow.setFullScreen(!focusedWindow.isFullScreen())
           }
         },
@@ -86,7 +71,7 @@ module.exports = {
           accelerator: 'CmdOrCtrl+Shift+T',
           type: 'checkbox',
           checked: false,
-          click: function () {
+          click: function (item, focusedWindow) {
             focusedWindow.setAlwaysOnTop(!focusedWindow.isAlwaysOnTop())
           }
         }
@@ -94,6 +79,12 @@ module.exports = {
     }, {
       label: 'Help',
       submenu: [
+        {
+          label: 'Website',
+          click: function () {
+            shell.openExternal('https://github.com/hiro0218/miikun/')
+          }
+        },
         {
           label: 'Release Note',
           click: function () {
@@ -103,8 +94,19 @@ module.exports = {
         { type: 'separator' },
         {
           label: 'About',
-          click: function () {
-            self.dialogAbout()
+          click: function (item, focusedWindow) {
+            dialog.showMessageBox(focusedWindow, {
+              title: 'About',
+              type: 'none',
+              icon: iconImage,
+              message: pkg.name + ' Ver.' + pkg.version,
+              detail: pkg.description + '\n\n' +
+              'Electron: ' + process.versions.electron + '\n' +
+              'Chromium: ' + process.versions.chrome + '\n' +
+              'V8: ' + process.versions.v8 + '\n' +
+              'Node.js: ' + process.versions.node,
+              buttons: []
+            })
           }
         }
       ]
@@ -122,11 +124,11 @@ module.exports = {
     if (OSX) {
       var self = this
       self.menubar.push({
-        label: app.getName(),
+        label: pkg.name,
         submenu: [{
           label: 'Exit',
           accelerator: 'CmdOrCtrl+Q',
-          click: function () {
+          click: function (item, focusedWindow) {
             focusedWindow.close()
           }
         }]
@@ -141,7 +143,7 @@ module.exports = {
       }, {
         label: 'Exit',
         accelerator: 'CmdOrCtrl+Q',
-        click: function () {
+        click: function (item, focusedWindow) {
           focusedWindow.close()
         }
       })
@@ -157,7 +159,7 @@ module.exports = {
           {
             label: 'Reload',
             accelerator: 'CmdOrCtrl+R',
-            click: function () {
+            click: function (item, focusedWindow) {
               focusedWindow.reload()
             }
           },
@@ -166,7 +168,7 @@ module.exports = {
             accelerator: (function () {
               return OSX ? 'Alt+Command+I' : 'Ctrl+Shift+I'
             })(),
-            click: function () {
+            click: function (item, focusedWindow) {
               focusedWindow.toggleDevTools()
             }
           }
