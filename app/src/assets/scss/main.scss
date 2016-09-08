@@ -87,6 +87,7 @@ body {
 .statusbar-left,
 .statusbar-right {
   @include span-columns(6);
+  @include ellipsis(100%);
 }
 
 .statusbar-left {
