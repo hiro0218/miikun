@@ -8,7 +8,7 @@
   "dependencies": {
     "bourbon": "^4.2.7",
     "bourbon-neat": "^1.8.0",
-    "codemirror": "^5.18.0",
+    "codemirror": "^5.18.2",
     "countable": "^2.1.1",
     "keen-ui": "^0.8.9",
     "markdown-it": "^7.0.1",
