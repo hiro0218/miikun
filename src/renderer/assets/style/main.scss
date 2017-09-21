@@ -1,0 +1,67 @@
+@import '~normalize.css/normalize.css';
+@import "~bourbon/app/assets/stylesheets/bourbon";
+@import "common/font";
+@import "common/variables";
+@import "plugin/github-markdown";
+@import "plugin/codemirror";
+@import "plugin/prismjs";
+
+html {
+  font-size: 100%;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  -webkit-overflow-scrolling: touch;
+}
+
+body {
+  font-family: $font-family-sansSerif;
+  font-weight: $font-weight-base;
+  line-height: $line-height-base;
+}
+
+.container {
+  display: flex;
+  margin: 0 auto;
+  width: 100vw;
+  height: 100vh;
+}
+
+// editor
+.input,
+.preview {
+  flex-basis: 50%;
+  width: 50%;
+}
+.CodeMirror {
+  height: 100%;
+  width: 100%;
+}
+
+.input {
+  transition: all .2s;
+  &.open {
+    flex-basis: 100%;
+    width: 100%;
+  }
+}
+.preview {
+  overflow: auto;
+  padding: .5rem;
+}
+
+// drop
+.dropzone {
+  opacity: 0;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: -100;
+  padding: 2rem;
+  background: $faint-black;
+  border: 4px dashed $color400;
+
+  transition: opacity .4s;
+  user-select: none;
+}

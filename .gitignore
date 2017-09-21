@@ -4,6 +4,10 @@ app/dist/*
 !app/dist/fonts
 builds/*
 node_modules
+dist/electron/*
+dist/web/*
+build/*
+!build/icons
 npm-debug.log
 npm-debug.log.*
 thumbs.db
