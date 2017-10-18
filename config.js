@@ -20,8 +20,8 @@ let config = {
   // Docs: https://simulatedgreg.gitbooks.io/electron-vue/content/docs/building_your_app.html
   building: {
     // darwin
-    'app-version': pkg.version,
-    'app-bundle-id': 'jp.0218.app.Miikun',
+    'appVersion': pkg.version,
+    'appBundleId': 'jp.0218.app.Miikun',
     // win32
     'version-string': {
       FileDescription: pkg.description,
