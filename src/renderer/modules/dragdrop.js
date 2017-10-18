@@ -2,7 +2,6 @@
 
 module.exports = {
   dropZone: null,
-  openFile: function (path) {},
   dropFile: function (file, ext) {},
   ready: function () {
     var self = this
@@ -16,6 +15,7 @@ module.exports = {
     window.addEventListener('drop', function (e) {
       e.preventDefault()
       let file = e.dataTransfer.files[0]
+      console.log(file)
       let ext = file.name.split('.')[1]
       self.dropFile(file, ext)
     }, true)

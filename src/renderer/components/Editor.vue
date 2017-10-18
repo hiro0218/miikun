@@ -49,7 +49,6 @@ export default {
     this.openLinkExternal()
 
     DragDrop.dropFile = this.dropFile
-    DragDrop.openFile = this.readFile
     DragDrop.ready()
   },
   computed: {
@@ -248,7 +247,7 @@ export default {
       const focusedWindow = browserWindow.getFocusedWindow()
 
       if (file.type === 'text/plain' || file.type === 'application/text' || ext === 'txt' || ext === 'md') {
-        self.openFile(file.path)
+        self.readFile(file.path)
       } else {
         dialog.showMessageBox(focusedWindow, {
           title: 'error',
