@@ -3,7 +3,7 @@
   "version": "2.0.0",
   "description": "A Simple Markdown Editor",
   "main": "electron.js",
-  "author": "hiro <hiro@0218.jp>",
+  "author": "hiro <hiro0218@gmail.com>",
   "copyright": "Copyright (c) 2016 hiro. All rights reserved.",
   "dependencies": {
     "bourbon": "^4.2.7",
@@ -21,6 +21,5 @@
     "vue-router": "^0.7.13"
   },
   "devDependencies": {},
-  "author": "hiro <hiro0218@gmail.com>",
   "license": "ISC"
 }
