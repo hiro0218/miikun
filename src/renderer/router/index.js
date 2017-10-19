@@ -8,7 +8,7 @@ export default new Router({
     {
       path: '/',
       name: 'mii-main',
-      component: require('@/components/Main')
+      component: require('@/components/Main').default
     },
     {
       path: '*',
