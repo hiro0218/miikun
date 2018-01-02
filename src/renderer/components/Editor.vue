@@ -56,6 +56,13 @@ export default {
       return this.$refs.codemirror.editor
     },
   },
+  watch: {
+    isPreview: function (value) {
+      if (value) {
+        this.input = this.markdown.render(this.code)
+      }
+    },
+  },
   methods: {
     togglePreview () {
       this.isPreview = !this.isPreview
