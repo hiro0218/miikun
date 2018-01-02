@@ -1,20 +1,20 @@
 'use strict'
 
-require('codemirror/mode/gfm/gfm.js')
-require('codemirror/mode/markdown/markdown.js')
-require('codemirror/mode/xml/xml.js')
-require('codemirror/addon/edit/closetag.js')
-require('codemirror/addon/edit/continuelist.js')
-require('codemirror/addon/edit/closebrackets.js')
-require('codemirror/addon/lint/lint.js')
-require('codemirror/addon/mode/overlay.js')
-require('codemirror/addon/fold/foldcode.js')
-require('codemirror/addon/fold/foldgutter.js')
-require('codemirror/addon/fold/brace-fold.js')
-require('codemirror/addon/fold/xml-fold.js')
-require('codemirror/addon/fold/markdown-fold.js')
-require('codemirror/addon/fold/comment-fold.js')
-require('codemirror/addon/selection/active-line.js')
+import 'codemirror/mode/gfm/gfm.js'
+import 'codemirror/mode/markdown/markdown.js'
+import 'codemirror/mode/xml/xml.js'
+import 'codemirror/addon/edit/closetag.js'
+import 'codemirror/addon/edit/continuelist.js'
+import 'codemirror/addon/edit/closebrackets.js'
+import 'codemirror/addon/lint/lint.js'
+import 'codemirror/addon/mode/overlay.js'
+import 'codemirror/addon/fold/foldcode.js'
+import 'codemirror/addon/fold/foldgutter.js'
+import 'codemirror/addon/fold/brace-fold.js'
+import 'codemirror/addon/fold/xml-fold.js'
+import 'codemirror/addon/fold/markdown-fold.js'
+import 'codemirror/addon/fold/comment-fold.js'
+import 'codemirror/addon/selection/active-line.js'
 
 export function option () {
   return {
