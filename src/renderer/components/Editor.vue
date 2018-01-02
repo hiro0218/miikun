@@ -1,20 +1,20 @@
-<style scoped></style>
-
 <template>
   <div>
-    <div class='container'>
+    <div class="container">
       <div class='input' v-bind:class="{open:!isPreview}">
-        <codemirror ref="codemirror" :code="code" :options="editorOptions"
+        <codemirror ref="codemirror"
+                    :code="code"
+                    :options="editorOptions"
                     @ready="onEditorReady"
                     @focus="onEditorFocus"
                     @input="onEditorCodeChange">
         </codemirror>
       </div>
-      <div class='preview' v-if="isPreview == true">
-        <div class='markdown-body' v-html='input'></div>
+      <div class="preview" v-if="isPreview == true">
+        <div class="markdown-body" v-html="input"></div>
       </div>
     </div>
-    <div class='dropzone'></div>
+    <div class="dropzone"></div>
   </div>
 </template>
 
@@ -289,3 +289,5 @@ export default {
   },
 }
 </script>
+
+<style scoped></style>

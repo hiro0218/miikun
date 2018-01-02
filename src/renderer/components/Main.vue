@@ -1,5 +1,3 @@
-<style scoped></style>
-
 <template>
   <div>
     <editor ref='mii-editor'></editor>
@@ -18,3 +16,5 @@
     }
   }
 </script>
+
+<style scoped></style>

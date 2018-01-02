@@ -1,10 +1,6 @@
-<style scoped>
-</style>
-
 <template>
   <div>
-    <div class="toolbar-container">
-    </div>
+    <div class="toolbar-container"></div>
   </div>
 </template>
 
@@ -220,3 +216,5 @@ export default {
   }
 }
 </script>
+
+<style scoped></style>
