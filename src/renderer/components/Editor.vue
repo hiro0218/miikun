@@ -2,7 +2,7 @@
   <div>
     <div class="container">
       <div class='input' v-bind:class="{open:!isPreview}">
-        <codemirror ref="codemirror"
+        <codemirror ref="editor"
                     :code="code"
                     :options="editorOptions"
                     @ready="onEditorReady"
