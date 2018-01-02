@@ -7,7 +7,7 @@
         <codemirror ref="codemirror" :code="code" :options="editorOptions"
                     @ready="onEditorReady"
                     @focus="onEditorFocus"
-                    @change="onEditorCodeChange">
+                    @input="onEditorCodeChange">
         </codemirror>
       </div>
       <div class='preview' v-if="isPreview == true">
