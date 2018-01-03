@@ -5,7 +5,7 @@
 </template>
 
 <script>
-  import Editor from './Editor'
+  import Editor from '@/components/Editor'
 
   export default {
     name: 'mii-main',
