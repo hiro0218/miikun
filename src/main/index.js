@@ -19,9 +19,16 @@ function createWindow () {
   /**
    * Initial window options
    */
+  let toolSize
+  if (process.env.NODE_ENV !== 'development') {
+    toolSize = 0
+  } else {
+    toolSize = 492
+  }
+
   mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 800 + toolSize,
+    height: 800,
     minWidth: 400,
     minHeight: 300,
     resizable: true,
