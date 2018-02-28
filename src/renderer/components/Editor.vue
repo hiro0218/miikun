@@ -53,7 +53,7 @@ export default {
   },
   computed: {
     editor () {
-      return this.$refs.codemirror.editor
+      return this.$refs.editor.codemirror
     },
   },
   watch: {
@@ -93,7 +93,7 @@ export default {
       })
     },
     newFile () {
-      const editor = this.$refs.codemirror.editor
+      const editor = this.$refs.editor.codemirror
 
       // is newFile
       if (!this.path && editor.isClean()) {
@@ -196,8 +196,8 @@ export default {
       }
 
       if (result) {
-        this.$refs.codemirror.editor.markClean()
-        this.$refs.codemirror.editor.clearHistory()
+        this.$refs.editor.codemirror.markClean()
+        this.$refs.editor.codemirror.clearHistory()
       }
     },
     saveAs () {
@@ -208,8 +208,8 @@ export default {
         self.setPath(savePath)
         let result = self.writeFile()
         if (result) {
-          this.$refs.codemirror.editor.markClean()
-          this.$refs.codemirror.editor.clearHistory()
+          this.$refs.editor.codemirror.markClean()
+          this.$refs.editor.codemirror.clearHistory()
         }
       }
     },
@@ -237,14 +237,14 @@ export default {
       this.path = path
     },
     setEditor (value) {
-      this.$refs.codemirror.editor.setValue(value)
-      this.$refs.codemirror.editor.save()
+      this.$refs.editor.codemirror.setValue(value)
+      this.$refs.editor.codemirror.save()
     },
     clean () {
       this.setEditor('')
       this.setPath('')
-      this.$refs.codemirror.editor.markClean()
-      this.$refs.codemirror.editor.clearHistory()
+      this.$refs.editor.codemirror.markClean()
+      this.$refs.editor.codemirror.clearHistory()
     },
     dropFile (file, ext) {
       const self = this
