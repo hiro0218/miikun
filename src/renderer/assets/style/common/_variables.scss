@@ -1,35 +1,14 @@
 //
-// Modular scale
-// -------------------------
-$base-size: 16px;
-$modular-scale-base:  1rem;
-$modular-scale-ratio: $major-second;
-
-$prefix-for-webkit:    true;
-$prefix-for-mozilla:   false;
-$prefix-for-microsoft: false;
-$prefix-for-opera:     false;
-$prefix-for-spec:      false;
-
-
-//
 // Font
 // -------------------------
 $font-family-sansSerif:        -apple-system, BlinkMacSystemFont, "Noto Sans JP", YuGothic, "Yu Gothic", "游ゴシック体", "游ゴシック", "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "メイリオ", Meiryo, Emoji, sans-serif !default;
 $font-family-monospace:        "Source Code Pro", #{$font-family-sansSerif}, Emoji, monospace !default;
 $font-weight-base:             normal;
 
-$font-size-base:               $base-size;
-$font-size-lg:                 modular-scale(1);
-$font-size-sm:                 modular-scale(-1);
-$font-size-xs:                 modular-scale(-2);
-
-$font-size-h1:                 modular-scale(4);
-$font-size-h2:                 modular-scale(3);
-$font-size-h3:                 modular-scale(2);
-$font-size-h4:                 modular-scale(1);
-$font-size-h5:                 modular-scale(0);
-$font-size-h6:                 modular-scale(-1);
+$font-size-base:               16px;
+$font-size-lg:                 1.0625rem;
+$font-size-sm:                 .9375rem;
+$font-size-xs:                 .875rem;
 
 $line-height-base:             1.75; // 28/16
 $line-height-computed:         floor(($font-size-base * $line-height-base));
