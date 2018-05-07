@@ -11,6 +11,11 @@ export default new Router({
       component: require('@/components/Main').default
     },
     {
+      path: '/ask-encrypt-key',
+      name: 'mii-encrypt-key-prompt',
+      component: require('@/components/EncryptKeyPrompt').default
+    },
+    {
       path: '*',
       redirect: '/'
     }

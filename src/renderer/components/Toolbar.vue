@@ -5,7 +5,7 @@
 </template>
 
 <script>
-var fs = require('fs')
+var fs = require('../modules/Filesystem').filesystem
 var remote = require('electron').remote
 var browserWindow = remote.BrowserWindow
 var focusedWindow = browserWindow.getFocusedWindow()
@@ -106,7 +106,7 @@ export default {
       dialog.showOpenDialog(focusedWindow, {
         title: 'Open Dialog',
         filters: [{
-          name: 'Documents', extensions: ['txt', 'md']
+          name: 'Documents', extensions: ['txt', 'md', 'mii']
         }],
         properties: ['openFile']
       }, function (item) {
@@ -118,7 +118,7 @@ export default {
     readFile (path) {
       var self = this
       var miiEditor = self.$root.$children[0].$refs.miiEditor
-      fs.readFile(path, 'utf8', function (err, content) {
+      fs.readFile(path, function (err, content) {
         if (err === null) {
           miiEditor.setPath(path)
           miiEditor.setEditor(content)
