@@ -52,6 +52,4 @@ Encryptor.prototype.listHashes = function () {
   return crypto.getHashes()
 }
 
-module.exports = {
-  encryptor: new Encryptor()
-}
+module.exports = new Encryptor()

@@ -5,7 +5,7 @@
 </template>
 
 <script>
-var fs = require('../modules/Filesystem').filesystem
+var fs = require('../modules/Filesystem')
 var remote = require('electron').remote
 var browserWindow = remote.BrowserWindow
 var focusedWindow = browserWindow.getFocusedWindow()

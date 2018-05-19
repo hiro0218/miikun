@@ -2,7 +2,7 @@
 
 const fs = require('fs')
 const { ipcRenderer } = require('electron')
-const { encryptor } = require('./Encryptor')
+const encryptor = require('./Encryptor')
 
 // This file looks looks
 // | Base info | HMAC | IV | Enc Content |
@@ -85,7 +85,7 @@ Filesystem.prototype.encrypt = function (key, content) {
 Filesystem.prototype.decrypt = function (key, content) {
   let fileStruct = this.unpackHeader(content)
   let decContent = encryptor.decrypt(key, fileStruct.encContent, fileStruct.iv)
-  return this.encryptor.hmac(decContent).equals(fileStruct.hmac)
+  return encryptor.hmac(decContent).equals(fileStruct.hmac)
     ? decContent
     : null
 }
@@ -124,4 +124,4 @@ Filesystem.prototype.dumpHeader = function (header) {
   console.log('[Dump Header] IV: ' + iv.toString('utf8'))
 }
 
-export default new Filesystem()
+module.exports = new Filesystem()
