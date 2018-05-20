@@ -30,14 +30,6 @@
 ::placeholder { /* Most modern browsers support this now. */
    color:darkgrey
 }
-dev {
-  width:100%;
-  height:100%;
-  display:box;
-  box-orient:horizontal;
-  box-pack:center;
-  box-align:center;
-}
 input[type="button"] {
   padding: 0;
   background: none;
