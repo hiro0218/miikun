@@ -29,7 +29,10 @@ Filesystem.prototype.shouldEncrypt = function (path) {
 Filesystem.prototype.writeFile = function (path, content, cb) {
   if (this.shouldEncrypt(path)) {
     this.askKey((err, key) => {
-      if (err) { cb(err) }
+      if (err) {
+        cb(err)
+        return
+      }
       fs.writeFile(path, this.encrypt(key, content), cb)
       // backup un-encrypt file at develop
       if (process.env.NODE_ENV === 'development') {
@@ -44,17 +47,22 @@ Filesystem.prototype.writeFile = function (path, content, cb) {
 Filesystem.prototype.readFile = function (path, cb) {
   if (this.shouldEncrypt(path)) {
     this.askKey((err1, key) => {
-      if (err1) { cb(err1, null) }
+      if (err1) {
+        cb(err1, null)
+        return
+      }
 
       fs.readFile(path, (err2, content) => {
-        if (err2) { cb(err2, null) }
+        if (err2) {
+          cb(err2, null)
+          return
+        }
 
-        const decContent = this.decrypt(key, content)
-
-        if (decContent !== null) {
+        try {
+          const decContent = this.decrypt(key, content)
           cb(null, decContent.toString('utf8'))
-        } else {
-          cb(new Error('Decrypt Fail'), null)
+        } catch (err) {
+          cb(err, null)
         }
       })
     })
@@ -65,7 +73,7 @@ Filesystem.prototype.readFile = function (path, cb) {
 
 // Should this be done in Filesystem module ?
 Filesystem.prototype.askKey = function (cb) {
-  ipcRenderer.on('reply-ask-key', (replyAskKeyEvent, replyAskKeyArgu) => {
+  ipcRenderer.once('reply-ask-key', (replyAskKeyEvent, replyAskKeyArgu) => {
     // Will any error happened ?
     cb(null, replyAskKeyArgu)
   })
@@ -84,10 +92,16 @@ Filesystem.prototype.encrypt = function (key, content) {
 
 Filesystem.prototype.decrypt = function (key, content) {
   let fileStruct = this.unpackHeader(content)
-  let decContent = encryptor.decrypt(key, fileStruct.encContent, fileStruct.iv)
-  return encryptor.hmac(decContent).equals(fileStruct.hmac)
-    ? decContent
-    : null
+  try {
+    let decContent = encryptor.decrypt(key, fileStruct.encContent, fileStruct.iv)
+    if (encryptor.hmac(decContent).equals(fileStruct.hmac)) {
+      return decContent
+    } else {
+      throw new Error('Decrypt Fail: Content mismatch.')
+    }
+  } catch (err) {
+    throw err
+  }
 }
 
 // Return: Buffer

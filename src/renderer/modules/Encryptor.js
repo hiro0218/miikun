@@ -32,7 +32,11 @@ Encryptor.prototype.encrypt = function (key, raw) {
 // return: Buffer
 Encryptor.prototype.decrypt = function (key, raw, iv) {
   let decipher = crypto.createDecipheriv(this.info.cipher.algorithm, this.hmac(key), Buffer.from(iv))
-  return Buffer.concat([decipher.update(raw), decipher.final()])
+  try {
+    return Buffer.concat([decipher.update(raw), decipher.final()])
+  } catch (err) {
+    throw new Error('Decrypt Fail: Wrong Password')
+  }
 }
 
 // return: Buffer
