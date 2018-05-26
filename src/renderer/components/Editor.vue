@@ -19,7 +19,7 @@
 </template>
 
 <script>
-const fs = require('fs')
+import fs from '../modules/Filesystem.js'
 const Markdown = require('../modules/markdown.js')
 const Editor = require('../modules/editor.js')
 const Menu = require('../modules/menu.js')
@@ -129,7 +129,7 @@ export default {
         title: 'Open Dialog',
         filters: [{
           name: 'Documents',
-          extensions: ['txt', 'md']
+          extensions: ['txt', 'md', 'mii']
         }],
         properties: ['openFile']
       }, function (item) {
@@ -141,7 +141,7 @@ export default {
     readFile (path) {
       const self = this
 
-      fs.readFile(path, 'utf8', function (err, content) {
+      fs.readFile(path, function (err, content) {
         if (err === null) {
           self.setEditor(content)
           self.setPath(path)
@@ -160,7 +160,8 @@ export default {
         title: 'Save Dialog',
         filters: [
           {name: 'Markdown file', extensions: ['md']},
-          {name: 'Text file', extensions: ['txt']}
+          {name: 'Text file', extensions: ['txt']},
+          {name: 'Mii file', extensions: ['mii']}
         ]
       })
 
@@ -219,7 +220,7 @@ export default {
       try {
         let error
 
-        fs.writeFile(self.path, self.code, 'utf8', function (err) {
+        fs.writeFile(self.path, self.code, function (err) {
           error = err
         })
 
@@ -253,7 +254,7 @@ export default {
       const browserWindow = remote.BrowserWindow
       const focusedWindow = browserWindow.getFocusedWindow()
 
-      if (file.type === 'text/plain' || file.type === 'application/text' || ext === 'txt' || ext === 'md') {
+      if (file.type === 'text/plain' || file.type === 'application/text' || ext === 'txt' || ext === 'md' || ext === 'mii') {
         self.readFile(file.path)
       } else {
         dialog.showMessageBox(focusedWindow, {
