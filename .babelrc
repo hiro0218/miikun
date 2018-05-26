@@ -3,28 +3,56 @@
   "env": {
     "main": {
       "presets": [
-        ["env", {
-          "targets": { "node": 7 }
-        }],
-        "stage-0"
+        [
+          "@babel/preset-env",
+          {
+            "targets": {
+              "node": 7
+            }
+          }
+        ],
+        [
+          "@babel/preset-stage-0",
+          {
+            "decoratorsLegacy": true
+          }
+        ]
       ]
     },
     "renderer": {
       "presets": [
-        ["env", {
-          "modules": false
-        }],
-        "stage-0"
+        [
+          "@babel/preset-env",
+          {
+            "modules": false
+          }
+        ],
+        [
+          "@babel/preset-stage-0",
+          {
+            "decoratorsLegacy": true
+          }
+        ]
       ]
     },
     "web": {
       "presets": [
-        ["env", {
-          "modules": false
-        }],
-        "stage-0"
+        [
+          "@babel/preset-env",
+          {
+            "modules": false
+          }
+        ],
+        [
+          "@babel/preset-stage-0",
+          {
+            "decoratorsLegacy": true
+          }
+        ]
       ]
     }
   },
-  "plugins": ["transform-runtime"]
+  "plugins": [
+    "@babel/plugin-transform-runtime"
+  ]
 }
