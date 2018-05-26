@@ -1,6 +1,7 @@
 'use strict'
 
-const crypto = require('crypto')
+import crypto from 'crypto'
+import { DecryptFailError } from './Errors'
 
 function Encryptor () {
   this.info = {
@@ -35,7 +36,7 @@ Encryptor.prototype.decrypt = function (key, raw, iv) {
   try {
     return Buffer.concat([decipher.update(raw), decipher.final()])
   } catch (err) {
-    throw new Error('Decrypt Fail: Wrong Password')
+    throw new DecryptFailError('Wrong Password')
   }
 }
 
@@ -56,4 +57,4 @@ Encryptor.prototype.listHashes = function () {
   return crypto.getHashes()
 }
 
-module.exports = new Encryptor()
+export default new Encryptor()
