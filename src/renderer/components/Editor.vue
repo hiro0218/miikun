@@ -20,6 +20,7 @@
 
 <script>
 import fs from '../modules/Filesystem.js'
+import { ERR_USER_CANCEL } from '../modules/Errors'
 const Markdown = require('../modules/markdown.js')
 const Editor = require('../modules/editor.js')
 const Menu = require('../modules/menu.js')
@@ -145,7 +146,8 @@ export default {
         if (err === null) {
           self.setEditor(content)
           self.setPath(path)
-        } else {
+        } else if (err.code !== ERR_USER_CANCEL) {
+          console.log(err)
           self.openDialog('error', err.toString())
         }
       })
@@ -228,7 +230,9 @@ export default {
           return true
         }
       } catch (e) {
-        self.openDialog('error', e)
+        if (e.code !== ERR_USER_CANCEL) {
+          self.openDialog('error', e)
+        }
         return false
       }
 

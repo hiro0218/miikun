@@ -5,11 +5,11 @@
 </template>
 
 <script>
-var fs = require('../modules/Filesystem')
+import fs from '../modules/Filesystem'
+import { ERR_USER_CANCEL } from '../modules/Errors'
 var remote = require('electron').remote
 var browserWindow = remote.BrowserWindow
 var focusedWindow = browserWindow.getFocusedWindow()
-
 export default {
   name: 'mii-toolbar',
   data () {
@@ -125,7 +125,7 @@ export default {
           miiEditor.editor.markClean()
           miiEditor.editor.clearHistory()
           miiEditor.updateButtonStatus()
-        } else {
+        } else if (err.code !== ERR_USER_CANCEL) {
           self.openDialog('error', err.toString())
         }
       })
@@ -169,7 +169,9 @@ export default {
           return true
         }
       } catch (e) {
-        self.openDialog('error', e)
+        if (e.code !== ERR_USER_CANCEL)) {
+          self.openDialog('error', e)
+        }
         return false
       }
     },
