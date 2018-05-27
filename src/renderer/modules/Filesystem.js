@@ -1,8 +1,9 @@
 'use strict'
 
-const fs = require('fs')
-const { ipcRenderer } = require('electron')
-const encryptor = require('./Encryptor')
+import fs from 'fs'
+import { ipcRenderer } from 'electron'
+import encryptor from './Encryptor'
+import { UserCancelError, DecryptFailError } from './Errors'
 
 // This file looks looks
 // | Base info | HMAC | IV | Enc Content |
@@ -71,11 +72,13 @@ Filesystem.prototype.readFile = function (path, cb) {
   }
 }
 
-// Should this be done in Filesystem module ?
 Filesystem.prototype.askKey = function (cb) {
   ipcRenderer.once('reply-ask-key', (replyAskKeyEvent, replyAskKeyArgu) => {
-    // Will any error happened ?
-    cb(null, replyAskKeyArgu)
+    if (replyAskKeyArgu === null) {
+      cb(new UserCancelError(), null)
+    } else {
+      cb(null, replyAskKeyArgu)
+    }
   })
 
   ipcRenderer.send('ask-key')
@@ -97,7 +100,7 @@ Filesystem.prototype.decrypt = function (key, content) {
     if (encryptor.hmac(decContent).equals(fileStruct.hmac)) {
       return decContent
     } else {
-      throw new Error('Decrypt Fail: Content mismatch.')
+      throw new DecryptFailError('Content mismatch.')
     }
   } catch (err) {
     throw err
@@ -138,4 +141,4 @@ Filesystem.prototype.dumpHeader = function (header) {
   console.log('[Dump Header] IV: ' + iv.toString('utf8'))
 }
 
-module.exports = new Filesystem()
+export default new Filesystem()
