@@ -1,23 +1,23 @@
-import Vue from 'vue'
-import Router from 'vue-router'
+import Vue from 'vue';
+import Router from 'vue-router';
 
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
   routes: [
     {
       path: '/',
       name: 'mii-main',
-      component: require('@/components/Main').default
+      component: require('@/components/Main').default,
     },
     {
       path: '/ask-encrypt-key',
       name: 'mii-encrypt-key-prompt',
-      component: require('@/components/EncryptKeyPrompt').default
+      component: require('@/components/EncryptKeyPrompt').default,
     },
     {
       path: '*',
-      redirect: '/'
-    }
-  ]
-})
+      redirect: '/',
+    },
+  ],
+});

@@ -1,222 +1,231 @@
 <template>
   <div>
-    <div class="toolbar-container"></div>
+    <div class="toolbar-container"/>
   </div>
 </template>
 
 <script>
-import fs from '../modules/Filesystem'
-import { ERR_USER_CANCEL } from '../modules/Errors'
-var remote = require('electron').remote
-var browserWindow = remote.BrowserWindow
-var focusedWindow = browserWindow.getFocusedWindow()
+import fs from '../modules/Filesystem';
+import { ERR_USER_CANCEL } from '../modules/Errors';
+var remote = require('electron').remote;
+var browserWindow = remote.BrowserWindow;
+var focusedWindow = browserWindow.getFocusedWindow();
 export default {
-  name: 'mii-toolbar',
-  data () {
+  name: 'MiiToolbar',
+  data() {
     return {
       menuOptions: [
         {
           id: 'new',
           text: 'New',
           icon: 'insert_drive_file',
-          secondaryText: 'Ctrl+N'
-        }, {
+          secondaryText: 'Ctrl+N',
+        },
+        {
           id: 'open',
           text: 'Open',
           icon: 'folder',
-          secondaryText: 'Ctrl+O'
-        }, {
+          secondaryText: 'Ctrl+O',
+        },
+        {
           id: 'save',
           text: 'Save',
           icon: 'save',
-          secondaryText: 'Ctrl+S'
-        }, {
+          secondaryText: 'Ctrl+S',
+        },
+        {
           id: 'saveAs',
           text: 'Save As',
           icon: 'save',
-          secondaryText: 'Ctrl+Shift+S'
-        }, {
-          type: 'divider'
-        }, {
+          secondaryText: 'Ctrl+Shift+S',
+        },
+        {
+          type: 'divider',
+        },
+        {
           id: 'setting',
           text: 'Setting',
           icon: 'settings',
-          disabled: true
-        }
+          disabled: true,
+        },
       ],
       canUndo: false,
       canRedo: false,
       canSave: false,
-      switchPreview: false
-    }
-  },
-  mounted: function () {
+      switchPreview: false,
+    };
   },
   watch: {
-    switchPreview: function (val, oldVal) {
-      this.$root.$children[0].$refs.miiEditor.isPreview = val
-    }
+    switchPreview: function(val, oldVal) {
+      this.$root.$children[0].$refs.miiEditor.isPreview = val;
+    },
   },
+  mounted: function() {},
   methods: {
-    menuOptionSelected (option) {
+    menuOptionSelected(option) {
       switch (option.id) {
         case 'new':
-          this.newFile()
-          break
+          this.newFile();
+          break;
         case 'open':
-          this.openFile()
-          break
+          this.openFile();
+          break;
         case 'save':
-          this.save()
-          break
+          this.save();
+          break;
         case 'saveAs':
-          this.saveAs()
-          break
+          this.saveAs();
+          break;
         case 'setting':
-          break
+          break;
         default:
-          break
+          break;
       }
     },
-    newFile () {
-      var miiEditor = this.$root.$children[0].$refs.miiEditor
+    newFile() {
+      var miiEditor = this.$root.$children[0].$refs.miiEditor;
       // new + not modify
       if (!miiEditor.path && miiEditor.isClean()) {
-        return
+        return;
       }
       // saved + not modify
       if (miiEditor.isClean()) {
-        miiEditor.clean()
-        return
+        miiEditor.clean();
+        return;
       }
 
-      var response = this.modifyDialog()
+      var response = this.modifyDialog();
       switch (response) {
         case 0: // Yes
-          this.save()
-          break
+          this.save();
+          break;
         case 1: // No
-          miiEditor.clean()
-          break
+          miiEditor.clean();
+          break;
       }
     },
-    openFile () {
-      var self = this
-      var dialog = this.$electron.remote.dialog
-      dialog.showOpenDialog(focusedWindow, {
-        title: 'Open Dialog',
-        filters: [{
-          name: 'Documents', extensions: ['txt', 'md', 'mii']
-        }],
-        properties: ['openFile']
-      }, function (item) {
-        if (item) {
-          self.readFile(item[0])
-        }
-      })
+    openFile() {
+      var self = this;
+      var dialog = this.$electron.remote.dialog;
+      dialog.showOpenDialog(
+        focusedWindow,
+        {
+          title: 'Open Dialog',
+          filters: [
+            {
+              name: 'Documents',
+              extensions: ['txt', 'md', 'mii'],
+            },
+          ],
+          properties: ['openFile'],
+        },
+        function(item) {
+          if (item) {
+            self.readFile(item[0]);
+          }
+        },
+      );
     },
-    readFile (path) {
-      var self = this
-      var miiEditor = self.$root.$children[0].$refs.miiEditor
-      fs.readFile(path, function (err, content) {
+    readFile(path) {
+      var self = this;
+      var miiEditor = self.$root.$children[0].$refs.miiEditor;
+      fs.readFile(path, function(err, content) {
         if (err === null) {
-          miiEditor.setPath(path)
-          miiEditor.setEditor(content)
-          miiEditor.editor.markClean()
-          miiEditor.editor.clearHistory()
-          miiEditor.updateButtonStatus()
+          miiEditor.setPath(path);
+          miiEditor.setEditor(content);
+          miiEditor.editor.markClean();
+          miiEditor.editor.clearHistory();
+          miiEditor.updateButtonStatus();
         } else if (err.code !== ERR_USER_CANCEL) {
-          self.openDialog('error', err.toString())
+          self.openDialog('error', err.toString());
         }
-      })
+      });
     },
-    openDialog (type, msg) {
-      var dialog = this.$electron.remote.dialog
+    openDialog(type, msg) {
+      var dialog = this.$electron.remote.dialog;
       dialog.showMessageBox(focusedWindow, {
         title: type,
         type: type,
         buttons: ['OK'],
-        detail: msg
-      })
+        detail: msg,
+      });
     },
-    saveAsDialog () {
-      var dialog = this.$electron.remote.dialog
+    saveAsDialog() {
+      var dialog = this.$electron.remote.dialog;
       var savePath = dialog.showSaveDialog(focusedWindow, {
         title: 'Save Dialog',
-        filters: [
-          {name: 'Markdown file', extensions: ['md']},
-          {name: 'Text file', extensions: ['txt']}
-        ]
-      })
-      return savePath
+        filters: [{ name: 'Markdown file', extensions: ['md'] }, { name: 'Text file', extensions: ['txt'] }],
+      });
+      return savePath;
     },
-    modifyDialog () {
-      var dialog = this.$electron.remote.dialog
+    modifyDialog() {
+      var dialog = this.$electron.remote.dialog;
       var response = dialog.showMessageBox(focusedWindow, {
         title: '',
         type: 'warning',
         buttons: ['Yes', 'No', 'Cancel'],
-        detail: 'Wolud you like to save changes?'
-      })
-      return response
+        detail: 'Wolud you like to save changes?',
+      });
+      return response;
     },
-    writeFile () {
-      var self = this
-      var miiEditor = self.$root.$children[0].$refs.miiEditor
+    writeFile() {
+      var self = this;
+      var miiEditor = self.$root.$children[0].$refs.miiEditor;
       try {
-        var error = fs.writeFileSync(miiEditor.path, miiEditor.input, 'utf8')
+        var error = fs.writeFileSync(miiEditor.path, miiEditor.input, 'utf8');
         if (!error) {
-          return true
+          return true;
         }
       } catch (e) {
         if (e.code !== ERR_USER_CANCEL) {
-          self.openDialog('error', e)
+          self.openDialog('error', e);
         }
-        return false
+        return false;
       }
     },
-    undo () {
-      this.$root.$children[0].$refs.miiEditor.undo()
+    undo() {
+      this.$root.$children[0].$refs.miiEditor.undo();
     },
-    redo () {
-      this.$root.$children[0].$refs.miiEditor.redo()
+    redo() {
+      this.$root.$children[0].$refs.miiEditor.redo();
     },
-    save () {
-      var miiEditor = this.$root.$children[0].$refs.miiEditor
-      var path = miiEditor.path
-      var result
+    save() {
+      var miiEditor = this.$root.$children[0].$refs.miiEditor;
+      var path = miiEditor.path;
+      var result;
       if (path) {
-        miiEditor.setPath(path)
-        result = this.writeFile()
+        miiEditor.setPath(path);
+        result = this.writeFile();
       } else {
-        var savePath = this.saveAsDialog()
+        var savePath = this.saveAsDialog();
         if (savePath) {
-          miiEditor.setPath(savePath)
-          result = this.writeFile()
+          miiEditor.setPath(savePath);
+          result = this.writeFile();
         }
       }
       if (result) {
-        miiEditor.editor.markClean()
-        miiEditor.editor.clearHistory()
-        miiEditor.updateButtonStatus()
+        miiEditor.editor.markClean();
+        miiEditor.editor.clearHistory();
+        miiEditor.updateButtonStatus();
       }
     },
-    saveAs () {
-      var miiEditor = this.$root.$children[0].$refs.miiEditor
-      var result
-      var savePath = this.saveAsDialog()
+    saveAs() {
+      var miiEditor = this.$root.$children[0].$refs.miiEditor;
+      var result;
+      var savePath = this.saveAsDialog();
       if (savePath) {
-        miiEditor.setPath(savePath)
-        result = this.writeFile()
+        miiEditor.setPath(savePath);
+        result = this.writeFile();
         if (result) {
-          miiEditor.editor.markClean()
-          miiEditor.editor.clearHistory()
-          miiEditor.updateButtonStatus()
+          miiEditor.editor.markClean();
+          miiEditor.editor.clearHistory();
+          miiEditor.updateButtonStatus();
         }
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
-<style scoped></style>
+<style scoped>
+</style>

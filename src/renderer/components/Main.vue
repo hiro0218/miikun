@@ -1,20 +1,21 @@
 <template>
   <div>
-    <editor ref='mii-editor'></editor>
+    <editor ref="mii-editor"/>
   </div>
 </template>
 
 <script>
-  import Editor from '@/components/Editor'
+import Editor from '@/components/Editor';
 
-  export default {
-    name: 'mii-main',
-    methods: {},
-    mounted: function () {},
-    components: {
-      Editor,
-    }
-  }
+export default {
+  name: 'MiiMain',
+  components: {
+    Editor,
+  },
+  mounted: function() {},
+  methods: {},
+};
 </script>
 
-<style scoped></style>
+<style scoped>
+</style>
