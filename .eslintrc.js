@@ -1,8 +1,8 @@
 module.exports = {
   root: true,
-  parser: 'babel-eslint',
   parserOptions: {
-    sourceType: 'module'
+    parser: "babel-eslint",
+    sourceType: "module"
   },
   env: {
     browser: true,
@@ -10,13 +10,14 @@ module.exports = {
   },
   extends: [
     "eslint:recommended",
+    "plugin:vue/recommended",
     "prettier"
   ],
   globals: {
     __static: true
   },
   plugins: [
-    'html',
+    "vue",
     "prettier"
   ],
   'rules': {
@@ -46,6 +47,7 @@ module.exports = {
     // allow async-await
     'generator-star-spacing': 0,
     // allow debugger during development
-    'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0
+    'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
+    "vue/max-attributes-per-line": 0,
   }
 }
