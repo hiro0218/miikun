@@ -31,7 +31,10 @@ function createInstance () {
         if (Prism.languages[language]) {
           return Prism.highlight(str, Prism.languages[language])
         }
-      } catch (__) {}
+      } catch (__) {
+        console.error(__);
+        return '';
+      }
 
       return ''
     }
