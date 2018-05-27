@@ -42,6 +42,7 @@
     "@babel/preset-env": "7.0.0-beta.44",
     "@babel/preset-stage-0": "7.0.0-beta.44",
     "@babel/register": "7.0.0-beta.44",
+    "@babel/runtime": "^7.0.0-beta.49",
     "babel-eslint": "^8.2.3",
     "babel-loader": "^8.0.0-beta.0",
     "babili-webpack-plugin": "^0.1.2",
