@@ -7,7 +7,7 @@
 </template>
 
 <script>
-  const { ipcRenderer } = require('electron')
+  import { ipcRenderer } from 'electron'
   export default {
     name: 'mii-encrypt-key-prompt',
     data () {
@@ -20,7 +20,7 @@
         ipcRenderer.sendSync('set-key', this.key)
       },
       cancel () {
-        ipcRenderer.sendSync('set-key', '')
+        ipcRenderer.sendSync('set-key', null)
       }
     }
   }
