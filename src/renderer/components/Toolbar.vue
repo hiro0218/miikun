@@ -169,7 +169,7 @@ export default {
           return true
         }
       } catch (e) {
-        if (e.code !== ERR_USER_CANCEL)) {
+        if (e.code !== ERR_USER_CANCEL) {
           self.openDialog('error', e)
         }
         return false
