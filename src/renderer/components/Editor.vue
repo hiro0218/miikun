@@ -1,17 +1,15 @@
 <template>
-  <div>
-    <div class="container">
-      <div :class="{open:!isPreview}" class="input">
-        <codemirror ref="editor"
-                    :code="code"
-                    :options="editorOptions"
-                    @ready="onEditorReady"
-                    @focus="onEditorFocus"
-                    @input="onEditorCodeChange"/>
-      </div>
-      <div v-if="isPreview == true" class="preview">
-        <div class="markdown-body" v-html="input"/>
-      </div>
+  <div class="container">
+    <div :class="{open:!isPreview}" class="input">
+      <codemirror ref="editor"
+                  :code="code"
+                  :options="editorOptions"
+                  @ready="onEditorReady"
+                  @focus="onEditorFocus"
+                  @input="onEditorCodeChange"/>
+    </div>
+    <div v-if="isPreview == true" class="preview">
+      <div class="markdown-body" v-html="input"/>
     </div>
     <div class="dropzone"/>
   </div>
@@ -312,5 +310,37 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+.container {
+  display: flex;
+  margin: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.input,
+.preview {
+  flex-basis: 50%;
+  width: 50%;
+}
+
+.input {
+  transition: all 0.2s;
+  &.open {
+    flex-basis: 100%;
+    width: 100%;
+  }
+
+  /deep/ .vue-codemirror,
+  /deep/ .CodeMirror {
+    height: 100%;
+    width: 100%;
+  }
+}
+
+.preview {
+  overflow: auto;
+  padding: 0.5rem;
+}
 </style>
