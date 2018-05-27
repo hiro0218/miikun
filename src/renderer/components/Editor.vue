@@ -147,7 +147,6 @@ export default {
           self.setEditor(content)
           self.setPath(path)
         } else if (err.code !== ERR_USER_CANCEL) {
-          console.log(err)
           self.openDialog('error', err.toString())
         }
       })
