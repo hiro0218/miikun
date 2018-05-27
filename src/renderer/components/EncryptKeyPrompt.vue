@@ -1,41 +1,42 @@
 <template>
   <div>
-    <input type="password" v-model="key" placeholder="Enter key...">
-    <input type="button" value="⮐" v-on:click="ok" v-bind:disabled="key.trim().length === 0">
-    <input type="button" value="X" v-on:click="cancel">
+    <input v-model="key" type="password" placeholder="Enter key...">
+    <input :disabled="key.trim().length === 0" type="button" value="⮐" @click="ok">
+    <input type="button" value="X" @click="cancel">
   </div>
 </template>
 
 <script>
-  import { ipcRenderer } from 'electron'
-  export default {
-    name: 'mii-encrypt-key-prompt',
-    data () {
-      return {
-        key: ''
-      }
+import { ipcRenderer } from 'electron';
+export default {
+  name: 'MiiEncryptKeyPrompt',
+  data() {
+    return {
+      key: '',
+    };
+  },
+  methods: {
+    ok() {
+      ipcRenderer.sendSync('set-key', this.key);
     },
-    methods: {
-      ok () {
-        ipcRenderer.sendSync('set-key', this.key)
-      },
-      cancel () {
-        ipcRenderer.sendSync('set-key', null)
-      }
-    }
-  }
+    cancel() {
+      ipcRenderer.sendSync('set-key', null);
+    },
+  },
+};
 </script>
 
 <style scoped>
-::placeholder { /* Most modern browsers support this now. */
-   color:darkgrey
+::placeholder {
+  /* Most modern browsers support this now. */
+  color: darkgrey;
 }
-input[type="button"] {
+input[type='button'] {
   padding: 0;
   background: none;
   border: none;
 }
-input[type="password"] {
+input[type='password'] {
   line-height: 2em;
 }
 </style>

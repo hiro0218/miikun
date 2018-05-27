@@ -1,21 +1,21 @@
-'use strict'
+'use strict';
 
-import { app, BrowserWindow, ipcMain } from 'electron'
+import { app, BrowserWindow, ipcMain } from 'electron';
 
 /**
  * Set `__static` path to static files in production
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html
  */
 if (process.env.NODE_ENV !== 'development') {
-  global.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\')
+  global.__static = require('path')
+    .join(__dirname, '/static')
+    .replace(/\\/g, '\\\\');
 }
 
-let mainWindow
-const winURL = process.env.NODE_ENV === 'development'
-  ? `http://localhost:9080`
-  : `file://${__dirname}/index.html`
+let mainWindow;
+const winURL = process.env.NODE_ENV === 'development' ? 'http://localhost:9080' : `file://${__dirname}/index.html`;
 
-function createWindow () {
+function createWindow() {
   /**
    * Initial window options
    */
@@ -26,36 +26,47 @@ function createWindow () {
     minHeight: 300,
     resizable: true,
     webPreferences: {
-      textAreasAreResizable: false
+      textAreasAreResizable: false,
     },
     useContentSize: true,
-  })
+  });
 
-  mainWindow.loadURL(winURL)
+  mainWindow.loadURL(winURL);
 
   mainWindow.on('closed', () => {
-    mainWindow = null
-  })
+    mainWindow = null;
+  });
 }
 
-app.on('ready', createWindow)
+app.on('ready', createWindow);
 
 app.on('window-all-closed', () => {
-  app.quit()
-})
+  app.quit();
+});
 
 app.on('activate', () => {
   if (mainWindow === null) {
-    createWindow()
+    createWindow();
   }
-})
+});
 
 ipcMain.on('ask-key', askKeyEvent => {
-  let askKeyPrompt = new BrowserWindow({width: 350, height: 100, parent: mainWindow, modal: true, frame: false, resizable: false})
-  askKeyPrompt.loadURL(process.env.NODE_ENV === 'development' ? 'http://localhost:9080/#/ask-encrypt-key' : `file://${__dirname}/index.html#ask-encrypt-key`)
+  let askKeyPrompt = new BrowserWindow({
+    width: 350,
+    height: 100,
+    parent: mainWindow,
+    modal: true,
+    frame: false,
+    resizable: false,
+  });
+  askKeyPrompt.loadURL(
+    process.env.NODE_ENV === 'development'
+      ? 'http://localhost:9080/#/ask-encrypt-key'
+      : `file://${__dirname}/index.html#ask-encrypt-key`,
+  );
   ipcMain.once('set-key', (setKeyEvent, setKeyArgu) => {
-    askKeyPrompt.close()
-    askKeyPrompt = null
-    askKeyEvent.sender.send('reply-ask-key', setKeyArgu)
-  })
-})
+    askKeyPrompt.close();
+    askKeyPrompt = null;
+    askKeyEvent.sender.send('reply-ask-key', setKeyArgu);
+  });
+});
