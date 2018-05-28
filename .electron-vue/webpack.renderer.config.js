@@ -11,6 +11,8 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
+
 /**
  * List of node_modules to include in webpack bundle
  *
@@ -158,6 +160,11 @@ if (process.env.NODE_ENV === 'production') {
   rendererConfig.devtool = ''
 
   rendererConfig.plugins.push(
+    new BundleAnalyzerPlugin({
+      analyzerMode: 'static',
+      reportFilename: path.resolve(__dirname, '../.report/bundle-analyzer.html'),
+      openAnalyzer: false,
+    }),
     new BabiliWebpackPlugin(),
     new CopyWebpackPlugin([
       {
