@@ -92,7 +92,7 @@ export default {
       });
     },
     newFile() {
-      const editor = this.$refs.editor.codemirror;
+      const editor = this.editor;
 
       // is newFile
       if (!this.path && editor.isClean()) {
@@ -202,8 +202,8 @@ export default {
       }
 
       if (result) {
-        this.$refs.editor.codemirror.markClean();
-        this.$refs.editor.codemirror.clearHistory();
+        this.editor.markClean();
+        this.editor.clearHistory();
       }
     },
     saveAs() {
@@ -214,8 +214,8 @@ export default {
         self.setPath(savePath);
         let result = self.writeFile();
         if (result) {
-          this.$refs.editor.codemirror.markClean();
-          this.$refs.editor.codemirror.clearHistory();
+          this.editor.markClean();
+          this.editor.clearHistory();
         }
       }
     },
@@ -245,14 +245,14 @@ export default {
       this.path = path;
     },
     setEditor(value) {
-      this.$refs.editor.codemirror.setValue(value);
-      this.$refs.editor.codemirror.save();
+      this.editor.setValue(value);
+      this.editor.save();
     },
     clean() {
       this.setEditor('');
       this.setPath('');
-      this.$refs.editor.codemirror.markClean();
-      this.$refs.editor.codemirror.clearHistory();
+      this.editor.markClean();
+      this.editor.clearHistory();
     },
     dropFile(file, ext) {
       const self = this;
