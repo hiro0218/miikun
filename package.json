@@ -31,6 +31,7 @@
     ]
   },
   "dependencies": {
+    "lodash": "^4.17.10",
     "vue": "^2.5.16",
     "vue-electron": "^1.0.6",
     "vue-router": "^3.0.1",
@@ -45,6 +46,7 @@
     "@babel/runtime": "^7.0.0-beta.49",
     "babel-eslint": "^8.2.3",
     "babel-loader": "^8.0.0-beta.0",
+    "babel-plugin-lodash": "^3.3.2",
     "babili-webpack-plugin": "^0.1.2",
     "chalk": "^2.4.1",
     "copy-webpack-plugin": "^4.5.1",
@@ -69,6 +71,7 @@
     "html-webpack-plugin": "^3.2.0",
     "husky": "^0.14.3",
     "lint-staged": "^7.1.2",
+    "lodash-webpack-plugin": "^0.11.5",
     "markdown-it": "^8.4.1",
     "markdown-it-checkbox": "^1.1.0",
     "markdown-it-footnote": "^3.0.1",
