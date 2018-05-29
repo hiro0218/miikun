@@ -16,6 +16,7 @@
 </template>
 
 <script>
+import { debounce } from 'lodash';
 import fs from '../modules/Filesystem.js';
 import { ERR_USER_CANCEL } from '../modules/Errors';
 const Markdown = require('../modules/markdown.js');
@@ -71,12 +72,12 @@ export default {
     onEditorFocus(editor) {
       // console.log('the editor is focus!', editor)
     },
-    onEditorCodeChange(newCode) {
+    onEditorCodeChange: debounce(function(newCode) {
       this.code = newCode;
       if (this.isPreview) {
         this.input = this.markdown.render(newCode);
       }
-    },
+    }, 200),
     openDialog(type, msg) {
       const remote = this.$electron.remote;
       const dialog = remote.dialog;
