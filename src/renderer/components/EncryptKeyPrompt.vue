@@ -7,7 +7,6 @@
 </template>
 
 <script>
-import { ipcRenderer } from 'electron';
 export default {
   name: 'MiiEncryptKeyPrompt',
   data() {
@@ -17,10 +16,10 @@ export default {
   },
   methods: {
     ok() {
-      ipcRenderer.sendSync('set-key', this.key);
+      this.$electron.ipcRenderer.sendSync('set-key', this.key);
     },
     cancel() {
-      ipcRenderer.sendSync('set-key', null);
+      this.$electron.ipcRenderer.sendSync('set-key', null);
     },
   },
 };
