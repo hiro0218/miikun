@@ -1,17 +1,14 @@
-'use strict';
-
 import MarkdownIt from 'markdown-it';
 import MarkdownItCheckbox from 'markdown-it-checkbox';
 import MarkdownItFootnote from 'markdown-it-footnote';
 
 import Prism from 'prismjs';
-require('prismjs/plugins/remove-initial-line-feed/prism-remove-initial-line-feed.min.js');
+import 'prismjs/plugins/remove-initial-line-feed/prism-remove-initial-line-feed.min.js';
 
-export function init() {
+export default function() {
   let markdown = createInstance();
-  markdown = setPlugin(markdown);
 
-  return markdown;
+  return setPlugin(markdown);
 }
 
 function createInstance() {

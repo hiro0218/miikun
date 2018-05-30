@@ -1,6 +1,4 @@
-'use strict';
-
-module.exports = {
+export default {
   dropZone: null,
   dropFile: function(file, ext) {},
   ready: function() {

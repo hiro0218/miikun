@@ -17,19 +17,19 @@
 
 <script>
 import { debounce } from 'lodash';
-import fs from '../modules/Filesystem.js';
-import { ERR_USER_CANCEL } from '../modules/Errors';
-const Markdown = require('../modules/markdown.js');
-const Editor = require('../modules/editor.js');
-const Menu = require('../modules/menu.js');
-const DragDrop = require('../modules/dragdrop.js');
+import fs from '@/modules/Filesystem.js';
+import { ERR_USER_CANCEL } from '@/modules/Errors';
+import Markdown from '@/modules/markdown.js';
+import EditorOption from '@/modules/editor.js';
+import Menu from '@/modules/menu.js';
+import DragDrop from '@/modules/dragdrop.js';
 
 export default {
   name: 'MiiEditor',
   data() {
     return {
       code: '',
-      editorOptions: Editor.option(),
+      editorOptions: EditorOption(),
       markdown: null,
       isPreview: true,
       input: '',
@@ -56,7 +56,7 @@ export default {
     Menu.saveAsFile = this.saveAs;
     Menu.ready();
 
-    this.markdown = Markdown.init();
+    this.markdown = Markdown();
     this.openLinkExternal();
 
     DragDrop.dropFile = this.dropFile;

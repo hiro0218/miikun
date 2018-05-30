@@ -1,5 +1,3 @@
-'use strict';
-
 import 'codemirror/mode/gfm/gfm.js';
 import 'codemirror/mode/markdown/markdown.js';
 import 'codemirror/mode/xml/xml.js';
@@ -16,7 +14,7 @@ import 'codemirror/addon/fold/markdown-fold.js';
 import 'codemirror/addon/fold/comment-fold.js';
 import 'codemirror/addon/selection/active-line.js';
 
-export function option() {
+export default function() {
   return {
     mode: {
       name: 'markdown',

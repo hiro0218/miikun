@@ -1,12 +1,13 @@
-const { remote } = require('electron');
-const { Menu, dialog, nativeImage } = remote.require('electron');
+import electron from 'electron';
+const { remote } = electron;
+const { Menu, dialog, nativeImage } = remote;
 const iconImage = nativeImage.createFromPath('./build/icons/256x256.png');
 const shell = remote.shell;
 const pkg = require('../../../package.json');
 const OSX = process.platform === 'darwin';
 const WIN = process.platform === 'win32';
 
-module.exports = {
+export default {
   menubar: [],
   newFile: function() {},
   openFile: function() {},
