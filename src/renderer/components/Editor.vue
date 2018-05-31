@@ -19,7 +19,7 @@
 import { debounce } from 'lodash';
 import fs from '@/modules/Filesystem.js';
 import { ERR_USER_CANCEL } from '@/modules/Errors';
-import Markdown from '@/modules/markdown.js';
+import { initMarkdown } from '@/modules/markdown.js';
 import EditorOption from '@/modules/editor.js';
 import Menu from '@/modules/menu.js';
 import DragDrop from '@/modules/dragdrop.js';
@@ -56,7 +56,7 @@ export default {
     Menu.saveAsFile = this.saveAs;
     Menu.ready();
 
-    this.markdown = Markdown();
+    this.markdown = initMarkdown();
     this.openLinkExternal();
 
     DragDrop.dropFile = this.dropFile;

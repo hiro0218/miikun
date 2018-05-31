@@ -5,14 +5,8 @@ import MarkdownItFootnote from 'markdown-it-footnote';
 import Prism from 'prismjs';
 import 'prismjs/plugins/remove-initial-line-feed/prism-remove-initial-line-feed.min.js';
 
-export default function() {
-  let markdown = createInstance();
-
-  return setPlugin(markdown);
-}
-
-function createInstance() {
-  let md = new MarkdownIt({
+export const initMarkdown = () => {
+  let markdown = new MarkdownIt({
     html: true,
     xhtmlOut: false,
     breaks: true,
@@ -37,13 +31,11 @@ function createInstance() {
     },
   });
 
-  return md;
-}
-
-function setPlugin(markdown) {
-  return markdown
+  markdown
     .use(MarkdownItCheckbox, {
       idPrefix: 'checkbox_',
     })
     .use(MarkdownItFootnote);
-}
+
+  return markdown;
+};
