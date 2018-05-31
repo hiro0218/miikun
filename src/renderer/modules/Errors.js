@@ -2,7 +2,10 @@ const ERR_USER_CANCEL = -100;
 const ERR_ENCRYPT_FAIL = -101;
 const ERR_DECRYPT_FAIL = -102;
 
-class UserCancelError extends Error {
+/* Workaround of ReferenceError: _construct is not defined */
+const _Error = Error;
+
+class UserCancelError extends _Error {
   constructor() {
     super('User Canceled.');
     this.name = 'UserCancelError';
@@ -10,7 +13,7 @@ class UserCancelError extends Error {
   }
 }
 
-class EncryptFailError extends Error {
+class EncryptFailError extends _Error {
   constructor(reason) {
     super(reason);
     this.name = 'EncryptFailError';
@@ -18,7 +21,7 @@ class EncryptFailError extends Error {
   }
 }
 
-class DecryptFailError extends Error {
+class DecryptFailError extends _Error {
   constructor(reason) {
     super(reason);
     this.name = 'DecryptFailError';
