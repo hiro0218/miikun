@@ -20,6 +20,7 @@ import { debounce } from 'lodash';
 import fs from '@/modules/Filesystem.js';
 import { ERR_USER_CANCEL } from '@/modules/Errors';
 import { initMarkdown } from '@/modules/markdown.js';
+import { getSavePath, getSelectedResult } from '@/modules/dialog.js';
 import EditorOption from '@/modules/editor.js';
 import Menu from '@/modules/menu.js';
 import DragDrop from '@/modules/dragdrop.js';
@@ -156,36 +157,21 @@ export default {
       });
     },
     saveAsDialog() {
-      const remote = this.$electron.remote;
-      const dialog = remote.dialog;
-      const browserWindow = remote.BrowserWindow;
-      const focusedWindow = browserWindow.getFocusedWindow();
-
-      let savePath = dialog.showSaveDialog(focusedWindow, {
-        title: 'Save Dialog',
-        filters: [
-          { name: 'Markdown file', extensions: ['md'] },
-          { name: 'Text file', extensions: ['txt'] },
-          { name: 'Mii file', extensions: ['mii'] },
-        ],
-      });
+      let savePath = getSavePath([
+        { name: 'Markdown file', extensions: ['md'] },
+        { name: 'Text file', extensions: ['txt'] },
+        { name: 'Mii file', extensions: ['mii'] },
+      ]);
 
       return savePath;
     },
     modifyDialog() {
-      const remote = this.$electron.remote;
-      const dialog = remote.dialog;
-      const browserWindow = remote.BrowserWindow;
-      const focusedWindow = browserWindow.getFocusedWindow();
-
-      let response = dialog.showMessageBox(focusedWindow, {
+      return getSelectedResult({
         title: '',
         type: 'warning',
         buttons: ['Yes', 'No', 'Cancel'],
         detail: 'Wolud you like to save changes?',
       });
-
-      return response;
     },
     saveFile() {
       let result;
@@ -255,12 +241,6 @@ export default {
       this.editor.clearHistory();
     },
     dropFile(file, ext) {
-      const self = this;
-      const remote = this.$electron.remote;
-      const dialog = remote.dialog;
-      const browserWindow = remote.BrowserWindow;
-      const focusedWindow = browserWindow.getFocusedWindow();
-
       if (
         file.type === 'text/plain' ||
         file.type === 'application/text' ||
@@ -268,9 +248,9 @@ export default {
         ext === 'md' ||
         ext === 'mii'
       ) {
-        self.readFile(file.path);
+        this.readFile(file.path);
       } else {
-        dialog.showMessageBox(focusedWindow, {
+        getSelectedResult({
           title: 'error',
           type: 'error',
           buttons: ['OK'],
