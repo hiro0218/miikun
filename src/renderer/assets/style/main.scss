@@ -17,20 +17,3 @@ body {
   font-weight: $font-weight-base;
   line-height: $line-height-base;
 }
-
-// drop
-.dropzone {
-  opacity: 0;
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: -100;
-  padding: 2rem;
-  background: $faint-black;
-  border: 4px dashed $color400;
-
-  transition: opacity .4s;
-  user-select: none;
-}

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="dropzone"/>
+    <div class="dropfield">Drop file here</div>
   </div>
 </template>
 
@@ -14,7 +14,7 @@ export default {
   },
   methods: {
     init: function() {
-      this.dropOverlay();
+      this.setOverlay();
 
       window.addEventListener(
         'drop',
@@ -46,8 +46,8 @@ export default {
         });
       }
     },
-    dropOverlay: function() {
-      let dropZone = document.querySelector('.dropzone');
+    setOverlay: function() {
+      const dropZone = document.querySelector('.dropfield');
 
       window.addEventListener('dragenter', function(e) {
         dropZone.style.opacity = 1;
@@ -78,4 +78,23 @@ export default {
 </script>
 
 <style scoped>
+.dropfield {
+  opacity: 0;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: -100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.12);
+  border: 4px dashed #bdbdbd;
+  font-size: 4rem;
+  transition: opacity 0.4s ease;
+  user-select: none;
+}
 </style>
