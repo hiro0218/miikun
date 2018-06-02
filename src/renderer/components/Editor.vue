@@ -11,7 +11,7 @@
     <div v-if="isPreview == true" class="preview">
       <div class="markdown-body" v-html="input"/>
     </div>
-    <div class="dropzone"/>
+    <DropField/>
   </div>
 </template>
 
@@ -23,10 +23,13 @@ import { initMarkdown } from '@/modules/markdown.js';
 import { getSavePath, getSelectedResult } from '@/modules/dialog.js';
 import EditorOption from '@/modules/editor.js';
 import Menu from '@/modules/menu.js';
-import DragDrop from '@/modules/dragdrop.js';
+import DropField from '@/components/DropField';
 
 export default {
   name: 'MiiEditor',
+  components: {
+    DropField,
+  },
   data() {
     return {
       code: '',
@@ -59,9 +62,6 @@ export default {
 
     this.markdown = initMarkdown();
     this.openLinkExternal();
-
-    DragDrop.dropFile = this.dropFile;
-    DragDrop.ready();
   },
   methods: {
     togglePreview() {
@@ -239,24 +239,6 @@ export default {
       this.setPath('');
       this.editor.markClean();
       this.editor.clearHistory();
-    },
-    dropFile(file, ext) {
-      if (
-        file.type === 'text/plain' ||
-        file.type === 'application/text' ||
-        ext === 'txt' ||
-        ext === 'md' ||
-        ext === 'mii'
-      ) {
-        this.readFile(file.path);
-      } else {
-        getSelectedResult({
-          title: 'error',
-          type: 'error',
-          buttons: ['OK'],
-          detail: 'This file format is not supported.',
-        });
-      }
     },
     openLinkExternal() {
       const electron = this.$electron;
