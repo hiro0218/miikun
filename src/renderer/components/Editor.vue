@@ -37,7 +37,6 @@ export default {
       editorOptions: EditorOption(),
       markdown: null,
       input: '',
-      path: '',
     };
   },
   computed: {
@@ -45,6 +44,7 @@ export default {
       return this.$refs.editor.codemirror;
     },
     ...mapState({
+      path: state => state.Editor.filePath,
       isPreview: state => state.Editor.isPreview,
     }),
   },
@@ -231,7 +231,7 @@ export default {
       return false;
     },
     setPath(path) {
-      this.path = path;
+      this.$store.dispatch('updateFilePath', path);
     },
     setEditor(value) {
       this.editor.setValue(value);
