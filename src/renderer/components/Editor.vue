@@ -35,7 +35,7 @@ export default {
     return {
       code: '',
       editorOptions,
-      markdown: null,
+      markdown: initMarkdown(),
       input: '',
     };
   },
@@ -63,7 +63,6 @@ export default {
     Menu.saveAsFile = this.saveAs;
     Menu.ready();
 
-    this.markdown = initMarkdown();
     this.openLinkExternal();
   },
   methods: {
