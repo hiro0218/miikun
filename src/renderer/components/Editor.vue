@@ -22,7 +22,7 @@ import fs from '@/modules/Filesystem.js';
 import { ERR_USER_CANCEL } from '@/modules/Errors';
 import { initMarkdown } from '@/modules/markdown.js';
 import { getSavePath, getSelectedResult } from '@/modules/dialog.js';
-import EditorOption from '@/modules/editor.js';
+import editorOptions from '@/modules/editor.js';
 import Menu from '@/modules/menu.js';
 import DropField from '@/components/DropField';
 
@@ -34,7 +34,7 @@ export default {
   data() {
     return {
       code: '',
-      editorOptions: EditorOption(),
+      editorOptions,
       markdown: null,
       input: '',
     };
