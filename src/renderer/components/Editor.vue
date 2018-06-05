@@ -96,15 +96,13 @@ export default {
       });
     },
     newFile() {
-      const editor = this.editor;
-
       // is newFile
-      if (!this.path && editor.isClean()) {
+      if (!this.path && this.editor.isClean()) {
         return;
       }
 
       // is not modify
-      if (this.path && !editor.isClean()) {
+      if (this.path && !this.editor.isClean()) {
         this.clean();
         return;
       }
@@ -196,12 +194,11 @@ export default {
       }
     },
     saveAs() {
-      const self = this;
       let savePath = this.saveAsDialog();
 
       if (savePath) {
-        self.setPath(savePath);
-        let result = self.writeFile();
+        this.setPath(savePath);
+        let result = this.writeFile();
         if (result) {
           this.editor.markClean();
           this.editor.clearHistory();
@@ -209,12 +206,10 @@ export default {
       }
     },
     writeFile() {
-      const self = this;
-
       try {
         let error;
 
-        fs.writeFile(self.path, self.code, function(err) {
+        fs.writeFile(this.path, this.code, function(err) {
           error = err;
         });
 
@@ -223,7 +218,7 @@ export default {
         }
       } catch (e) {
         if (e.code !== ERR_USER_CANCEL) {
-          self.openDialog('error', e);
+          this.openDialog('error', e);
         }
         return false;
       }
@@ -245,7 +240,7 @@ export default {
     },
     openLinkExternal() {
       const electron = this.$electron;
-      const window = electron.remote.getCurrentWindow();
+      const currentWindow = electron.remote.getCurrentWindow();
 
       document.addEventListener('click', function(e) {
         let target = e.target;
@@ -258,15 +253,15 @@ export default {
         if (href.substring(0, 4) === 'http') {
           e.preventDefault();
           // get status
-          let status = window.isAlwaysOnTop();
+          let status = currentWindow.isAlwaysOnTop();
           // on top
-          window.setAlwaysOnTop(true);
+          currentWindow.setAlwaysOnTop(true);
           // open link
           electron.shell.openExternal(target.href);
           // restore
           if (!status) {
             setTimeout(function() {
-              window.setAlwaysOnTop(false);
+              currentWindow.setAlwaysOnTop(false);
             }, 1000);
           }
         }
