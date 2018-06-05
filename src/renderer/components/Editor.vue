@@ -4,8 +4,6 @@
       <codemirror ref="editor"
                   :code="code"
                   :options="editorOptions"
-                  @ready="onEditorReady"
-                  @focus="onEditorFocus"
                   @input="onEditorCodeChange"/>
     </div>
     <div v-if="isPreview == true" class="preview">
@@ -68,12 +66,6 @@ export default {
   methods: {
     togglePreview() {
       this.$store.dispatch('updateIsPreview', !this.isPreview);
-    },
-    onEditorReady(editor) {
-      // console.log('the editor is readied!', editor)
-    },
-    onEditorFocus(editor) {
-      // console.log('the editor is focus!', editor)
     },
     onEditorCodeChange: debounce(function(newCode) {
       this.code = newCode;
