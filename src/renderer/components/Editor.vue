@@ -86,19 +86,23 @@ export default {
         detail: msg,
       });
     },
-    newFile() {
-      if (!this.editor.isClean()) {
-        // 新規・既存：編集済み
-        let response = this.modifyDialog();
-        if (response === 0) {
-          // Yes
-          this.saveFile();
-        } else if (response === 2) {
-          // Cancel (do nothing)
-          return;
-        }
+    saveModifyFile() {
+      if (this.editor.isClean()) {
+        return;
       }
 
+      // 新規・既存：編集済み
+      let response = this.modifyDialog();
+      if (response === 0) {
+        // Yes
+        this.saveFile();
+      } else if (response === 2) {
+        // Cancel (do nothing)
+        return;
+      }
+    },
+    newFile() {
+      this.saveModifyFile();
       this.clean();
     },
     openFile() {
@@ -125,17 +129,7 @@ export default {
             let path = item[0];
 
             // 編集済み：合保存するか確認ダイアログを表示する
-            if (!self.editor.isClean()) {
-              let response = self.modifyDialog(path);
-              if (response === 0) {
-                // Yes
-                self.saveFile();
-              } else if (response === 2) {
-                // Cancel (do nothing)
-                return;
-              }
-            }
-
+            self.saveModifyFile();
             self.readFile(path);
           }
         },
@@ -175,12 +169,12 @@ export default {
 
       return savePath;
     },
-    modifyDialog(path = '') {
+    modifyDialog() {
       return getSelectedResult({
         title: '',
         type: 'warning',
         buttons: ['Yes', 'No', 'Cancel'],
-        message: path,
+        message: this.path,
         detail: 'Wolud you like to save changes?',
       });
     },
