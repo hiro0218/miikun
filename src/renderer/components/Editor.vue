@@ -4,8 +4,6 @@
       <codemirror ref="editor"
                   :code="code"
                   :options="editorOptions"
-                  @ready="onEditorReady"
-                  @focus="onEditorFocus"
                   @input="onEditorCodeChange"/>
     </div>
     <div v-if="isPreview == true" class="preview">
@@ -22,7 +20,7 @@ import fs from '@/modules/Filesystem.js';
 import { ERR_USER_CANCEL } from '@/modules/Errors';
 import { initMarkdown } from '@/modules/markdown.js';
 import { getSavePath, getSelectedResult } from '@/modules/dialog.js';
-import EditorOption from '@/modules/editor.js';
+import editorOptions from '@/modules/editor.js';
 import Menu from '@/modules/menu.js';
 import DropField from '@/components/DropField';
 
@@ -34,8 +32,8 @@ export default {
   data() {
     return {
       code: '',
-      editorOptions: EditorOption(),
-      markdown: null,
+      editorOptions,
+      markdown: initMarkdown(),
       input: '',
     };
   },
@@ -63,18 +61,11 @@ export default {
     Menu.saveAsFile = this.saveAs;
     Menu.ready();
 
-    this.markdown = initMarkdown();
     this.openLinkExternal();
   },
   methods: {
     togglePreview() {
       this.$store.dispatch('updateIsPreview', !this.isPreview);
-    },
-    onEditorReady(editor) {
-      // console.log('the editor is readied!', editor)
-    },
-    onEditorFocus(editor) {
-      // console.log('the editor is focus!', editor)
     },
     onEditorCodeChange: debounce(function(newCode) {
       this.code = newCode;
@@ -95,31 +86,24 @@ export default {
         detail: msg,
       });
     },
-    newFile() {
-      const editor = this.editor;
-
-      // is newFile
-      if (!this.path && editor.isClean()) {
+    saveModifyFile() {
+      if (this.editor.isClean()) {
         return;
       }
 
-      // is not modify
-      if (this.path && !editor.isClean()) {
-        this.clean();
-        return;
-      }
-
+      // 新規・既存：編集済み
       let response = this.modifyDialog();
-      switch (response) {
+      if (response === 0) {
         // Yes
-        case 0:
-          this.saveFile();
-          break;
-        // No
-        case 1:
-          this.clean();
-          break;
+        this.saveFile();
+      } else if (response === 2) {
+        // Cancel (do nothing)
+        return;
       }
+    },
+    newFile() {
+      this.saveModifyFile();
+      this.clean();
     },
     openFile() {
       const self = this;
@@ -142,7 +126,11 @@ export default {
         },
         function(item) {
           if (item) {
-            self.readFile(item[0]);
+            let path = item[0];
+
+            // 編集済み：合保存するか確認ダイアログを表示する
+            self.saveModifyFile();
+            self.readFile(path);
           }
         },
       );
@@ -150,10 +138,23 @@ export default {
     readFile(path) {
       const self = this;
 
+      if (this.path === path) {
+        getSelectedResult({
+          title: '',
+          type: 'warning',
+          buttons: ['Yes'],
+          message: path,
+          detail: 'This file is already open.',
+        });
+        return;
+      }
+
       fs.readFile(path, function(err, content) {
         if (err === null) {
           self.setEditor(content);
           self.setPath(path);
+          self.editor.markClean();
+          self.editor.clearHistory();
         } else if (err.code !== ERR_USER_CANCEL) {
           self.openDialog('error', err.toString());
         }
@@ -173,6 +174,7 @@ export default {
         title: '',
         type: 'warning',
         buttons: ['Yes', 'No', 'Cancel'],
+        message: this.path,
         detail: 'Wolud you like to save changes?',
       });
     },
@@ -196,12 +198,11 @@ export default {
       }
     },
     saveAs() {
-      const self = this;
       let savePath = this.saveAsDialog();
 
       if (savePath) {
-        self.setPath(savePath);
-        let result = self.writeFile();
+        this.setPath(savePath);
+        let result = this.writeFile();
         if (result) {
           this.editor.markClean();
           this.editor.clearHistory();
@@ -209,12 +210,10 @@ export default {
       }
     },
     writeFile() {
-      const self = this;
-
       try {
         let error;
 
-        fs.writeFile(self.path, self.code, function(err) {
+        fs.writeFile(this.path, this.code, function(err) {
           error = err;
         });
 
@@ -223,7 +222,7 @@ export default {
         }
       } catch (e) {
         if (e.code !== ERR_USER_CANCEL) {
-          self.openDialog('error', e);
+          this.openDialog('error', e);
         }
         return false;
       }
@@ -245,7 +244,7 @@ export default {
     },
     openLinkExternal() {
       const electron = this.$electron;
-      const window = electron.remote.getCurrentWindow();
+      const currentWindow = electron.remote.getCurrentWindow();
 
       document.addEventListener('click', function(e) {
         let target = e.target;
@@ -258,15 +257,15 @@ export default {
         if (href.substring(0, 4) === 'http') {
           e.preventDefault();
           // get status
-          let status = window.isAlwaysOnTop();
+          let status = currentWindow.isAlwaysOnTop();
           // on top
-          window.setAlwaysOnTop(true);
+          currentWindow.setAlwaysOnTop(true);
           // open link
           electron.shell.openExternal(target.href);
           // restore
           if (!status) {
             setTimeout(function() {
-              window.setAlwaysOnTop(false);
+              currentWindow.setAlwaysOnTop(false);
             }, 1000);
           }
         }

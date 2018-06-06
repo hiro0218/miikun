@@ -36,12 +36,14 @@ export default {
         ext === 'md' ||
         ext === 'mii'
       ) {
+        this.$parent.saveModifyFile();
         this.$parent.readFile(file.path);
       } else {
         getSelectedResult({
           title: 'error',
           type: 'error',
           buttons: ['OK'],
+          message: file.path,
           detail: 'This file format is not supported.',
         });
       }

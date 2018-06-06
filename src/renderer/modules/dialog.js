@@ -12,12 +12,13 @@ export const getSavePath = extensions => {
   });
 };
 
-export const getSelectedResult = ({ title, type, buttons, detail }) => {
+export const getSelectedResult = ({ title, message, type, buttons, detail }) => {
   const browserWindow = remote.BrowserWindow;
   const focusedWindow = browserWindow.getFocusedWindow();
 
   return dialog.showMessageBox(focusedWindow, {
     title,
+    message,
     type,
     buttons,
     detail,
