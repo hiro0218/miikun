@@ -87,28 +87,19 @@ export default {
       });
     },
     newFile() {
-      // is newFile
-      if (!this.path && this.editor.isClean()) {
-        return;
-      }
-
-      // is not modify
-      if (this.path && !this.editor.isClean()) {
-        this.clean();
-        return;
-      }
-
-      let response = this.modifyDialog();
-      switch (response) {
-        // Yes
-        case 0:
+      if (!this.editor.isClean()) {
+        // 新規・既存：編集済み
+        let response = this.modifyDialog();
+        if (response === 0) {
+          // Yes
           this.saveFile();
-          break;
-        // No
-        case 1:
-          this.clean();
-          break;
+        } else if (response === 2) {
+          // Cancel (do nothing)
+          return;
+        }
       }
+
+      this.clean();
     },
     openFile() {
       const self = this;
@@ -143,6 +134,8 @@ export default {
         if (err === null) {
           self.setEditor(content);
           self.setPath(path);
+          self.editor.markClean();
+          self.editor.clearHistory();
         } else if (err.code !== ERR_USER_CANCEL) {
           self.openDialog('error', err.toString());
         }
