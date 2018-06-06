@@ -72,21 +72,34 @@ export default {
             label: 'Toggle Preview Panel',
             type: 'checkbox',
             checked: true,
-            // accelerator: '',
             click: function(item, focusedWindow) {
               self.togglePreview();
             },
           },
-          { type: 'separator' },
           {
             label: 'Toggle Full Screen',
-            accelerator: (function() {
-              return OSX ? 'Ctrl+Command+F' : 'F11';
-            })(),
-            click: function(item, focusedWindow) {
-              focusedWindow.setFullScreen(!focusedWindow.isFullScreen());
-            },
+            role: 'togglefullscreen',
           },
+          { type: 'separator' },
+          {
+            label: 'Zoom',
+            submenu: [
+              {
+                label: 'Zoom In',
+                role: 'zoomIn',
+              },
+              {
+                label: 'Zoom Out',
+                role: 'zoomOut',
+              },
+              { type: 'separator' },
+              {
+                label: 'Actual Size',
+                role: 'resetZoom',
+              },
+            ],
+          },
+          { type: 'separator' },
           {
             label: 'Always on Top',
             accelerator: 'CmdOrCtrl+Shift+T',
