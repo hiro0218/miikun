@@ -122,13 +122,24 @@ export default {
         },
         function(item) {
           if (item) {
-            self.readFile(item[0]);
+            let path = item[0];
+            self.readFile(path);
           }
         },
       );
     },
     readFile(path) {
       const self = this;
+
+      if (this.path === path) {
+        getSelectedResult({
+          title: '',
+          type: 'warning',
+          buttons: ['Yes'],
+          detail: 'This file is already open.',
+        });
+        return;
+      }
 
       fs.readFile(path, function(err, content) {
         if (err === null) {
