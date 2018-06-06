@@ -122,9 +122,11 @@ export default {
         },
         function(item) {
           if (item) {
+            let path = item[0];
+
             // 編集済み：合保存するか確認ダイアログを表示する
             if (!self.editor.isClean()) {
-              let response = self.modifyDialog();
+              let response = self.modifyDialog(path);
               if (response === 0) {
                 // Yes
                 self.saveFile();
@@ -134,7 +136,6 @@ export default {
               }
             }
 
-            let path = item[0];
             self.readFile(path);
           }
         },
@@ -148,6 +149,7 @@ export default {
           title: '',
           type: 'warning',
           buttons: ['Yes'],
+          message: path,
           detail: 'This file is already open.',
         });
         return;
@@ -173,11 +175,12 @@ export default {
 
       return savePath;
     },
-    modifyDialog() {
+    modifyDialog(path = '') {
       return getSelectedResult({
         title: '',
         type: 'warning',
         buttons: ['Yes', 'No', 'Cancel'],
+        message: path,
         detail: 'Wolud you like to save changes?',
       });
     },

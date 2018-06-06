@@ -42,6 +42,7 @@ export default {
           title: 'error',
           type: 'error',
           buttons: ['OK'],
+          message: file.path,
           detail: 'This file format is not supported.',
         });
       }
