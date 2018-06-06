@@ -36,6 +36,7 @@ export default {
         ext === 'md' ||
         ext === 'mii'
       ) {
+        this.$parent.saveModifyFile();
         this.$parent.readFile(file.path);
       } else {
         getSelectedResult({
