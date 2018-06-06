@@ -122,6 +122,18 @@ export default {
         },
         function(item) {
           if (item) {
+            // 編集済み：合保存するか確認ダイアログを表示する
+            if (!self.editor.isClean()) {
+              let response = self.modifyDialog();
+              if (response === 0) {
+                // Yes
+                self.saveFile();
+              } else if (response === 2) {
+                // Cancel (do nothing)
+                return;
+              }
+            }
+
             let path = item[0];
             self.readFile(path);
           }
