@@ -1,13 +1,13 @@
 <template>
   <div class="toolbar">
     <div class="composite">
-      <md-button class="md-icon-button" @click="undo">
+      <md-button :disabled="!canUndo" class="md-icon-button" @click="$parent.$refs['mii-editor'].undo()">
         <md-icon title="undo">undo</md-icon>
       </md-button>
-      <md-button class="md-icon-button" @click="redo">
+      <md-button :disabled="!canRedo" class="md-icon-button" @click="$parent.$refs['mii-editor'].redo()">
         <md-icon title="redo">redo</md-icon>
       </md-button>
-      <md-button :class="{ off: !isPreview }" class="md-icon-button" @click="togglePreview">
+      <md-button :class="{ off: !isPreview }" class="md-icon-button" @click="$parent.$refs['mii-editor'].togglePreview()">
         <md-icon title="preview mode">remove_red_eye</md-icon>
       </md-button>
     </div>
@@ -30,21 +30,13 @@ export default {
   computed: {
     ...mapState({
       isPreview: state => state.Editor.isPreview,
+      canUndo: state => state.Editor.canUndo,
+      canRedo: state => state.Editor.canRedo,
     }),
   },
   watch: {},
   mounted: function() {},
-  methods: {
-    undo() {
-      this.$parent.$refs['mii-editor'].undo();
-    },
-    redo() {
-      this.$parent.$refs['mii-editor'].redo();
-    },
-    togglePreview: function() {
-      this.$parent.$refs['mii-editor'].togglePreview();
-    },
-  },
+  methods: {},
 };
 </script>
 
@@ -64,7 +56,8 @@ export default {
   display: block;
   margin: 0 auto;
 
-  &.off .md-icon {
+  &:disabled,
+  &.off {
     opacity: 0.4;
   }
 }

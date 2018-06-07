@@ -4,7 +4,8 @@
       <codemirror ref="editor"
                   :code="code"
                   :options="editorOptions"
-                  @input="onEditorCodeChange"/>
+                  @input="onEditorCodeChange"
+                  @changes="checkEditorHistory"/>
     </div>
     <div v-if="isPreview == true" class="preview">
       <div class="markdown-body" v-html="input"/>
@@ -41,12 +42,6 @@ export default {
     editor() {
       return this.$refs.editor.codemirror;
     },
-    canUndo() {
-      return this.$refs.editor.codemirror.historySize().undo > 0;
-    },
-    canRedo() {
-      return this.$refs.editor.codemirror.historySize().redo > 0;
-    },
     ...mapState({
       path: state => state.Editor.filePath,
       isPreview: state => state.Editor.isPreview,
@@ -70,6 +65,11 @@ export default {
     this.openLinkExternal();
   },
   methods: {
+    checkEditorHistory() {
+      let { undo, redo } = this.editor.historySize();
+      this.$store.dispatch('setCanUndo', undo > 0);
+      this.$store.dispatch('setCanRedo', redo > 0);
+    },
     togglePreview() {
       this.$store.dispatch('updateIsPreview', !this.isPreview);
     },
@@ -84,6 +84,12 @@ export default {
     },
     redo() {
       this.editor.redo();
+    },
+    canUndo() {
+      return this.editor.historySize().undo > 0;
+    },
+    canRedo() {
+      return this.editor.historySize().redo > 0;
     },
     openDialog(type, msg) {
       const remote = this.$electron.remote;
