@@ -41,6 +41,12 @@ export default {
     editor() {
       return this.$refs.editor.codemirror;
     },
+    canUndo() {
+      return this.$refs.editor.codemirror.historySize().undo > 0;
+    },
+    canRedo() {
+      return this.$refs.editor.codemirror.historySize().redo > 0;
+    },
     ...mapState({
       path: state => state.Editor.filePath,
       isPreview: state => state.Editor.isPreview,
@@ -73,6 +79,12 @@ export default {
         this.input = this.markdown.render(newCode);
       }
     }, 200),
+    undo() {
+      this.editor.undo();
+    },
+    redo() {
+      this.editor.redo();
+    },
     openDialog(type, msg) {
       const remote = this.$electron.remote;
       const dialog = remote.dialog;
