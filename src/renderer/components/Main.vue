@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <toolbar/>
-    <editor ref="mii-editor"/>
+    <editor ref="miiEditor"/>
   </div>
 </template>
 
