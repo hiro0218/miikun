@@ -1,6 +1,7 @@
 const state = {
   filePath: '',
   isPreview: true,
+  openToolbar: true,
   canUndo: false,
   canRedo: false,
 };
@@ -14,6 +15,9 @@ const mutations = {
   },
   UPDATE_ISPREVIEW(state, bool) {
     state.isPreview = bool;
+  },
+  TOGGLE_TOOLBAR(state) {
+    state.openToolbar = !state.openToolbar;
   },
   SET_CAN_UNDO(state, bool) {
     state.canUndo = bool;
@@ -29,6 +33,9 @@ const actions = {
   },
   updateIsPreview({ commit }, bool) {
     commit('UPDATE_ISPREVIEW', bool);
+  },
+  toggleToolbar({ commit }) {
+    commit('TOGGLE_TOOLBAR');
   },
   setCanUndo({ commit }, bool) {
     commit('SET_CAN_UNDO', bool);

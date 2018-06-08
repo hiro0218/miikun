@@ -1,6 +1,6 @@
 <template>
-  <div class="toolbar">
-    <div class="composite">
+  <div :class="{ open: openToolbar }" class="toolbar">
+    <div class="menu composite">
       <md-button :disabled="!canUndo" class="md-icon-button" @click="$parent.$refs.miiEditor.undo()">
         <md-icon title="undo">undo</md-icon>
       </md-button>
@@ -11,7 +11,7 @@
         <md-icon title="preview mode">remove_red_eye</md-icon>
       </md-button>
     </div>
-    <div class="global">
+    <div class="menu global">
       <md-button class="md-icon-button" disabled>
         <md-icon class="settings">settings</md-icon>
       </md-button>
@@ -30,6 +30,7 @@ export default {
   computed: {
     ...mapState({
       isPreview: state => state.Editor.isPreview,
+      openToolbar: state => state.Editor.openToolbar,
       canUndo: state => state.Editor.canUndo,
       canRedo: state => state.Editor.canRedo,
     }),
@@ -47,9 +48,21 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 3.125rem;
+  width: 0;
   background: $color200;
   text-align: center;
+  transition: all 0.2s;
+
+  > .menu {
+    opacity: 0;
+  }
+
+  &.open {
+    width: 3.125rem;
+    > .menu {
+      opacity: 1;
+    }
+  }
 }
 
 .md-button {

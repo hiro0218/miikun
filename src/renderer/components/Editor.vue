@@ -56,6 +56,7 @@ export default {
   },
   mounted() {
     Menu.togglePreview = this.togglePreview;
+    Menu.toggleToolbar = this.toggleToolbar;
     Menu.newFile = this.newFile;
     Menu.openFile = this.openFile;
     Menu.saveFile = this.saveFile;
@@ -72,6 +73,9 @@ export default {
     },
     togglePreview() {
       this.$store.dispatch('updateIsPreview', !this.isPreview);
+    },
+    toggleToolbar() {
+      this.$store.dispatch('toggleToolbar');
     },
     onEditorCodeChange: debounce(function(newCode) {
       this.code = newCode;
