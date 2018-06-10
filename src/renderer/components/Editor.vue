@@ -4,7 +4,8 @@
       <codemirror ref="editor"
                   :code="code"
                   :options="editorOptions"
-                  @input="onEditorCodeChange"/>
+                  @input="onEditorCodeChange"
+                  @changes="checkEditorHistory"/>
     </div>
     <div v-if="isPreview == true" class="preview">
       <div class="markdown-body" v-html="input"/>
@@ -55,6 +56,7 @@ export default {
   },
   mounted() {
     Menu.togglePreview = this.togglePreview;
+    Menu.toggleToolbar = this.toggleToolbar;
     Menu.newFile = this.newFile;
     Menu.openFile = this.openFile;
     Menu.saveFile = this.saveFile;
@@ -64,8 +66,16 @@ export default {
     this.openLinkExternal();
   },
   methods: {
+    checkEditorHistory() {
+      let { undo, redo } = this.editor.historySize();
+      this.$store.dispatch('setCanUndo', undo > 0);
+      this.$store.dispatch('setCanRedo', redo > 0);
+    },
     togglePreview() {
       this.$store.dispatch('updateIsPreview', !this.isPreview);
+    },
+    toggleToolbar() {
+      this.$store.dispatch('toggleToolbar');
     },
     onEditorCodeChange: debounce(function(newCode) {
       this.code = newCode;
@@ -73,6 +83,18 @@ export default {
         this.input = this.markdown.render(newCode);
       }
     }, 200),
+    undo() {
+      this.editor.undo();
+    },
+    redo() {
+      this.editor.redo();
+    },
+    canUndo() {
+      return this.editor.historySize().undo > 0;
+    },
+    canRedo() {
+      return this.editor.historySize().redo > 0;
+    },
     openDialog(type, msg) {
       const remote = this.$electron.remote;
       const dialog = remote.dialog;

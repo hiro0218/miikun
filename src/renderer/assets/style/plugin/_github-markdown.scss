@@ -147,7 +147,7 @@
 .markdown-body code,
 .markdown-body kbd,
 .markdown-body pre {
-  font-family: monospace, monospace;
+  font-family: $font-family-monospace, monospace;
   font-size: 1em;
 }
 
@@ -312,7 +312,6 @@
 .markdown-body pre {
   margin-top: 0;
   margin-bottom: 0;
-  font: 12px Consolas, "Liberation Mono", Menlo, Courier, monospace;
 }
 
 .markdown-body .octicon {
@@ -653,7 +652,6 @@
 .markdown-body kbd {
   display: inline-block;
   padding: 3px 5px;
-  font: 11px Consolas, "Liberation Mono", Menlo, Courier, monospace;
   line-height: 10px;
   color: #555;
   vertical-align: middle;

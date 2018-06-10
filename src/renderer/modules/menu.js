@@ -14,6 +14,7 @@ export default {
   saveFile: function() {},
   saveAsFile: function() {},
   togglePreview: function() {},
+  toggleToolbar: function() {},
   ready: function() {
     var self = this;
 
@@ -74,6 +75,14 @@ export default {
             checked: true,
             click: function(item, focusedWindow) {
               self.togglePreview();
+            },
+          },
+          {
+            label: 'Toggle Toolbar',
+            type: 'checkbox',
+            checked: true,
+            click: function(item, focusedWindow) {
+              self.toggleToolbar();
             },
           },
           {
