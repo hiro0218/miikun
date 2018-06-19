@@ -8,7 +8,7 @@
 
 <script>
 export default {
-  name: 'MiiEncryptKeyPrompt',
+  name: 'KeyPrompt',
   data() {
     return {
       key: '',

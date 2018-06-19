@@ -61,8 +61,8 @@ ipcMain.on('ask-key', askKeyEvent => {
   });
   askKeyPrompt.loadURL(
     process.env.NODE_ENV === 'development'
-      ? 'http://localhost:9080/#/ask-encrypt-key'
-      : `file://${__dirname}/index.html#ask-encrypt-key`,
+      ? 'http://localhost:9080/#/ask-key'
+      : `file://${__dirname}/index.html#ask-key`,
   );
   ipcMain.once('set-key', (setKeyEvent, setKeyArgu) => {
     askKeyPrompt.close();
