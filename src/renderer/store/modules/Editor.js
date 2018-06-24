@@ -9,7 +9,7 @@ const state = {
     key: null,
     op: {
       name: null,
-      newFilePath: null,
+      path: null,
     },
   },
 };
@@ -41,7 +41,7 @@ const mutations = {
   },
   SET_CRYPT_OP(state, obj) {
     state.crypt.op.name = obj.name;
-    state.crypt.op.newFilePath = obj.newFilePath;
+    state.crypt.op.path = obj.path;
   },
 };
 
