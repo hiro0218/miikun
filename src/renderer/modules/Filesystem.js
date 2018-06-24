@@ -1,9 +1,9 @@
 'use strict';
 
 import fs from 'fs';
-import { ipcRenderer } from 'electron';
 import encryptor from './Encryptor';
-import { UserCancelError, DecryptFailError } from './Errors';
+import { NullKeyError, DecryptFailError } from './Errors';
+import store from '../store';
 
 // This file looks looks
 // | Base info | HMAC | IV | Enc Content |
@@ -15,6 +15,7 @@ function Filesystem() {
     hmacLength: 32,
     ivLength: 16,
   };
+  this.key = null;
 }
 
 // Return: Object contains header metadata
@@ -29,59 +30,65 @@ Filesystem.prototype.shouldEncrypt = function(path) {
 
 Filesystem.prototype.writeFile = function(path, content, cb) {
   if (this.shouldEncrypt(path)) {
-    this.askKey((err, key) => {
-      if (err) {
-        cb(err);
-        return;
-      }
-      fs.writeFile(path, this.encrypt(key, content), cb);
-      // backup un-encrypt file at develop
-      if (process.env.NODE_ENV === 'development') {
-        fs.writeFile(path + '.backup.md', content, 'utf8', cb);
-      }
-    });
-  } else {
-    fs.writeFile(path, content, 'utf8', cb);
+    // Use the cached key instead of state, because when readFile fail, I
+    // can keep the old key of current file.
+    // It's hard and will make code looks ugly if implemnt in Editor.vue.
+    let key = this.key;
+
+    // Prevent null key, it should not happen
+    // at this time.
+    if (key === '' || key === null) {
+      cb(new NullKeyError());
+      return;
+    }
+
+    // Backup file at develop.
+    if (process.env.NODE_ENV === 'development') {
+      fs.writeFile(path + '.backup.md', content, 'utf8', cb);
+    }
+
+    content = this.encrypt(key, content);
   }
+
+  fs.writeFile(path, content, 'utf8', cb);
 };
 
 Filesystem.prototype.readFile = function(path, cb) {
-  if (this.shouldEncrypt(path)) {
-    this.askKey((err1, key) => {
-      if (err1) {
-        cb(err1, null);
+  let key = null;
+  const isEncrypt = this.shouldEncrypt(path);
+
+  if (isEncrypt) {
+    key = store.state.Editor.crypt.key;
+
+    // Prevent null key, it should not happen
+    // at this time.
+    if (key === '' || key === null) {
+      cb(new NullKeyError());
+      return;
+    }
+  }
+
+  // Notice it's an async function, only return
+  // the callback, not readFile
+  fs.readFile(path, (err, content) => {
+    if (err) {
+      cb(err, null);
+      return;
+    }
+
+    // Decrypt
+    if (isEncrypt) {
+      try {
+        content = this.decrypt(key, content);
+      } catch (err2) {
+        cb(err2, null);
         return;
       }
-
-      fs.readFile(path, (err2, content) => {
-        if (err2) {
-          cb(err2, null);
-          return;
-        }
-
-        try {
-          const decContent = this.decrypt(key, content);
-          cb(null, decContent.toString('utf8'));
-        } catch (err) {
-          cb(err, null);
-        }
-      });
-    });
-  } else {
-    fs.readFile(path, 'utf8', cb);
-  }
-};
-
-Filesystem.prototype.askKey = function(cb) {
-  ipcRenderer.once('reply-ask-key', (replyAskKeyEvent, replyAskKeyArgu) => {
-    if (replyAskKeyArgu === null) {
-      cb(new UserCancelError(), null);
-    } else {
-      cb(null, replyAskKeyArgu);
     }
-  });
 
-  ipcRenderer.send('ask-key');
+    this.updateKey(key);
+    cb(null, content.toString('utf8'));
+  });
 };
 
 Filesystem.prototype.encrypt = function(key, content) {
@@ -139,6 +146,10 @@ Filesystem.prototype.dumpHeader = function(header) {
   console.log('[Dump Header] Base info: ' + base.toString('utf8'));
   console.log('[Dump Header] HMAC: ' + hmac.toString('utf8'));
   console.log('[Dump Header] IV: ' + iv.toString('utf8'));
+};
+
+Filesystem.prototype.updateKey = function(key) {
+  this.key = key;
 };
 
 export default new Filesystem();
