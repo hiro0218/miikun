@@ -3,10 +3,9 @@
     <md-dialog-prompt
       :md-active.sync="enable"
       v-model="key"
-      md-title="Unlock "
+      md-title="Password is required"
       md-input-maxlength="30"
-      md-input-placeholder="Password here."
-      md-confirm-text="Done"
+      md-input-placeholder="..."
       @md-confirm="done"
       @md-cancel="cancel" />
   </div>
