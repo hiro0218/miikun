@@ -1,6 +1,6 @@
 'use strict';
 
-import { app, BrowserWindow, ipcMain } from 'electron';
+import { app, BrowserWindow } from 'electron';
 
 /**
  * Set `__static` path to static files in production
@@ -48,25 +48,4 @@ app.on('activate', () => {
   if (mainWindow === null) {
     createWindow();
   }
-});
-
-ipcMain.on('ask-key', askKeyEvent => {
-  let askKeyPrompt = new BrowserWindow({
-    width: 350,
-    height: 100,
-    parent: mainWindow,
-    modal: true,
-    frame: false,
-    resizable: false,
-  });
-  askKeyPrompt.loadURL(
-    process.env.NODE_ENV === 'development'
-      ? 'http://localhost:9080/#/ask-key'
-      : `file://${__dirname}/index.html#ask-key`,
-  );
-  ipcMain.once('set-key', (setKeyEvent, setKeyArgu) => {
-    askKeyPrompt.close();
-    askKeyPrompt = null;
-    askKeyEvent.sender.send('reply-ask-key', setKeyArgu);
-  });
 });

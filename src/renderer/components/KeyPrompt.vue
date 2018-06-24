@@ -1,41 +1,48 @@
 <template>
   <div>
-    <input v-model="key" type="password" placeholder="Enter key...">
-    <input :disabled="key.trim().length === 0" type="button" value="⮐" @click="ok">
-    <input type="button" value="X" @click="cancel">
+    <md-dialog-prompt
+      :md-active.sync="enable"
+      v-model="key"
+      md-title="Unlock "
+      md-input-maxlength="30"
+      md-input-placeholder="Password here."
+      md-confirm-text="Done"
+      @md-confirm="done"
+      @md-cancel="cancel" />
   </div>
 </template>
 
 <script>
 export default {
   name: 'KeyPrompt',
-  data() {
-    return {
-      key: '',
-    };
+  computed: {
+    enable: {
+      get: function() {
+        return this.$store.state.Editor.crypt.enable;
+      },
+      set: function(v) {
+        this.$store.dispatch('setCryptEnable', v);
+      },
+    },
+    key: {
+      get: function() {
+        return this.$store.state.Editor.crypt.key;
+      },
+      set: function(v) {
+        this.$store.dispatch('setCryptKey', v);
+      },
+    },
   },
   methods: {
-    ok() {
-      this.$electron.ipcRenderer.sendSync('set-key', this.key);
+    done() {
+      this.$emit('done', this.key);
     },
     cancel() {
-      this.$electron.ipcRenderer.sendSync('set-key', null);
+      this.$emit('done', null);
     },
   },
 };
 </script>
 
 <style scoped>
-::placeholder {
-  /* Most modern browsers support this now. */
-  color: darkgrey;
-}
-input[type='button'] {
-  padding: 0;
-  background: none;
-  border: none;
-}
-input[type='password'] {
-  line-height: 2em;
-}
 </style>
