@@ -25,6 +25,7 @@ import editorOptions from '@/modules/editor.js';
 import Menu from '@/modules/menu.js';
 import DropField from '@/components/DropField';
 import KeyPrompt from '@/components/KeyPrompt';
+import { UnexpectedStateError } from '@/modules/Errors';
 
 export default {
   name: 'MiiEditor',
@@ -336,7 +337,8 @@ export default {
           key,
         );
       } else {
-        // TODO
+        const err = new UnexpectedStateError('crypt.op.name', name);
+        this.openDialog('error', err.toString());
       }
       this.$store.dispatch('setCryptOP', { name: null, path: null });
     },
