@@ -28,12 +28,12 @@ Filesystem.prototype.shouldEncrypt = function(path) {
   return path.endsWith('.mii');
 };
 
-Filesystem.prototype.writeFile = function(path, content, cb) {
+Filesystem.prototype.writeFile = function(path, content, cb, key = null) {
   if (this.shouldEncrypt(path)) {
     // Use the cached key instead of state, because when readFile fail, I
     // can keep the old key of current file.
     // It's hard and will make code looks ugly if implemnt in Editor.vue.
-    let key = this.key;
+    key = key === null ? this.key : key;
 
     // Prevent null key, it should not happen
     // at this time.
