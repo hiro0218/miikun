@@ -156,7 +156,7 @@ export default {
             // 編集済み：合保存するか確認ダイアログを表示する
             self.saveModifyFile();
             if (fs.shouldEncrypt(path)) {
-              self.openKeyPrompt('openFile', path);
+              self.openKeyPrompt('open', path);
             } else {
               self.readFile(path);
             }
@@ -233,7 +233,7 @@ export default {
         this.setPath(savePath);
         let result;
         if (fs.shouldEncrypt(savePath)) {
-          this.openKeyPrompt('saveAs', savePath);
+          this.openKeyPrompt('save', savePath);
         } else {
           result = this.writeFile();
         }
@@ -320,9 +320,9 @@ export default {
       // Currently, only openFile and saveAs need user to enter key.
       // When openFile, fs use cached key which is set when readFile success,
       // so call writeFile instead of openKeyPrompt when save a encrypted file.
-      if (name === 'openFile') {
+      if (name === 'open') {
         this.readFile(path);
-      } else if (name === 'saveAs') {
+      } else if (name === 'save') {
         // the linter force me to use this style ...
         fs.writeFile(
           this.path,
