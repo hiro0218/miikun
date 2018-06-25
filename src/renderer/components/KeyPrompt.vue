@@ -3,9 +3,8 @@
     <md-dialog-prompt
       :md-active.sync="enable"
       v-model="key"
-      md-title="Password is required"
+      :md-title.sync="title"
       md-input-maxlength="30"
-      md-input-placeholder="..."
       @md-confirm="done"
       @md-cancel="cancel" />
   </div>
@@ -14,6 +13,11 @@
 <script>
 export default {
   name: 'KeyPrompt',
+  data: function() {
+    return {
+      title: '',
+    };
+  },
   computed: {
     enable: {
       get: function() {
@@ -30,6 +34,13 @@ export default {
       set: function(v) {
         this.$store.dispatch('setCryptKey', v);
       },
+    },
+  },
+  watch: {
+    enable: function() {
+      const fname = this.$store.state.Editor.crypt.op.path.split('/').pop();
+      const opname = this.$store.state.Editor.crypt.op.name;
+      this.title = 'Password is required to ' + opname + ' ' + fname;
     },
   },
   methods: {
