@@ -5,6 +5,7 @@
       v-model="key"
       :md-title.sync="title"
       md-input-maxlength="30"
+      md-input-placeholder="Password is required"
       @md-confirm="done"
       @md-cancel="cancel" />
   </div>
@@ -38,9 +39,10 @@ export default {
   },
   watch: {
     enable: function() {
-      const fname = this.$store.state.Editor.crypt.op.path.split('/').pop();
-      const opname = this.$store.state.Editor.crypt.op.name;
-      this.title = 'Password is required to ' + opname + ' ' + fname;
+      let fname = this.$store.state.Editor.crypt.op.path.split('/').pop();
+      let opname = this.$store.state.Editor.crypt.op.name;
+      opname = opname.charAt(0).toUpperCase() + opname.slice(1);
+      this.title = opname + ' ' + fname;
     },
   },
   methods: {
