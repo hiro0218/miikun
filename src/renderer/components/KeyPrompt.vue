@@ -1,6 +1,6 @@
 <template>
   <div>
-    <md-dialog :md-active.sync="enable">
+    <md-dialog :md-active.sync="enable" @md-opened="onOpen">
       <md-dialog-title>{{ title }}</md-dialog-title>
       <md-dialog-content>
         <md-field>
@@ -45,8 +45,16 @@ export default {
       },
     },
   },
-  watch: {
-    enable: function() {
+  methods: {
+    done() {
+      this.enable = false;
+      this.$emit('done', this.key);
+    },
+    cancel() {
+      this.enable = false;
+      this.$emit('done', null);
+    },
+    onOpen() {
       let fname = this.$store.state.Editor.crypt.op.path;
       let opname = this.$store.state.Editor.crypt.op.name;
 
@@ -56,18 +64,8 @@ export default {
         this.title = opname + ' ' + fname;
       } else {
         // Unexpected situation
-        this.title = '';
+        this.title = 'Unkown operation';
       }
-    },
-  },
-  methods: {
-    done() {
-      this.enable = false;
-      this.$emit('done', this.key);
-    },
-    cancel() {
-      this.enable = false;
-      this.$emit('done', null);
     },
   },
 };
