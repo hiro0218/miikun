@@ -39,10 +39,17 @@ export default {
   },
   watch: {
     enable: function() {
-      let fname = this.$store.state.Editor.crypt.op.path.split('/').pop();
+      let fname = this.$store.state.Editor.crypt.op.path;
       let opname = this.$store.state.Editor.crypt.op.name;
-      opname = opname.charAt(0).toUpperCase() + opname.slice(1);
-      this.title = opname + ' ' + fname;
+
+      if (typeof fname === 'string' && typeof opname === 'string') {
+        fname = fname.split('/').pop();
+        opname = opname.charAt(0).toUpperCase() + opname.slice(1);
+        this.title = opname + ' ' + fname;
+      } else {
+        // Unexpected situation
+        this.title = '';
+      }
     },
   },
   methods: {
