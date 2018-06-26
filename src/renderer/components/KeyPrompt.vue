@@ -1,13 +1,21 @@
 <template>
   <div>
-    <md-dialog-prompt
-      :md-active.sync="enable"
-      v-model="key"
-      :md-title.sync="title"
-      md-input-maxlength="30"
-      md-input-placeholder="Password is required"
-      @md-confirm="done"
-      @md-cancel="cancel" />
+    <md-dialog :md-active.sync="enable">
+      <md-dialog-title>{{ title }}</md-dialog-title>
+      <md-dialog-content>
+        <md-field>
+          <label>Password is required</label>
+          <md-input
+            v-model="key"
+            maxlength="50"
+            type="password"/>
+        </md-field>
+      </md-dialog-content>
+      <md-dialog-actions>
+        <md-button class="md-primary" @click="done">OK</md-button>
+        <md-button class="md-primary" @click="cancel">Cancel</md-button>
+      </md-dialog-actions>
+    </md-dialog>
   </div>
 </template>
 
@@ -54,9 +62,11 @@ export default {
   },
   methods: {
     done() {
+      this.enable = false;
       this.$emit('done', this.key);
     },
     cancel() {
+      this.enable = false;
       this.$emit('done', null);
     },
   },
