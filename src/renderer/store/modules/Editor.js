@@ -4,6 +4,14 @@ const state = {
   openToolbar: true,
   canUndo: false,
   canRedo: false,
+  crypt: {
+    enable: false,
+    key: null,
+    op: {
+      name: null,
+      path: null,
+    },
+  },
 };
 
 const mutations = {
@@ -25,6 +33,16 @@ const mutations = {
   SET_CAN_REDO(state, bool) {
     state.canRedo = bool;
   },
+  SET_CRYPT_ENABLE(state, bool) {
+    state.crypt.enable = bool;
+  },
+  SET_CRYPT_KEY(state, key) {
+    state.crypt.key = key;
+  },
+  SET_CRYPT_OP(state, obj) {
+    state.crypt.op.name = obj.name;
+    state.crypt.op.path = obj.path;
+  },
 };
 
 const actions = {
@@ -42,6 +60,15 @@ const actions = {
   },
   setCanRedo({ commit }, bool) {
     commit('SET_CAN_REDO', bool);
+  },
+  setCryptEnable({ commit }, bool) {
+    commit('SET_CRYPT_ENABLE', bool);
+  },
+  setCryptKey({ commit }, key) {
+    commit('SET_CRYPT_KEY', key);
+  },
+  setCryptOP({ commit }, obj) {
+    commit('SET_CRYPT_OP', obj);
   },
 };
 
