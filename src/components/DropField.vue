@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <div class="dropfield">Drop file here</div>
-  </div>
+  <div><div class="dropfield">Drop file here</div></div>
 </template>
 
 <script>

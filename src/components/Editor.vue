@@ -1,17 +1,17 @@
 <template>
   <div class="container">
-    <div :class="{open:!isPreview}" class="input">
-      <codemirror ref="editor"
-                  :code="code"
-                  :options="editorOptions"
-                  @input="onEditorCodeChange"
-                  @changes="checkEditorHistory"/>
+    <div :class="{ open: !isPreview }" class="input">
+      <codemirror
+        ref="editor"
+        :code="code"
+        :options="editorOptions"
+        @input="onEditorCodeChange"
+        @changes="checkEditorHistory"
+      />
     </div>
-    <div v-if="isPreview == true" class="preview">
-      <div class="markdown-body" v-html="input"/>
-    </div>
-    <DropField/>
-    <KeyPrompt @done="onKeyPromptDone"/>
+    <div v-if="isPreview == true" class="preview"><div class="markdown-body" v-html="input" /></div>
+    <DropField />
+    <KeyPrompt @done="onKeyPromptDone" />
   </div>
 </template>
 

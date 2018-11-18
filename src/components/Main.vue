@@ -1,8 +1,5 @@
 <template>
-  <div class="container">
-    <toolbar/>
-    <editor ref="miiEditor"/>
-  </div>
+  <div class="container"><toolbar /> <editor ref="miiEditor" /></div>
 </template>
 
 <script>
@@ -21,5 +18,6 @@ export default {
 <style scoped>
 .container {
   display: flex;
+  background: #fff;
 }
 </style>
