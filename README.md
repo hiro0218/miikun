@@ -18,9 +18,6 @@ yarn electron:build
 
 # lint all JS/Vue component files in `app/src`
 yarn lint
-
-# run webpack in production
-npm run pack
 ```
 More information can be found [here](https://simulatedgreg.gitbooks.io/electron-vue/content/).
 
