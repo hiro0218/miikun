@@ -3,7 +3,7 @@ const { remote } = electron;
 const { Menu, dialog, nativeImage } = remote;
 const iconImage = nativeImage.createFromPath('./build/icons/256x256.png');
 const shell = remote.shell;
-const pkg = require('../../../package.json');
+const pkg = require('../../package.json');
 const OSX = process.platform === 'darwin';
 const WIN = process.platform === 'win32';
 
@@ -63,7 +63,11 @@ export default {
           { label: 'Copy', accelerator: 'CmdOrCtrl+C', selector: 'copy:' },
           { label: 'Paste', accelerator: 'CmdOrCtrl+V', selector: 'paste:' },
           { type: 'separator' },
-          { label: 'Select All', accelerator: 'CmdOrCtrl+A', selector: 'selectAll:' },
+          {
+            label: 'Select All',
+            accelerator: 'CmdOrCtrl+A',
+            selector: 'selectAll:',
+          },
         ],
       },
       {

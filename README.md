@@ -8,21 +8,21 @@
 
 ``` bash
 # install dependencies
-npm install
+yarn install
 
-# serve with hot reload at localhost:9080
-npm run dev
+# serve
+yarn electron:serve
 
 # build electron app for production
-npm run build
+yarn electron:build
 
 # lint all JS/Vue component files in `app/src`
-npm run lint
+yarn lint
 
 # run webpack in production
 npm run pack
 ```
-More information can be found [here](https://simulatedgreg.gitbooks.io/electron-vue/content/docs/npm_scripts.html).
+More information can be found [here](https://simulatedgreg.gitbooks.io/electron-vue/content/).
 
 ---
 

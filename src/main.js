@@ -1,8 +1,12 @@
 import Vue from 'vue';
-
-import App from './App';
+import App from './App.vue';
 import router from './router';
 import store from './store';
+
+import VueElectron from 'vue-electron';
+Vue.use(VueElectron);
+
+Vue.config.productionTip = false;
 
 import { MdButton, MdIcon, MdDialog, MdField } from 'vue-material/dist/components';
 Vue.use(MdButton);
@@ -12,19 +16,11 @@ Vue.use(MdIcon);
 Vue.use(MdField);
 Vue.use(MdDialog);
 
-import 'vue-material/dist/vue-material.min.css';
-import 'vue-material/dist/theme/default.css';
-
 import VueCodeMirror from 'vue-codemirror';
 Vue.use(VueCodeMirror);
 
-if (!process.env.IS_WEB) Vue.use(require('vue-electron'));
-Vue.config.productionTip = false;
-
-/* eslint-disable no-new */
 new Vue({
-  components: { App },
   router,
   store,
-  template: '<App/>',
+  render: h => h(App),
 }).$mount('#app');

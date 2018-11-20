@@ -1,57 +1,14 @@
 {
   "comments": false,
-  "env": {
-    "main": {
-      "presets": [
-        [
-          "@babel/preset-env",
-          {
-            "targets": {
-              "node": 7
-            }
-          }
-        ],
-        [
-          "@babel/preset-stage-0",
-          {
-            "decoratorsLegacy": true
-          }
-        ]
-      ]
-    },
-    "renderer": {
-      "presets": [
-        [
-          "@babel/preset-env",
-          {
-            "modules": false
-          }
-        ],
-        [
-          "@babel/preset-stage-0",
-          {
-            "decoratorsLegacy": true
-          }
-        ]
-      ]
-    },
-    "web": {
-      "presets": [
-        [
-          "@babel/preset-env",
-          {
-            "modules": false
-          }
-        ],
-        [
-          "@babel/preset-stage-0",
-          {
-            "decoratorsLegacy": true
-          }
-        ]
-      ]
-    }
-  },
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "modules": false,
+        "useBuiltIns": "usage"
+      }
+    ]
+  ],
   "plugins": [
     ["lodash"],
     "@babel/plugin-transform-runtime"

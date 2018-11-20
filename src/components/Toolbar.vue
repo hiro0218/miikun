@@ -1,20 +1,18 @@
 <template>
   <div :class="{ open: openToolbar }" class="toolbar">
     <div class="menu composite">
-      <md-button :disabled="!canUndo" class="md-icon-button" @click="$parent.$refs.miiEditor.undo()">
+      <md-button :disabled="!canUndo" class="md-icon-button" @click="$parent.$refs.miiEditor.undo();">
         <md-icon title="undo">undo</md-icon>
       </md-button>
-      <md-button :disabled="!canRedo" class="md-icon-button" @click="$parent.$refs.miiEditor.redo()">
+      <md-button :disabled="!canRedo" class="md-icon-button" @click="$parent.$refs.miiEditor.redo();">
         <md-icon title="redo">redo</md-icon>
       </md-button>
-      <md-button :class="{ off: !isPreview }" class="md-icon-button" @click="$parent.$refs.miiEditor.togglePreview()">
+      <md-button :class="{ off: !isPreview }" class="md-icon-button" @click="$parent.$refs.miiEditor.togglePreview();">
         <md-icon title="preview mode">remove_red_eye</md-icon>
       </md-button>
     </div>
     <div class="menu global">
-      <md-button class="md-icon-button" disabled>
-        <md-icon class="settings">settings</md-icon>
-      </md-button>
+      <md-button class="md-icon-button" disabled> <md-icon class="settings">settings</md-icon> </md-button>
     </div>
   </div>
 </template>

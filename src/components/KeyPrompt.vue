@@ -5,10 +5,7 @@
       <md-dialog-content>
         <md-field>
           <label>Password is required</label>
-          <md-input
-            v-model="key"
-            maxlength="50"
-            type="password"/>
+          <md-input v-model="key" maxlength="50" type="password" />
         </md-field>
       </md-dialog-content>
       <md-dialog-actions>
@@ -71,5 +68,4 @@ export default {
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>
