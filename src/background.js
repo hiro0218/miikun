@@ -8,13 +8,9 @@ const isDevelopment = process.env.NODE_ENV !== 'production';
 // be closed automatically when the JavaScript object is garbage collected.
 let win;
 
-// Standard scheme must be registered before the app is ready
-protocol.registerSchemesAsPrivileged([
-  {
-    scheme: 'vector',
-    privileges: { standard: true, secure: true, supportFetchAPI: true },
-  },
-]);
+// Scheme must be registered before the app is ready
+protocol.registerSchemesAsPrivileged([{ scheme: 'app', privileges: { secure: true, standard: true } }]);
+
 function createWindow() {
   // Create the browser window.
   win = new BrowserWindow({
@@ -25,7 +21,7 @@ function createWindow() {
     },
   });
 
-  if (isDevelopment || process.env.IS_TEST) {
+  if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
     win.loadURL(process.env.WEBPACK_DEV_SERVER_URL);
     if (!process.env.IS_TEST) win.webContents.openDevTools();
@@ -63,7 +59,11 @@ app.on('activate', () => {
 app.on('ready', async () => {
   if (isDevelopment && !process.env.IS_TEST) {
     // Install Vue Devtools
-    await installVueDevtools();
+    try {
+      await installVueDevtools();
+    } catch (e) {
+      console.error('Vue Devtools failed to install:', e.toString());
+    }
   }
   createWindow();
 });
