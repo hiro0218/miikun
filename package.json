@@ -15,17 +15,17 @@
     "postinstall": "electron-builder install-app-deps"
   },
   "dependencies": {
-    "vue": "^2.5.17",
+    "vue": "^2.6.10",
     "vue-codemirror": "^4.0.6",
     "vue-electron": "^1.0.6",
-    "vue-material": "^1.0.0-beta-10.2",
-    "vue-router": "^3.0.1",
-    "vuex": "^3.0.1"
+    "vue-material": "^1.0.0-beta-11",
+    "vue-router": "^3.0.7",
+    "vuex": "^3.1.1"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.1.1",
-    "@vue/cli-plugin-eslint": "^3.1.5",
-    "@vue/cli-service": "^3.1.4",
+    "@vue/cli-plugin-babel": "^3.9.2",
+    "@vue/cli-plugin-eslint": "^3.9.2",
+    "@vue/cli-service": "^3.9.2",
     "@vue/eslint-config-prettier": "^4.0.1",
     "babel-eslint": "^10.0.1",
     "babel-plugin-lodash": "^3.3.4",
@@ -42,7 +42,7 @@
     "prismjs": "^1.15.0",
     "sass-loader": "^7.1.0",
     "vue-cli-plugin-electron-builder": "^1.0.0-rc.8",
-    "vue-template-compiler": "^2.5.17"
+    "vue-template-compiler": "^2.6.10"
   },
   "gitHooks": {
     "pre-commit": "lint-staged"
