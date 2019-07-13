@@ -60,5 +60,13 @@
       "git add"
     ]
   },
-  "main": "background.js"
+  "main": "background.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hiro0218/Miikun.git"
+  },
+  "bugs": {
+    "url": "https://github.com/hiro0218/Miikun/issues"
+  },
+  "homepage": "https://github.com/hiro0218/Miikun#readme"
 }
