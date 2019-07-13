@@ -96,6 +96,7 @@ class Filesystem {
 
   decrypt(key, content) {
     let fileStruct = this.unpackHeader(content);
+    // eslint-disable-next-line no-useless-catch
     try {
       let decContent = encryptor.decrypt(key, fileStruct.encContent, fileStruct.iv);
       if (encryptor.hmac(decContent).equals(fileStruct.hmac)) {
