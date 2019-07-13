@@ -32,7 +32,8 @@
     "electron": "^4.0.0",
     "eslint": "^5.9.0",
     "eslint-plugin-vue": "^5.0.0-0",
-    "lint-staged": "^8.0.5",
+    "husky": "^3.0.0",
+    "lint-staged": "^9.2.0",
     "lodash": "^4.17.11",
     "markdown-it": "^8.4.2",
     "markdown-it-checkbox": "^1.1.0",
@@ -44,8 +45,10 @@
     "vue-cli-plugin-electron-builder": "^1.0.0-rc.8",
     "vue-template-compiler": "^2.6.10"
   },
-  "gitHooks": {
-    "pre-commit": "lint-staged"
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   },
   "lint-staged": {
     "*.js": [
