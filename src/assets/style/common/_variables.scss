@@ -1,8 +1,8 @@
 //
 // Font
 // -------------------------
-$font-family-sansSerif:        -apple-system, BlinkMacSystemFont, "Noto Sans JP", YuGothic, "Yu Gothic", "游ゴシック体", "游ゴシック", "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "メイリオ", Meiryo, Emoji, sans-serif !default;
-$font-family-monospace:        Roboto, #{$font-family-sansSerif}, Emoji, monospace !default;
+$font-family-sansSerif:        'Noto Sans JP', sans-serif;
+$font-family-monospace:        'Roboto', #{$font-family-sansSerif}, Emoji, monospace !default;
 $font-weight-base:             normal;
 
 $font-size-base:               16px;
