@@ -1,6 +1,10 @@
 const path = require('path');
 
 module.exports = {
+  devServer: {
+    port: 8888,
+    disableHostCheck: true,
+  },
   configureWebpack: {
     resolve: {
       alias: {
