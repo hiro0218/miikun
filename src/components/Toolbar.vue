@@ -1,13 +1,13 @@
 <template>
   <div :class="{ open: openToolbar }" class="toolbar">
     <div class="menu composite">
-      <md-button :disabled="!canUndo" class="md-icon-button" @click="$parent.$refs.miiEditor.undo()">
+      <md-button :disabled="!canUndo" class="md-icon-button" @click="undo">
         <md-icon title="undo">undo</md-icon>
       </md-button>
-      <md-button :disabled="!canRedo" class="md-icon-button" @click="$parent.$refs.miiEditor.redo()">
+      <md-button :disabled="!canRedo" class="md-icon-button" @click="redo">
         <md-icon title="redo">redo</md-icon>
       </md-button>
-      <md-button :class="{ off: !isPreview }" class="md-icon-button" @click="$parent.$refs.miiEditor.togglePreview()">
+      <md-button :class="{ off: !isPreview }" class="md-icon-button" @click="togglePreview">
         <md-icon title="preview mode">remove_red_eye</md-icon>
       </md-button>
     </div>
@@ -19,6 +19,7 @@
 
 <script>
 import { mapState } from 'vuex';
+import Menu from '@/modules/menu.js';
 
 export default {
   name: 'MiiToolbar',
@@ -34,8 +35,24 @@ export default {
     }),
   },
   watch: {},
-  mounted: function() {},
-  methods: {},
+  mounted: function() {
+    Menu.togglePreview = this.togglePreview;
+    Menu.toggleToolbar = this.toggleToolbar;
+  },
+  methods: {
+    undo() {
+      Menu.undo();
+    },
+    redo() {
+      Menu.redo();
+    },
+    togglePreview() {
+      this.$store.dispatch('updateIsPreview', !this.isPreview);
+    },
+    toggleToolbar() {
+      this.$store.dispatch('toggleToolbar');
+    },
+  },
 };
 </script>
 
@@ -56,7 +73,7 @@ export default {
   }
 
   &.open {
-    width: 3.125rem;
+    width: $toolbar-width;
     > .menu {
       opacity: 1;
     }
@@ -70,6 +87,10 @@ export default {
   &:disabled,
   &.off {
     opacity: 0.4;
+  }
+
+  & + .md-button {
+    margin: 0 auto;
   }
 }
 

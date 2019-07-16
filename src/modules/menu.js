@@ -13,6 +13,8 @@ export default {
   openFile: function() {},
   saveFile: function() {},
   saveAsFile: function() {},
+  undo: function() {},
+  redo: function() {},
   togglePreview: function() {},
   toggleToolbar: function() {},
   ready: function() {
