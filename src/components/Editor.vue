@@ -17,7 +17,7 @@
 
 <script>
 import { mapState } from 'vuex';
-import { debounce } from 'lodash';
+import { debounce } from 'debounce';
 import fs from '@/modules/Filesystem.js';
 import { initMarkdown } from '@/modules/markdown.js';
 import { getSavePath, getSelectedResult } from '@/modules/dialog.js';
