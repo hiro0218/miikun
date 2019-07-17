@@ -341,9 +341,12 @@ export default {
 .container {
   display: flex;
   margin: 0;
-  width: calc(100vw - #{$toolbar-width});
+  width: 100vw;
   height: 100vh;
   overflow: hidden;
+  [data-open] + & {
+    width: calc(100vw - #{$toolbar-width});
+  }
 }
 
 .input,
