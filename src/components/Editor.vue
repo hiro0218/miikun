@@ -342,7 +342,7 @@ export default {
   height: 100vh;
   margin: 0;
   overflow: hidden;
-  [data-open] + & {
+  [data-toolbar-open] + & {
     width: calc(100vw - #{$toolbar-width});
   }
 }

@@ -1,5 +1,5 @@
 <template>
-  <div :class="{ open: openToolbar }" :data-open="openToolbar" class="toolbar">
+  <div :class="{ open: openToolbar }" :data-toolbar-open="openToolbar" class="toolbar">
     <div class="menu composite">
       <md-button :disabled="!canUndo" class="md-icon-button" @click="undo">
         <md-icon title="undo">undo</md-icon>
@@ -70,7 +70,7 @@ export default {
     opacity: 0;
   }
 
-  &[data-open] {
+  &[data-toolbar-open] {
     width: $toolbar-width;
     > .menu {
       opacity: 1;
