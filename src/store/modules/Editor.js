@@ -1,6 +1,6 @@
 const state = {
   filePath: '',
-  isPreview: true,
+  isPreview: false,
   openToolbar: true,
   canUndo: false,
   canRedo: false,
