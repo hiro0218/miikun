@@ -5,6 +5,7 @@ module.exports = {
     port: 8888,
     disableHostCheck: true,
   },
+
   configureWebpack: {
     resolve: {
       alias: {
@@ -12,6 +13,7 @@ module.exports = {
       },
     },
   },
+
   pluginOptions: {
     electronBuilder: {
       // List native deps here if they don't work
@@ -21,4 +23,6 @@ module.exports = {
       nodeModulesPath: ['../../node_modules', './node_modules'],
     },
   },
+
+  productionSourceMap: false,
 };
