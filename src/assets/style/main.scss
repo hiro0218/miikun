@@ -1,19 +1,8 @@
-@import '~normalize.css/normalize.css';
-@import "common/font";
-@import "common/variables";
-@import "plugin/github-markdown";
-@import "plugin/codemirror";
-@import "plugin/prismjs";
-
-html {
-  font-size: 100%;
-  -webkit-font-smoothing: antialiased;
-  -webkit-tap-highlight-color: rgba(0,0,0,0);
-  -webkit-overflow-scrolling: touch;
-}
-
-body {
-  font-family: $font-family-sansSerif;
-  font-weight: $font-weight-base;
-  line-height: $line-height-base;
-}
+@import 'Settings/index';
+@import 'Tools/index';
+@import 'Generic/index';
+@import 'Elements/index';
+@import 'Objects/index';
+@import 'Components/index';
+@import 'Trumps/index';
+@import 'Vendor/index';
