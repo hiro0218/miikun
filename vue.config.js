@@ -14,6 +14,15 @@ module.exports = {
     },
   },
 
+  css: {
+    loaderOptions: {
+      sass: {
+        data: '@import "Settings/index";',
+        includePaths: [path.resolve(__dirname, './src/assets/style/')],
+      },
+    },
+  },
+
   pluginOptions: {
     electronBuilder: {
       // List native deps here if they don't work

@@ -336,8 +336,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../assets/style/Settings/index';
-
 .container {
   display: flex;
   margin: 0;

@@ -57,8 +57,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../assets/style/Settings/index';
-
 .toolbar {
   display: flex;
   flex-direction: column;
