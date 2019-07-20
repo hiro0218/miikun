@@ -5,20 +5,23 @@ $font-family-sansSerif:        'Noto Sans JP', sans-serif;
 $font-family-monospace:        'Roboto', #{$font-family-sansSerif}, Emoji, monospace !default;
 $font-weight-base:             normal;
 
-$font-size-base:               16px;
-$font-size-lg:                 1.0625rem;
-$font-size-sm:                 .9375rem;
-$font-size-xs:                 .875rem;
+$font-size-lg:                 1rem * 4/3; // 1.33333rem
+$font-size-base:               1rem * 4/4; // 1rem
+$font-size-sm:                 1rem * 4/5; // 0.8rem
+$font-size-xs:                 1rem * 4/6; // 0.66667rem
 
-$line-height-base:             1.75; // 28/16
-$line-height-computed:         floor(($font-size-base * $line-height-base));
+$font-size-h1:                 1rem * 6/3; // 2rem
+$font-size-h2:                 1rem * 6/4; // 1.5rem
+$font-size-h3:                 1rem * 6/5; // 1.2rem
+$font-size-h4:                 1rem * 6/6; // 1rem
+$font-size-h5:                 1rem * 6/7; // 0.85714rem
+$font-size-h6:                 1rem * 6/8; // 0.75rem
 
+$line-height-base:             16/8;
 
 //
 // Layout
 // -------------------------
-
-$spacer:     1rem;
 
 $screen-xs:  480px !default;  // Extra small screen / phone
 $screen-sm:  768px !default;  // Small screen / tablet

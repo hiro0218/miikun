@@ -26,10 +26,8 @@
     border-right: 1px solid darken($editor-linenumber-bgColor, 2%);
     white-space: nowrap;
 }
-//.CodeMirror-linenumbers {}
+
 .CodeMirror-linenumber {
-    // padding: .25rem 0;
-    font-size: $font-size-xs;
     font-family: $font-family-monospace;
     min-width: 1rem;
     text-align: right;
@@ -337,21 +335,12 @@ CodeMirror-selectedtext { background: none; }
 }
 
 // same: github-markdown style
-.cm-header-1 { font-size: 32px; }
-.cm-header-2 { font-size: 24px; }
-.cm-header-3 { font-size: 20px; }
-.cm-header-4 { font-size: 16px; }
-.cm-header-5 { font-size: 14px; }
-.cm-header-6 { font-size: 12px; }
-
-.cm-header-1,
-.cm-header-2,
-.cm-header-3,
-.cm-header-4,
-.cm-header-5,
-.cm-header-6 {
-    font-weight: bold;
-}
+.cm-header-1 { @extend h1; }
+.cm-header-2 { @extend h2; }
+.cm-header-3 { @extend h3; }
+.cm-header-4 { @extend h4; }
+.cm-header-5 { @extend h5; }
+.cm-header-6 { @extend h6; }
 
 .cm-strong { font-weight: bold; }
 .cm-em { font-style: italic; }
