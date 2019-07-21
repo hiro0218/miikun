@@ -62,9 +62,9 @@ export default {
   flex-direction: column;
   justify-content: space-between;
   width: 0;
+  transition: all 0.2s;
   background: $color200;
   text-align: center;
-  transition: all 0.2s;
 
   > .menu {
     opacity: 0;
