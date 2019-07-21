@@ -17,6 +17,18 @@ html {
 }
 
 img {
+  max-width: 100%;
   border-style: none;
+  background-color: #fff;
   vertical-align: middle;
+}
+
+svg:not(:root) {
+  overflow: hidden;
+}
+
+hr {
+  box-sizing: content-box;
+  height: 0;
+  overflow: visible;
 }
