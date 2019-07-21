@@ -338,9 +338,9 @@ export default {
 <style lang="scss" scoped>
 .container {
   display: flex;
-  margin: 0;
   width: 100vw;
   height: 100vh;
+  margin: 0;
   overflow: hidden;
   [data-open] + & {
     width: calc(100vw - #{$toolbar-width});
@@ -362,13 +362,13 @@ export default {
 
   /deep/ .vue-codemirror,
   /deep/ .CodeMirror {
-    height: 100%;
     width: 100%;
+    height: 100%;
   }
 }
 
 .preview {
-  overflow: auto;
   padding: 0.5rem;
+  overflow: auto;
 }
 </style>

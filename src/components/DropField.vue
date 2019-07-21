@@ -79,22 +79,22 @@ export default {
 
 <style scoped>
 .dropfield {
-  opacity: 0;
+  display: flex;
   position: fixed;
+  z-index: -100;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: -100;
-  display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   padding: 2rem;
-  color: #fff;
-  background: rgba(0, 0, 0, 0.12);
-  border: 4px dashed #bdbdbd;
-  font-size: 4rem;
   transition: opacity 0.4s ease;
+  border: 4px dashed #bdbdbd;
+  opacity: 0;
+  background: rgba(0, 0, 0, 0.12);
+  color: #fff;
+  font-size: 4rem;
   user-select: none;
 }
 </style>

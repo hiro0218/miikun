@@ -12,8 +12,8 @@ $base03: #969896;
 $base04: #b4b7b4;
 $base05: #c5c8c6;
 $base06: #e0e0e0;
-$base07: #ffffff;
-$base08: #cc6666;
+$base07: #fff;
+$base08: #c66;
 $base09: #de935f;
 $base0a: #f0c674;
 $base0b: #b5bd68;
@@ -22,26 +22,26 @@ $base0d: #81a2be;
 $base0e: #b294bb;
 $base0f: #a3685a;
 
-code[class*="language-"],
-pre[class*="language-"] {
+code[class*='language-'],
+pre[class*='language-'] {
+  color: $base02 !important;
   font-size: 1rem;
-  direction: ltr;
   text-align: left;
+  word-break: normal;
   white-space: pre;
   word-spacing: normal;
-  word-break: normal;
-  tab-size: 4;
   hyphens: none;
-  color: $base02 !important;
+  tab-size: 4;
+  direction: ltr;
 }
 
 /* Code blocks */
-pre[class*="language-"] {
+pre[class*='language-'] {
   overflow: auto;
 }
 
 /* Inline code */
-:not(pre) > code[class*="language-"] {
+:not(pre) > code[class*='language-'] {
   padding: .1em;
   border-radius: .3em;
 }
@@ -146,22 +146,22 @@ pre > code.highlight {
 }
 
 .prism-show-language > .prism-show-language-label {
-  color: black;
-  background-color: #CFCFCF;
   display: inline-block;
   position: absolute;
-  bottom: auto;
-  left: auto;
+  z-index: 1;
   top: 0;
   right: 0;
+  bottom: auto;
+  left: auto;
   width: auto;
   height: auto;
-  font-size: 0.9em;
-  border-radius: 0 0 0 5px;
-  padding: 0 0.5em;
-  text-shadow: none;
-  z-index: 1;
-  box-shadow: none;
+  padding: 0 .5em;
   -webkit-transform: none;
   transform: none;
+  border-radius: 0 0 0 5px;
+  background-color: #CFCFCF;
+  box-shadow: none;
+  color: black;
+  font-size: .9em;
+  text-shadow: none;
 }
