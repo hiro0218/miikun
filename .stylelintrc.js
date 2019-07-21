@@ -15,7 +15,6 @@ module.exports = {
     'indentation': 2,
     'length-zero-no-unit': true,
     "max-empty-lines": 2,
-    'number-leading-zero': 'never',
     'string-quotes': 'single',
     'declaration-block-no-duplicate-properties': [
       true,
