@@ -31,11 +31,7 @@
     }
   },
   "lint-staged": {
-    "*.js": [
-      "vue-cli-service lint",
-      "git add"
-    ],
-    "*.vue": [
+    "**/*.{js,vue}": [
       "vue-cli-service lint",
       "git add"
     ]
