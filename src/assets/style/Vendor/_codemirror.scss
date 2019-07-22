@@ -91,18 +91,9 @@
 
 .cm-animate-fat-cursor {
   width: auto;
-  -webkit-animation: blink 1.06s steps(1) infinite;
   animation: blink 1.06s steps(1) infinite;
   border: 0;
   background-color: #7e7;
-}
-
-@keyframes blink {
-  // 0% {}
-  50% {
-    background-color: transparent;
-  }
-  // 100% {}
 }
 
 /* Can style cursor different in overwrite (non-insert) mode */
