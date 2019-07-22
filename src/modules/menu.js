@@ -6,6 +6,7 @@ const shell = remote.shell;
 const pkg = require('../../package.json');
 const OSX = process.platform === 'darwin';
 const WIN = process.platform === 'win32';
+const isDevelopment = process.env.NODE_ENV !== 'production';
 
 export default {
   menubar: [],
@@ -169,6 +170,10 @@ export default {
             },
           },
         ],
+      },
+      isDevelopment && {
+        label: 'Development',
+        submenu: [{ role: 'reload' }, { role: 'forcereload' }, { role: 'toggledevtools' }],
       },
     );
 
