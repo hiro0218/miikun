@@ -14,7 +14,7 @@ export const initMarkdown = () => {
     breaks: true,
     langPrefix: 'language-',
     linkify: true,
-    typographer: true,
+    typographer: false,
     highlight: function(str, lang) {
       const language = !lang || lang === 'html' ? 'markup' : lang;
       try {
@@ -25,8 +25,8 @@ export const initMarkdown = () => {
           return Prism.highlight(str, Prism.languages[language]);
         }
       } catch (__) {
+        // eslint-disable-next-line
         console.error(__);
-        return '';
       }
 
       return '';
