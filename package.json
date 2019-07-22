@@ -37,6 +37,9 @@
     ]
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.19",
+    "@fortawesome/free-solid-svg-icons": "^5.9.0",
+    "@fortawesome/vue-fontawesome": "^0.1.6",
     "debounce": "^1.2.0",
     "markdown-it": "^9.0.1",
     "markdown-it-checkbox": "^1.1.0",

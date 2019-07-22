@@ -2,17 +2,20 @@
   <div :class="{ open: openToolbar }" :data-toolbar-open="openToolbar" class="toolbar">
     <div class="menu composite">
       <md-button :disabled="!canUndo" class="md-icon-button" @click="undo">
-        <md-icon title="undo">undo</md-icon>
+        <font-awesome-icon icon="undo" size="lg" />
       </md-button>
       <md-button :disabled="!canRedo" class="md-icon-button" @click="redo">
-        <md-icon title="redo">redo</md-icon>
+        <font-awesome-icon icon="redo" size="lg" />
       </md-button>
-      <md-button :class="{ off: !isPreview }" class="md-icon-button" @click="togglePreview">
-        <md-icon title="preview mode">remove_red_eye</md-icon>
+      <md-button class="md-icon-button" @click="togglePreview">
+        <font-awesome-icon v-if="isPreview" icon="eye" size="lg" />
+        <font-awesome-icon v-else icon="eye-slash" size="lg" />
       </md-button>
     </div>
     <div class="menu global">
-      <md-button class="md-icon-button" disabled> <md-icon class="settings">settings</md-icon> </md-button>
+      <md-button class="md-icon-button" disabled>
+        <font-awesome-icon icon="cog" size="lg" />
+      </md-button>
     </div>
   </div>
 </template>
@@ -82,25 +85,22 @@ export default {
   display: block;
   margin: 0 auto;
 
-  &:disabled,
-  &.off {
+  &:disabled {
     opacity: 0.4;
   }
 
   & + .md-button {
-    margin: 0 auto;
+    margin: 0.5rem auto 0;
   }
-}
 
-.md-icon {
-  color: $color600;
+  .svg-inline--fa path {
+    fill: $color600;
+  }
 
   &:hover {
-    color: $color900;
-  }
-
-  & + .md-icon {
-    margin-top: 1rem;
+    .svg-inline--fa path {
+      fill: $color900;
+    }
   }
 }
 </style>
