@@ -1,5 +1,6 @@
 .markdown-body {
   color: #333;
+  font-size: 1rem;
   word-wrap: break-word;
 
   p,
@@ -38,12 +39,6 @@
       color: inherit;
       text-decoration: none;
     }
-  }
-
-  code,
-  kbd,
-  pre {
-    font-size: 1em;
   }
 
   input {
@@ -175,43 +170,6 @@
     dd {
       margin-bottom: 1rem;
       padding: 0 1rem;
-    }
-  }
-
-  code {
-    margin: 0;
-    padding: .2em .4em;
-    border-radius: 3px;
-    background-color: rgba(27, 31, 35, .05);
-    &::before,
-    &::after {
-      content: '\00a0';
-      letter-spacing: -.2em;
-    }
-  }
-
-  pre {
-    padding: 1rem;
-    overflow: auto;
-    border-radius: 3px;
-    background-color: #f7f7f7;
-    word-wrap: normal;
-
-    > code {
-      display: inline;
-      padding: 0;
-      border: 0;
-      background: transparent;
-      background-color: transparent;
-      font-size: 100%;
-      line-height: inherit;
-      word-wrap: normal;
-      word-break: normal;
-      white-space: pre;
-      &::before,
-      &::after {
-        content: normal;
-      }
     }
   }
 }
