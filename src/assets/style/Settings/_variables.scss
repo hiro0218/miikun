@@ -1,7 +1,7 @@
 //
 // Font
 // -------------------------
-$font-family-sansSerif:        'Noto Sans JP', sans-serif;
+$font-family-sansSerif:        'Noto Sans JP', Emoji, sans-serif;
 $font-family-monospace:        'Roboto', #{$font-family-sansSerif}, Emoji, monospace !default;
 $font-weight-base:             normal;
 
@@ -66,7 +66,7 @@ $bg-color:   $white;
 
 
 // color
-$selection-bgColor: lighten(#97D3E3, 12%);
+$selection-bgColor: $faint-black;
 $menu-bgColor: $color600;
 $editor-linenumber-color: $color500;
 $editor-linenumber-bgColor: transparent;
