@@ -1,19 +1,17 @@
 <template>
-  <div>
-    <md-dialog :md-active.sync="enable" @md-opened="onOpen">
-      <md-dialog-title>{{ title }}</md-dialog-title>
-      <md-dialog-content>
-        <md-field>
-          <label>Password is required</label>
-          <md-input v-model="key" maxlength="50" type="password" />
-        </md-field>
-      </md-dialog-content>
-      <md-dialog-actions>
-        <md-button class="md-primary" @click="done">OK</md-button>
-        <md-button class="md-primary" @click="cancel">Cancel</md-button>
-      </md-dialog-actions>
-    </md-dialog>
-  </div>
+  <md-dialog :md-active.sync="enable" @md-opened="onOpen">
+    <md-dialog-title>{{ title }}</md-dialog-title>
+    <md-dialog-content>
+      <md-field>
+        <label>Password is required</label>
+        <md-input v-model="key" maxlength="50" type="password" />
+      </md-field>
+    </md-dialog-content>
+    <md-dialog-actions>
+      <md-button class="md-primary" @click="done">OK</md-button>
+      <md-button class="md-primary" @click="cancel">Cancel</md-button>
+    </md-dialog-actions>
+  </md-dialog>
 </template>
 
 <script>
