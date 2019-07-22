@@ -1,6 +1,8 @@
 import MarkdownIt from 'markdown-it';
 import MarkdownItCheckbox from 'markdown-it-checkbox';
 import MarkdownItFootnote from 'markdown-it-footnote';
+import MarkdownItMultimdTable from 'markdown-it-multimd-table';
+import MarkdownItDeflist from 'markdown-it-deflist';
 
 import Prism from 'prismjs';
 import 'prismjs/plugins/remove-initial-line-feed/prism-remove-initial-line-feed.min.js';
@@ -35,7 +37,9 @@ export const initMarkdown = () => {
     .use(MarkdownItCheckbox, {
       idPrefix: 'checkbox_',
     })
-    .use(MarkdownItFootnote);
+    .use(MarkdownItFootnote)
+    .use(MarkdownItMultimdTable, { enableRowspan: true })
+    .use(MarkdownItDeflist);
 
   return markdown;
 };

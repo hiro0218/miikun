@@ -6767,10 +6767,33 @@ markdown-it-checkbox@^1.1.0:
   dependencies:
     underscore "^1.8.2"
 
+markdown-it-deflist@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/markdown-it-deflist/-/markdown-it-deflist-2.0.3.tgz#5727db04184d3cb2bc6ee4a9641e3a1091d5fd6f"
+  integrity sha512-/BNZ8ksW42bflm1qQLnRI09oqU2847Z7MVavrR0MORyKLtiUYOMpwtlAfMSZAQU9UCvaUZMpgVAqoS3vpToJxw==
+
 markdown-it-footnote@^3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/markdown-it-footnote/-/markdown-it-footnote-3.0.2.tgz#1575ee7a093648d4e096aa33386b058d92ac8bc1"
   integrity sha512-JVW6fCmZWjvMdDQSbOT3nnOQtd9iAXmw7hTSh26+v42BnvXeVyGMDBm5b/EZocMed2MbCAHiTX632vY0FyGB8A==
+
+markdown-it-multimd-table@^3.2.0-rc.1:
+  version "3.2.0-rc.1"
+  resolved "https://registry.yarnpkg.com/markdown-it-multimd-table/-/markdown-it-multimd-table-3.2.0-rc.1.tgz#9cd9647fe0b5161d9ef4e30ae309885fce2e8aec"
+  integrity sha512-RLMRR5dn3X07IMYmTTi7XjorayNrh0U2AWe9/uMDrIskE9+t93EcwYzvG2XEsFfjynDdvx1zZR+JkEQUj/2pvQ==
+  dependencies:
+    markdown-it "^8.4.2"
+
+markdown-it@^8.4.2:
+  version "8.4.2"
+  resolved "https://registry.yarnpkg.com/markdown-it/-/markdown-it-8.4.2.tgz#386f98998dc15a37722aa7722084f4020bdd9b54"
+  integrity sha512-GcRz3AWTqSUphY3vsUqQSFMbgR38a4Lh3GWlHRh/7MRwz8mcu9n2IO7HOh+bXHrR9kOPDl5RNCaEsrneb+xhHQ==
+  dependencies:
+    argparse "^1.0.7"
+    entities "~1.1.1"
+    linkify-it "^2.0.0"
+    mdurl "^1.0.1"
+    uc.micro "^1.0.5"
 
 markdown-it@^9.0.1:
   version "9.0.1"
