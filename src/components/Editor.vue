@@ -65,13 +65,43 @@ export default {
     Menu.saveAsFile = this.saveAs;
     Menu.ready();
 
+    this.editor.on('paste', (_, e) => this.onEditorPaste(_, e));
     this.openLinkExternal();
   },
   methods: {
+    isURL(str) {
+      return /(?:^\w+:|^)\/\/(?:[^\s\.]+\.\S{2}|localhost[\:?\d]*)/.test(str);
+    },
     checkEditorHistory() {
       let { undo, redo } = this.editor.historySize();
       this.$store.dispatch('setCanUndo', undo > 0);
       this.$store.dispatch('setCanRedo', redo > 0);
+    },
+    onEditorPaste(_, e) {
+      const pastedString = e.clipboardData.getData('text/plain');
+
+      // クリップボードの内容がURLの場合、`[title](url)`形式で返却する
+      if (this.isURL(pastedString)) {
+        e.preventDefault();
+        const line = this.editor.getCursor().line;
+        const ch = this.editor.getCursor().ch;
+
+        fetch(pastedString, {
+          method: 'get',
+        })
+          .then(res => res.text())
+          .then(text => new DOMParser().parseFromString(text, 'text/html'))
+          .then(parsedBody => `[${parsedBody.title}](${pastedString})`)
+          .then(assembledString => {
+            console.log(assembledString);
+            // 組み立てた文字列を挿入
+            this.editor.replaceRange(assembledString, { line, ch }, { line, ch });
+          })
+          .catch(e => {
+            // 見つからない場合は貼り付けたテキストをそのまま挿入
+            this.editor.replaceRange(pastedString, { line, ch }, { line, ch });
+          });
+      }
     },
     onEdiorReady() {
       Menu.undo = () => {
