@@ -8,14 +8,10 @@ Vue.use(VueElectron);
 
 Vue.config.productionTip = false;
 
-import { MdButton, MdIcon, MdDialog, MdField } from 'vue-material/dist/components';
-Vue.use(MdButton);
-Vue.use(MdIcon);
+// vuetify
+import './plugins/vuetify/index';
 
-/* Required by MdDialogPrompt */
-Vue.use(MdField);
-Vue.use(MdDialog);
-
+// vue-codemirror
 import VueCodeMirror from 'vue-codemirror';
 Vue.use(VueCodeMirror);
 

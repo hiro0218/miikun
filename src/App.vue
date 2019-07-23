@@ -1,8 +1,8 @@
 <template>
-  <div id="app">
+  <v-app id="app">
     <toolbar />
     <router-view />
-  </div>
+  </v-app>
 </template>
 
 <script>
@@ -17,12 +17,11 @@ export default {
 </script>
 
 <style lang="scss">
-@import '~vue-material/dist/vue-material.min.css';
-@import '~vue-material/dist/theme/default.css';
 @import '@/assets/style/main.scss';
 
-#app {
+#app .application--wrap {
   display: flex;
+  flex-direction: initial;
   background: #fff;
 }
 </style>

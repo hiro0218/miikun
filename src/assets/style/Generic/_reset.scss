@@ -32,3 +32,20 @@ hr {
   height: 0;
   overflow: visible;
 }
+
+button,
+[type='button'],
+[type='reset'],
+[type='submit']
+[role='button'] {
+  cursor: pointer;
+}
+
+button,
+input,
+select,
+textarea {
+  border-style: none;
+  background-color: transparent;
+  color: inherit;
+}

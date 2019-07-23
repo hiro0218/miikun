@@ -1,21 +1,21 @@
 <template>
   <div :class="{ open: openToolbar }" :data-toolbar-open="openToolbar" class="toolbar">
     <div class="menu composite">
-      <md-button :disabled="!canUndo" class="md-icon-button" @click="undo">
+      <v-btn flat icon :disabled="!canUndo" @click="undo">
         <font-awesome-icon icon="undo" size="lg" />
-      </md-button>
-      <md-button :disabled="!canRedo" class="md-icon-button" @click="redo">
+      </v-btn>
+      <v-btn flat icon :disabled="!canRedo" @click="redo">
         <font-awesome-icon icon="redo" size="lg" />
-      </md-button>
-      <md-button class="md-icon-button" @click="togglePreview">
+      </v-btn>
+      <v-btn flat icon @click="togglePreview">
         <font-awesome-icon v-if="isPreview" icon="eye" size="lg" />
         <font-awesome-icon v-else icon="eye-slash" size="lg" />
-      </md-button>
+      </v-btn>
     </div>
     <div class="menu global">
-      <md-button class="md-icon-button" disabled>
+      <v-btn flat icon disabled>
         <font-awesome-icon icon="cog" size="lg" />
-      </md-button>
+      </v-btn>
     </div>
   </div>
 </template>
@@ -65,6 +65,7 @@ export default {
   flex-direction: column;
   justify-content: space-between;
   width: 0;
+  padding: 0.5rem 0;
   transition: all 0.2s;
   background: $color200;
   text-align: center;
@@ -81,7 +82,7 @@ export default {
   }
 }
 
-.md-button {
+.v-btn {
   display: block;
   margin: 0 auto;
 
@@ -89,7 +90,7 @@ export default {
     opacity: 0.4;
   }
 
-  & + .md-button {
+  & + .v-btn {
     margin: 0.5rem auto 0;
   }
 

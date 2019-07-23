@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="editor-container">
     <div :class="{ open: !isPreview }" class="input">
       <codemirror
         ref="editor"
@@ -366,7 +366,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.container {
+.editor-container {
   display: flex;
   width: 100vw;
   height: 100vh;
