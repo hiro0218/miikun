@@ -49,7 +49,6 @@
     "vue": "^2.6.10",
     "vue-codemirror": "^4.0.6",
     "vue-electron": "^1.0.6",
-    "vue-material": "^1.0.0-beta-11",
     "vue-router": "^3.0.7",
     "vuetify": "^1.5.5",
     "vuex": "^3.1.1"
