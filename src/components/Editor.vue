@@ -59,11 +59,12 @@ export default {
     },
   },
   mounted() {
-    Menu.newFile = this.newFile;
-    Menu.openFile = this.openFile;
-    Menu.saveFile = this.saveFile;
-    Menu.saveAsFile = this.saveAs;
-    Menu.ready();
+    // File
+    const subMenu = Menu.menubar[1].submenu;
+    Menu.registerMenuItemFunc(subMenu, 'new', { click: this.newFile });
+    Menu.registerMenuItemFunc(subMenu, 'open', { click: this.openFile });
+    Menu.registerMenuItemFunc(subMenu, 'save', { click: this.saveFile });
+    Menu.registerMenuItemFunc(subMenu, 'save_as', { click: this.saveAs });
 
     this.editor.on('paste', (_, e) => this.onEditorPaste(_, e));
     this.openLinkExternal();
