@@ -12,8 +12,7 @@ Vue.config.productionTip = false;
 import './plugins/vuetify/index';
 
 // vue-codemirror
-import VueCodeMirror from 'vue-codemirror';
-Vue.use(VueCodeMirror);
+import './plugins/codemirror/index';
 
 // fontawesome
 import './plugins/fontawesome/index';
