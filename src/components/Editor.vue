@@ -298,22 +298,18 @@ export default {
       const electron = this.$electron;
       const currentWindow = electron.remote.getCurrentWindow();
 
-      document.addEventListener('click', function(e) {
-        let target = e.target;
-        let href = target.getAttribute('href');
+      document.addEventListener('click', e => {
+        if (e.target.tagName !== 'A') return;
+        let href = e.target.getAttribute('href');
 
-        if (target.tagName !== 'A' && !href) {
-          return;
-        }
-
-        if (href.substring(0, 4) === 'http') {
+        if (this.isURL(href)) {
           e.preventDefault();
           // get status
-          let status = currentWindow.isAlwaysOnTop();
+          const status = currentWindow.isAlwaysOnTop();
           // on top
           currentWindow.setAlwaysOnTop(true);
           // open link
-          electron.shell.openExternal(target.href);
+          electron.shell.openExternal(href);
           // restore
           if (!status) {
             setTimeout(function() {
