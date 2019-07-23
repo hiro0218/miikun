@@ -1,31 +1,14 @@
 import electron from 'electron';
-const { remote } = electron;
-const { dialog, nativeImage } = electron;
-const iconImage = nativeImage.createFromPath('./build/icons/256x256.png');
-const shell = electron.shell;
-const pkg = require('../../package.json');
+const { name } = require('../../package.json');
 // const isMac = process.platform === 'darwin';
 // const WIN = process.platform === 'win32';
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
 export default {
-  // init() {
-  //   const menu = Menu.buildFromTemplate(this.menubar);
-  //   Menu.setApplicationMenu(null);
-  //   Menu.setApplicationMenu(menu);
-  // },
   menubar: [
     {
-      label: pkg.name,
-      submenu: [
-        {
-          label: 'Quit',
-          accelerator: 'CmdOrCtrl+Q',
-          click: function(item, focusedWindow) {
-            focusedWindow.close();
-          },
-        },
-      ],
+      label: name,
+      submenu: [{ role: 'quit' }],
     },
     {
       id: 'file',
@@ -121,55 +104,25 @@ export default {
       ],
     },
     {
-      id: 'help',
-      label: 'Help',
+      role: 'help',
       submenu: [
         {
-          label: 'Website',
-          click: () => {
-            shell.openExternal('https://github.com/hiro0218/miikun/');
-          },
-        },
-        {
-          label: 'Release Note',
-          click: () => {
-            shell.openExternal('https://github.com/hiro0218/Miikun/releases');
-          },
-        },
-        { type: 'separator' },
-        {
-          label: 'About',
-          click: (item, focusedWindow) => {
-            dialog.showMessageBox(focusedWindow, {
-              title: 'About',
-              type: 'none',
-              icon: iconImage,
-              message: `${pkg.name} Ver. ${pkg.version}`,
-              detail:
-                pkg.description +
-                '\n\n' +
-                'Electron: ' +
-                process.versions.electron +
-                '\n' +
-                'Chromium: ' +
-                process.versions.chrome +
-                '\n' +
-                'V8: ' +
-                process.versions.v8 +
-                '\n' +
-                'Node.js: ' +
-                process.versions.node,
-              buttons: [],
-            });
+          label: 'Learn More',
+          click() {
+            electron.shell.openExternalSync('https://github.com/hiro0218/miikun');
           },
         },
       ],
     },
-    isDevelopment && {
-      id: 'develop',
-      label: 'Development',
-      submenu: [{ role: 'reload' }, { role: 'forcereload' }, { role: 'toggledevtools' }],
-    },
+    ...(isDevelopment
+      ? [
+          {
+            id: 'develop',
+            label: 'Development',
+            submenu: [{ role: 'reload' }, { role: 'forcereload' }, { role: 'toggledevtools' }],
+          },
+        ]
+      : []),
   ],
   registerMenuItemFunc: (menuList, id, func) => {
     if (!Array.isArray(menuList)) return;

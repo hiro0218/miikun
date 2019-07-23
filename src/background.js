@@ -3,11 +3,13 @@
 import { app, Menu, protocol, BrowserWindow } from 'electron';
 import { createProtocol, installVueDevtools } from 'vue-cli-plugin-electron-builder/lib';
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer';
-const isDevelopment = process.env.NODE_ENV !== 'production';
 import miiMenu from './lib/menu';
 
+const isDevelopment = process.env.NODE_ENV !== 'production';
+
 const setApplicationMenu = () => {
-  Menu.setApplicationMenu(Menu.buildFromTemplate([]));
+  const { menubar } = miiMenu;
+  Menu.setApplicationMenu(Menu.buildFromTemplate(menubar));
 };
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -70,8 +72,6 @@ app.on('activate', () => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', async () => {
-  setApplicationMenu();
-
   if (isDevelopment && !process.env.IS_TEST) {
     // Install Vue Devtools
     try {
@@ -81,6 +81,7 @@ app.on('ready', async () => {
     }
   }
   createWindow();
+  setApplicationMenu();
 });
 
 // Exit cleanly on request from parent process in development mode.
