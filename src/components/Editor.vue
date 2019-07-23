@@ -23,7 +23,7 @@ import fs from '@/modules/Filesystem.js';
 import { initMarkdown } from '@/modules/markdown.js';
 import { getSavePath, getSelectedResult } from '@/modules/dialog.js';
 import editorOptions from '@/modules/editor.js';
-import Menu from '@/modules/menu.js';
+// import Menu from '@/lib/menu.js';
 import DropField from '@/components/DropField';
 import KeyPrompt from '@/components/KeyPrompt';
 import { UnexpectedStateError } from '@/modules/Errors';
@@ -60,11 +60,11 @@ export default {
   },
   mounted() {
     // File
-    const subMenu = Menu.menubar[1].submenu;
-    Menu.registerMenuItemFunc(subMenu, 'new', { click: this.newFile });
-    Menu.registerMenuItemFunc(subMenu, 'open', { click: this.openFile });
-    Menu.registerMenuItemFunc(subMenu, 'save', { click: this.saveFile });
-    Menu.registerMenuItemFunc(subMenu, 'save_as', { click: this.saveAs });
+    // const subMenu = Menu.menubar[1].submenu;
+    // Menu.registerMenuItemFunc(subMenu, 'new', { click: this.newFile });
+    // Menu.registerMenuItemFunc(subMenu, 'open', { click: this.openFile });
+    // Menu.registerMenuItemFunc(subMenu, 'save', { click: this.saveFile });
+    // Menu.registerMenuItemFunc(subMenu, 'save_as', { click: this.saveAs });
 
     this.editor.on('paste', (_, e) => this.onEditorPaste(_, e));
     this.openLinkExternal();
@@ -105,12 +105,12 @@ export default {
       }
     },
     onEdiorReady() {
-      Menu.undo = () => {
-        this.editor.undo();
-      };
-      Menu.redo = () => {
-        this.editor.redo();
-      };
+      // Menu.undo = () => {
+      //   this.editor.undo();
+      // };
+      // Menu.redo = () => {
+      //   this.editor.redo();
+      // };
     },
     onEditorCodeChange: debounce(function(newCode) {
       this.code = newCode;

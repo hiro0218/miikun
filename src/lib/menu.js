@@ -1,18 +1,19 @@
 import electron from 'electron';
 const { remote } = electron;
-const { Menu, dialog, nativeImage } = remote;
+const { dialog, nativeImage } = electron;
 const iconImage = nativeImage.createFromPath('./build/icons/256x256.png');
-const shell = remote.shell;
+const shell = electron.shell;
 const pkg = require('../../package.json');
 // const isMac = process.platform === 'darwin';
 // const WIN = process.platform === 'win32';
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
 export default {
-  init() {
-    const menu = Menu.buildFromTemplate(this.menubar);
-    Menu.setApplicationMenu(menu);
-  },
+  // init() {
+  //   const menu = Menu.buildFromTemplate(this.menubar);
+  //   Menu.setApplicationMenu(null);
+  //   Menu.setApplicationMenu(menu);
+  // },
   menubar: [
     {
       label: pkg.name,

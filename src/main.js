@@ -18,13 +18,9 @@ import './plugins/codemirror/index';
 import './plugins/fontawesome/index';
 
 // Miikun Menu
-import Menu from '@/modules/menu.js';
 
 new Vue({
   router,
   store,
-  mounted() {
-    Menu.init();
-  },
   render: h => h(App),
 }).$mount('#app');
