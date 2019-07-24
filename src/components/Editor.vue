@@ -27,6 +27,7 @@ import Menu from '@/modules/menu.js';
 import DropField from '@/components/DropField';
 import KeyPrompt from '@/components/KeyPrompt';
 import { UnexpectedStateError } from '@/modules/Errors';
+import { isURL } from '@/lib/utils';
 
 export default {
   name: 'MiiEditor',
@@ -70,9 +71,6 @@ export default {
     this.openLinkExternal();
   },
   methods: {
-    isURL(str) {
-      return /(?:^\w+:|^)\/\/(?:[^\s\.]+\.\S{2}|localhost[\:?\d]*)/.test(str);
-    },
     checkEditorHistory() {
       let { undo, redo } = this.editor.historySize();
       this.$store.dispatch('setCanUndo', undo > 0);
@@ -82,7 +80,7 @@ export default {
       const pastedString = e.clipboardData.getData('text/plain');
 
       // クリップボードの内容がURLの場合、`[title](url)`形式で返却する
-      if (this.isURL(pastedString)) {
+      if (isURL(pastedString)) {
         e.preventDefault();
         const line = this.editor.getCursor().line;
         const ch = this.editor.getCursor().ch;
@@ -303,7 +301,7 @@ export default {
         if (e.target.tagName !== 'A') return;
         let href = e.target.getAttribute('href');
 
-        if (this.isURL(href)) {
+        if (isURL(href)) {
           e.preventDefault();
           // get status
           const status = currentWindow.isAlwaysOnTop();
