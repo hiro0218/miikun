@@ -27,7 +27,7 @@ import Menu from '@/modules/menu.js';
 import DropField from '@/components/DropField';
 import KeyPrompt from '@/components/KeyPrompt';
 import { UnexpectedStateError } from '@/modules/Errors';
-import { isURL } from '@/lib/utils';
+import { isURL, openLinkExternal } from '@/lib/utils';
 
 export default {
   name: 'MiiEditor',
@@ -68,7 +68,7 @@ export default {
     Menu.registerMenuItemFunc(subMenu, 'save_as', { click: this.saveAs });
 
     this.editor.on('paste', (_, e) => this.onEditorPaste(_, e));
-    this.openLinkExternal();
+    openLinkExternal();
   },
   methods: {
     checkEditorHistory() {
@@ -292,31 +292,6 @@ export default {
       this.setPath('');
       this.editor.markClean();
       this.editor.clearHistory();
-    },
-    openLinkExternal() {
-      const electron = this.$electron;
-      const currentWindow = electron.remote.getCurrentWindow();
-
-      document.addEventListener('click', e => {
-        if (e.target.tagName !== 'A') return;
-        let href = e.target.getAttribute('href');
-
-        if (isURL(href)) {
-          e.preventDefault();
-          // get status
-          const status = currentWindow.isAlwaysOnTop();
-          // on top
-          currentWindow.setAlwaysOnTop(true);
-          // open link
-          electron.shell.openExternal(href);
-          // restore
-          if (!status) {
-            setTimeout(function() {
-              currentWindow.setAlwaysOnTop(false);
-            }, 1000);
-          }
-        }
-      });
     },
     openKeyPrompt(name = null, path = null) {
       this.$store.dispatch('setCryptEnable', true);
