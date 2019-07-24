@@ -17,6 +17,7 @@ function createWindow() {
   win = new BrowserWindow({
     width: 800,
     height: 600,
+    show: false,
     webPreferences: {
       nodeIntegration: true,
       webSecurity: false,
@@ -38,6 +39,10 @@ function createWindow() {
     // Load the index.html when not in development
     win.loadURL('app://./index.html');
   }
+
+  win.once('ready-to-show', () => {
+    win.show();
+  });
 
   win.on('closed', () => {
     win = null;
