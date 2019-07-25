@@ -2,6 +2,7 @@ import electron from 'electron';
 const { remote } = electron;
 const { Menu } = remote;
 const shell = remote.shell;
+import { name } from '../../package.json';
 // const isMac = process.platform === 'darwin';
 // const WIN = process.platform === 'win32';
 const isDevelopment = process.env.NODE_ENV !== 'production';
