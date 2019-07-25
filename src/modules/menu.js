@@ -6,6 +6,8 @@ const shell = remote.shell;
 // const WIN = process.platform === 'win32';
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
+import AppMenuController from '@/service/app-menu-controller';
+
 export default {
   init() {
     Menu.setApplicationMenu(null);
@@ -69,11 +71,17 @@ export default {
           id: 'toggle_preview_panel',
           label: 'Toggle Preview Panel',
           type: 'checkbox',
+          click() {
+            AppMenuController.togglePreview();
+          },
         },
         {
           id: 'toggle_toolbar',
           label: 'Toggle Toolbar',
           type: 'checkbox',
+          click() {
+            AppMenuController.toggleToolbar();
+          },
         },
         {
           label: 'Toggle Full Screen',

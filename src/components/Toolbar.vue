@@ -39,12 +39,6 @@ export default {
     }),
   },
   watch: {},
-  mounted: function() {
-    // View
-    const subMenu = Menu.menubar[3].submenu;
-    Menu.registerMenuItemFunc(subMenu, 'toggle_preview_panel', { click: this.togglePreview, checked: this.isPreview });
-    Menu.registerMenuItemFunc(subMenu, 'toggle_toolbar', { click: this.toggleToolbar, checked: this.openToolbar });
-  },
   methods: {
     undo() {
       Menu.undo();
