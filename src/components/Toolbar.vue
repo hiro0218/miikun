@@ -23,6 +23,7 @@
 <script>
 import { mapState } from 'vuex';
 import Menu from '@/modules/menu.js';
+import AppMenuController from '@/service/app-menu-controller';
 
 export default {
   name: 'MiiToolbar',
@@ -52,10 +53,10 @@ export default {
       Menu.redo();
     },
     togglePreview() {
-      this.$store.dispatch('updateIsPreview', !this.isPreview);
+      AppMenuController.togglePreview();
     },
     toggleToolbar() {
-      this.$store.dispatch('toggleToolbar');
+      AppMenuController.toggleToolbar();
     },
   },
 };
