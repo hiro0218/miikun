@@ -1,7 +1,6 @@
 import electron from 'electron';
 const { remote } = electron;
-const { Menu } = remote;
-const shell = remote.shell;
+const { Menu, shell } = remote;
 import { name } from '../../package.json';
 // const isMac = process.platform === 'darwin';
 // const WIN = process.platform === 'win32';
@@ -72,6 +71,7 @@ export default {
           id: 'toggle_preview_panel',
           label: 'Toggle Preview Panel',
           type: 'checkbox',
+          checked: AppMenuController.isOpenPreview(),
           click() {
             AppMenuController.togglePreview();
           },
@@ -80,6 +80,7 @@ export default {
           id: 'toggle_toolbar',
           label: 'Toggle Toolbar',
           type: 'checkbox',
+          checked: AppMenuController.isOpenToolbar(),
           click() {
             AppMenuController.toggleToolbar();
           },
