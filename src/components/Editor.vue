@@ -27,6 +27,7 @@ import Menu from '@/modules/menu.js';
 import DropField from '@/components/DropField';
 import KeyPrompt from '@/components/KeyPrompt';
 import { UnexpectedStateError } from '@/modules/Errors';
+import { EventBus } from '@/lib/event-bus';
 import { isURL, openLinkExternal } from '@/lib/utils';
 
 export default {
@@ -103,12 +104,12 @@ export default {
       }
     },
     onEdiorReady() {
-      Menu.undo = () => {
+      EventBus.$on('undo', () => {
         this.editor.undo();
-      };
-      Menu.redo = () => {
+      });
+      EventBus.$on('redo', () => {
         this.editor.redo();
-      };
+      });
     },
     onEditorCodeChange: debounce(function(newCode) {
       this.code = newCode;

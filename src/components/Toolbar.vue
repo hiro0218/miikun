@@ -22,7 +22,6 @@
 
 <script>
 import { mapState } from 'vuex';
-import Menu from '@/modules/menu.js';
 import AppMenuController from '@/service/app-menu-controller';
 
 export default {
@@ -41,10 +40,10 @@ export default {
   watch: {},
   methods: {
     undo() {
-      Menu.undo();
+      AppMenuController.undo();
     },
     redo() {
-      Menu.redo();
+      AppMenuController.redo();
     },
     togglePreview() {
       AppMenuController.togglePreview();
