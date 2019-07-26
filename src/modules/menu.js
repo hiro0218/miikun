@@ -6,6 +6,7 @@ import { name } from '../../package.json';
 // const WIN = process.platform === 'win32';
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
+import store from '../store';
 import AppMenuController from '@/service/app-menu-controller';
 
 export default {
@@ -71,7 +72,7 @@ export default {
           id: 'toggle_preview_panel',
           label: 'Toggle Preview Panel',
           type: 'checkbox',
-          checked: AppMenuController.isOpenPreview(),
+          checked: store.state.Editor.isPreview,
           click() {
             AppMenuController.togglePreview();
           },
@@ -80,7 +81,7 @@ export default {
           id: 'toggle_toolbar',
           label: 'Toggle Toolbar',
           type: 'checkbox',
-          checked: AppMenuController.isOpenToolbar(),
+          checked: store.state.Editor.openToolbar,
           click() {
             AppMenuController.toggleToolbar();
           },
