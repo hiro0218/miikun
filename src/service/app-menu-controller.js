@@ -14,11 +14,11 @@ const AppMenuController = {
     EventBus.$emit('redo');
   },
   togglePreview() {
-    AppMenu.checkedMenuItem('toggle_preview_panel', !store.state.Editor.isPreview);
-    store.dispatch('updateIsPreview', !store.state.Editor.isPreview);
+    AppMenu.checkedMenuItem('toggle_preview_panel', !this.isOpenPreview());
+    store.dispatch('updateIsPreview', !this.isOpenPreview());
   },
   toggleToolbar() {
-    AppMenu.checkedMenuItem('toggle_toolbar', !store.state.Editor.openToolbar);
+    AppMenu.checkedMenuItem('toggle_toolbar', !this.isOpenToolbar());
     store.dispatch('toggleToolbar');
   },
   isOpenPreview() {
