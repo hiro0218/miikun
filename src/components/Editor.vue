@@ -5,7 +5,7 @@
         ref="editor"
         :code="code"
         :options="editorOptions"
-        @ready="onEdiorReady"
+        @ready="onEditorReady"
         @input="onEditorCodeChange"
         @changes="checkEditorHistory"
       />
@@ -103,7 +103,7 @@ export default {
           });
       }
     },
-    onEdiorReady() {
+    onEditorReady() {
       EventBus.$on('undo', () => {
         this.editor.undo();
       });
