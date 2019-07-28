@@ -154,7 +154,6 @@ export default {
       this.clean();
     },
     openFile() {
-      const self = this;
       const remote = this.$electron.remote;
       const dialog = remote.dialog;
       const browserWindow = remote.BrowserWindow;
@@ -172,24 +171,22 @@ export default {
           ],
           properties: ['openFile'],
         },
-        function(item) {
+        item => {
           if (item) {
             let path = item[0];
 
             // 編集済み：合保存するか確認ダイアログを表示する
-            self.saveModifyFile();
+            this.saveModifyFile();
             if (fs.shouldEncrypt(path)) {
-              self.openKeyPrompt('open', path);
+              this.openKeyPrompt('open', path);
             } else {
-              self.readFile(path);
+              this.readFile(path);
             }
           }
         },
       );
     },
     readFile(path) {
-      const self = this;
-
       if (this.path === path) {
         getSelectedResult({
           title: '',
@@ -201,14 +198,14 @@ export default {
         return;
       }
 
-      fs.readFile(path, function(err, content) {
+      fs.readFile(path, (err, content) => {
         if (err === null) {
-          self.setEditor(content);
-          self.setPath(path);
-          self.editor.markClean();
-          self.editor.clearHistory();
+          this.setEditor(content);
+          this.setPath(path);
+          this.editor.markClean();
+          this.editor.clearHistory();
         } else {
-          self.openDialog('error', err.toString());
+          this.openDialog('error', err.toString());
         }
       });
     },
