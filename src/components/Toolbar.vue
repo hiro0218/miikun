@@ -22,7 +22,7 @@
 
 <script>
 import { mapState } from 'vuex';
-import Menu from '@/modules/menu.js';
+import AppMenuController from '@/service/app-menu-controller';
 
 export default {
   name: 'MiiToolbar',
@@ -38,24 +38,18 @@ export default {
     }),
   },
   watch: {},
-  mounted: function() {
-    // View
-    const subMenu = Menu.menubar[3].submenu;
-    Menu.registerMenuItemFunc(subMenu, 'toggle_preview_panel', { click: this.togglePreview, checked: this.isPreview });
-    Menu.registerMenuItemFunc(subMenu, 'toggle_toolbar', { click: this.toggleToolbar, checked: this.openToolbar });
-  },
   methods: {
     undo() {
-      Menu.undo();
+      AppMenuController.undo();
     },
     redo() {
-      Menu.redo();
+      AppMenuController.redo();
     },
     togglePreview() {
-      this.$store.dispatch('updateIsPreview', !this.isPreview);
+      AppMenuController.togglePreview();
     },
     toggleToolbar() {
-      this.$store.dispatch('toggleToolbar');
+      AppMenuController.toggleToolbar();
     },
   },
 };
