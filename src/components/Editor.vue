@@ -283,6 +283,8 @@ export default {
     },
     setPath(path) {
       this.$store.dispatch('updateFilePath', path);
+      this.$store.dispatch('setCanUndo', false);
+      this.$store.dispatch('setCanRedo', false);
     },
     setEditor(value) {
       this.editor.setValue(value);
