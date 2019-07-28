@@ -23,7 +23,6 @@ import fs from '@/modules/Filesystem.js';
 import { initMarkdown } from '@/modules/markdown.js';
 import { getSavePath, getSelectedResult } from '@/modules/dialog.js';
 import editorOptions from '@/modules/editor.js';
-import Menu from '@/modules/menu.js';
 import DropField from '@/components/DropField';
 import KeyPrompt from '@/components/KeyPrompt';
 import { UnexpectedStateError } from '@/modules/Errors';
@@ -61,13 +60,6 @@ export default {
     },
   },
   mounted() {
-    // File
-    const subMenu = Menu.menubar[1].submenu;
-    Menu.registerMenuItemFunc(subMenu, 'new', { click: this.newFile });
-    Menu.registerMenuItemFunc(subMenu, 'open', { click: this.openFile });
-    Menu.registerMenuItemFunc(subMenu, 'save', { click: this.saveFile });
-    Menu.registerMenuItemFunc(subMenu, 'save_as', { click: this.saveAs });
-
     this.editor.on('paste', (_, e) => this.onEditorPaste(_, e));
     openLinkExternal();
   },
@@ -109,6 +101,18 @@ export default {
       });
       EventBus.$on('redo', () => {
         this.editor.redo();
+      });
+      EventBus.$on('newFile', () => {
+        this.newFile();
+      });
+      EventBus.$on('openFile', () => {
+        this.openFile();
+      });
+      EventBus.$on('saveFile', () => {
+        this.saveFile();
+      });
+      EventBus.$on('saveAs', () => {
+        this.saveAs();
       });
     },
     onEditorCodeChange: debounce(function(newCode) {

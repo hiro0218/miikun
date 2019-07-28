@@ -13,6 +13,18 @@ const AppMenuController = {
   redo() {
     EventBus.$emit('redo');
   },
+  newFile() {
+    EventBus.$emit('newFile');
+  },
+  openFile() {
+    EventBus.$emit('openFile');
+  },
+  saveFile() {
+    EventBus.$emit('saveFile');
+  },
+  saveAs() {
+    EventBus.$emit('saveAs');
+  },
   togglePreview() {
     AppMenu.checkedMenuItem('toggle_preview_panel', !this.isOpenPreview());
     store.dispatch('updateIsPreview', !this.isOpenPreview());

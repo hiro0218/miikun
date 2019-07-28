@@ -28,21 +28,33 @@ export default {
           id: 'new',
           label: 'New',
           accelerator: 'CmdOrCtrl+N',
+          click() {
+            AppMenuController.newFile();
+          },
         },
         {
           id: 'open',
           label: 'Open',
           accelerator: 'CmdOrCtrl+O',
+          click() {
+            AppMenuController.openFile();
+          },
         },
         {
           id: 'save',
           label: 'Save',
           accelerator: 'CmdOrCtrl+S',
+          click() {
+            AppMenuController.saveFile();
+          },
         },
         {
           id: 'save_as',
           label: 'Save as',
           accelerator: 'CmdOrCtrl+Shift+S',
+          click() {
+            AppMenuController.saveAs();
+          },
         },
       ],
     },
@@ -144,13 +156,4 @@ export default {
         ]
       : []),
   ],
-  registerMenuItemFunc: (menuList, id, func) => {
-    if (!Array.isArray(menuList)) return;
-
-    Array.from(menuList, item => {
-      if (item.id === id) {
-        Object.assign(item, func);
-      }
-    });
-  },
 };
