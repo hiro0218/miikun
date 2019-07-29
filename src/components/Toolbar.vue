@@ -61,7 +61,7 @@ export default {
   flex-direction: column;
   justify-content: space-between;
   width: 0;
-  padding: 0.5rem 0;
+  padding: $title-bar-height 0 0.5rem;
   transition: all 0.2s;
   background: $color200;
   text-align: center;

@@ -1,16 +1,19 @@
 <template>
   <v-app id="app">
+    <TitleBar />
     <toolbar />
     <router-view />
   </v-app>
 </template>
 
 <script>
+import TitleBar from '@/components/TitleBar';
 import Toolbar from '@/components/Toolbar';
 
 export default {
   name: 'Miikun',
   components: {
+    TitleBar,
     Toolbar,
   },
 };

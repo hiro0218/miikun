@@ -19,6 +19,7 @@ function createWindow() {
     height: 600,
     show: false,
     center: true,
+    titleBarStyle: 'hidden',
     webPreferences: {
       nodeIntegration: true,
       webSecurity: false,
@@ -34,7 +35,7 @@ function createWindow() {
       .then(name => console.log(`Added Extension:  ${name}`))
       .catch(err => console.log('An error occurred: ', err));
 
-    if (!process.env.IS_TEST) win.webContents.openDevTools();
+    // if (!process.env.IS_TEST) win.webContents.openDevTools();
   } else {
     createProtocol('app');
     // Load the index.html when not in development

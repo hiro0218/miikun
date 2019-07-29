@@ -345,6 +345,7 @@ export default {
   width: 100vw;
   height: 100vh;
   margin: 0;
+  padding-top: $title-bar-height;
   overflow: hidden;
   [data-toolbar-open] + & {
     width: calc(100vw - #{$toolbar-width});
