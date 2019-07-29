@@ -60,7 +60,13 @@ export default {
     },
   },
   mounted() {
-    this.editor.on('paste', (_, e) => this.onEditorPaste(_, e));
+    this.editor.on('paste', async (_, e) => {
+      const line = this.editor.getCursor().line;
+      const ch = this.editor.getCursor().ch;
+
+      const formattedString = await this.getLinkWithTitle(e);
+      this.insertTextToEditor(formattedString, line, ch);
+    });
     openLinkExternal();
   },
   methods: {
@@ -69,29 +75,26 @@ export default {
       this.$store.dispatch('setCanUndo', undo > 0);
       this.$store.dispatch('setCanRedo', redo > 0);
     },
-    onEditorPaste(_, e) {
-      const pastedString = e.clipboardData.getData('text/plain');
+    getLinkWithTitle(event) {
+      const pastedString = event.clipboardData.getData('text/plain');
 
       // クリップボードの内容がURLの場合、`[title](url)`形式で返却する
       if (isURL(pastedString)) {
-        e.preventDefault();
-        const line = this.editor.getCursor().line;
-        const ch = this.editor.getCursor().ch;
+        event.preventDefault();
 
-        fetch(pastedString, {
+        return fetch(pastedString, {
           method: 'get',
         })
           .then(res => res.text())
           .then(text => new DOMParser().parseFromString(text, 'text/html'))
           .then(parsedBody => `[${parsedBody.title}](${pastedString})`)
           .then(assembledString => {
-            console.log(assembledString);
             // 組み立てた文字列を挿入
-            this.editor.replaceRange(assembledString, { line, ch }, { line, ch });
+            return assembledString;
           })
           .catch(e => {
             // 見つからない場合は貼り付けたテキストをそのまま挿入
-            this.editor.replaceRange(pastedString, { line, ch }, { line, ch });
+            return pastedString;
           });
       }
     },
@@ -121,6 +124,11 @@ export default {
         this.input = this.markdown.render(newCode);
       }
     }, 200),
+    insertTextToEditor(text, line, ch) {
+      if (!text) return;
+      console.log(text);
+      this.editor.replaceRange(text, { line, ch }, { line, ch });
+    },
     openDialog(type, msg) {
       const remote = this.$electron.remote;
       const dialog = remote.dialog;
