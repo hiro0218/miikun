@@ -27,7 +27,7 @@ import DropField from '@/components/DropField';
 import KeyPrompt from '@/components/KeyPrompt';
 import { UnexpectedStateError } from '@/modules/Errors';
 import { EventBus } from '@/lib/event-bus';
-import { isURL, openLinkExternal } from '@/lib/utils';
+import { openLinkExternal, getLinkWithTitle } from '@/lib/utils';
 
 export default {
   name: 'MiiEditor',
@@ -63,8 +63,7 @@ export default {
     this.editor.on('paste', async (_, e) => {
       const line = this.editor.getCursor().line;
       const ch = this.editor.getCursor().ch;
-
-      const formattedString = await this.getLinkWithTitle(e);
+      const formattedString = await getLinkWithTitle(e);
       this.insertTextToEditor(formattedString, line, ch);
     });
     openLinkExternal();
@@ -74,29 +73,6 @@ export default {
       let { undo, redo } = this.editor.historySize();
       this.$store.dispatch('setCanUndo', undo > 0);
       this.$store.dispatch('setCanRedo', redo > 0);
-    },
-    getLinkWithTitle(event) {
-      const pastedString = event.clipboardData.getData('text/plain');
-
-      // クリップボードの内容がURLの場合、`[title](url)`形式で返却する
-      if (isURL(pastedString)) {
-        event.preventDefault();
-
-        return fetch(pastedString, {
-          method: 'get',
-        })
-          .then(res => res.text())
-          .then(text => new DOMParser().parseFromString(text, 'text/html'))
-          .then(parsedBody => `[${parsedBody.title}](${pastedString})`)
-          .then(assembledString => {
-            // 組み立てた文字列を挿入
-            return assembledString;
-          })
-          .catch(e => {
-            // 見つからない場合は貼り付けたテキストをそのまま挿入
-            return pastedString;
-          });
-      }
     },
     onEditorReady() {
       EventBus.$on('undo', () => {
