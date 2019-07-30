@@ -65,7 +65,7 @@ export default class Editor {
     store.dispatch('initFilePath', path);
   }
 
-  setEditor(value) {
+  setValue(value) {
     this.cm.setValue(value);
     this.cm.save();
   }

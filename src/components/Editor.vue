@@ -184,7 +184,7 @@ export default {
 
       fs.readFile(path, (err, content) => {
         if (err === null) {
-          this.setEditor(content);
+          this.editor.setValue(content);
           this.editor.initFilePath(path);
           this.editor.cm.markClean();
           this.editor.cm.clearHistory();
@@ -265,10 +265,6 @@ export default {
       }
 
       return false;
-    },
-    setEditor(value) {
-      this.editor.cm.setValue(value);
-      this.editor.cm.save();
     },
     openKeyPrompt(name = null, path = null) {
       this.$store.dispatch('setCryptEnable', true);
