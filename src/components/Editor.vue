@@ -185,7 +185,7 @@ export default {
       fs.readFile(path, (err, content) => {
         if (err === null) {
           this.setEditor(content);
-          this.setPath(path);
+          this.editor.initFilePath(path);
           this.editor.cm.markClean();
           this.editor.cm.clearHistory();
         } else {
@@ -215,12 +215,12 @@ export default {
       let result;
 
       if (this.path) {
-        this.setPath(this.path);
+        this.editor.initFilePath(this.path);
         result = this.writeFile();
       } else {
         let savePath = this.saveAsDialog();
         if (savePath) {
-          this.setPath(savePath);
+          this.editor.initFilePath(savePath);
           result = this.writeFile();
         }
       }
@@ -234,7 +234,7 @@ export default {
       let savePath = this.saveAsDialog();
 
       if (savePath) {
-        this.setPath(savePath);
+        this.editor.initFilePath(savePath);
         let result;
         if (fs.shouldEncrypt(savePath)) {
           this.openKeyPrompt('save', savePath);
@@ -265,9 +265,6 @@ export default {
       }
 
       return false;
-    },
-    setPath(path) {
-      this.$store.dispatch('initFilePath', path);
     },
     setEditor(value) {
       this.editor.cm.setValue(value);
