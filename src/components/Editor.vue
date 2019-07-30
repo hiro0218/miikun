@@ -11,12 +11,11 @@
 
 <script>
 import { mapState } from 'vuex';
-import CodeMirror from 'codemirror';
 import { debounce } from 'debounce';
 import fs from '@/modules/Filesystem.js';
 import Markdown from '@/lib/markdown.js';
 import { getSavePath, getSelectedResult } from '@/modules/dialog.js';
-import editorOptions from '@/modules/editor.js';
+import Editor from '@/modules/editor.js';
 import DropField from '@/components/DropField';
 import KeyPrompt from '@/components/KeyPrompt';
 import { UnexpectedStateError } from '@/modules/Errors';
@@ -59,20 +58,20 @@ export default {
   },
   methods: {
     initialize() {
-      this.editor = CodeMirror.fromTextArea(this.$refs.editor, editorOptions);
+      this.editor = new Editor(this.$refs.editor);
 
-      this.editor.on('change', cm => {
+      this.editor.cm.on('change', cm => {
         const value = cm.getValue();
         this.onEditorCodeChange(value);
       });
 
-      this.editor.on('changes', cm => {
+      this.editor.cm.on('changes', cm => {
         this.checkEditorHistory();
       });
 
-      this.editor.on('paste', async (_, e) => {
-        const line = this.editor.getCursor().line;
-        const ch = this.editor.getCursor().ch;
+      this.editor.cm.on('paste', async (_, e) => {
+        const line = this.editor.cm.getCursor().line;
+        const ch = this.editor.cm.getCursor().ch;
         const formattedString = await getLinkWithTitle(e);
         this.insertTextToEditor(formattedString, line, ch);
       });
@@ -81,16 +80,16 @@ export default {
       openLinkExternal();
     },
     checkEditorHistory() {
-      let { undo, redo } = this.editor.historySize();
+      let { undo, redo } = this.editor.cm.historySize();
       this.$store.dispatch('setCanUndo', undo > 0);
       this.$store.dispatch('setCanRedo', redo > 0);
     },
     onEditorReady() {
       EventBus.$on('undo', () => {
-        this.editor.undo();
+        this.editor.cm.undo();
       });
       EventBus.$on('redo', () => {
-        this.editor.redo();
+        this.editor.cm.redo();
       });
       EventBus.$on('newFile', () => {
         this.newFile();
@@ -113,8 +112,7 @@ export default {
     }, 200),
     insertTextToEditor(text, line, ch) {
       if (!text) return;
-      console.log(text);
-      this.editor.replaceRange(text, { line, ch }, { line, ch });
+      this.editor.cm.replaceRange(text, { line, ch }, { line, ch });
     },
     openDialog(type, msg) {
       const remote = this.$electron.remote;
@@ -130,7 +128,7 @@ export default {
       });
     },
     saveModifyFile() {
-      if (this.editor.isClean()) {
+      if (this.editor.cm.isClean()) {
         return;
       }
 
@@ -197,8 +195,8 @@ export default {
         if (err === null) {
           this.setEditor(content);
           this.setPath(path);
-          this.editor.markClean();
-          this.editor.clearHistory();
+          this.editor.cm.markClean();
+          this.editor.cm.clearHistory();
         } else {
           this.openDialog('error', err.toString());
         }
@@ -237,8 +235,8 @@ export default {
       }
 
       if (result) {
-        this.editor.markClean();
-        this.editor.clearHistory();
+        this.editor.cm.markClean();
+        this.editor.cm.clearHistory();
       }
     },
     saveAs() {
@@ -254,8 +252,8 @@ export default {
         }
 
         if (result) {
-          this.editor.markClean();
-          this.editor.clearHistory();
+          this.editor.cm.markClean();
+          this.editor.cm.clearHistory();
         }
       }
     },
@@ -283,14 +281,14 @@ export default {
       this.$store.dispatch('setCanRedo', false);
     },
     setEditor(value) {
-      this.editor.setValue(value);
-      this.editor.save();
+      this.editor.cm.setValue(value);
+      this.editor.cm.save();
     },
     clean() {
       this.setEditor('');
       this.setPath('');
-      this.editor.markClean();
-      this.editor.clearHistory();
+      this.editor.cm.markClean();
+      this.editor.cm.clearHistory();
     },
     openKeyPrompt(name = null, path = null) {
       this.$store.dispatch('setCryptEnable', true);
