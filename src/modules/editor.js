@@ -71,7 +71,7 @@ export default class Editor {
   }
 
   clean() {
-    this.setEditor('');
+    this.setValue('');
     this.initFilePath('');
     this.cm.markClean();
     this.cm.clearHistory();
