@@ -73,7 +73,7 @@ export default {
         const line = this.editor.cm.getCursor().line;
         const ch = this.editor.cm.getCursor().ch;
         const formattedString = await getLinkWithTitle(e);
-        this.insertTextToEditor(formattedString, line, ch);
+        this.editor.insertTextToEditor(formattedString, line, ch);
       });
 
       this.onEditorReady();
@@ -110,10 +110,6 @@ export default {
         this.input = this.markdown.render(newCode);
       }
     }, 200),
-    insertTextToEditor(text, line, ch) {
-      if (!text) return;
-      this.editor.cm.replaceRange(text, { line, ch }, { line, ch });
-    },
     openDialog(type, msg) {
       const remote = this.$electron.remote;
       const dialog = remote.dialog;

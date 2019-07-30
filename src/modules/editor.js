@@ -59,4 +59,9 @@ export default class Editor {
   getCmInstance() {
     return this.cm;
   }
+
+  insertTextToEditor(text, line, ch) {
+    if (!text) return;
+    this.cm.replaceRange(text, { line, ch }, { line, ch });
+  }
 }
