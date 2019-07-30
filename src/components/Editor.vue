@@ -69,9 +69,9 @@ export default {
         this.checkEditorHistory();
       });
 
-      this.editor.cm.on('paste', async (_, e) => {
-        const line = this.editor.cm.getCursor().line;
-        const ch = this.editor.cm.getCursor().ch;
+      this.editor.cm.on('paste', async (cm, e) => {
+        const line = cm.getCursor().line;
+        const ch = cm.getCursor().ch;
         const formattedString = await getLinkWithTitle(e);
         this.editor.insertTextToEditor(formattedString, line, ch);
       });
