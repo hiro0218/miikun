@@ -119,7 +119,7 @@ export default {
       });
     },
     saveModifyFile() {
-      if (this.editor.cm.isClean()) {
+      if (this.editor.isClean()) {
         return;
       }
 

@@ -76,6 +76,10 @@ export default class Editor {
     this.clearHistory();
   }
 
+  isClean() {
+    return this.cm.isClean();
+  }
+
   updateHistory() {
     const { undo, redo } = this.cm.historySize();
     store.dispatch('setCanUndo', undo > 0);
