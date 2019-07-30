@@ -140,7 +140,7 @@ export default {
     },
     newFile() {
       this.saveModifyFile();
-      this.clean();
+      this.editor.clean();
     },
     openFile() {
       const remote = this.$electron.remote;
@@ -272,19 +272,11 @@ export default {
       return false;
     },
     setPath(path) {
-      this.$store.dispatch('updateFilePath', path);
-      this.$store.dispatch('setCanUndo', false);
-      this.$store.dispatch('setCanRedo', false);
+      this.$store.dispatch('initFilePath', path);
     },
     setEditor(value) {
       this.editor.cm.setValue(value);
       this.editor.cm.save();
-    },
-    clean() {
-      this.setEditor('');
-      this.setPath('');
-      this.editor.cm.markClean();
-      this.editor.cm.clearHistory();
     },
     openKeyPrompt(name = null, path = null) {
       this.$store.dispatch('setCryptEnable', true);

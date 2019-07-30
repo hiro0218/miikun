@@ -61,6 +61,11 @@ const actions = {
   setCanRedo({ commit }, bool) {
     commit('SET_CAN_REDO', bool);
   },
+  initFilePath({ commit }, path) {
+    commit('SET_FILEPATH', path);
+    commit('SET_CAN_UNDO', false);
+    commit('SET_CAN_REDO', false);
+  },
   setCryptEnable({ commit }, bool) {
     commit('SET_CRYPT_ENABLE', bool);
   },

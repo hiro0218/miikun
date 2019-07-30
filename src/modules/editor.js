@@ -1,4 +1,5 @@
 import CodeMirror from 'codemirror';
+import store from '../store';
 
 export default class Editor {
   constructor(element) {
@@ -58,6 +59,22 @@ export default class Editor {
 
   getCmInstance() {
     return this.cm;
+  }
+
+  initFilePath(path) {
+    store.dispatch('initFilePath', path);
+  }
+
+  setEditor(value) {
+    this.cm.setValue(value);
+    this.cm.save();
+  }
+
+  clean() {
+    this.setEditor('');
+    this.initFilePath('');
+    this.cm.markClean();
+    this.cm.clearHistory();
   }
 
   insertTextToEditor(text, line, ch) {
