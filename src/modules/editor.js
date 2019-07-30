@@ -73,14 +73,18 @@ export default class Editor {
   clean() {
     this.setValue('');
     this.initFilePath('');
-    this.cm.markClean();
-    this.cm.clearHistory();
+    this.clearHistory();
   }
 
   updateHistory() {
     const { undo, redo } = this.cm.historySize();
     store.dispatch('setCanUndo', undo > 0);
     store.dispatch('setCanRedo', redo > 0);
+  }
+
+  clearHistory() {
+    this.cm.markClean();
+    this.cm.clearHistory();
   }
 
   insertTextToEditor(text, line, ch) {

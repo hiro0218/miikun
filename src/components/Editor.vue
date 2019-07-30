@@ -186,8 +186,7 @@ export default {
         if (err === null) {
           this.editor.setValue(content);
           this.editor.initFilePath(path);
-          this.editor.cm.markClean();
-          this.editor.cm.clearHistory();
+          this.editor.clearHistory();
         } else {
           this.openDialog('error', err.toString());
         }
@@ -226,8 +225,7 @@ export default {
       }
 
       if (result) {
-        this.editor.cm.markClean();
-        this.editor.cm.clearHistory();
+        this.editor.clearHistory();
       }
     },
     saveAs() {
@@ -243,8 +241,7 @@ export default {
         }
 
         if (result) {
-          this.editor.cm.markClean();
-          this.editor.cm.clearHistory();
+          this.editor.clearHistory();
         }
       }
     },
