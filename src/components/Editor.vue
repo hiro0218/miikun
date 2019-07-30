@@ -14,7 +14,7 @@ import { mapState } from 'vuex';
 import CodeMirror from 'codemirror';
 import { debounce } from 'debounce';
 import fs from '@/modules/Filesystem.js';
-import { initMarkdown } from '@/modules/markdown.js';
+import Markdown from '@/lib/markdown.js';
 import { getSavePath, getSelectedResult } from '@/modules/dialog.js';
 import editorOptions from '@/modules/editor.js';
 import DropField from '@/components/DropField';
@@ -32,7 +32,7 @@ export default {
   data() {
     return {
       editor: null,
-      markdown: initMarkdown(),
+      markdown: null,
       code: '',
       input: '',
     };
@@ -51,6 +51,8 @@ export default {
     },
   },
   mounted() {
+    this.markdown = new Markdown();
+
     this.$nextTick(() => {
       this.initialize();
     });
