@@ -66,7 +66,7 @@ export default {
       });
 
       this.editor.cm.on('changes', cm => {
-        this.checkEditorHistory();
+        this.editor.updateHistory();
       });
 
       this.editor.cm.on('paste', async (cm, e) => {
@@ -78,11 +78,6 @@ export default {
 
       this.onEditorReady();
       openLinkExternal();
-    },
-    checkEditorHistory() {
-      let { undo, redo } = this.editor.cm.historySize();
-      this.$store.dispatch('setCanUndo', undo > 0);
-      this.$store.dispatch('setCanRedo', redo > 0);
     },
     onEditorReady() {
       EventBus.$on('undo', () => {

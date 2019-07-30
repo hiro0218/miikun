@@ -77,6 +77,12 @@ export default class Editor {
     this.cm.clearHistory();
   }
 
+  updateHistory() {
+    const { undo, redo } = this.cm.historySize();
+    store.dispatch('setCanUndo', undo > 0);
+    store.dispatch('setCanRedo', redo > 0);
+  }
+
   insertTextToEditor(text, line, ch) {
     if (!text) return;
     this.cm.replaceRange(text, { line, ch }, { line, ch });
