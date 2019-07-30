@@ -1,14 +1,7 @@
 <template>
   <div class="editor-container">
     <div :class="{ open: !isPreview }" class="input">
-      <codemirror
-        ref="editor"
-        :code="code"
-        :options="editorOptions"
-        @ready="onEditorReady"
-        @input="onEditorCodeChange"
-        @changes="checkEditorHistory"
-      />
+      <textarea ref="editor" v-model="code" />
     </div>
     <div v-if="isPreview == true" class="preview"><div class="markdown-body" v-html="input" /></div>
     <DropField />
@@ -18,6 +11,7 @@
 
 <script>
 import { mapState } from 'vuex';
+import CodeMirror from 'codemirror';
 import { debounce } from 'debounce';
 import fs from '@/modules/Filesystem.js';
 import { initMarkdown } from '@/modules/markdown.js';
@@ -37,16 +31,13 @@ export default {
   },
   data() {
     return {
-      code: '',
-      editorOptions,
+      editor: null,
       markdown: initMarkdown(),
+      code: '',
       input: '',
     };
   },
   computed: {
-    editor() {
-      return this.$refs.editor.codemirror;
-    },
     ...mapState({
       path: state => state.Editor.filePath,
       isPreview: state => state.Editor.isPreview,
@@ -60,15 +51,33 @@ export default {
     },
   },
   mounted() {
-    this.editor.on('paste', async (_, e) => {
-      const line = this.editor.getCursor().line;
-      const ch = this.editor.getCursor().ch;
-      const formattedString = await getLinkWithTitle(e);
-      this.insertTextToEditor(formattedString, line, ch);
+    this.$nextTick(() => {
+      this.initialize();
     });
-    openLinkExternal();
   },
   methods: {
+    initialize() {
+      this.editor = CodeMirror.fromTextArea(this.$refs.editor, editorOptions);
+
+      this.editor.on('change', cm => {
+        const value = cm.getValue();
+        this.onEditorCodeChange(value);
+      });
+
+      this.editor.on('changes', cm => {
+        this.checkEditorHistory();
+      });
+
+      this.editor.on('paste', async (_, e) => {
+        const line = this.editor.getCursor().line;
+        const ch = this.editor.getCursor().ch;
+        const formattedString = await getLinkWithTitle(e);
+        this.insertTextToEditor(formattedString, line, ch);
+      });
+
+      this.onEditorReady();
+      openLinkExternal();
+    },
     checkEditorHistory() {
       let { undo, redo } = this.editor.historySize();
       this.$store.dispatch('setCanUndo', undo > 0);
@@ -96,7 +105,7 @@ export default {
     },
     onEditorCodeChange: debounce(function(newCode) {
       this.code = newCode;
-      if (this.isPreview) {
+      if (this.code && this.isPreview) {
         this.input = this.markdown.render(newCode);
       }
     }, 200),
@@ -348,7 +357,6 @@ export default {
     width: 100%;
   }
 
-  /deep/ .vue-codemirror,
   /deep/ .CodeMirror {
     width: 100%;
     height: 100%;

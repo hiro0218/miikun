@@ -1,8 +1,3 @@
-import Vue from 'vue';
-
-import VueCodeMirror from 'vue-codemirror';
-Vue.use(VueCodeMirror);
-
 import 'codemirror/mode/gfm/gfm.js';
 import 'codemirror/mode/markdown/markdown.js';
 import 'codemirror/mode/xml/xml.js';
