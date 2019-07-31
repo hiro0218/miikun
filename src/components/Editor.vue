@@ -111,7 +111,14 @@ export default {
       }
 
       // 新規・既存：編集済み
-      let response = this.modifyDialog();
+      const response = getSelectedResult({
+        title: '',
+        type: 'warning',
+        buttons: ['Yes', 'No', 'Cancel'],
+        message: this.path,
+        detail: 'Wolud you like to save changes?',
+      });
+
       if (response === 0) {
         // Yes
         this.saveFile();
@@ -187,15 +194,6 @@ export default {
       ]);
 
       return savePath;
-    },
-    modifyDialog() {
-      return getSelectedResult({
-        title: '',
-        type: 'warning',
-        buttons: ['Yes', 'No', 'Cancel'],
-        message: this.path,
-        detail: 'Wolud you like to save changes?',
-      });
     },
     saveFile() {
       let result;
