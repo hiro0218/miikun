@@ -1,5 +1,5 @@
 <template>
-  <div class="dropfield">Drop file here</div>
+  <div class="dropfield" />
 </template>
 
 <script>
@@ -77,7 +77,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .dropfield {
   display: flex;
   position: fixed;
@@ -96,5 +96,9 @@ export default {
   color: #fff;
   font-size: 4rem;
   user-select: none;
+
+  &::before {
+    content: 'Drop file here';
+  }
 }
 </style>
