@@ -14,7 +14,7 @@ import { mapState } from 'vuex';
 import { debounce } from 'debounce';
 import fs from '@/modules/Filesystem.js';
 import Markdown from '@/lib/markdown.js';
-import { getSavePath, getSelectedResult } from '@/modules/dialog.js';
+import { openDialog, getSavePath, getSelectedResult } from '@/modules/dialog.js';
 import Editor from '@/modules/editor.js';
 import DropField from '@/components/DropField';
 import KeyPrompt from '@/components/KeyPrompt';
@@ -105,19 +105,6 @@ export default {
         this.input = this.markdown.render(newCode);
       }
     }, 200),
-    openDialog(type, msg) {
-      const remote = this.$electron.remote;
-      const dialog = remote.dialog;
-      const browserWindow = remote.BrowserWindow;
-      const focusedWindow = browserWindow.getFocusedWindow();
-
-      dialog.showMessageBox(focusedWindow, {
-        title: type,
-        type: type,
-        buttons: ['OK'],
-        detail: msg,
-      });
-    },
     saveModifyFile() {
       if (this.editor.isClean()) {
         return;
@@ -188,7 +175,7 @@ export default {
           this.editor.initFilePath(path);
           this.editor.clearHistory();
         } else {
-          this.openDialog('error', err.toString());
+          openDialog('error', err.toString());
         }
       });
     },
@@ -257,7 +244,7 @@ export default {
           return true;
         }
       } catch (e) {
-        this.openDialog('error', e);
+        openDialog('error', e);
         return false;
       }
 
@@ -288,7 +275,7 @@ export default {
           this.code,
           err => {
             if (err) {
-              this.openDialog('error', err.toString());
+              openDialog('error', err.toString());
             } else {
               fs.updateKey(key);
             }
@@ -297,7 +284,7 @@ export default {
         );
       } else {
         const err = new UnexpectedStateError('crypt.op.name', name);
-        this.openDialog('error', err.toString());
+        openDialog('error', err.toString());
       }
       this.$store.dispatch('setCryptOP', { name: null, path: null });
     },
