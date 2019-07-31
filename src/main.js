@@ -24,7 +24,8 @@ new Vue({
   router,
   store,
   mounted() {
-    appMenu.init();
+    appMenu.setupAppMenu();
+    appMenu.setupContextMenu();
   },
   render: h => h(App),
 }).$mount('#app');

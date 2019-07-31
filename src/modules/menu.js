@@ -1,6 +1,6 @@
 import electron from 'electron';
 const { remote } = electron;
-const { Menu, shell } = remote;
+const { shell } = remote;
 import { name } from '../../package.json';
 // const isMac = process.platform === 'darwin';
 // const WIN = process.platform === 'win32';
@@ -10,12 +10,7 @@ import store from '../store';
 import AppMenuController from '@/service/app-menu-controller';
 
 export default {
-  init() {
-    Menu.setApplicationMenu(null);
-    const menu = Menu.buildFromTemplate(this.menubar);
-    Menu.setApplicationMenu(menu);
-  },
-  menubar: [
+  appmMenuList: [
     {
       label: name,
       submenu: [{ role: 'quit' }],
