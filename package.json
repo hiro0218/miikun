@@ -51,7 +51,8 @@
     "vue-electron": "^1.0.6",
     "vue-router": "^3.0.7",
     "vuetify": "^1.5.5",
-    "vuex": "^3.1.1"
+    "vuex": "^3.1.1",
+    "vuex-persistedstate": "^2.5.4"
   },
   "devDependencies": {
     "@hiro0218/eslint-config": "^1.0.4",
