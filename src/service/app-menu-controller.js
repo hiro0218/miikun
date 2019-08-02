@@ -1,5 +1,5 @@
-// import { remote } from 'electron';
-// const { shell } = remote;
+import electron from 'electron';
+const { remote } = electron;
 
 import store from '../store';
 import AppMenu from '@/service/app-menu';
@@ -7,6 +7,12 @@ import AppMenu from '@/service/app-menu';
 import { EventBus } from '@/lib/event-bus';
 
 const AppMenuController = {
+  toggleAlwaysOnTop() {
+    const currentWindow = remote.getCurrentWindow();
+    const isAlwaysOnTop = currentWindow.isAlwaysOnTop();
+    currentWindow.setAlwaysOnTop(!isAlwaysOnTop);
+    store.dispatch('updateAlwaysOnTop', !isAlwaysOnTop);
+  },
   undo() {
     EventBus.$emit('undo');
   },

@@ -121,9 +121,9 @@ export default {
           label: 'Always on Top',
           accelerator: 'CmdOrCtrl+Shift+T',
           type: 'checkbox',
-          checked: false,
-          click: (item, focusedWindow) => {
-            focusedWindow.setAlwaysOnTop(!focusedWindow.isAlwaysOnTop());
+          checked: store.getters.isAlwaysOnTop,
+          click: () => {
+            AppMenuController.toggleAlwaysOnTop();
           },
         },
       ],
@@ -155,6 +155,13 @@ export default {
     Menu.setApplicationMenu(null);
     this.menuInstance = Menu.buildFromTemplate(this.appmMenuList);
     Menu.setApplicationMenu(this.menuInstance);
+
+    // Update based on store
+    // set always on top
+    if (store.getters.isAlwaysOnTop) {
+      const currentWindow = remote.getCurrentWindow();
+      currentWindow.setAlwaysOnTop(store.getters.isAlwaysOnTop);
+    }
   },
   setupContextMenu() {
     window.addEventListener(
