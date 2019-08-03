@@ -24,6 +24,11 @@ import { openLinkExternal, getLinkWithTitle } from '@/lib/utils';
 
 export default {
   name: 'MiiEditor',
+  metaInfo() {
+    return {
+      title: this.title,
+    };
+  },
   components: {
     DropField,
     KeyPrompt,
@@ -37,9 +42,14 @@ export default {
     };
   },
   computed: {
+    title: function() {
+      let marker = this.canUndo ? '*' : '';
+      return `${marker} ${this.path}`;
+    },
     ...mapState({
       path: state => state.Editor.filePath,
       isPreview: state => state.Editor.isPreview,
+      canUndo: state => state.Editor.canUndo,
     }),
   },
   watch: {

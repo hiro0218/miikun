@@ -8,6 +8,9 @@ Vue.use(VueElectron);
 
 Vue.config.productionTip = false;
 
+// vue-meta
+import './plugins/vue-meta/index';
+
 // vuetify
 import './plugins/vuetify/index';
 

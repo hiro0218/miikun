@@ -10,6 +10,11 @@ import Toolbar from '@/components/Toolbar';
 
 export default {
   name: 'Miikun',
+  metaInfo: {
+    titleTemplate: function(titleChunk) {
+      return titleChunk.trim() ? `${titleChunk} - miikun` : 'miikun';
+    },
+  },
   components: {
     Toolbar,
   },
