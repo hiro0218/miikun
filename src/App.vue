@@ -7,12 +7,13 @@
 
 <script>
 import Toolbar from '@/components/Toolbar';
+import { name } from '../package.json';
 
 export default {
   name: 'Miikun',
   metaInfo: {
     titleTemplate: function(titleChunk) {
-      return titleChunk.trim() ? `${titleChunk} - miikun` : 'miikun';
+      return titleChunk.trim() ? `${titleChunk} - ${name}` : name;
     },
   },
   components: {
