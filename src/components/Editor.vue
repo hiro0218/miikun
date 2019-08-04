@@ -139,6 +139,7 @@ export default {
     },
     newFile() {
       this.saveModifyFile();
+      this.input = '';
       this.editor.clean();
     },
     openFile() {
