@@ -28,7 +28,7 @@ export const getSelectedResult = ({ title, message, type, buttons, detail }) => 
   const browserWindow = remote.BrowserWindow;
   const focusedWindow = browserWindow.getFocusedWindow();
 
-  return dialog.showMessageBoxSync(focusedWindow, {
+  return dialog.showMessageBox(focusedWindow, {
     title,
     message,
     type,
