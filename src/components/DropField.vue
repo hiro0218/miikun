@@ -35,7 +35,11 @@ export default {
         ext === 'mii'
       ) {
         this.$parent.saveModifyFile();
-        this.$parent.readFile(file.path);
+        if (ext === 'mii') {
+          this.$parent.openKeyPrompt('open', file.path);
+        } else {
+          this.$parent.readFile(file.path);
+        }
       } else {
         getSelectedResult({
           title: 'error',
