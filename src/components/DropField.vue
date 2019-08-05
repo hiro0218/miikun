@@ -27,13 +27,7 @@ export default {
       );
     },
     dropFile(file, ext) {
-      if (
-        file.type === 'text/plain' ||
-        file.type === 'application/text' ||
-        ext === 'txt' ||
-        ext === 'md' ||
-        ext === 'mii'
-      ) {
+      if (this.isAllowExt(file.type, ext)) {
         this.$parent.saveModifyFile();
         if (ext === 'mii') {
           this.$parent.openKeyPrompt('open', file.path);
@@ -76,6 +70,9 @@ export default {
       window.addEventListener('dragover', function(e) {
         e.preventDefault();
       });
+    },
+    isAllowExt(type, ext) {
+      return type === 'text/plain' || type === 'application/text' || ext === 'txt' || ext === 'md' || ext === 'mii';
     },
   },
 };
