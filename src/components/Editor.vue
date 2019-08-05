@@ -3,7 +3,7 @@
     <div :class="{ open: !isPreview }" class="input">
       <textarea ref="editor" v-model="code" />
     </div>
-    <div v-if="isPreview == true" class="preview"><div class="markdown-body" v-html="input" /></div>
+    <div v-if="isPreview == true" class="preview"><div class="markdown-body" v-html="htmlCode" /></div>
     <DropField />
     <KeyPrompt @done="onKeyPromptDone" />
   </div>
@@ -38,7 +38,7 @@ export default {
       editor: null,
       markdown: null,
       code: '',
-      input: '',
+      htmlCode: '',
     };
   },
   computed: {
@@ -55,7 +55,7 @@ export default {
   watch: {
     isPreview: function(value) {
       if (value) {
-        this.input = this.markdown.render(this.code);
+        this.htmlCode = this.markdown.render(this.code);
       }
     },
   },
@@ -112,7 +112,7 @@ export default {
     onEditorCodeChange: debounce(function(newCode) {
       this.code = newCode;
       if (this.code && this.isPreview) {
-        this.input = this.markdown.render(newCode);
+        this.htmlCode = this.markdown.render(newCode);
       }
     }, 200),
     saveModifyFile() {
@@ -139,7 +139,7 @@ export default {
     },
     newFile() {
       this.saveModifyFile();
-      this.input = '';
+      this.htmlCode = '';
       this.editor.clean();
     },
     openFile() {
