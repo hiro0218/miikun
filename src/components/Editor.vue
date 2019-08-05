@@ -37,7 +37,6 @@ export default {
     return {
       editor: null,
       markdown: null,
-      code: '',
       htmlCode: '',
     };
   },
@@ -48,6 +47,7 @@ export default {
     },
     ...mapState({
       path: state => state.Editor.filePath,
+      code: state => state.Editor.code,
       isPreview: state => state.Editor.isPreview,
       canUndo: state => state.Editor.canUndo,
     }),
@@ -110,7 +110,8 @@ export default {
       });
     },
     onEditorCodeChange: debounce(function(newCode) {
-      this.code = newCode;
+      this.$store.dispatch('updateCode', newCode);
+
       if (this.code && this.isPreview) {
         this.htmlCode = this.markdown.render(newCode);
       }

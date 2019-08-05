@@ -1,5 +1,6 @@
 const state = {
   filePath: '',
+  code: '',
   isPreview: false,
   openToolbar: true,
   canUndo: false,
@@ -23,6 +24,9 @@ const mutations = {
   },
   SET_FILEPATH(state, path) {
     state.filePath = path;
+  },
+  UPDATE_CODE(state, payload) {
+    state.code = payload;
   },
   UPDATE_ISPREVIEW(state, bool) {
     state.isPreview = bool;
@@ -54,6 +58,9 @@ const mutations = {
 const actions = {
   updateFilePath({ commit }, path) {
     commit('SET_FILEPATH', path);
+  },
+  updateCode({ commit }, payload) {
+    commit('UPDATE_CODE', payload);
   },
   updateIsPreview({ commit }, bool) {
     commit('UPDATE_ISPREVIEW', bool);
