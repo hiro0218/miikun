@@ -80,6 +80,10 @@ export default class Editor {
     return this.cm.isClean();
   }
 
+  isUnsaveFile() {
+    return store.state.Editor.filePath;
+  }
+
   updateHistory() {
     const { undo, redo } = this.cm.historySize();
     store.dispatch('setCanUndo', undo > 0);
