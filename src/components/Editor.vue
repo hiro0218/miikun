@@ -53,10 +53,15 @@ export default {
     }),
   },
   watch: {
-    isPreview: function(value) {
-      if (value) {
-        this.htmlCode = this.markdown.render(this.code);
-      }
+    isPreview: {
+      handler: function(value) {
+        if (!value) return;
+
+        this.$nextTick(() => {
+          this.htmlCode = this.markdown.render(this.code);
+        });
+      },
+      immediate: true,
     },
   },
   mounted() {
