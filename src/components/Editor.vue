@@ -139,7 +139,7 @@ export default {
       if (this.path) return;
 
       this.saveTimer = setInterval(() => {
-        this.$store.dispatch('setTempInput', this.code);
+        this.$store.dispatch('updateTempCode', this.code);
       }, 5000);
     },
     saveModifyFile() {
@@ -219,7 +219,7 @@ export default {
           this.editor.setValue(content);
           this.editor.initFilePath(path);
           this.editor.clearHistory();
-          this.$store.dispatch('setTempInput', '');
+          this.$store.dispatch('updateTempCode', '');
         } else {
           openDialog('error', err.toString());
         }

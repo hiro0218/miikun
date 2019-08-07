@@ -11,7 +11,7 @@ export default new Vuex.Store({
   plugins: [
     createPersistedState({
       key: 'miikun',
-      paths: ['App.isAlwaysOnTop', 'Editor.isPreview', 'Editor.openToolbar', 'Editor.temporary.input'],
+      paths: ['App.isAlwaysOnTop', 'Editor.isPreview', 'Editor.openToolbar', 'Editor.temporary.code'],
     }),
   ],
 });
