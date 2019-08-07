@@ -103,6 +103,7 @@ export default {
       });
 
       this.onEditorReady();
+      this.restoreTempData();
       openLinkExternal();
     },
     onEditorReady() {
@@ -141,6 +142,12 @@ export default {
       this.saveTimer = setInterval(() => {
         this.$store.dispatch('updateTempCode', this.code);
       }, 5000);
+    },
+    restoreTempData() {
+      if (this.path) return;
+      const tmpCode = this.$store.state.Editor.temporary.code;
+      this.$store.dispatch('updateCode', tmpCode);
+      this.editor.setValue(tmpCode);
     },
     saveModifyFile() {
       if (this.editor.isClean()) {
