@@ -56,8 +56,8 @@
     "vuex-persistedstate": "^2.5.4"
   },
   "devDependencies": {
-    "@hiro0218/eslint-config": "^1.0.4",
-    "@hiro0218/prettier-config": "^1.0.1",
+    "@hiro0218/eslint-config": "^1.2.0",
+    "@hiro0218/prettier-config": "^1.0.2",
     "@vue/cli-plugin-babel": "^3.10.0",
     "@vue/cli-plugin-eslint": "^3.10.0",
     "@vue/cli-service": "^3.10.0",
