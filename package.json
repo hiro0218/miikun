@@ -40,7 +40,7 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.27",
     "@fortawesome/free-solid-svg-icons": "^5.12.1",
     "@fortawesome/vue-fontawesome": "^0.1.9",
-    "codemirror": "^5.48.2",
+    "codemirror": "^5.52.0",
     "debounce": "^1.2.0",
     "markdown-it": "^10.0.0",
     "markdown-it-checkbox": "^1.1.0",
