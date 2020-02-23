@@ -87,18 +87,18 @@ class Filesystem {
 
   encrypt(key, content) {
     // This return { iv, content }
-    let encResult = encryptor.encrypt(key, content);
-    let bufHmac = encryptor.hmac(content);
+    const encResult = encryptor.encrypt(key, content);
+    const bufHmac = encryptor.hmac(content);
     // Pack base info, hmac of origin content, iv, enc content
-    let bufFile = this.packHeader(encResult, bufHmac);
+    const bufFile = this.packHeader(encResult, bufHmac);
     return bufFile;
   }
 
   decrypt(key, content) {
-    let fileStruct = this.unpackHeader(content);
+    const fileStruct = this.unpackHeader(content);
     // eslint-disable-next-line no-useless-catch
     try {
-      let decContent = encryptor.decrypt(key, fileStruct.encContent, fileStruct.iv);
+      const decContent = encryptor.decrypt(key, fileStruct.encContent, fileStruct.iv);
       if (encryptor.hmac(decContent).equals(fileStruct.hmac)) {
         return decContent;
       } else {
@@ -112,7 +112,7 @@ class Filesystem {
   // Return: Buffer
   packHeader(encResult, bufHmac) {
     const info = this.getHeader();
-    let bufHeader = Buffer.alloc(info.length);
+    const bufHeader = Buffer.alloc(info.length);
     // * Base info, add whatever you want :P
     bufHeader.write('Miikun@2018');
     // * Encrypt info
@@ -125,18 +125,18 @@ class Filesystem {
 
   unpackHeader(raw) {
     const info = this.getHeader();
-    let base = raw.slice(0, info.baseLength);
-    let hmac = raw.slice(info.baseLength, info.baseLength + info.hmacLength);
-    let iv = raw.slice(info.baseLength + info.hmacLength, info.length);
-    let encContent = raw.slice(info.length);
+    const base = raw.slice(0, info.baseLength);
+    const hmac = raw.slice(info.baseLength, info.baseLength + info.hmacLength);
+    const iv = raw.slice(info.baseLength + info.hmacLength, info.length);
+    const encContent = raw.slice(info.length);
     return { base, hmac, iv, encContent };
   }
 
   dumpHeader(header) {
     const info = this.getHeader();
-    let base = header.slice(0, info.baseLength);
-    let hmac = header.slice(info.baseLength, info.baseLength + info.hmacLength);
-    let iv = header.slice(info.baseLength + info.hmacLength, info.length);
+    const base = header.slice(0, info.baseLength);
+    const hmac = header.slice(info.baseLength, info.baseLength + info.hmacLength);
+    const iv = header.slice(info.baseLength + info.hmacLength, info.length);
     console.log('[Dump Header] Total bytes: ' + header.byteLength);
     console.log('[Dump Header] Base info: ' + base.toString('utf8'));
     console.log('[Dump Header] HMAC: ' + hmac.toString('utf8'));
