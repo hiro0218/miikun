@@ -30,20 +30,20 @@ export default class Editor {
         Enter: 'newlineAndIndentContinueMarkdownList',
         // **bold**
         [`${controlKey}-B`]: function(cm) {
-          let s = cm.getSelection();
-          let t = s.slice(0, 2) === '**' && s.slice(-2) === '**';
+          const s = cm.getSelection();
+          const t = s.slice(0, 2) === '**' && s.slice(-2) === '**';
           cm.replaceSelection(t ? s.slice(2, -2) : '**' + s + '**', 'around');
         },
         // _italic_
         [`${controlKey}-I`]: function(cm) {
-          let s = cm.getSelection();
-          let t = s.slice(0, 1) === '_' && s.slice(-1) === '_';
+          const s = cm.getSelection();
+          const t = s.slice(0, 1) === '_' && s.slice(-1) === '_';
           cm.replaceSelection(t ? s.slice(1, -1) : '_' + s + '_', 'around');
         },
         // `code`
         'Shift-@': function(cm) {
-          let s = cm.getSelection();
-          let t = s.slice(0, 1) === '`' && s.slice(-1) === '`';
+          const s = cm.getSelection();
+          const t = s.slice(0, 1) === '`' && s.slice(-1) === '`';
           cm.replaceSelection(t ? s.slice(1, -1) : '`' + s + '`', 'around');
         },
       },

@@ -23,8 +23,8 @@ class Encryptor {
 
   // return: Object { iv, enc content }
   encrypt(key, content) {
-    let iv = crypto.randomBytes(this.info.cipher.ivLength);
-    let cipher = crypto.createCipheriv(this.info.cipher.algorithm, this.hmac(key), iv);
+    const iv = crypto.randomBytes(this.info.cipher.ivLength);
+    const cipher = crypto.createCipheriv(this.info.cipher.algorithm, this.hmac(key), iv);
     return {
       iv: iv,
       content: Buffer.concat([cipher.update(content), cipher.final()]),
@@ -33,7 +33,7 @@ class Encryptor {
 
   // return: Buffer
   decrypt(key, raw, iv) {
-    let decipher = crypto.createDecipheriv(this.info.cipher.algorithm, this.hmac(key), Buffer.from(iv));
+    const decipher = crypto.createDecipheriv(this.info.cipher.algorithm, this.hmac(key), Buffer.from(iv));
     try {
       return Buffer.concat([decipher.update(raw), decipher.final()]);
     } catch (err) {
@@ -43,7 +43,7 @@ class Encryptor {
 
   // return: Buffer
   hmac(data) {
-    let hmac = crypto.createHmac(this.info.hmac.algorithm, this.info.hmac.key);
+    const hmac = crypto.createHmac(this.info.hmac.algorithm, this.info.hmac.key);
     hmac.update(data);
     return hmac.digest();
   }

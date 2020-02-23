@@ -43,7 +43,7 @@ export default {
   },
   computed: {
     title: function() {
-      let marker = this.canUndo ? '*' : '';
+      const marker = this.canUndo ? '*' : '';
       return `${marker} ${this.path}`;
     },
     ...mapState({
@@ -196,7 +196,7 @@ export default {
         },
         item => {
           if (item) {
-            let path = item[0];
+            const path = item[0];
 
             // 編集済み：合保存するか確認ダイアログを表示する
             this.saveModifyFile();
@@ -233,7 +233,7 @@ export default {
       });
     },
     saveAsDialog() {
-      let savePath = getSavePath([
+      const savePath = getSavePath([
         { name: 'Markdown file', extensions: ['md'] },
         { name: 'Text file', extensions: ['txt'] },
         { name: 'Mii file', extensions: ['mii'] },
@@ -248,7 +248,7 @@ export default {
         this.editor.initFilePath(this.path);
         result = this.writeFile();
       } else {
-        let savePath = this.saveAsDialog();
+        const savePath = this.saveAsDialog();
         if (savePath) {
           this.editor.initFilePath(savePath);
           result = this.writeFile();
@@ -260,7 +260,7 @@ export default {
       }
     },
     saveAs() {
-      let savePath = this.saveAsDialog();
+      const savePath = this.saveAsDialog();
 
       if (savePath) {
         this.editor.initFilePath(savePath);
