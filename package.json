@@ -39,7 +39,7 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.28",
     "@fortawesome/free-solid-svg-icons": "^5.13.0",
     "@fortawesome/vue-fontawesome": "^0.1.9",
-    "codemirror": "^5.52.0",
+    "codemirror": "^5.54.0",
     "core-js": "^3.6.4",
     "debounce": "^1.2.0",
     "markdown-it": "^11.0.0",
