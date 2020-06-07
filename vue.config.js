@@ -17,8 +17,7 @@ module.exports = {
   css: {
     loaderOptions: {
       sass: {
-        data: '@import "Settings/index";',
-        includePaths: [path.resolve(__dirname, './src/assets/style/')],
+        prependData: '@import "./src/assets/style/Settings/index.scss";',
       },
     },
   },
