@@ -33,8 +33,8 @@ function createWindow() {
 
     // install vue-devtools
     installExtension(VUEJS_DEVTOOLS)
-      .then(name => console.log(`Added Extension:  ${name}`))
-      .catch(err => console.log('An error occurred: ', err));
+      .then((name) => console.log(`Added Extension:  ${name}`))
+      .catch((err) => console.log('An error occurred: ', err));
 
     if (!process.env.IS_TEST) win.webContents.openDevTools();
   } else {
@@ -87,7 +87,7 @@ app.on('ready', async () => {
 // Exit cleanly on request from parent process in development mode.
 if (isDevelopment) {
   if (process.platform === 'win32') {
-    process.on('message', data => {
+    process.on('message', (data) => {
       if (data === 'graceful-exit') {
         app.quit();
       }

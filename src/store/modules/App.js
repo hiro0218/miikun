@@ -15,7 +15,7 @@ const actions = {
 };
 
 const getters = {
-  isAlwaysOnTop: state => state.isAlwaysOnTop,
+  isAlwaysOnTop: (state) => state.isAlwaysOnTop,
 };
 
 export default {

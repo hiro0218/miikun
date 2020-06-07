@@ -31,10 +31,10 @@ export default {
   },
   computed: {
     ...mapState({
-      isPreview: state => state.Editor.isPreview,
-      openToolbar: state => state.Editor.openToolbar,
-      canUndo: state => state.Editor.canUndo,
-      canRedo: state => state.Editor.canRedo,
+      isPreview: (state) => state.Editor.isPreview,
+      openToolbar: (state) => state.Editor.openToolbar,
+      canUndo: (state) => state.Editor.canUndo,
+      canRedo: (state) => state.Editor.canRedo,
     }),
   },
   watch: {},

@@ -24,34 +24,34 @@
 <script>
 export default {
   name: 'KeyPrompt',
-  data: function() {
+  data: function () {
     return {
       title: '',
       rules: {
-        required: value => !!value || 'Required.',
+        required: (value) => !!value || 'Required.',
       },
     };
   },
   computed: {
     enable: {
-      get: function() {
+      get: function () {
         return this.$store.state.Editor.crypt.enable;
       },
-      set: function(v) {
+      set: function (v) {
         this.$store.dispatch('setCryptEnable', v);
       },
     },
     key: {
-      get: function() {
+      get: function () {
         return this.$store.state.Editor.crypt.key;
       },
-      set: function(v) {
+      set: function (v) {
         this.$store.dispatch('setCryptKey', v);
       },
     },
   },
   watch: {
-    enable: function(value) {
+    enable: function (value) {
       if (value) this.onOpen();
     },
   },
