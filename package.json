@@ -59,9 +59,9 @@
   "devDependencies": {
     "@hiro0218/eslint-config": "^1.2.0",
     "@hiro0218/prettier-config": "^1.0.2",
-    "@vue/cli-plugin-babel": "^4.2.2",
-    "@vue/cli-plugin-eslint": "^4.2.2",
-    "@vue/cli-service": "^4.2.2",
+    "@vue/cli-plugin-babel": "^4.4.1",
+    "@vue/cli-plugin-eslint": "^4.4.1",
+    "@vue/cli-service": "^4.4.1",
     "babel-eslint": "^10.0.3",
     "electron": "^8.0.1",
     "electron-devtools-installer": "^2.2.4",
