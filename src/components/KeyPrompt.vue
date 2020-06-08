@@ -14,8 +14,8 @@
         />
       </v-card-text>
       <v-card-actions>
-        <v-btn flat @click="done">OK</v-btn>
-        <v-btn flat @click="cancel">Cancel</v-btn>
+        <v-btn text @click="done">OK</v-btn>
+        <v-btn text @click="cancel">Cancel</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>

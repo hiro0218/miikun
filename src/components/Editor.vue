@@ -361,7 +361,7 @@ export default {
     width: 100%;
   }
 
-  /deep/ .CodeMirror {
+  ::v-deep .CodeMirror {
     width: 100%;
     height: 100%;
   }

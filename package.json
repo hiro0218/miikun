@@ -3,38 +3,19 @@
   "version": "3.2.1",
   "private": true,
   "description": "A Simple Markdown Editor",
-  "homepage": "https://github.com/hiro0218/Miikun#readme",
-  "bugs": {
-    "url": "https://github.com/hiro0218/Miikun/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/hiro0218/Miikun.git"
-  },
-  "license": "MIT",
   "author": "hiro <hiro0218@gmail.com>",
-  "main": "background.js",
   "scripts": {
+    "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint",
     "electron:build": "vue-cli-service electron:build",
     "electron:serve": "vue-cli-service electron:serve",
     "format:scss": "stylelint --fix ./src",
-    "postinstall": "electron-builder install-app-deps",
-    "lint": "vue-cli-service lint",
     "lint:scss": "stylelint ./src",
-    "serve": "vue-cli-service serve",
+    "postinstall": "electron-builder install-app-deps",
     "postuninstall": "electron-builder install-app-deps"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "**/*.{js,vue}": [
-      "vue-cli-service lint"
-    ]
-  },
+  "main": "background.js",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.28",
     "@fortawesome/free-solid-svg-icons": "^5.13.0",
@@ -51,7 +32,7 @@
     "vue-electron": "^1.0.6",
     "vue-meta": "^2.3.4",
     "vue-router": "^3.3.2",
-    "vuetify": "^1.5.5",
+    "vuetify": "^2.2.11",
     "vuex": "^3.4.0",
     "vuex-persistedstate": "^3.0.1"
   },
@@ -73,7 +54,8 @@
     "markdown-it-multimd-table": "^4.0.2",
     "node-sass": "^4.12.0",
     "prettier": "^2.0.5",
-    "sass-loader": "^8.0.2",
+    "sass": "^1.19.0",
+    "sass-loader": "^7.3.1",
     "stylelint": "^13.6.0",
     "stylelint-config-property-sort-order-smacss": "^6.3.0",
     "stylelint-config-recommended": "^3.0.0",
@@ -83,9 +65,28 @@
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.2",
     "vue-cli-plugin-electron-builder": "^1.4.6",
-    "vue-cli-plugin-vuetify": "^0.5.0",
+    "vue-cli-plugin-vuetify": "~2.0.5",
     "vue-template-compiler": "^2.6.11",
-    "vuetify-loader": "^1.0.5"
+    "vuetify-loader": "^1.3.0"
   },
-  "productName": "miikun"
+  "bugs": {
+    "url": "https://github.com/hiro0218/Miikun/issues"
+  },
+  "homepage": "https://github.com/hiro0218/Miikun#readme",
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "license": "MIT",
+  "lint-staged": {
+    "**/*.{js,vue}": [
+      "vue-cli-service lint"
+    ]
+  },
+  "productName": "miikun",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hiro0218/Miikun.git"
+  }
 }

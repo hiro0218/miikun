@@ -1,19 +1,19 @@
 <template>
   <div :class="{ open: openToolbar }" :data-toolbar-open="openToolbar" class="toolbar">
     <div class="menu composite">
-      <v-btn flat icon :disabled="!canUndo" @click="undo">
+      <v-btn text icon :disabled="!canUndo" @click="undo">
         <font-awesome-icon icon="undo" size="lg" />
       </v-btn>
-      <v-btn flat icon :disabled="!canRedo" @click="redo">
+      <v-btn text icon :disabled="!canRedo" @click="redo">
         <font-awesome-icon icon="redo" size="lg" />
       </v-btn>
-      <v-btn flat icon @click="togglePreview">
+      <v-btn text icon @click="togglePreview">
         <font-awesome-icon v-if="isPreview" icon="eye" size="lg" />
         <font-awesome-icon v-else icon="eye-slash" size="lg" />
       </v-btn>
     </div>
     <div class="menu global">
-      <v-btn flat icon disabled>
+      <v-btn text icon disabled>
         <font-awesome-icon icon="cog" size="lg" />
       </v-btn>
     </div>

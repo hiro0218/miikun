@@ -12,7 +12,7 @@ Vue.config.productionTip = false;
 import './plugins/vue-meta/index';
 
 // vuetify
-import './plugins/vuetify/index';
+import vuetify from './plugins/vuetify';
 
 // codemirror
 import './plugins/codemirror/index';
@@ -30,5 +30,6 @@ new Vue({
     appMenu.setupAppMenu();
     appMenu.setupContextMenu();
   },
+  vuetify,
   render: (h) => h(App),
 }).$mount('#app');

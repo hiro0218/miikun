@@ -25,7 +25,7 @@ export default {
 <style lang="scss">
 @import '@/assets/style/main.scss';
 
-#app .application--wrap {
+#app .v-application--wrap {
   display: flex;
   flex-direction: initial;
   background: #fff;
