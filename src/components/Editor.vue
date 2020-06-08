@@ -14,7 +14,7 @@ import { mapState } from 'vuex';
 import { debounce } from 'debounce';
 import fs from '@/modules/Filesystem.js';
 import Markdown from '@/lib/markdown.js';
-import { openDialog, showOpenDialog, getSavePath, getSelectedResult } from '@/modules/dialog.js';
+import { openDialog, showFileOpenDialog, getSavePath, getSelectedResult } from '@/modules/dialog.js';
 import Editor from '@/modules/editor.js';
 import DropField from '@/components/DropField';
 import KeyPrompt from '@/components/KeyPrompt';
@@ -177,10 +177,10 @@ export default {
       this.editor.clean();
     },
     openFile() {
-      const items = showOpenDialog();
+      const files = showFileOpenDialog();
 
-      if (items) {
-        const path = items[0];
+      if (files) {
+        const path = files[0];
 
         // 編集済み：合保存するか確認ダイアログを表示する
         this.saveModifyFile();

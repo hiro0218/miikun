@@ -13,7 +13,7 @@ export const openDialog = (type, message) => {
   });
 };
 
-export const showOpenDialog = () => {
+export const showFileOpenDialog = () => {
   const focusedWindow = BrowserWindow.getFocusedWindow();
 
   return dialog.showOpenDialogSync(focusedWindow, {
