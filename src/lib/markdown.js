@@ -17,7 +17,7 @@ export default class Markdown {
       langPrefix: 'language-',
       linkify: true,
       typographer: false,
-      highlight: function(str, lang) {
+      highlight: function (str, lang) {
         const language = !lang || lang === 'html' ? 'markup' : lang;
         try {
           if (!Prism.languages[language]) {

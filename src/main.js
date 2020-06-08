@@ -30,5 +30,5 @@ new Vue({
     appMenu.setupAppMenu();
     appMenu.setupContextMenu();
   },
-  render: h => h(App),
+  render: (h) => h(App),
 }).$mount('#app');

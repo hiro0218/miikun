@@ -1,14 +1,14 @@
 import electron from 'electron';
 const { remote } = electron;
 
-export const isURL = str => {
+export const isURL = (str) => {
   return /(?:^\w+:|^)\/\/(?:[^\s\.]+\.\S{2}|localhost[\:?\d]*)/.test(str);
 };
 
 export const openLinkExternal = () => {
   const currentWindow = remote.getCurrentWindow();
 
-  document.addEventListener('click', e => {
+  document.addEventListener('click', (e) => {
     if (e.target.tagName !== 'A') return;
     const href = e.target.getAttribute('href');
 
@@ -22,7 +22,7 @@ export const openLinkExternal = () => {
       remote.shell.openExternal(href);
       // restore
       if (!status) {
-        setTimeout(function() {
+        setTimeout(function () {
           currentWindow.setAlwaysOnTop(false);
         }, 1000);
       }
@@ -30,7 +30,7 @@ export const openLinkExternal = () => {
   });
 };
 
-export const getLinkWithTitle = event => {
+export const getLinkWithTitle = (event) => {
   const pastedString = event.clipboardData.getData('text/plain');
 
   // クリップボードの内容がURLの場合、`[title](url)`形式で返却する
@@ -41,14 +41,14 @@ export const getLinkWithTitle = event => {
   return fetch(pastedString, {
     method: 'get',
   })
-    .then(res => res.text())
-    .then(text => new DOMParser().parseFromString(text, 'text/html'))
-    .then(parsedBody => `[${parsedBody.title}](${pastedString})`)
-    .then(assembledString => {
+    .then((res) => res.text())
+    .then((text) => new DOMParser().parseFromString(text, 'text/html'))
+    .then((parsedBody) => `[${parsedBody.title}](${pastedString})`)
+    .then((assembledString) => {
       // 組み立てた文字列を挿入
       return assembledString;
     })
-    .catch(e => {
+    .catch((e) => {
       // 見つからない場合は貼り付けたテキストをそのまま挿入
       return pastedString;
     });

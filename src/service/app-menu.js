@@ -166,21 +166,18 @@ export default {
   setupContextMenu() {
     window.addEventListener(
       'contextmenu',
-      e => {
+      (e) => {
         e.preventDefault();
 
         const menu = new Menu();
-        const selectText = window
-          .getSelection()
-          .toString()
-          .replace(/\n+/g, ' ');
+        const selectText = window.getSelection().toString().replace(/\n+/g, ' ');
 
         if (selectText) {
           menu.append(
             new MenuItem({
               label:
                 'Search Google for "' + (selectText.length > 20 ? selectText.substr(0, 17) + '...' : selectText) + '"',
-              click: function() {
+              click: function () {
                 shell.openExternal('https://www.google.com/search?q=' + encodeURIComponent(selectText));
               },
             }),

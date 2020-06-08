@@ -14,7 +14,7 @@ export const openDialog = (type, message) => {
   });
 };
 
-export const getSavePath = extensions => {
+export const getSavePath = (extensions) => {
   const browserWindow = remote.BrowserWindow;
   const focusedWindow = browserWindow.getFocusedWindow();
 

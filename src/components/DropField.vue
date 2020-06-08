@@ -7,16 +7,16 @@ import { getSelectedResult } from '@/modules/dialog.js';
 
 export default {
   name: 'DropField',
-  mounted: function() {
+  mounted: function () {
     this.init();
   },
   methods: {
-    init: function() {
+    init: function () {
       this.setOverlay();
 
       window.addEventListener(
         'drop',
-        e => {
+        (e) => {
           e.preventDefault();
           const file = e.dataTransfer.files[0];
           const ext = file.name.split('.')[1];
@@ -44,30 +44,30 @@ export default {
         });
       }
     },
-    setOverlay: function() {
+    setOverlay: function () {
       const dropZone = document.querySelector('.dropfield');
 
-      window.addEventListener('dragenter', function(e) {
+      window.addEventListener('dragenter', function (e) {
         dropZone.style.opacity = 1;
         dropZone.style.zIndex = 100;
       });
 
-      dropZone.addEventListener('dragleave', function(e) {
+      dropZone.addEventListener('dragleave', function (e) {
         this.style.opacity = null;
         this.style.zIndex = null;
       });
 
-      dropZone.addEventListener('drop', function(e) {
+      dropZone.addEventListener('drop', function (e) {
         e.preventDefault();
         this.style.opacity = null;
         this.style.zIndex = null;
       });
 
-      document.addEventListener('dragstart', function(e) {
+      document.addEventListener('dragstart', function (e) {
         e.preventDefault();
       });
 
-      window.addEventListener('dragover', function(e) {
+      window.addEventListener('dragover', function (e) {
         e.preventDefault();
       });
     },

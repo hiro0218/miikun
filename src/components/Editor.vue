@@ -42,20 +42,20 @@ export default {
     };
   },
   computed: {
-    title: function() {
+    title: function () {
       const marker = this.canUndo ? '*' : '';
       return `${marker} ${this.path}`;
     },
     ...mapState({
-      path: state => state.Editor.filePath,
-      code: state => state.Editor.code,
-      isPreview: state => state.Editor.isPreview,
-      canUndo: state => state.Editor.canUndo,
+      path: (state) => state.Editor.filePath,
+      code: (state) => state.Editor.code,
+      isPreview: (state) => state.Editor.isPreview,
+      canUndo: (state) => state.Editor.canUndo,
     }),
   },
   watch: {
     isPreview: {
-      handler: function(value) {
+      handler: function (value) {
         if (!value) return;
 
         this.$nextTick(() => {
@@ -76,12 +76,12 @@ export default {
     initialize() {
       this.editor = new Editor(this.$refs.editor);
 
-      this.editor.cm.on('change', cm => {
+      this.editor.cm.on('change', (cm) => {
         const value = cm.getValue();
         this.onEditorCodeChange(value);
       });
 
-      this.editor.cm.on('changes', cm => {
+      this.editor.cm.on('changes', (cm) => {
         this.editor.updateHistory();
       });
 
@@ -92,11 +92,11 @@ export default {
         this.editor.insertTextToEditor(formattedString, line, ch);
       });
 
-      this.editor.cm.on('focus', cm => {
+      this.editor.cm.on('focus', (cm) => {
         this.setIntervalSaveTempData();
       });
 
-      this.editor.cm.on('blur', cm => {
+      this.editor.cm.on('blur', (cm) => {
         if (this.saveTimer === -1) return;
         clearInterval(this.saveTimer);
         this.saveTimer = -1;
@@ -126,7 +126,7 @@ export default {
         this.saveAs();
       });
     },
-    onEditorCodeChange: debounce(function(newCode) {
+    onEditorCodeChange: debounce(function (newCode) {
       this.$store.dispatch('updateCode', newCode);
 
       if (this.code && this.isPreview) {
@@ -194,7 +194,7 @@ export default {
           ],
           properties: ['openFile'],
         },
-        item => {
+        (item) => {
           if (item) {
             const path = item[0];
 
@@ -280,7 +280,7 @@ export default {
       try {
         let error;
 
-        fs.writeFile(this.path, this.code, function(err) {
+        fs.writeFile(this.path, this.code, function (err) {
           error = err;
         });
 
@@ -317,7 +317,7 @@ export default {
         fs.writeFile(
           this.path,
           this.code,
-          err => {
+          (err) => {
             if (err) {
               openDialog('error', err.toString());
             } else {

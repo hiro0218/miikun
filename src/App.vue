@@ -12,7 +12,7 @@ import { name } from '../package.json';
 export default {
   name: 'Miikun',
   metaInfo: {
-    titleTemplate: function(titleChunk) {
+    titleTemplate: function (titleChunk) {
       return titleChunk.trim() ? `${titleChunk} - ${name}` : name;
     },
   },

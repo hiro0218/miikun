@@ -29,19 +29,19 @@ export default class Editor {
       extraKeys: {
         Enter: 'newlineAndIndentContinueMarkdownList',
         // **bold**
-        [`${controlKey}-B`]: function(cm) {
+        [`${controlKey}-B`]: function (cm) {
           const s = cm.getSelection();
           const t = s.slice(0, 2) === '**' && s.slice(-2) === '**';
           cm.replaceSelection(t ? s.slice(2, -2) : '**' + s + '**', 'around');
         },
         // _italic_
-        [`${controlKey}-I`]: function(cm) {
+        [`${controlKey}-I`]: function (cm) {
           const s = cm.getSelection();
           const t = s.slice(0, 1) === '_' && s.slice(-1) === '_';
           cm.replaceSelection(t ? s.slice(1, -1) : '_' + s + '_', 'around');
         },
         // `code`
-        'Shift-@': function(cm) {
+        'Shift-@': function (cm) {
           const s = cm.getSelection();
           const t = s.slice(0, 1) === '`' && s.slice(-1) === '`';
           cm.replaceSelection(t ? s.slice(1, -1) : '`' + s + '`', 'around');
