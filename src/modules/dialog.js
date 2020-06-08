@@ -1,12 +1,11 @@
 import electron from 'electron';
 const { remote } = electron;
-const { dialog } = remote;
+const { BrowserWindow, dialog } = remote;
 
 export const openDialog = (type, message) => {
-  const browserWindow = remote.BrowserWindow;
-  const focusedWindow = browserWindow.getFocusedWindow();
+  const focusedWindow = BrowserWindow.getFocusedWindow();
 
-  return dialog.showMessageBox(focusedWindow, {
+  return dialog.showMessageBoxSync(focusedWindow, {
     title: type,
     type: type,
     buttons: ['OK'],
@@ -14,21 +13,34 @@ export const openDialog = (type, message) => {
   });
 };
 
-export const getSavePath = (extensions) => {
-  const browserWindow = remote.BrowserWindow;
-  const focusedWindow = browserWindow.getFocusedWindow();
+export const showOpenDialog = () => {
+  const focusedWindow = BrowserWindow.getFocusedWindow();
 
-  return dialog.showSaveDialog(focusedWindow, {
+  return dialog.showOpenDialogSync(focusedWindow, {
+    title: 'Open Dialog',
+    filters: [
+      {
+        name: 'Documents',
+        extensions: ['txt', 'md', 'mii'],
+      },
+    ],
+    properties: ['openFile'],
+  });
+};
+
+export const getSavePath = (extensions) => {
+  const focusedWindow = BrowserWindow.getFocusedWindow();
+
+  return dialog.showSaveDialogSync(focusedWindow, {
     title: 'Save Dialog',
     filters: extensions,
   });
 };
 
 export const getSelectedResult = ({ title, message, type, buttons, detail }) => {
-  const browserWindow = remote.BrowserWindow;
-  const focusedWindow = browserWindow.getFocusedWindow();
+  const focusedWindow = BrowserWindow.getFocusedWindow();
 
-  return dialog.showMessageBox(focusedWindow, {
+  return dialog.showMessageBoxSync(focusedWindow, {
     title,
     message,
     type,

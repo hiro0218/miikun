@@ -14,7 +14,7 @@ import { mapState } from 'vuex';
 import { debounce } from 'debounce';
 import fs from '@/modules/Filesystem.js';
 import Markdown from '@/lib/markdown.js';
-import { openDialog, getSavePath, getSelectedResult } from '@/modules/dialog.js';
+import { openDialog, showOpenDialog, getSavePath, getSelectedResult } from '@/modules/dialog.js';
 import Editor from '@/modules/editor.js';
 import DropField from '@/components/DropField';
 import KeyPrompt from '@/components/KeyPrompt';
@@ -177,37 +177,19 @@ export default {
       this.editor.clean();
     },
     openFile() {
-      const remote = this.$electron.remote;
-      const dialog = remote.dialog;
-      const browserWindow = remote.BrowserWindow;
-      const focusedWindow = browserWindow.getFocusedWindow();
+      const items = showOpenDialog();
 
-      dialog.showOpenDialog(
-        focusedWindow,
-        {
-          title: 'Open Dialog',
-          filters: [
-            {
-              name: 'Documents',
-              extensions: ['txt', 'md', 'mii'],
-            },
-          ],
-          properties: ['openFile'],
-        },
-        (item) => {
-          if (item) {
-            const path = item[0];
+      if (items) {
+        const path = items[0];
 
-            // 編集済み：合保存するか確認ダイアログを表示する
-            this.saveModifyFile();
-            if (fs.shouldEncrypt(path)) {
-              this.openKeyPrompt('open', path);
-            } else {
-              this.readFile(path);
-            }
-          }
-        },
-      );
+        // 編集済み：合保存するか確認ダイアログを表示する
+        this.saveModifyFile();
+        if (fs.shouldEncrypt(path)) {
+          this.openKeyPrompt('open', path);
+        } else {
+          this.readFile(path);
+        }
+      }
     },
     readFile(path) {
       if (this.path === path) {
