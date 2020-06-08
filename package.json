@@ -48,7 +48,6 @@
     "normalize.css": "^8.0.1",
     "prismjs": "^1.15.0",
     "vue": "^2.6.11",
-    "vue-electron": "^1.0.6",
     "vue-meta": "^2.3.4",
     "vue-router": "^3.3.2",
     "vuetify": "^1.5.5",
@@ -87,7 +86,7 @@
     "vue-template-compiler": "^2.6.11",
     "vuetify-loader": "^1.0.5"
   },
-	"build": {
+  "build": {
     "appId": "jp.0218.miikun"
   },
   "productName": "miikun"
