@@ -7,6 +7,9 @@ const isDevelopment = process.env.NODE_ENV !== 'production';
 
 app.allowRendererProcessReuse = true;
 
+// Note: Must match `build.appId` in package.json
+app.setAppUserModelId('jp.0218.miikun');
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win;

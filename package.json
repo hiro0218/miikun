@@ -87,5 +87,8 @@
     "vue-template-compiler": "^2.6.11",
     "vuetify-loader": "^1.0.5"
   },
+	"build": {
+    "appId": "jp.0218.miikun"
+  },
   "productName": "miikun"
 }
