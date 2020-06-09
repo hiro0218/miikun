@@ -61,7 +61,6 @@
     "stylelint-config-recommended-scss": "^4.2.0",
     "stylelint-declaration-block-no-ignored-properties": "^2.3.0",
     "stylelint-scss": "^3.17.2",
-    "stylus": "^0.54.5",
     "stylus-loader": "^3.0.2",
     "vue-cli-plugin-electron-builder": "^1.4.6",
     "vue-cli-plugin-vuetify": "~2.0.5",
