@@ -13,9 +13,6 @@ const state = {
       path: null,
     },
   },
-  temporary: {
-    code: '',
-  },
 };
 
 const mutations = {
@@ -49,9 +46,6 @@ const mutations = {
   SET_CRYPT_OP(state, obj) {
     state.crypt.op.name = obj.name;
     state.crypt.op.path = obj.path;
-  },
-  SET_TEMP_CODE(state, payload) {
-    state.temporary.code = payload;
   },
 };
 
@@ -87,9 +81,6 @@ const actions = {
   },
   setCryptOP({ commit }, obj) {
     commit('SET_CRYPT_OP', obj);
-  },
-  updateTempCode({ commit }, payload) {
-    commit('SET_TEMP_CODE', payload);
   },
 };
 
