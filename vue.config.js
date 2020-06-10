@@ -16,6 +16,10 @@ module.exports = {
     loaderOptions: {
       scss: {
         data: '@import "./src/assets/style/Settings/index.scss";',
+        options: {
+          implementation: require('sass'),
+          fiber: require('fibers'),
+        },
       },
     },
   },
