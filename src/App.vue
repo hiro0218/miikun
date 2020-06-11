@@ -1,8 +1,8 @@
 <template>
-  <v-app id="app">
+  <div id="app">
     <toolbar />
     <router-view />
-  </v-app>
+  </div>
 </template>
 
 <script>
@@ -25,7 +25,7 @@ export default {
 <style lang="scss">
 @import '@/assets/style/main.scss';
 
-#app .v-application--wrap {
+#app {
   display: flex;
   flex-direction: initial;
   background: #fff;

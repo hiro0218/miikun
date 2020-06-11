@@ -31,7 +31,6 @@
     "vue": "^2.6.11",
     "vue-meta": "^2.3.4",
     "vue-router": "^3.3.2",
-    "vuetify": "^2.2.11",
     "vuex": "^3.4.0",
     "vuex-persistedstate": "^3.0.1"
   },
@@ -63,9 +62,7 @@
     "stylelint-declaration-block-no-ignored-properties": "^2.3.0",
     "stylelint-scss": "^3.17.2",
     "vue-cli-plugin-electron-builder": "^1.4.6",
-    "vue-cli-plugin-vuetify": "~2.0.5",
-    "vue-template-compiler": "^2.6.11",
-    "vuetify-loader": "^1.3.0"
+    "vue-template-compiler": "^2.6.11"
   },
   "bugs": {
     "url": "https://github.com/hiro0218/Miikun/issues"

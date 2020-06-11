@@ -1,24 +1,18 @@
 <template>
-  <v-dialog v-model="enable" persistent max-width="300">
-    <v-card>
-      <v-card-title class="headline">
+  <div v-show="enable" class="keyprompt">
+    <div class="keyprompt-container">
+      <div class="headline">
         {{ title }}
-      </v-card-title>
-      <v-card-text>
-        <v-text-field
-          v-model="key"
-          :rules="[rules.required]"
-          type="password"
-          label="Enter a password to encrypt the file."
-          maxlength="50"
-        />
-      </v-card-text>
-      <v-card-actions>
-        <v-btn text @click="done">OK</v-btn>
-        <v-btn text @click="cancel">Cancel</v-btn>
-      </v-card-actions>
-    </v-card>
-  </v-dialog>
+      </div>
+      <div>
+        <input v-model="key" type="password" placeholder="Enter a password to encrypt the file." maxlength="50" />
+      </div>
+      <div>
+        <button @click="done">OK</button>
+        <button @click="cancel">Cancel</button>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -80,3 +74,28 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.keyprompt {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.33);
+}
+
+.keyprompt-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 50vw;
+  height: 300px;
+  margin: auto;
+  background: #fff;
+}
+</style>

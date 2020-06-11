@@ -1,21 +1,21 @@
 <template>
   <div :class="{ open: openToolbar }" :data-toolbar-open="openToolbar" class="toolbar">
     <div class="menu composite">
-      <v-btn text icon :disabled="!canUndo" @click="undo">
+      <button text icon :disabled="!canUndo" @click="undo">
         <font-awesome-icon icon="undo" size="lg" />
-      </v-btn>
-      <v-btn text icon :disabled="!canRedo" @click="redo">
+      </button>
+      <button text icon :disabled="!canRedo" @click="redo">
         <font-awesome-icon icon="redo" size="lg" />
-      </v-btn>
-      <v-btn text icon @click="togglePreview">
+      </button>
+      <button text icon @click="togglePreview">
         <font-awesome-icon v-if="isPreview" icon="eye" size="lg" />
         <font-awesome-icon v-else icon="eye-slash" size="lg" />
-      </v-btn>
+      </button>
     </div>
     <div class="menu global">
-      <v-btn text icon disabled>
+      <button text icon disabled>
         <font-awesome-icon icon="cog" size="lg" />
-      </v-btn>
+      </button>
     </div>
   </div>
 </template>
@@ -78,7 +78,7 @@ export default {
   }
 }
 
-.v-btn {
+button {
   display: block;
   margin: 0 auto;
 
@@ -86,7 +86,7 @@ export default {
     opacity: 0.4;
   }
 
-  & + .v-btn {
+  & + button {
     margin: 0.5rem auto 0;
   }
 
