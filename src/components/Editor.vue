@@ -92,10 +92,6 @@ export default {
         this.editor.insertTextToEditor(formattedString, line, ch);
       });
 
-      this.editor.cm.on('focus', (cm) => {
-        this.setIntervalSaveTempData();
-      });
-
       this.editor.cm.on('blur', (cm) => {
         if (this.saveTimer === -1) return;
         clearInterval(this.saveTimer);
@@ -103,7 +99,6 @@ export default {
       });
 
       this.onEditorReady();
-      this.restoreTempData();
       openLinkExternal();
     },
     onEditorReady() {
@@ -133,22 +128,6 @@ export default {
         this.htmlCode = this.markdown.render(newCode);
       }
     }, 200),
-    /**
-     * 新規ファイルの場合に入力データをStorageに退避する
-     */
-    setIntervalSaveTempData() {
-      if (this.path) return;
-
-      this.saveTimer = setInterval(() => {
-        this.$store.dispatch('updateTempCode', this.code);
-      }, 5000);
-    },
-    restoreTempData() {
-      if (this.path) return;
-      const tmpCode = this.$store.state.Editor.temporary.code;
-      this.$store.dispatch('updateCode', tmpCode);
-      this.editor.setValue(tmpCode);
-    },
     saveModifyFile() {
       if (this.editor.isClean()) {
         return;
@@ -208,7 +187,6 @@ export default {
           this.editor.setValue(content);
           this.editor.initFilePath(path);
           this.editor.clearHistory();
-          this.$store.dispatch('updateTempCode', '');
         } else {
           openDialog('error', err.toString());
         }
