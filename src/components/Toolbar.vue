@@ -1,20 +1,20 @@
 <template>
   <div :class="{ open: openToolbar }" :data-toolbar-open="openToolbar" class="toolbar">
     <div class="menu composite">
-      <button text icon :disabled="!canUndo" @click="undo">
-        <font-awesome-icon icon="undo" size="lg" />
+      <button :disabled="!canUndo" @click="undo">
+        <font-awesome-icon icon="undo" size="" />
       </button>
-      <button text icon :disabled="!canRedo" @click="redo">
-        <font-awesome-icon icon="redo" size="lg" />
+      <button :disabled="!canRedo" @click="redo">
+        <font-awesome-icon icon="redo" size="" />
       </button>
-      <button text icon @click="togglePreview">
-        <font-awesome-icon v-if="isPreview" icon="eye" size="lg" />
-        <font-awesome-icon v-else icon="eye-slash" size="lg" />
+      <button @click="togglePreview">
+        <font-awesome-icon v-if="isPreview" icon="eye" size="" />
+        <font-awesome-icon v-else icon="eye-slash" size="" />
       </button>
     </div>
     <div class="menu global">
-      <button text icon disabled>
-        <font-awesome-icon icon="cog" size="lg" />
+      <button disabled>
+        <font-awesome-icon icon="cog" size="" />
       </button>
     </div>
   </div>
@@ -87,7 +87,7 @@ button {
   }
 
   & + button {
-    margin: 0.5rem auto 0;
+    margin: 1rem auto 0;
   }
 
   .svg-inline--fa path {
