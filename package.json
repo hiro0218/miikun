@@ -28,7 +28,7 @@
     "markdown-it-footnote": "^3.0.2",
     "normalize.css": "^8.0.1",
     "open-color": "^1.7.0",
-    "prismjs": "^1.23.0",
+    "prismjs": "^1.24.0",
     "vue": "^2.6.11",
     "vue-meta": "^2.3.4",
     "vue-router": "^3.3.2",
