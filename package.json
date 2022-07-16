@@ -23,7 +23,7 @@
     "codemirror": "^5.58.2",
     "core-js": "^3.6.4",
     "debounce": "^1.2.0",
-    "markdown-it": "^11.0.0",
+    "markdown-it": "^12.3.2",
     "markdown-it-checkbox": "^1.1.0",
     "markdown-it-footnote": "^3.0.2",
     "normalize.css": "^8.0.1",
