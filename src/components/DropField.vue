@@ -27,7 +27,7 @@ export default {
     },
     dropFile(file, ext) {
       if (this.isAllowExt(file.type, ext)) {
-        this.$emit('open-file', file.path);
+        this.$emit('open-file-path', file.path);
       } else {
         getSelectedResult({
           title: 'error',
