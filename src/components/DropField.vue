@@ -27,6 +27,7 @@ export default {
     },
     dropFile(file, ext) {
       if (this.isAllowExt(file.type, ext)) {
+        // Editor determines encryption from the emitted path.
         this.$emit('open-file-path', file.path);
       } else {
         getSelectedResult({
