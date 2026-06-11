@@ -20,7 +20,7 @@ pre {
   overflow: auto;
   border-radius: 3px;
   background-color: #f7f7f7;
-  word-wrap: normal;
+  overflow-wrap: normal;
 
   > code {
     display: inline;
@@ -30,7 +30,7 @@ pre {
     background-color: transparent;
     font-size: 100%;
     line-height: inherit;
-    word-wrap: normal;
+    overflow-wrap: normal;
     word-break: normal;
     white-space: pre;
     &::before,
