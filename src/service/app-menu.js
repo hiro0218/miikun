@@ -1,4 +1,4 @@
-import { getCurrentWindow, shell, Menu, MenuItem } from '@electron/remote';
+import { getCurrentWindow, shell, Menu, MenuItem, nativeTheme } from '@electron/remote';
 
 import packageJson from '../../package.json';
 const { name } = packageJson;
@@ -92,10 +92,6 @@ export default {
             AppMenuController.toggleToolbar();
           },
         },
-        {
-          label: 'Toggle Full Screen',
-          role: 'togglefullscreen',
-        },
         { type: 'separator' },
         {
           label: 'Zoom',
@@ -112,6 +108,39 @@ export default {
             {
               label: 'Actual Size',
               role: 'resetZoom',
+            },
+          ],
+        },
+        { type: 'separator' },
+        {
+          label: 'Theme',
+          submenu: [
+            {
+              id: 'theme_system',
+              label: 'System',
+              type: 'radio',
+              checked: store.getters.theme === 'system',
+              click: () => {
+                AppMenuController.setTheme('system');
+              },
+            },
+            {
+              id: 'theme_light',
+              label: 'Light',
+              type: 'radio',
+              checked: store.getters.theme === 'light',
+              click: () => {
+                AppMenuController.setTheme('light');
+              },
+            },
+            {
+              id: 'theme_dark',
+              label: 'Dark',
+              type: 'radio',
+              checked: store.getters.theme === 'dark',
+              click: () => {
+                AppMenuController.setTheme('dark');
+              },
             },
           ],
         },
@@ -161,6 +190,9 @@ export default {
       const currentWindow = getCurrentWindow();
       currentWindow.setAlwaysOnTop(store.getters.isAlwaysOnTop);
     }
+
+    // apply persisted theme
+    nativeTheme.themeSource = store.getters.theme;
   },
   setupContextMenu() {
     window.addEventListener(

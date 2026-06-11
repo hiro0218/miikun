@@ -1,4 +1,4 @@
-import { getCurrentWindow } from '@electron/remote';
+import { getCurrentWindow, nativeTheme } from '@electron/remote';
 
 import store from '../store';
 import AppMenu from '@/service/app-menu';
@@ -11,6 +11,11 @@ const AppMenuController = {
     const isAlwaysOnTop = currentWindow.isAlwaysOnTop();
     currentWindow.setAlwaysOnTop(!isAlwaysOnTop);
     store.dispatch('updateAlwaysOnTop', !isAlwaysOnTop);
+  },
+  setTheme(theme) {
+    // themeSource drives prefers-color-scheme, so the CSS tokens follow automatically.
+    nativeTheme.themeSource = theme;
+    store.dispatch('updateTheme', theme);
   },
   undo() {
     EventBus.$emit('undo');

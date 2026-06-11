@@ -8,7 +8,7 @@ export default createStore({
   plugins: [
     createPersistedState({
       key: 'miikun',
-      paths: ['App.isAlwaysOnTop', 'Editor.isPreview', 'Editor.openToolbar'],
+      paths: ['App.isAlwaysOnTop', 'App.theme', 'Editor.isPreview', 'Editor.openToolbar'],
     }),
   ],
 });

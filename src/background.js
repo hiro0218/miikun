@@ -1,6 +1,6 @@
 'use strict';
 
-import { app, protocol, BrowserWindow } from 'electron';
+import { app, protocol, BrowserWindow, nativeTheme } from 'electron';
 import { initialize, enable } from '@electron/remote/main';
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib';
 const isDevelopment = process.env.NODE_ENV !== 'production';
@@ -24,6 +24,8 @@ function createWindow() {
     height: 600,
     show: false,
     center: true,
+    // Match Generic/_tokens.scss --bg so the window doesn't flash white in dark mode.
+    backgroundColor: nativeTheme.shouldUseDarkColors ? '#1e1e20' : '#ffffff',
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
