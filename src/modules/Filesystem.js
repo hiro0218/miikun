@@ -44,7 +44,7 @@ class Filesystem {
       }
       // Backup file at develop.
       if (process.env.NODE_ENV === 'development') {
-        fs.writeFile(path + '.backup.md', content, 'utf8', cb);
+        fs.writeFile(path + '.backup.md', content, 'utf8', () => {});
       }
       content = this.encrypt(key, content);
     }
