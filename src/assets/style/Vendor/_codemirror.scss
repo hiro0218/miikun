@@ -1,6 +1,21 @@
-@import '~codemirror/addon/lint/lint.css';
-
 // BASICS
+.cm-editor {
+  height: 100%;
+  background: white;
+  font-family: $font-family-sansSerif;
+  font-size: 1rem;
+}
+
+.cm-scroller {
+  font-family: $font-family-sansSerif;
+}
+
+.cm-gutters {
+  border-right: 1px solid darken($editor-linenumber-bgColor, 2%);
+  background: $editor-linenumber-bgColor;
+  color: $editor-linenumber-color;
+}
+
 .CodeMirror {
   position: relative;
   overflow: hidden;

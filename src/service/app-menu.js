@@ -1,8 +1,7 @@
-import electron from 'electron';
-const { remote } = electron;
-const { shell, Menu, MenuItem } = remote;
+import { getCurrentWindow, shell, Menu, MenuItem } from '@electron/remote';
 
-import { name } from '../../package.json';
+import packageJson from '../../package.json';
+const { name } = packageJson;
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
 import store from '../store';
@@ -159,7 +158,7 @@ export default {
     // Update based on store
     // set always on top
     if (store.getters.isAlwaysOnTop) {
-      const currentWindow = remote.getCurrentWindow();
+      const currentWindow = getCurrentWindow();
       currentWindow.setAlwaysOnTop(store.getters.isAlwaysOnTop);
     }
   },
@@ -197,7 +196,7 @@ export default {
           }),
         );
 
-        menu.popup({ window: remote.getCurrentWindow() });
+        menu.popup({ window: getCurrentWindow() });
       },
       false,
     );

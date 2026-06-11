@@ -1,6 +1,4 @@
-import electron from 'electron';
-const { remote } = electron;
-const { BrowserWindow, dialog } = remote;
+import { BrowserWindow, dialog } from '@electron/remote';
 
 export const openDialog = (type, message) => {
   const focusedWindow = BrowserWindow.getFocusedWindow();

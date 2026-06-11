@@ -133,14 +133,18 @@ class Filesystem {
   }
 
   dumpHeader(header) {
+    if (process.env.NODE_ENV !== 'development') return;
+
     const info = this.getHeader();
     const base = header.slice(0, info.baseLength);
     const hmac = header.slice(info.baseLength, info.baseLength + info.hmacLength);
     const iv = header.slice(info.baseLength + info.hmacLength, info.length);
+    /* eslint-disable no-console */
     console.log('[Dump Header] Total bytes: ' + header.byteLength);
     console.log('[Dump Header] Base info: ' + base.toString('utf8'));
     console.log('[Dump Header] HMAC: ' + hmac.toString('utf8'));
     console.log('[Dump Header] IV: ' + iv.toString('utf8'));
+    /* eslint-enable no-console */
   }
 
   updateKey(key) {

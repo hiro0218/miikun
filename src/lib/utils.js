@@ -1,12 +1,11 @@
-import electron from 'electron';
-const { remote } = electron;
+import { getCurrentWindow, shell } from '@electron/remote';
 
 export const isURL = (str) => {
   return /(?:^\w+:|^)\/\/(?:[^\s\.]+\.\S{2}|localhost[\:?\d]*)/.test(str);
 };
 
 export const openLinkExternal = () => {
-  const currentWindow = remote.getCurrentWindow();
+  const currentWindow = getCurrentWindow();
 
   document.addEventListener('click', (e) => {
     if (e.target.tagName !== 'A') return;
@@ -19,7 +18,7 @@ export const openLinkExternal = () => {
       // on top
       currentWindow.setAlwaysOnTop(true);
       // open link
-      remote.shell.openExternal(href);
+      shell.openExternal(href);
       // restore
       if (!status) {
         setTimeout(function () {

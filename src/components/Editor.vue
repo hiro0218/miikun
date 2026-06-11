@@ -11,7 +11,7 @@
 
 <script>
 import { mapState } from 'vuex';
-import { debounce } from 'debounce';
+import debounce from 'debounce';
 import fs from '@/modules/Filesystem.js';
 import Markdown from '@/lib/markdown.js';
 import { openDialog, showFileOpenDialog, getSavePath, getSelectedResult } from '@/modules/dialog.js';
@@ -24,11 +24,6 @@ import { openLinkExternal, getLinkWithTitle } from '@/lib/utils';
 
 export default {
   name: 'MiiEditor',
-  metaInfo() {
-    return {
-      title: this.title,
-    };
-  },
   components: {
     DropField,
     KeyPrompt,
@@ -321,7 +316,7 @@ export default {
     width: 100%;
   }
 
-  ::v-deep .CodeMirror {
+  :deep(.cm-editor) {
     width: 100%;
     height: 100%;
   }
