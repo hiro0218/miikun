@@ -20,7 +20,6 @@ export default {
           e.preventDefault();
           const file = e.dataTransfer.files[0];
           const ext = file.name.split('.')[1];
-          if (process.env.NODE_ENV === 'development') console.log(file);
           this.dropFile(file, ext);
         },
         true,
