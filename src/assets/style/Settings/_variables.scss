@@ -1,27 +1,25 @@
-@import '~open-color/open-color.scss';
+@import '~open-color/open-color';
 
-//
 // Font
 // -------------------------
 $font-family-sansSerif:        'Noto Sans JP', Emoji, sans-serif;
 $font-family-monospace:        'Source Code Pro', #{$font-family-sansSerif}, Emoji, monospace !default;
 $font-weight-base:             normal;
 
-$font-size-lg:                 1rem * 4/3; // 1.33333rem
-$font-size-base:               1rem * 4/4; // 1rem
-$font-size-sm:                 1rem * 4/5; // 0.8rem
-$font-size-xs:                 1rem * 4/6; // 0.66667rem
+$font-size-lg:                 1rem * 4 / 3; // 1.33333rem
+$font-size-base:               1rem * 4 / 4; // 1rem
+$font-size-sm:                 1rem * 4 / 5; // 0.8rem
+$font-size-xs:                 1rem * 4 / 6; // 0.66667rem
 
-$font-size-h1:                 1rem * 6/3; // 2rem
-$font-size-h2:                 1rem * 6/4; // 1.5rem
-$font-size-h3:                 1rem * 6/5; // 1.2rem
-$font-size-h4:                 1rem * 6/6; // 1rem
-$font-size-h5:                 1rem * 6/7; // 0.85714rem
-$font-size-h6:                 1rem * 6/8; // 0.75rem
+$font-size-h1:                 1rem * 6 / 3; // 2rem
+$font-size-h2:                 1rem * 6 / 4; // 1.5rem
+$font-size-h3:                 1rem * 6 / 5; // 1.2rem
+$font-size-h4:                 1rem * 6 / 6; // 1rem
+$font-size-h5:                 1rem * 6 / 7; // 0.85714rem
+$font-size-h6:                 1rem * 6 / 8; // 0.75rem
 
-$line-height-base:             16/8;
+$line-height-base:             16 / 8;
 
-//
 // Layout
 // -------------------------
 
@@ -37,7 +35,6 @@ $toolbar-width:    3.125rem;
 $statusbar-height: 20px;
 
 
-//
 // color const
 // -------------------------
 $color50:  #fafafa;

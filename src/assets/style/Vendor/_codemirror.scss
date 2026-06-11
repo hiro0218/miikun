@@ -11,7 +11,7 @@
 }
 
 .cm-gutters {
-  border-right: 1px solid darken($editor-linenumber-bgColor, 2%);
+  border-right: 1px solid darken($editor-linenumber-bgColor, 2%); // stylelint-disable-line scss/no-global-function-names
   background: $editor-linenumber-bgColor;
   color: $editor-linenumber-color;
 }
@@ -44,7 +44,7 @@
   font-family: inherit;
   font-size: inherit;
   line-height: inherit;
-  word-wrap: normal;
+  overflow-wrap: normal;
   white-space: pre;
   -webkit-tap-highlight-color: transparent;
   -webkit-font-variant-ligatures: none;
@@ -63,7 +63,7 @@
   top: 0;
   left: 0;
   min-height: 100%;
-  border-right: 1px solid darken($editor-linenumber-bgColor, 2%);
+  border-right: 1px solid darken($editor-linenumber-bgColor, 2%); // stylelint-disable-line scss/no-global-function-names
   background: $editor-linenumber-bgColor;
   white-space: nowrap;
 }
@@ -78,7 +78,7 @@
 
 .CodeMirror-activeline {
   .CodeMirror-linenumber {
-    color: darken($editor-linenumber-color, 16%);
+    color: darken($editor-linenumber-color, 16%); // stylelint-disable-line scss/no-global-function-names
     font-weight: bold;
   }
 }
@@ -221,7 +221,7 @@ flickering artifacts. */
 }
 
 .CodeMirror-wrap pre {
-  word-wrap: break-word;
+  overflow-wrap: break-word;
   word-break: normal;
   white-space: pre-wrap;
 }
@@ -365,6 +365,7 @@ CodeMirror-selectedtext {
 }
 
 // same: github-markdown style
+/* stylelint-disable scss/at-extend-no-missing-placeholder */
 .cm-header-1 {
   @extend h1;
 }
@@ -383,6 +384,7 @@ CodeMirror-selectedtext {
 .cm-header-6 {
   @extend h6;
 }
+/* stylelint-enable scss/at-extend-no-missing-placeholder */
 
 .cm-strong {
   font-weight: bold;
