@@ -1,7 +1,28 @@
-import { basicSetup, EditorView } from 'codemirror';
+import { minimalSetup, EditorView } from 'codemirror';
 import { keymap } from '@codemirror/view';
 import { redo, redoDepth, undo, undoDepth } from '@codemirror/commands';
+import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
+import { HighlightStyle, syntaxHighlighting } from '@codemirror/language';
+import { tags } from '@lezer/highlight';
 import store from '../store';
+
+// Colors come from the CSS custom properties in Generic/_tokens.scss,
+// so the editor follows the OS light/dark scheme without a separate theme.
+const markdownHighlight = HighlightStyle.define([
+  { tag: tags.heading1, fontSize: '1.75em', fontWeight: 'bold' },
+  { tag: tags.heading2, fontSize: '1.5em', fontWeight: 'bold' },
+  { tag: tags.heading3, fontSize: '1.25em', fontWeight: 'bold' },
+  { tag: tags.heading4, fontSize: '1.1em', fontWeight: 'bold' },
+  { tag: tags.heading5, fontWeight: 'bold' },
+  { tag: tags.heading6, fontWeight: 'bold', color: 'var(--text-muted)' },
+  { tag: tags.strong, fontWeight: 'bold' },
+  { tag: tags.emphasis, fontStyle: 'italic' },
+  { tag: tags.strikethrough, textDecoration: 'line-through' },
+  { tag: tags.monospace, fontFamily: 'var(--font-mono)' },
+  { tag: [tags.link, tags.url], color: 'var(--accent)' },
+  { tag: tags.quote, color: 'var(--text-muted)' },
+  { tag: [tags.processingInstruction, tags.meta, tags.labelName, tags.contentSeparator], color: 'var(--text-muted)' },
+]);
 
 export default class Editor {
   constructor(element) {
@@ -89,8 +110,10 @@ export default class Editor {
     this.view = new EditorView({
       doc,
       extensions: [
-        basicSetup,
+        minimalSetup,
         this.customKeymap,
+        markdown({ base: markdownLanguage }),
+        syntaxHighlighting(markdownHighlight),
         EditorView.lineWrapping,
         EditorView.updateListener.of((update) => {
           if (!update.docChanged) return;

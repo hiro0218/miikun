@@ -11,9 +11,9 @@
           maxlength="50"
         />
       </div>
-      <div>
-        <button class="keyprompt-dialog__button--ok" @click="done">OK</button>
+      <div class="keyprompt-dialog__actions">
         <button class="keyprompt-dialog__button--cancel" @click="cancel">Cancel</button>
+        <button class="keyprompt-dialog__button--ok" @click="done">OK</button>
       </div>
     </div>
   </div>
@@ -22,6 +22,7 @@
 <script>
 export default {
   name: 'KeyPrompt',
+  emits: ['done'],
   data: function () {
     return {
       title: '',
@@ -81,107 +82,96 @@ export default {
 
 <style lang="scss" scoped>
 .keyprompt {
-  position: absolute;
-  z-index: 5;
+  display: flex;
+  position: fixed;
+  z-index: 10;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.33);
+  align-items: center;
+  justify-content: center;
+  background: var(--overlay);
 }
 
 .keyprompt-dialog {
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
-  width: 50vw;
-  margin: auto;
-  padding: 1rem;
-  background: #fff;
+  width: min(420px, 90vw);
+  padding: 1.25rem;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--bg);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.24);
 
   &__title {
     margin-bottom: 1rem;
-    font-size: $font-size-lg;
+    color: var(--text);
+    font-size: $font-size-base;
+    font-weight: 600;
   }
 
   &__form {
-    margin-bottom: 1rem;
+    margin-bottom: 1.25rem;
   }
 
   &__input {
     width: 100%;
-    min-height: 2rem;
-    padding: 0.25rem 0.5rem;
+    min-height: 2.25rem;
+    padding: 0.375rem 0.75rem;
     transition:
-      border-color 0.15s ease-in-out,
-      box-shadow 0.15s ease-in-out;
-    border: 1px solid #d1d5da;
-    border-radius: 3px;
+      border-color 0.15s ease-out,
+      box-shadow 0.15s ease-out;
+    border: 1px solid var(--border);
+    border-radius: 8px;
     outline: none;
-    background-color: #fff;
-    box-shadow: inset 0 1px 2px rgba(27, 31, 35, 0.075);
-    color: #24292e;
-    font-size: 16px;
-    line-height: 20px;
-    vertical-align: middle;
+    background-color: var(--bg);
+    color: var(--text);
+    font-size: $font-size-base;
+
+    &::placeholder {
+      color: var(--text-muted);
+    }
 
     &:focus {
-      border-color: $oc-blue-6;
-      outline: none;
-      box-shadow:
-        inset 0 1px 2px rgba(27, 31, 35, 0.075),
-        0 0 0 0.2em rgba($oc-blue-8, 0.3);
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--selection);
     }
   }
 
-  &__button {
-    $element: #{&};
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+  }
 
-    display: inline-block;
-    padding: 6px 12px;
-    transition: background-color 0.15s ease-in-out;
-    border: 1px solid rgba(27, 31, 35, 0.2);
-    border-radius: 0.25em;
-    color: #fff;
+  &__button--ok,
+  &__button--cancel {
+    padding: 6px 14px;
+    transition: background-color 0.15s ease-out;
+    border: 1px solid transparent;
+    border-radius: 8px;
     font-size: $font-size-sm;
-    line-height: 20px;
-    vertical-align: middle;
     white-space: nowrap;
     cursor: pointer;
-    -webkit-user-select: none;
     user-select: none;
-    -webkit-appearance: none;
     appearance: none;
+  }
 
-    & + & {
-      margin-left: 0.5rem;
+  &__button--ok {
+    background-color: var(--accent);
+    color: #fff;
+
+    &:hover {
+      background-color: var(--accent-hover);
     }
+  }
 
-    &--ok {
-      @extend #{$element};
+  &__button--cancel {
+    border-color: var(--border);
+    background-color: transparent;
+    color: var(--text);
 
-      border-color: $oc-blue-7;
-      background-color: $oc-blue-7;
-
-      &:hover {
-        border-color: $oc-blue-8;
-        background-color: $oc-blue-8;
-      }
-    }
-
-    &--cancel {
-      @extend #{$element};
-
-      border-color: $oc-gray-5;
-      background-color: $oc-gray-5;
-
-      &:hover {
-        border-color: $oc-gray-6;
-        background-color: $oc-gray-6;
-      }
+    &:hover {
+      background-color: var(--code-bg);
     }
   }
 }

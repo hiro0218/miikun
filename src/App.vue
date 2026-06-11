@@ -22,6 +22,6 @@ export default {
 #app {
   display: flex;
   flex-direction: initial;
-  background: #fff;
+  background: var(--bg);
 }
 </style>
