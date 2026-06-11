@@ -4,25 +4,21 @@ module.exports = {
     'stylelint-config-recommended-scss',
     'stylelint-config-property-sort-order-smacss',
   ],
-  plugins: [
-    'stylelint-declaration-block-no-ignored-properties',
-  ],
+  plugins: ['stylelint-declaration-block-no-ignored-properties'],
   rules: {
     'plugin/declaration-block-no-ignored-properties': true,
     'no-empty-source': true,
     'color-hex-length': 'short',
     'color-no-invalid-hex': true,
-    'indentation': 2,
+    indentation: 2,
     'length-zero-no-unit': true,
-    "max-empty-lines": 2,
+    'max-empty-lines': 2,
     'string-quotes': 'single',
     'declaration-block-no-duplicate-properties': [
       true,
       {
-        ignore: [
-          'consecutive-duplicates'
-        ]
-      }
+        ignore: ['consecutive-duplicates'],
+      },
     ],
     'block-opening-brace-space-before': 'always',
     'block-opening-brace-newline-after': 'always',
