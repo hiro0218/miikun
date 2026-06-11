@@ -133,6 +133,8 @@ class Filesystem {
   }
 
   dumpHeader(header) {
+    if (process.env.NODE_ENV !== 'development') return;
+
     const info = this.getHeader();
     const base = header.slice(0, info.baseLength);
     const hmac = header.slice(info.baseLength, info.baseLength + info.hmacLength);
