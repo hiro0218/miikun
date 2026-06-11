@@ -8,16 +8,16 @@
 
 ``` bash
 # install dependencies
-yarn install
+npm install
 
 # serve
-yarn electron:serve
+npm run electron:serve
 
 # build electron app for production
-yarn electron:build
+npm run electron:build
 
 # lint all JS/Vue component files in `app/src`
-yarn lint
+npm run lint
 ```
 More information can be found [here](https://simulatedgreg.gitbooks.io/electron-vue/content/).
 
