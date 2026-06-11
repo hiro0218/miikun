@@ -4,7 +4,7 @@
       <textarea ref="editor" v-model="code" />
     </div>
     <div v-if="isPreview == true" class="preview"><div class="markdown-body" v-html="htmlCode" /></div>
-    <DropField />
+    <DropField @open-file="openFilePath" />
     <KeyPrompt @done="onKeyPromptDone" />
   </div>
 </template>
@@ -154,15 +154,16 @@ export default {
       const files = showFileOpenDialog();
 
       if (files) {
-        const path = files[0];
-
-        // 編集済み：合保存するか確認ダイアログを表示する
-        this.saveModifyFile();
-        if (fs.shouldEncrypt(path)) {
-          this.openKeyPrompt('open', path);
-        } else {
-          this.readFile(path);
-        }
+        this.openFilePath(files[0]);
+      }
+    },
+    openFilePath(path) {
+      // 編集済み：合保存するか確認ダイアログを表示する
+      this.saveModifyFile();
+      if (fs.shouldEncrypt(path)) {
+        this.openKeyPrompt('open', path);
+      } else {
+        this.readFile(path);
       }
     },
     readFile(path) {

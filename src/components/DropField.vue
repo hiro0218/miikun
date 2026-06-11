@@ -27,12 +27,7 @@ export default {
     },
     dropFile(file, ext) {
       if (this.isAllowExt(file.type, ext)) {
-        this.$parent.saveModifyFile();
-        if (ext === 'mii') {
-          this.$parent.openKeyPrompt('open', file.path);
-        } else {
-          this.$parent.readFile(file.path);
-        }
+        this.$emit('open-file', file.path);
       } else {
         getSelectedResult({
           title: 'error',
