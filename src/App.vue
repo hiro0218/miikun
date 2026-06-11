@@ -9,7 +9,7 @@
 import Toolbar from '@/components/Toolbar';
 
 export default {
-  name: 'Miikun',
+  name: 'MiikunApp',
   components: {
     Toolbar,
   },

@@ -4,9 +4,7 @@ module.exports = {
     'stylelint-config-recommended-scss',
     'stylelint-config-property-sort-order-smacss',
   ],
-  plugins: [
-    'stylelint-declaration-block-no-ignored-properties',
-  ],
+  plugins: ['stylelint-declaration-block-no-ignored-properties'],
   rules: {
     'plugin/declaration-block-no-ignored-properties': true,
     'no-empty-source': true,
@@ -16,10 +14,8 @@ module.exports = {
     'declaration-block-no-duplicate-properties': [
       true,
       {
-        ignore: [
-          'consecutive-duplicates'
-        ]
-      }
+        ignore: ['consecutive-duplicates'],
+      },
     ],
     'selector-pseudo-element-colon-notation': 'double',
   },

@@ -5,5 +5,5 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 library.add(faUndo, faRedo, faEye, faEyeSlash, faCog);
 
 export default function setupFontAwesome(app) {
-  app.component('font-awesome-icon', FontAwesomeIcon);
+  app.component('FontAwesomeIcon', FontAwesomeIcon);
 }
