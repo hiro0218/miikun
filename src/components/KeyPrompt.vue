@@ -115,7 +115,9 @@ export default {
     width: 100%;
     min-height: 2rem;
     padding: 0.25rem 0.5rem;
-    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    transition:
+      border-color 0.15s ease-in-out,
+      box-shadow 0.15s ease-in-out;
     border: 1px solid #d1d5da;
     border-radius: 3px;
     outline: none;
@@ -129,7 +131,9 @@ export default {
     &:focus {
       border-color: $oc-blue-6;
       outline: none;
-      box-shadow: inset 0 1px 2px rgba(27, 31, 35, 0.075), 0 0 0 0.2em rgba($oc-blue-8, 0.3);
+      box-shadow:
+        inset 0 1px 2px rgba(27, 31, 35, 0.075),
+        0 0 0 0.2em rgba($oc-blue-8, 0.3);
     }
   }
 
