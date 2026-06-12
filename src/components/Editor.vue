@@ -39,6 +39,7 @@ export default {
       editor: null,
       markdown: null,
       htmlCode: '',
+      renderSeq: 0,
       saveTimer: -1,
     };
   },
@@ -60,7 +61,7 @@ export default {
         if (!value) return;
 
         this.$nextTick(() => {
-          this.htmlCode = this.markdown.render(this.code);
+          this.renderPreview(this.code);
         });
       },
       immediate: true,
@@ -124,11 +125,19 @@ export default {
         this.saveAs();
       });
     },
+    async renderPreview(code) {
+      // Grammar loading makes render async; drop stale results that finish late.
+      const seq = ++this.renderSeq;
+      const html = await this.markdown.render(code);
+      if (seq === this.renderSeq) {
+        this.htmlCode = html;
+      }
+    },
     onEditorCodeChange: debounce(function (newCode) {
       this.$store.dispatch('updateCode', newCode);
 
       if (this.code && this.isPreview) {
-        this.htmlCode = this.markdown.render(newCode);
+        this.renderPreview(newCode);
       }
     }, 200),
     async saveModifyFile() {
@@ -156,6 +165,7 @@ export default {
       const canContinue = await this.saveModifyFile();
       if (!canContinue) return;
 
+      this.renderSeq++;
       this.htmlCode = '';
       this.editor.clean();
       this.$store.dispatch('initFilePath', '');

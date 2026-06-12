@@ -15,17 +15,6 @@
   --code-bg: rgba(0, 0, 0, .045);
   --scrollbar: rgba(0, 0, 0, .18);
   --font-mono: #{$font-family-monospace};
-
-  // Code highlight (Base16 Tomorrow)
-  --prism-fg: #4d4d4c;
-  --prism-comment: #8e908c;
-  --prism-red: #c82829;
-  --prism-orange: #f5871f;
-  --prism-yellow: #eab700;
-  --prism-green: #718c00;
-  --prism-aqua: #3e999f;
-  --prism-blue: #4271ae;
-  --prism-purple: #8959a8;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -41,16 +30,5 @@
     --overlay: rgba(0, 0, 0, .55);
     --code-bg: rgba(255, 255, 255, .06);
     --scrollbar: rgba(255, 255, 255, .22);
-
-    // Base16 Tomorrow Night
-    --prism-fg: #c5c8c6;
-    --prism-comment: #969896;
-    --prism-red: #c66;
-    --prism-orange: #de935f;
-    --prism-yellow: #f0c674;
-    --prism-green: #b5bd68;
-    --prism-aqua: #8abeb7;
-    --prism-blue: #81a2be;
-    --prism-purple: #b294bb;
   }
 }

@@ -33,7 +33,7 @@
     "markdown-it-checkbox": "^1.1.0",
     "markdown-it-footnote": "^4.0.0",
     "normalize.css": "^8.0.1",
-    "prismjs": "^1.30.0",
+    "shiki": "^4.2.0",
     "vue": "^3.5.38",
     "vue-router": "^5.1.0",
     "vuex": "^4.1.0",
