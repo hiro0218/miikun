@@ -33,7 +33,7 @@ Vue CLI 5 + vue-cli-plugin-electron-builder (webpack). Two entry points:
 Each third-party library is imported by exactly one adapter module; the rest of the app depends on the adapter's app-facing API. Dependency direction: `components → services → adapters → libraries`. `shared/` and `store/` may be used from any layer, **except adapters must never import the store** — callers pass state in. The boundaries are machine-enforced via `no-restricted-imports` in `.eslintrc.js` (per-directory `overrides`).
 
 - `src/adapters/` — one file per external dependency surface: `editor.js` (CodeMirror 6), `markdown.js` (markdown-it + shiki), `filesystem.js` (Node `fs`), `encryptor.js` (Node `crypto`), `electron.js` (`electron` + `@electron/remote`: dialogs, menu build/checkbox state, shell, window, nativeTheme, webUtils)
-- `src/services/` — application logic: `app-menu.js` (menu template + setup + checkbox sync), `app-menu-controller.js` (EventBus/store dispatch only), `link-title.js` (paste-URL title fetch)
+- `src/services/` — application logic: `active-document.js` (content/path/clean-history state transitions), `file-operation.js` (open/save orchestration), `render-pipeline.js` (async preview render sequencing), `editor-commands.js` (EventBus command binding), `app-menu.js` (menu template + setup + checkbox sync), `app-menu-controller.js` (EventBus/store dispatch only), `link-title.js` (paste-URL title fetch)
 - `src/shared/` — pure utilities with no internal deps: `event-bus.js`, `errors.js`, `url.js`
 - `src/store/` — the single Vuex store (`index.js`) + auto-registered `modules/`
 
@@ -45,19 +45,19 @@ Swapping a library means rewriting one adapter file while keeping its exported A
 
 ### Command flow: native menu → EventBus → Editor.vue
 
-File operations are triggered from the native app menu, not from Vue components:
+File operations and native menu Undo/Redo are triggered from the native app menu, not from Vue components:
 
-`src/services/app-menu.js` (menu template + accelerators) → `src/services/app-menu-controller.js` → `EventBus.$emit(...)` (`src/shared/event-bus.js`, EventTarget-based) → listeners in `src/components/Editor.vue` (`newFile` / `openFile` / `saveFile` / `saveAs` / `undo` / `redo`) → `src/adapters/filesystem.js` + synchronous dialogs from `src/adapters/electron.js`.
+`src/services/app-menu.js` (menu template + accelerators) → `src/services/app-menu-controller.js` → `EventBus.$emit(...)` (`src/shared/event-bus.js`, EventTarget-based) → `src/services/editor-commands.js` bindings → handlers in `src/components/Editor.vue` (`newFile` / `openFile` / `saveFile` / `saveAs` / `undo` / `redo`).
 
 UI state (preview/toolbar toggles, always-on-top, undo/redo availability) flows through Vuex instead of the EventBus; menu checkbox state follows the store via `store.subscribe` in `services/app-menu.js` — controllers never reach back into the menu.
 
 ### Editor: CodeMirror 6 behind a CM5-style compat layer
 
-`src/adapters/editor.js` wraps CodeMirror 6 but exposes the old CodeMirror 5 API shape through `createCompatApi()`. Components interact via `this.editor.cm` (`on('change')`, `getValue()`, `replaceRange(text, {line, ch})`, `historySize()`, ...). Extend the compat object rather than handing the CM6 `EditorView` to components. The adapter is store-free: `Editor.vue` reads `historySize()` in its `changes` handler to dispatch `setCanUndo`/`setCanRedo`, and dispatches `initFilePath` itself. Custom keymap: Mod-b (bold), Mod-i (italic), Shift-@ (inline code). Dirty tracking compares against `cleanValue` (`isClean`/`markClean`); `clearHistory()` recreates the entire EditorView.
+`src/adapters/editor.js` wraps CodeMirror 6 but exposes the old CodeMirror 5 API shape through `createCompatApi()`. Components interact via `this.editor.cm` (`on('change')`, `getValue()`, `replaceRange(text, {line, ch})`, `historySize()`, ...). Extend the compat object rather than handing the CM6 `EditorView` to components. The adapter is store-free: `Editor.vue` reads `historySize()` in its `changes` handler to dispatch `setCanUndo`/`setCanRedo`; `src/services/active-document.js` handles file path and clean-history transitions after open/save/new document actions. Custom keymap: Mod-b (bold), Mod-i (italic), Shift-@ (inline code). Dirty tracking compares against `cleanValue` (`isClean`/`markClean`); `clearHistory()` recreates the entire EditorView.
 
 ### Encrypted .mii files
 
-A `.mii` extension switches the `Filesystem` singleton (`src/adapters/filesystem.js`) into encrypt mode: binary layout `| base info 16B | HMAC 32B | IV 16B | ciphertext |`, AES-256-CBC with the key derived via HMAC-SHA256 (`src/adapters/encryptor.js`). `readFile(path, cb, key)` and `writeFile(path, content, cb, key)` take the key from the caller — because the password prompt (`KeyPrompt.vue`) is async, the pending operation is stored in Vuex as `Editor.crypt.op = { name: 'open'|'save', path }` and resumed in `Editor.vue#onKeyPromptDone`, which passes the entered key down. The last successful key is cached on the Filesystem instance so plain saves don't re-prompt.
+A `.mii` extension switches the `Filesystem` singleton (`src/adapters/filesystem.js`) into encrypt mode: binary layout `| base info 16B | HMAC 32B | IV 16B | ciphertext |`, AES-256-CBC with the key derived via HMAC-SHA256 (`src/adapters/encryptor.js`). `readFile(path, cb, key)` and `writeFile(path, content, cb, key)` take the key from the caller — because the password prompt (`KeyPrompt.vue`) is async, the pending operation is stored in Vuex as `Editor.crypt.op = { name: 'open'|'save', path }` and resumed in `Editor.vue#onKeyPromptDone`, which passes the entered key to `src/services/file-operation.js`. The last successful key is cached on the Filesystem instance so existing encrypted saves can reuse it; if an existing encrypted save has no cached key, `Editor.vue` reopens the key prompt before writing.
 
 ### State: single Vuex store
 
@@ -65,7 +65,11 @@ A `.mii` extension switches the `Filesystem` singleton (`src/adapters/filesystem
 
 ### Markdown preview
 
-`src/adapters/markdown.js`: markdown-it (+ checkbox, footnote, anchor, multimd-table, deflist plugins) with shiki highlighting (github-light/github-dark dual themes switched by `prefers-color-scheme`; block background pinned to `--code-bg` in `Vendor/_shiki.scss`). `render()` is async: it scans fenced code blocks and `loadLanguage`s any missing grammars before the synchronous markdown-it pass, so the first paint is already highlighted. `Editor.vue` renders the output with `v-html` via a sequence-guarded `renderPreview` (debounced 200ms), only while the preview pane is open.
+`src/adapters/markdown.js`: markdown-it (+ checkbox, footnote, anchor, multimd-table, deflist plugins) with shiki highlighting (github-light/github-dark dual themes switched by `prefers-color-scheme`; block background pinned to `--code-bg` in `Vendor/_shiki.scss`). `render()` is async: it scans fenced code blocks and `loadLanguage`s any missing grammars before the synchronous markdown-it pass, so the first paint is already highlighted. `src/services/render-pipeline.js` owns the sequence guard that drops stale async render results; `Editor.vue` requests rendering and publishes the resulting preview HTML with `v-html` only while the preview pane is open.
+
+### Editor boundary map
+
+For editor/file/preview/command ownership, start with `docs/architecture/editor-boundaries.md`.
 
 ### Styling
 
