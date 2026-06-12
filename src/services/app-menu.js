@@ -62,8 +62,20 @@ export default {
       id: 'edit',
       label: 'Edit',
       submenu: [
-        { label: 'Undo', accelerator: 'CmdOrCtrl+Z', selector: 'undo:' },
-        { label: 'Redo', accelerator: 'CmdOrCtrl+Y', selector: 'redo:' },
+        {
+          label: 'Undo',
+          accelerator: 'CmdOrCtrl+Z',
+          click() {
+            AppMenuController.undo();
+          },
+        },
+        {
+          label: 'Redo',
+          accelerator: 'CmdOrCtrl+Y',
+          click() {
+            AppMenuController.redo();
+          },
+        },
         { type: 'separator' },
         { label: 'Cut', accelerator: 'CmdOrCtrl+X', selector: 'cut:' },
         { label: 'Copy', accelerator: 'CmdOrCtrl+C', selector: 'copy:' },

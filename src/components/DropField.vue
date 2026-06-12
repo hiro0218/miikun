@@ -21,7 +21,7 @@ export default {
           e.preventDefault();
           const file = e.dataTransfer.files[0];
           if (!file) return;
-          const ext = file.name.split('.')[1];
+          const ext = this.getFileExtension(file.name);
           this.dropFile(file, ext);
         },
         true,
@@ -71,6 +71,12 @@ export default {
     },
     isAllowExt(type, ext) {
       return type === 'text/plain' || type === 'application/text' || ext === 'txt' || ext === 'md' || ext === 'mii';
+    },
+    getFileExtension(name) {
+      const parts = name.split('.');
+      if (parts.length < 2) return '';
+
+      return parts.pop().toLowerCase();
     },
   },
 };

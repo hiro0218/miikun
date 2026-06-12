@@ -13,20 +13,22 @@
 import { mapState } from 'vuex';
 import debounce from 'debounce';
 import fs from '@/adapters/filesystem.js';
-import Markdown from '@/adapters/markdown.js';
-import {
-  openDialog,
-  showFileOpenDialog,
-  getSavePath,
-  getSelectedResult,
-  openLinkExternal,
-} from '@/adapters/electron.js';
+import { openDialog, showFileOpenDialog, getSelectedResult, openLinkExternal } from '@/adapters/electron.js';
 import Editor from '@/adapters/editor.js';
 import DropField from '@/components/DropField';
 import KeyPrompt from '@/components/KeyPrompt';
 import { UnexpectedStateError } from '@/shared/errors';
-import { EventBus } from '@/shared/event-bus';
+import { clearActiveDocument, markActiveDocumentSaved, replaceActiveDocument } from '@/services/active-document';
+import { registerEditorCommands } from '@/services/editor-commands';
+import {
+  openEncryptedFile as openEncryptedFileOperation,
+  openPlainFile as openPlainFileOperation,
+  saveEncryptedFile,
+  savePlainFile,
+  selectDocumentSavePath,
+} from '@/services/file-operation';
 import { getLinkWithTitle } from '@/services/link-title';
+import RenderPipeline from '@/services/render-pipeline';
 
 export default {
   name: 'MiiEditor',
@@ -37,9 +39,8 @@ export default {
   data() {
     return {
       editor: null,
-      markdown: null,
+      renderPipeline: new RenderPipeline(),
       htmlCode: '',
-      renderSeq: 0,
       saveTimer: -1,
     };
   },
@@ -68,8 +69,6 @@ export default {
     },
   },
   mounted() {
-    this.markdown = new Markdown();
-
     this.$nextTick(() => {
       this.initialize();
     });
@@ -106,32 +105,31 @@ export default {
       openLinkExternal();
     },
     onEditorReady() {
-      EventBus.$on('undo', () => {
-        this.editor.cm.undo();
-      });
-      EventBus.$on('redo', () => {
-        this.editor.cm.redo();
-      });
-      EventBus.$on('newFile', () => {
-        this.newFile();
-      });
-      EventBus.$on('openFile', () => {
-        this.openFile();
-      });
-      EventBus.$on('saveFile', () => {
-        this.saveFile();
-      });
-      EventBus.$on('saveAs', () => {
-        this.saveAs();
+      registerEditorCommands({
+        undo: () => {
+          this.editor.cm.undo();
+        },
+        redo: () => {
+          this.editor.cm.redo();
+        },
+        newFile: () => {
+          this.newFile();
+        },
+        openFile: () => {
+          this.openFile();
+        },
+        saveFile: () => {
+          this.saveFile();
+        },
+        saveAs: () => {
+          this.saveAs();
+        },
       });
     },
     async renderPreview(code) {
-      // Grammar loading makes render async; drop stale results that finish late.
-      const seq = ++this.renderSeq;
-      const html = await this.markdown.render(code);
-      if (seq === this.renderSeq) {
+      await this.renderPipeline.requestRender(code, (html) => {
         this.htmlCode = html;
-      }
+      });
     },
     onEditorCodeChange: debounce(function (newCode) {
       this.$store.dispatch('updateCode', newCode);
@@ -165,10 +163,12 @@ export default {
       const canContinue = await this.saveModifyFile();
       if (!canContinue) return;
 
-      this.renderSeq++;
+      this.renderPipeline.discardPendingResults();
       this.htmlCode = '';
-      this.editor.clean();
-      this.$store.dispatch('initFilePath', '');
+      clearActiveDocument({
+        editor: this.editor,
+        store: this.$store,
+      });
     },
     async openFile() {
       const files = showFileOpenDialog();
@@ -186,72 +186,60 @@ export default {
 
       if (fs.shouldEncrypt(path)) {
         this.openKeyPrompt('open', path);
+        return false;
       } else {
-        this.readFile(path);
+        return this.openPlainFile(path);
       }
-
-      return true;
     },
-    readFile(path, key = null) {
-      if (this.path === path) {
-        getSelectedResult({
-          title: '',
-          type: 'warning',
-          buttons: ['Yes'],
-          message: path,
-          detail: 'This file is already open.',
-        });
-        return;
-      }
-
-      fs.readFile(
+    openPlainFile(path) {
+      return openPlainFileOperation({
         path,
-        (err, content) => {
-          if (err === null) {
-            this.editor.setValue(content);
-            this.$store.dispatch('initFilePath', path);
-            this.editor.clearHistory();
-          } else {
-            openDialog('error', err.toString());
-          }
+        currentPath: this.path,
+        onOpened: (content) => {
+          this.applyOpenedFile(path, content);
         },
-        key,
-      );
+      });
     },
-    saveAsDialog() {
-      const savePath = getSavePath([
-        { name: 'Markdown file', extensions: ['md'] },
-        { name: 'Text file', extensions: ['txt'] },
-        { name: 'Mii file', extensions: ['mii'] },
-      ]);
-
-      return savePath;
+    openEncryptedFile(path, key) {
+      return openEncryptedFileOperation({
+        path,
+        currentPath: this.path,
+        key,
+        onOpened: (content) => {
+          this.applyOpenedFile(path, content);
+        },
+      });
+    },
+    applyOpenedFile(path, content) {
+      replaceActiveDocument({
+        editor: this.editor,
+        store: this.$store,
+        path,
+        content,
+      });
     },
     async saveFile() {
       const isNewFile = !this.path;
       let savePath = this.path;
 
       if (!savePath) {
-        savePath = this.saveAsDialog();
+        savePath = selectDocumentSavePath();
         if (!savePath) return false;
       }
 
-      if (fs.shouldEncrypt(savePath) && isNewFile) {
+      if (fs.shouldEncrypt(savePath) && (isNewFile || !fs.hasKey())) {
         this.openKeyPrompt('save', savePath);
         return false;
       }
 
-      const result = await this.writeFile(savePath);
-
-      if (result) {
-        this.$store.dispatch('initFilePath', savePath);
-        this.editor.clearHistory();
+      if (!fs.shouldEncrypt(savePath)) {
+        return this.savePlainFile(savePath);
       }
 
-      return result;
+      return this.saveEncryptedFile(savePath);
     },
     async saveAs() {
-      const savePath = this.saveAsDialog();
+      const savePath = selectDocumentSavePath();
 
       if (!savePath) return false;
 
@@ -260,72 +248,71 @@ export default {
         return false;
       }
 
-      const result = await this.writeFile(savePath);
+      return this.savePlainFile(savePath);
+    },
+    async savePlainFile(path) {
+      const result = await savePlainFile({
+        path,
+        content: this.editor.cm.getValue(),
+      });
 
       if (result) {
-        this.$store.dispatch('initFilePath', savePath);
-        this.editor.clearHistory();
+        this.applySavedFile(path);
       }
 
       return result;
     },
-    writeFile(path = this.path, key = null) {
-      return new Promise((resolve) => {
-        try {
-          fs.writeFile(
-            path,
-            this.editor.cm.getValue(),
-            (err) => {
-              if (err) {
-                openDialog('error', err.toString());
-                resolve(false);
-                return;
-              }
-
-              if (key !== null) {
-                fs.updateKey(key);
-              }
-
-              resolve(true);
-            },
-            key,
-          );
-        } catch (e) {
-          openDialog('error', e.toString());
-          resolve(false);
-        }
+    applySavedFile(path) {
+      markActiveDocumentSaved({
+        editor: this.editor,
+        store: this.$store,
+        path,
       });
     },
+    async saveEncryptedFile(path, key = null) {
+      const result = await saveEncryptedFile({
+        path,
+        content: this.editor.cm.getValue(),
+        key,
+      });
+
+      if (result) {
+        this.applySavedFile(path);
+      }
+
+      return result;
+    },
     openKeyPrompt(name = null, path = null) {
-      this.$store.dispatch('setCryptEnable', true);
       // Because the "key input" is an async behavior,
       // we need to remember what to do after it's done.
       // Any better method ?
       this.$store.dispatch('setCryptOP', { name: name, path: path });
+      this.$store.dispatch('setCryptKey', '');
+      this.$store.dispatch('setCryptEnable', true);
+    },
+    clearKeyPromptState() {
+      this.$store.dispatch('setCryptKey', '');
+      this.$store.dispatch('setCryptOP', { name: null, path: null });
     },
     async onKeyPromptDone(key) {
       const name = this.$store.state.Editor.crypt.op.name;
       const path = this.$store.state.Editor.crypt.op.path;
 
       if (key === null || key === '') {
-        this.$store.dispatch('setCryptOP', { name: null, path: null });
+        this.clearKeyPromptState();
         return;
       }
 
       // Opening encrypted files and saving with a new key resume here.
       if (name === 'open') {
-        this.readFile(path, key);
+        await this.openEncryptedFile(path, key);
       } else if (name === 'save') {
-        const result = await this.writeFile(path, key);
-        if (result) {
-          this.$store.dispatch('initFilePath', path);
-          this.editor.clearHistory();
-        }
+        await this.saveEncryptedFile(path, key);
       } else {
         const err = new UnexpectedStateError('crypt.op.name', name);
         openDialog('error', err.toString());
       }
-      this.$store.dispatch('setCryptOP', { name: null, path: null });
+      this.clearKeyPromptState();
     },
   },
 };
