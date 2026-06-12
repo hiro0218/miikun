@@ -1,3 +1,5 @@
+@use '../Settings/variables' as *;
+
 // CodeMirror 6 chrome. Syntax colors live in src/modules/editor.js (HighlightStyle);
 // themed values come from the custom properties in Generic/_tokens.scss.
 .cm-editor {

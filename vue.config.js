@@ -1,5 +1,5 @@
 const path = require('path');
-const sassSettingsPath = path.join(__dirname, 'src/assets/style/Settings/index.scss').replace(/\\/g, '/');
+const sassVariablesPath = path.join(__dirname, 'src/assets/style/Settings/_variables.scss').replace(/\\/g, '/');
 
 module.exports = {
   lintOnSave: false,
@@ -25,7 +25,7 @@ module.exports = {
   css: {
     loaderOptions: {
       scss: {
-        additionalData: `@import "${sassSettingsPath}";`,
+        additionalData: `@use "${sassVariablesPath}" as *;`,
         implementation: require('sass'),
       },
     },

@@ -69,7 +69,7 @@ A `.mii` extension switches the `Filesystem` singleton (`src/adapters/filesystem
 
 ### Styling
 
-ITCSS-layered SCSS under `src/assets/style/` (Settings → Tools → Generic → Elements → Objects → Components → Trumps → Vendor). The Settings layer is injected into every SCSS compilation via `additionalData` in `vue.config.js`, so variables like `$toolbar-width` are usable inside component `<style lang="scss">` blocks without explicit imports.
+ITCSS-layered SCSS under `src/assets/style/` (Settings → Tools → Generic → Elements → Objects → Components → Trumps → Vendor), composed with `@use`/`@forward` (Sass modules — `@import` is banned as deprecated). `Settings/_variables.scss` is injected into every SCSS compilation as `@use ... as *` via `additionalData` in `vue.config.js`, so variables like `$toolbar-width` are usable inside component `<style lang="scss">` blocks without explicit imports; partials that need variables declare their own `@use '../Settings/variables' as *`.
 
 ## Conventions
 

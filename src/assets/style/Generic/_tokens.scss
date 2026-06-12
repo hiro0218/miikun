@@ -1,3 +1,5 @@
+@use '../Settings/variables' as *;
+
 // Theme tokens: every themed color lives here.
 // Light is the default; dark follows the OS via prefers-color-scheme.
 :root {

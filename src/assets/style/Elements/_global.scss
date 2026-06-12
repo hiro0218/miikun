@@ -1,3 +1,5 @@
+@use '../Settings/variables' as *;
+
 body {
   background: var(--bg);
   color: var(--text);

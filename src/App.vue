@@ -17,7 +17,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import '@/assets/style/main.scss';
+@use '@/assets/style/main.scss';
 
 #app {
   display: flex;
