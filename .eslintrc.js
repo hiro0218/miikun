@@ -54,7 +54,7 @@ module.exports = {
             name: 'markdown-it',
             message: 'Use @/adapters/markdown instead of importing the Markdown renderer directly.',
           },
-          { name: 'prismjs', message: 'Use @/adapters/markdown instead of importing Prism directly.' },
+          { name: 'shiki', message: 'Use @/adapters/markdown instead of importing the syntax highlighter directly.' },
         ],
         patterns: [
           {
@@ -62,7 +62,7 @@ module.exports = {
             message: 'Use @/adapters/editor instead of importing CodeMirror directly.',
           },
           {
-            group: ['markdown-it-*', 'prismjs/*'],
+            group: ['markdown-it-*', 'shiki/*', '@shikijs/*'],
             message: 'Use @/adapters/markdown instead of importing the Markdown renderer directly.',
           },
         ],

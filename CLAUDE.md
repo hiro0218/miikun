@@ -32,7 +32,7 @@ Vue CLI 5 + vue-cli-plugin-electron-builder (webpack). Two entry points:
 
 Each third-party library is imported by exactly one adapter module; the rest of the app depends on the adapter's app-facing API. Dependency direction: `components → services → adapters → libraries`. `shared/` and `store/` may be used from any layer, **except adapters must never import the store** — callers pass state in. The boundaries are machine-enforced via `no-restricted-imports` in `.eslintrc.js` (per-directory `overrides`).
 
-- `src/adapters/` — one file per external dependency surface: `editor.js` (CodeMirror 6), `markdown.js` (markdown-it + Prism), `filesystem.js` (Node `fs`), `encryptor.js` (Node `crypto`), `electron.js` (`electron` + `@electron/remote`: dialogs, menu build/checkbox state, shell, window, nativeTheme, webUtils)
+- `src/adapters/` — one file per external dependency surface: `editor.js` (CodeMirror 6), `markdown.js` (markdown-it + shiki), `filesystem.js` (Node `fs`), `encryptor.js` (Node `crypto`), `electron.js` (`electron` + `@electron/remote`: dialogs, menu build/checkbox state, shell, window, nativeTheme, webUtils)
 - `src/services/` — application logic: `app-menu.js` (menu template + setup + checkbox sync), `app-menu-controller.js` (EventBus/store dispatch only), `link-title.js` (paste-URL title fetch)
 - `src/shared/` — pure utilities with no internal deps: `event-bus.js`, `errors.js`, `url.js`
 - `src/store/` — the single Vuex store (`index.js`) + auto-registered `modules/`
@@ -65,7 +65,7 @@ A `.mii` extension switches the `Filesystem` singleton (`src/adapters/filesystem
 
 ### Markdown preview
 
-`src/adapters/markdown.js`: markdown-it (+ checkbox, footnote, anchor, multimd-table, deflist plugins) with Prism highlighting that lazy-requires `prismjs/components/prism-<lang>.min.js`. `Editor.vue` renders the output with `v-html`, debounced 200ms, only while the preview pane is open.
+`src/adapters/markdown.js`: markdown-it (+ checkbox, footnote, anchor, multimd-table, deflist plugins) with shiki highlighting (github-light/github-dark dual themes switched by `prefers-color-scheme`; block background pinned to `--code-bg` in `Vendor/_shiki.scss`). `render()` is async: it scans fenced code blocks and `loadLanguage`s any missing grammars before the synchronous markdown-it pass, so the first paint is already highlighted. `Editor.vue` renders the output with `v-html` via a sequence-guarded `renderPreview` (debounced 200ms), only while the preview pane is open.
 
 ### Styling
 
