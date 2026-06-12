@@ -1,7 +1,26 @@
-import { basicSetup, EditorView } from 'codemirror';
+import { minimalSetup, EditorView } from 'codemirror';
 import { keymap } from '@codemirror/view';
 import { redo, redoDepth, undo, undoDepth } from '@codemirror/commands';
-import store from '../store';
+import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
+import { HighlightStyle, syntaxHighlighting } from '@codemirror/language';
+import { tags } from '@lezer/highlight';
+// Colors come from the CSS custom properties in Generic/_tokens.scss,
+// so the editor follows the OS light/dark scheme without a separate theme.
+const markdownHighlight = HighlightStyle.define([
+  { tag: tags.heading1, fontSize: '1.75em', fontWeight: 'bold' },
+  { tag: tags.heading2, fontSize: '1.5em', fontWeight: 'bold' },
+  { tag: tags.heading3, fontSize: '1.25em', fontWeight: 'bold' },
+  { tag: tags.heading4, fontSize: '1.1em', fontWeight: 'bold' },
+  { tag: tags.heading5, fontWeight: 'bold' },
+  { tag: tags.heading6, fontWeight: 'bold', color: 'var(--text-muted)' },
+  { tag: tags.strong, fontWeight: 'bold' },
+  { tag: tags.emphasis, fontStyle: 'italic' },
+  { tag: tags.strikethrough, textDecoration: 'line-through' },
+  { tag: tags.monospace, fontFamily: 'var(--font-mono)' },
+  { tag: [tags.link, tags.url], color: 'var(--accent)' },
+  { tag: tags.quote, color: 'var(--text-muted)' },
+  { tag: [tags.processingInstruction, tags.meta, tags.labelName, tags.contentSeparator], color: 'var(--text-muted)' },
+]);
 
 export default class Editor {
   constructor(element) {
@@ -37,10 +56,6 @@ export default class Editor {
     return this.cm;
   }
 
-  initFilePath(path) {
-    store.dispatch('initFilePath', path);
-  }
-
   setValue(value) {
     const docLength = this.view.state.doc.length;
     this.view.dispatch({
@@ -51,7 +66,6 @@ export default class Editor {
 
   clean() {
     this.setValue('');
-    this.initFilePath('');
     this.clearHistory();
   }
 
@@ -59,21 +73,9 @@ export default class Editor {
     return this.cm.isClean();
   }
 
-  isUnsaveFile() {
-    return store.state.Editor.filePath;
-  }
-
-  updateHistory() {
-    const { undo, redo } = this.cm.historySize();
-    store.dispatch('setCanUndo', undo > 0);
-    store.dispatch('setCanRedo', redo > 0);
-  }
-
   clearHistory() {
     this.cm.markClean();
     this.createView(this.cm.getValue());
-    store.dispatch('setCanUndo', false);
-    store.dispatch('setCanRedo', false);
   }
 
   insertTextToEditor(text, line, ch) {
@@ -89,8 +91,10 @@ export default class Editor {
     this.view = new EditorView({
       doc,
       extensions: [
-        basicSetup,
+        minimalSetup,
         this.customKeymap,
+        markdown({ base: markdownLanguage }),
+        syntaxHighlighting(markdownHighlight),
         EditorView.lineWrapping,
         EditorView.updateListener.of((update) => {
           if (!update.docChanged) return;
@@ -133,11 +137,9 @@ export default class Editor {
       }),
       undo: () => {
         undo(this.view);
-        this.updateHistory();
       },
       redo: () => {
         redo(this.view);
-        this.updateHistory();
       },
       getCursor: () => {
         const pos = this.view.state.selection.main.head;

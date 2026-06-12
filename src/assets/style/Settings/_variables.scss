@@ -1,72 +1,22 @@
-@import '~open-color/open-color';
-
 // Font
 // -------------------------
-$font-family-sansSerif:        'Noto Sans JP', Emoji, sans-serif;
-$font-family-monospace:        'Source Code Pro', #{$font-family-sansSerif}, Emoji, monospace !default;
+$font-family-sansSerif:        -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', Meiryo, Emoji, sans-serif;
+$font-family-monospace:        ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace;
 $font-weight-base:             normal;
 
-$font-size-lg:                 1rem * 4 / 3; // 1.33333rem
-$font-size-base:               1rem * 4 / 4; // 1rem
-$font-size-sm:                 1rem * 4 / 5; // 0.8rem
-$font-size-xs:                 1rem * 4 / 6; // 0.66667rem
+$font-size-base:               1rem;
+$font-size-sm:                 0.875rem;
 
-$font-size-h1:                 1rem * 6 / 3; // 2rem
-$font-size-h2:                 1rem * 6 / 4; // 1.5rem
-$font-size-h3:                 1rem * 6 / 5; // 1.2rem
-$font-size-h4:                 1rem * 6 / 6; // 1rem
-$font-size-h5:                 1rem * 6 / 7; // 0.85714rem
-$font-size-h6:                 1rem * 6 / 8; // 0.75rem
+$font-size-h1:                 1.75rem;
+$font-size-h2:                 1.5rem;
+$font-size-h3:                 1.25rem;
+$font-size-h4:                 1.1rem;
+$font-size-h5:                 1rem;
+$font-size-h6:                 1rem;
 
-$line-height-base:             16 / 8;
+$line-height-base:             1.8;
 
 // Layout
 // -------------------------
-
-$screen-xs:  480px !default;  // Extra small screen / phone
-$screen-sm:  768px !default;  // Small screen / tablet
-$screen-md:  992px !default;  // Medium screen / desktop
-$screen-lg:  1200px !default;
-
-$container-max-width:  1140px;
-
-$toolbar-height:   56px;
-$toolbar-width:    3.125rem;
-$statusbar-height: 20px;
-
-
-// color const
-// -------------------------
-$color50:  #fafafa;
-$color100: #f5f5f5;
-$color200: #eee;
-$color300: #e0e0e0;
-$color400: #bdbdbd;
-$color500: #9e9e9e;
-$color600: #757575;
-$color700: #616161;
-$color800: #424242;
-$color900: #212121;
-
-$white: #fff;
-$black: #000;
-
-$full-black:  rgba(0, 0, 0, 1);
-$dark-black:  rgba(0, 0, 0, .87);
-$light-black: rgba(0, 0, 0, .54);
-$min-black:   rgba(0, 0, 0, .26);
-$faint-black: rgba(0, 0, 0, .12);
-$full-white:  rgba(255, 255, 255, 1);
-$dark-white:  rgba(255, 255, 255, .87);
-$light-white: rgba(255, 255, 255, .54);
-
-$text-color: $color800;
-$bg-color:   $white;
-
-
-// color
-$selection-bgColor: $faint-black;
-$menu-bgColor: $color600;
-$editor-linenumber-color: $color500;
-$editor-linenumber-bgColor: transparent;
-$editor-activeline-bgColor: $color200;
+$toolbar-width:     3rem;
+$content-max-width: 46rem;

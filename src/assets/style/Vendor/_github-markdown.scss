@@ -1,5 +1,5 @@
 .markdown-body {
-  color: #333;
+  color: var(--text);
   font-size: 1rem;
   overflow-wrap: break-word;
 
@@ -25,7 +25,7 @@
 
   a {
     background-color: transparent;
-    color: #4078c0;
+    color: var(--accent);
     text-decoration: none;
     -webkit-text-decoration-skip: objects;
 
@@ -52,12 +52,12 @@
   }
 
   hr {
-    height: .25em;
-    margin: 1.5rem 0;
+    height: 1px;
+    margin: 2rem 0;
     padding: 0;
     overflow: hidden;
     border: 0;
-    background-color: #eee;
+    background-color: var(--border);
 
     &::before,
     &::after {
@@ -80,9 +80,8 @@
 
     th,
     td {
-      padding: 0;
       padding: 6px 13px;
-      border: 1px solid #ddd;
+      border: 1px solid var(--border);
     }
 
     th {
@@ -91,10 +90,10 @@
     }
 
     tr {
-      border-top: 1px solid #ccc;
-      background-color: #fff;
+      border-top: 1px solid var(--border);
+      background-color: transparent;
       &:nth-child(2n) {
-        background-color: #f8f8f8;
+        background-color: var(--code-bg);
       }
     }
   }
@@ -136,10 +135,10 @@
   }
 
   blockquote {
-    margin-left: 0.5em;
+    margin-left: 0;
     padding: 0 1em;
-    border-left: .25em solid #ddd;
-    color: #777;
+    border-left: 3px solid var(--border);
+    color: var(--text-muted);
     > {
       :first-child {
         margin-top: 0;
@@ -148,14 +147,6 @@
         margin-bottom: 0;
       }
     }
-  }
-
-  h1 {
-    border-bottom: 2px solid #eee;
-  }
-
-  h2 {
-    border-bottom: 1px solid #eee;
   }
 
   dl {

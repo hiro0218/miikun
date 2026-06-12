@@ -1,30 +1,8 @@
-/*
-Name:       Base16 Tomorrow Light
-Author:     Chris Kempson (http://chriskempson.com)
-Prism template by Bram de Haan (http://atelierbram.github.io/syntax-highlighting/prism/)
-Original Base16 color scheme by Chris Kempson (https://github.com/chriskempson/base16)
-*/
-
-$base00: #1d1f21;
-$base01: #282a2e;
-$base02: #373b41;
-$base03: #969896;
-$base04: #b4b7b4;
-$base05: #c5c8c6;
-$base06: #e0e0e0;
-$base07: #fff;
-$base08: #c66;
-$base09: #de935f;
-$base0a: #f0c674;
-$base0b: #b5bd68;
-$base0c: #8abeb7;
-$base0d: #81a2be;
-$base0e: #b294bb;
-$base0f: #a3685a;
-
+// Prism token colors follow the --prism-* custom properties
+// (Base16 Tomorrow / Tomorrow Night) defined in Generic/_tokens.scss.
 code[class*='language-'],
 pre[class*='language-'] {
-  color: $base02 !important;
+  color: var(--prism-fg) !important;
   font-size: 1rem;
   text-align: left;
   word-break: normal;
@@ -46,16 +24,15 @@ pre[class*='language-'] {
   border-radius: .3em;
 }
 
-
 .token.comment,
 .token.prolog,
 .token.doctype,
 .token.cdata {
-  color: $base04;
+  color: var(--prism-comment);
 }
 
 .token.punctuation {
-  color: $base02;
+  color: var(--prism-fg);
 }
 
 .token.namespace {
@@ -64,29 +41,34 @@ pre[class*='language-'] {
 
 .token.operator,
 .token.boolean,
-.token.number {
-  color: $base09;
-}
-.token.property {
-  color: $base0a;
-}
-.token.tag {
-  color: $base0d;
-}
-.token.string {
-  color: $base0c;
-}
-.token.selector {
-  color: $base0e;
-}
+.token.number,
 .token.attr-name {
-  color: $base09;
+  color: var(--prism-orange);
 }
+
+.token.property {
+  color: var(--prism-yellow);
+}
+
+.token.tag,
+.token.placeholder,
+.token.variable {
+  color: var(--prism-blue);
+}
+
+.token.string,
 .token.entity,
 .token.url,
 .language-css .token.string,
-.style .token.string {
-  color: $base0c;
+.style .token.string,
+.token.statement,
+.token.regex,
+.token.atrule {
+  color: var(--prism-aqua);
+}
+
+.token.selector {
+  color: var(--prism-purple);
 }
 
 .token.attr-value,
@@ -94,18 +76,7 @@ pre[class*='language-'] {
 .token.control,
 .token.directive,
 .token.unit {
-  color: $base0b;
-}
-
-.token.statement,
-.token.regex,
-.token.atrule {
-  color: $base0c;
-}
-
-.token.placeholder,
-.token.variable {
-  color: $base0d;
+  color: var(--prism-green);
 }
 
 .token.deleted {
@@ -113,7 +84,7 @@ pre[class*='language-'] {
 }
 
 .token.inserted {
-  border-bottom: 1px dotted $base00;
+  border-bottom: 1px dotted var(--prism-fg);
   text-decoration: none;
 }
 
@@ -127,41 +98,9 @@ pre[class*='language-'] {
 }
 
 .token.important {
-  color: $base08;
+  color: var(--prism-red);
 }
 
 .token.entity {
   cursor: help;
-}
-
-pre > code.highlight {
-  outline: .4em solid $base08;
-  outline-offset: .4em;
-}
-
-
-// prism-show-language
-.prism-show-language {
-  position: relative;
-}
-
-.prism-show-language > .prism-show-language-label {
-  display: inline-block;
-  position: absolute;
-  z-index: 1;
-  top: 0;
-  right: 0;
-  bottom: auto;
-  left: auto;
-  width: auto;
-  height: auto;
-  padding: 0 .5em;
-  -webkit-transform: none;
-  transform: none;
-  border-radius: 0 0 0 5px;
-  background-color: #CFCFCF;
-  box-shadow: none;
-  color: black;
-  font-size: .9em;
-  text-shadow: none;
 }

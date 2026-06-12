@@ -1,8 +1,8 @@
-@import 'Settings/index';
-@import 'Tools/index';
-@import 'Generic/index';
-@import 'Elements/index';
-@import 'Objects/index';
-@import 'Components/index';
-@import 'Trumps/index';
-@import 'Vendor/index';
+@use 'Settings/index' as settings;
+@use 'Tools/index' as tools;
+@use 'Generic/index' as generic;
+@use 'Elements/index' as elements;
+@use 'Objects/index' as objects;
+@use 'Components/index' as components;
+@use 'Trumps/index' as trumps;
+@use 'Vendor/index' as vendor;

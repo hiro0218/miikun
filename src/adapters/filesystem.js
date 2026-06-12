@@ -1,10 +1,8 @@
 'use strict';
 
 import fs from 'fs';
-import encryptor from './Encryptor';
-import { NullKeyError, DecryptFailError } from './Errors';
-import store from '../store';
-
+import encryptor from './encryptor';
+import { NullKeyError, DecryptFailError } from '@/shared/errors';
 // This file looks looks
 // | Base info | HMAC | IV | Enc Content |
 // | 16        | 32   | 16 | ..          |
@@ -44,19 +42,17 @@ class Filesystem {
       }
       // Backup file at develop.
       if (process.env.NODE_ENV === 'development') {
-        fs.writeFile(path + '.backup.md', content, 'utf8', cb);
+        fs.writeFile(path + '.backup.md', content, 'utf8', () => {});
       }
       content = this.encrypt(key, content);
     }
     fs.writeFile(path, content, 'utf8', cb);
   }
 
-  readFile(path, cb) {
-    let key = null;
+  readFile(path, cb, key = null) {
     const isEncrypt = this.shouldEncrypt(path);
 
     if (isEncrypt) {
-      key = store.state.Editor.crypt.key;
       // Prevent null key, it should not happen
       // at this time.
       if (key === '' || key === null) {

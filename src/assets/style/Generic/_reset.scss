@@ -1,4 +1,4 @@
-@import '~normalize.css/normalize.css';
+@use 'normalize.css/normalize';
 
 // stylelint-disable-next-line
 *,
@@ -19,7 +19,6 @@ html {
 img {
   max-width: 100%;
   border-style: none;
-  background-color: #fff;
   vertical-align: middle;
 }
 

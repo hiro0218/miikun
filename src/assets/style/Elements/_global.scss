@@ -1,7 +1,27 @@
+@use '../Settings/variables' as *;
+
 body {
+  background: var(--bg);
+  color: var(--text);
   font-family: $font-family-sansSerif;
   font-weight: $font-weight-base;
   line-height: $line-height-base;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  border: 3px solid transparent;
+  border-radius: 99px;
+  background-clip: content-box;
+  background-color: var(--scrollbar);
 }
 
 h1,

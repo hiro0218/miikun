@@ -1,20 +1,15 @@
 <template>
-  <div :class="{ open: openToolbar }" :data-toolbar-open="openToolbar" class="toolbar">
-    <div class="menu composite">
-      <button :disabled="!canUndo" @click="undo">
-        <font-awesome-icon icon="undo" size="" />
+  <div :class="{ open: openToolbar }" class="toolbar">
+    <div class="menu">
+      <button :disabled="!canUndo" title="Undo" @click="undo">
+        <font-awesome-icon icon="undo" />
       </button>
-      <button :disabled="!canRedo" @click="redo">
-        <font-awesome-icon icon="redo" size="" />
+      <button :disabled="!canRedo" title="Redo" @click="redo">
+        <font-awesome-icon icon="redo" />
       </button>
-      <button @click="togglePreview">
-        <font-awesome-icon v-if="isPreview" icon="eye" size="" />
-        <font-awesome-icon v-else icon="eye-slash" size="" />
-      </button>
-    </div>
-    <div class="menu global">
-      <button disabled>
-        <font-awesome-icon icon="cog" size="" />
+      <button :title="isPreview ? 'Hide preview' : 'Show preview'" @click="togglePreview">
+        <font-awesome-icon v-if="isPreview" icon="eye" />
+        <font-awesome-icon v-else icon="eye-slash" />
       </button>
     </div>
   </div>
@@ -22,7 +17,7 @@
 
 <script>
 import { mapState } from 'vuex';
-import AppMenuController from '@/service/app-menu-controller';
+import AppMenuController from '@/services/app-menu-controller';
 
 export default {
   name: 'MiiToolbar',
@@ -59,19 +54,20 @@ export default {
 .toolbar {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   width: 0;
-  padding: 0.5rem 0;
-  transition: all 0.2s;
-  background: $color200;
-  text-align: center;
+  padding: 0.75rem 0;
+  overflow: hidden;
+  transition: width 0.2s ease-out;
+  background: var(--bg-secondary);
 
   > .menu {
+    transition: opacity 0.15s ease-out;
     opacity: 0;
   }
 
-  &[data-toolbar-open] {
+  &.open {
     width: $toolbar-width;
+    border-right: 1px solid var(--border);
     > .menu {
       opacity: 1;
     }
@@ -79,25 +75,34 @@ export default {
 }
 
 button {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
   margin: 0 auto;
-
-  &:disabled {
-    opacity: 0.4;
-  }
+  transition:
+    background-color 0.15s ease-out,
+    color 0.15s ease-out;
+  border-radius: 8px;
+  color: var(--text-muted);
 
   & + button {
-    margin: 1rem auto 0;
+    margin-top: 0.5rem;
   }
 
-  .svg-inline--fa path {
-    fill: $color600;
+  &:hover:not(:disabled) {
+    background: var(--code-bg);
+    color: var(--text);
   }
 
-  &:hover {
-    .svg-inline--fa path {
-      fill: $color900;
-    }
+  &:disabled {
+    opacity: 0.35;
+    cursor: default;
+  }
+
+  .svg-inline--fa {
+    font-size: 14px;
   }
 }
 </style>

@@ -41,5 +41,56 @@ module.exports = {
       },
     ],
     'vue/singleline-html-element-content-newline': 0,
+    'no-restricted-imports': [
+      'error',
+      {
+        paths: [
+          { name: 'electron', message: 'Use @/adapters/electron instead of importing Electron APIs directly.' },
+          { name: '@electron/remote', message: 'Use @/adapters/electron instead of importing Electron APIs directly.' },
+          { name: 'fs', message: 'Use @/adapters/filesystem instead of Node fs directly.' },
+          { name: 'crypto', message: 'Use @/adapters/encryptor instead of Node crypto directly.' },
+          { name: 'codemirror', message: 'Use @/adapters/editor instead of importing CodeMirror directly.' },
+          {
+            name: 'markdown-it',
+            message: 'Use @/adapters/markdown instead of importing the Markdown renderer directly.',
+          },
+          { name: 'prismjs', message: 'Use @/adapters/markdown instead of importing Prism directly.' },
+        ],
+        patterns: [
+          {
+            group: ['@codemirror/*', '@lezer/*'],
+            message: 'Use @/adapters/editor instead of importing CodeMirror directly.',
+          },
+          {
+            group: ['markdown-it-*', 'prismjs/*'],
+            message: 'Use @/adapters/markdown instead of importing the Markdown renderer directly.',
+          },
+        ],
+      },
+    ],
   },
+  overrides: [
+    {
+      files: ['src/adapters/**/*.js'],
+      rules: {
+        'no-restricted-imports': [
+          'error',
+          {
+            patterns: [
+              {
+                group: ['@/store', '@/store/**', '**/store', '**/store/**'],
+                message: 'Adapters must not depend on the store; pass state in from the caller.',
+              },
+            ],
+          },
+        ],
+      },
+    },
+    {
+      files: ['src/background.js'],
+      rules: {
+        'no-restricted-imports': 'off',
+      },
+    },
+  ],
 };

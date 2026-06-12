@@ -3,10 +3,11 @@
 </template>
 
 <script>
-import { getSelectedResult } from '@/modules/dialog.js';
+import { getSelectedResult, getPathForFile } from '@/adapters/electron.js';
 
 export default {
   name: 'DropField',
+  emits: ['open-file-path'],
   mounted: function () {
     this.init();
   },
@@ -19,6 +20,7 @@ export default {
         (e) => {
           e.preventDefault();
           const file = e.dataTransfer.files[0];
+          if (!file) return;
           const ext = file.name.split('.')[1];
           this.dropFile(file, ext);
         },
@@ -26,15 +28,16 @@ export default {
       );
     },
     dropFile(file, ext) {
+      const path = getPathForFile(file);
       if (this.isAllowExt(file.type, ext)) {
         // Editor determines encryption from the emitted path.
-        this.$emit('open-file-path', file.path);
+        this.$emit('open-file-path', path);
       } else {
         getSelectedResult({
           title: 'error',
           type: 'error',
           buttons: ['OK'],
-          message: file.path,
+          message: path,
           detail: 'This file format is not supported.',
         });
       }
@@ -84,13 +87,15 @@ export default {
   left: 0;
   align-items: center;
   justify-content: center;
-  padding: 2rem;
-  transition: opacity 0.4s ease;
-  border: 4px dashed #bdbdbd;
+  transition: opacity 0.2s ease-out;
+  outline: 2px dashed var(--accent);
+  outline-offset: -16px;
   opacity: 0;
-  background: rgba(0, 0, 0, 0.12);
+  background: var(--overlay);
   color: #fff;
-  font-size: 4rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
   user-select: none;
 
   &::before {

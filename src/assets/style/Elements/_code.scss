@@ -1,3 +1,5 @@
+@use '../Settings/variables' as *;
+
 code,
 pre {
   font-size: 1em;
@@ -6,8 +8,9 @@ pre {
 code {
   margin: 0;
   padding: .2em .4em;
-  border-radius: 3px;
-  background-color: rgba(27, 31, 35, .05);
+  border-radius: 4px;
+  background-color: var(--code-bg);
+  font-family: $font-family-monospace;
   &::before,
   &::after {
     content: '\00a0';
@@ -18,8 +21,9 @@ code {
 pre {
   padding: 1rem;
   overflow: auto;
-  border-radius: 3px;
-  background-color: #f7f7f7;
+  border-radius: 8px;
+  background-color: var(--code-bg);
+  font-family: $font-family-monospace;
   overflow-wrap: normal;
 
   > code {
