@@ -14,13 +14,18 @@ import { mapState } from 'vuex';
 import debounce from 'debounce';
 import fs from '@/adapters/filesystem.js';
 import Markdown from '@/adapters/markdown.js';
-import { openDialog, showFileOpenDialog, getSavePath, getSelectedResult } from '@/adapters/electron.js';
+import {
+  openDialog,
+  showFileOpenDialog,
+  getSavePath,
+  getSelectedResult,
+  openLinkExternal,
+} from '@/adapters/electron.js';
 import Editor from '@/adapters/editor.js';
 import DropField from '@/components/DropField';
 import KeyPrompt from '@/components/KeyPrompt';
 import { UnexpectedStateError } from '@/shared/errors';
 import { EventBus } from '@/shared/event-bus';
-import { openLinkExternal } from '@/adapters/electron';
 import { getLinkWithTitle } from '@/services/link-title';
 
 export default {
@@ -78,7 +83,9 @@ export default {
       });
 
       this.editor.cm.on('changes', (cm) => {
-        this.editor.updateHistory();
+        const { undo, redo } = cm.historySize();
+        this.$store.dispatch('setCanUndo', undo > 0);
+        this.$store.dispatch('setCanRedo', redo > 0);
       });
 
       this.editor.cm.on('paste', async (cm, e) => {
@@ -151,6 +158,7 @@ export default {
 
       this.htmlCode = '';
       this.editor.clean();
+      this.$store.dispatch('initFilePath', '');
     },
     async openFile() {
       const files = showFileOpenDialog();
@@ -174,7 +182,7 @@ export default {
 
       return true;
     },
-    readFile(path) {
+    readFile(path, key = null) {
       if (this.path === path) {
         getSelectedResult({
           title: '',
@@ -186,15 +194,19 @@ export default {
         return;
       }
 
-      fs.readFile(path, (err, content) => {
-        if (err === null) {
-          this.editor.setValue(content);
-          this.editor.initFilePath(path);
-          this.editor.clearHistory();
-        } else {
-          openDialog('error', err.toString());
-        }
-      });
+      fs.readFile(
+        path,
+        (err, content) => {
+          if (err === null) {
+            this.editor.setValue(content);
+            this.$store.dispatch('initFilePath', path);
+            this.editor.clearHistory();
+          } else {
+            openDialog('error', err.toString());
+          }
+        },
+        key,
+      );
     },
     saveAsDialog() {
       const savePath = getSavePath([
@@ -222,7 +234,7 @@ export default {
       const result = await this.writeFile(savePath);
 
       if (result) {
-        this.editor.initFilePath(savePath);
+        this.$store.dispatch('initFilePath', savePath);
         this.editor.clearHistory();
       }
 
@@ -241,7 +253,7 @@ export default {
       const result = await this.writeFile(savePath);
 
       if (result) {
-        this.editor.initFilePath(savePath);
+        this.$store.dispatch('initFilePath', savePath);
         this.editor.clearHistory();
       }
 
@@ -292,11 +304,11 @@ export default {
 
       // Opening encrypted files and saving with a new key resume here.
       if (name === 'open') {
-        this.readFile(path);
+        this.readFile(path, key);
       } else if (name === 'save') {
         const result = await this.writeFile(path, key);
         if (result) {
-          this.editor.initFilePath(path);
+          this.$store.dispatch('initFilePath', path);
           this.editor.clearHistory();
         }
       } else {

@@ -3,8 +3,6 @@
 import fs from 'fs';
 import encryptor from './encryptor';
 import { NullKeyError, DecryptFailError } from '@/shared/errors';
-import store from '../store';
-
 // This file looks looks
 // | Base info | HMAC | IV | Enc Content |
 // | 16        | 32   | 16 | ..          |
@@ -51,12 +49,10 @@ class Filesystem {
     fs.writeFile(path, content, 'utf8', cb);
   }
 
-  readFile(path, cb) {
-    let key = null;
+  readFile(path, cb, key = null) {
     const isEncrypt = this.shouldEncrypt(path);
 
     if (isEncrypt) {
-      key = store.state.Editor.crypt.key;
       // Prevent null key, it should not happen
       // at this time.
       if (key === '' || key === null) {

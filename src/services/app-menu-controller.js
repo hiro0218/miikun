@@ -1,20 +1,18 @@
-import { getCurrentWindow, nativeTheme } from '@electron/remote';
+import { isWindowAlwaysOnTop, setWindowAlwaysOnTop, setThemeSource } from '@/adapters/electron';
 
 import store from '../store';
-import AppMenu from '@/services/app-menu';
 
 import { EventBus } from '@/shared/event-bus';
 
 const AppMenuController = {
   toggleAlwaysOnTop() {
-    const currentWindow = getCurrentWindow();
-    const isAlwaysOnTop = currentWindow.isAlwaysOnTop();
-    currentWindow.setAlwaysOnTop(!isAlwaysOnTop);
+    const isAlwaysOnTop = isWindowAlwaysOnTop();
+    setWindowAlwaysOnTop(!isAlwaysOnTop);
     store.dispatch('updateAlwaysOnTop', !isAlwaysOnTop);
   },
   setTheme(theme) {
     // themeSource drives prefers-color-scheme, so the CSS tokens follow automatically.
-    nativeTheme.themeSource = theme;
+    setThemeSource(theme);
     store.dispatch('updateTheme', theme);
   },
   undo() {
@@ -36,11 +34,9 @@ const AppMenuController = {
     EventBus.$emit('saveAs');
   },
   togglePreview() {
-    AppMenu.checkedMenuItem('toggle_preview_panel', !this.isOpenPreview());
     store.dispatch('updateIsPreview', !this.isOpenPreview());
   },
   toggleToolbar() {
-    AppMenu.checkedMenuItem('toggle_toolbar', !this.isOpenToolbar());
     store.dispatch('toggleToolbar');
   },
   isOpenPreview() {

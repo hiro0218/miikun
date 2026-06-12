@@ -1,4 +1,11 @@
-import { getCurrentWindow, shell, Menu, MenuItem, nativeTheme } from '@electron/remote';
+import {
+  setApplicationMenu,
+  checkedMenuItem,
+  setupContextMenu as setupNativeContextMenu,
+  setThemeSource,
+  setWindowAlwaysOnTop,
+  openExternal,
+} from '@/adapters/electron';
 
 import packageJson from '../../package.json';
 const { name } = packageJson;
@@ -8,7 +15,6 @@ import store from '../store';
 import AppMenuController from '@/services/app-menu-controller';
 
 export default {
-  menuInstance: null,
   appmMenuList: [
     {
       label: name,
@@ -164,7 +170,7 @@ export default {
         {
           label: 'Website',
           click: () => {
-            shell.openExternal('https://github.com/hiro0218/miikun/');
+            openExternal('https://github.com/hiro0218/miikun/');
           },
         },
       ],
@@ -180,67 +186,27 @@ export default {
       : []),
   ],
   setupAppMenu() {
-    Menu.setApplicationMenu(null);
-    this.menuInstance = Menu.buildFromTemplate(this.appmMenuList);
-    Menu.setApplicationMenu(this.menuInstance);
+    setApplicationMenu(this.appmMenuList);
 
     // Update based on store
     // set always on top
     if (store.getters.isAlwaysOnTop) {
-      const currentWindow = getCurrentWindow();
-      currentWindow.setAlwaysOnTop(store.getters.isAlwaysOnTop);
+      setWindowAlwaysOnTop(true);
     }
 
     // apply persisted theme
-    nativeTheme.themeSource = store.getters.theme;
+    setThemeSource(store.getters.theme);
+
+    // Menu checkboxes follow the store so controllers never reach back into the menu.
+    store.subscribe((mutation, state) => {
+      if (mutation.type === 'UPDATE_ISPREVIEW') {
+        checkedMenuItem('toggle_preview_panel', state.Editor.isPreview);
+      } else if (mutation.type === 'TOGGLE_TOOLBAR') {
+        checkedMenuItem('toggle_toolbar', state.Editor.openToolbar);
+      }
+    });
   },
   setupContextMenu() {
-    window.addEventListener(
-      'contextmenu',
-      (e) => {
-        e.preventDefault();
-
-        const menu = new Menu();
-        const selectText = window.getSelection().toString().replace(/\n+/g, ' ');
-
-        if (selectText) {
-          menu.append(
-            new MenuItem({
-              label:
-                'Search Google for "' + (selectText.length > 20 ? selectText.substr(0, 17) + '...' : selectText) + '"',
-              click: function () {
-                shell.openExternal('https://www.google.com/search?q=' + encodeURIComponent(selectText));
-              },
-            }),
-          );
-          menu.append(
-            new MenuItem({
-              type: 'separator',
-            }),
-          );
-        }
-
-        menu.append(
-          new MenuItem({
-            label: 'Copy',
-            accelerator: 'CmdOrCtrl+C',
-            role: 'copy',
-          }),
-        );
-
-        menu.popup({ window: getCurrentWindow() });
-      },
-      false,
-    );
-  },
-  getInstance() {
-    return this.menuInstance;
-  },
-  getMenuItemById(menuId) {
-    return this.menuInstance.getMenuItemById(menuId);
-  },
-  checkedMenuItem(menuId, state) {
-    const appMenuItem = this.getMenuItemById(menuId);
-    if (appMenuItem) appMenuItem.checked = state;
+    setupNativeContextMenu();
   },
 };

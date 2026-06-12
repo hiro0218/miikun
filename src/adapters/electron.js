@@ -1,4 +1,5 @@
-import { BrowserWindow, dialog, getCurrentWindow, shell } from '@electron/remote';
+import { webUtils } from 'electron';
+import { BrowserWindow, dialog, getCurrentWindow, shell, Menu, MenuItem, nativeTheme } from '@electron/remote';
 
 import { isURL } from '@/shared/url';
 
@@ -72,4 +73,74 @@ export const openLinkExternal = () => {
       }
     }
   });
+};
+
+let menuInstance = null;
+
+export const setApplicationMenu = (template) => {
+  Menu.setApplicationMenu(null);
+  menuInstance = Menu.buildFromTemplate(template);
+  Menu.setApplicationMenu(menuInstance);
+};
+
+export const checkedMenuItem = (menuId, state) => {
+  const menuItem = menuInstance && menuInstance.getMenuItemById(menuId);
+  if (menuItem) menuItem.checked = state;
+};
+
+export const setThemeSource = (theme) => {
+  nativeTheme.themeSource = theme;
+};
+
+export const isWindowAlwaysOnTop = () => getCurrentWindow().isAlwaysOnTop();
+
+export const setWindowAlwaysOnTop = (flag) => {
+  getCurrentWindow().setAlwaysOnTop(flag);
+};
+
+export const openExternal = (url) => {
+  shell.openExternal(url);
+};
+
+// Electron >= 32 removed File.path; webUtils is the supported way to get it.
+export const getPathForFile = (file) => webUtils.getPathForFile(file);
+
+export const setupContextMenu = () => {
+  window.addEventListener(
+    'contextmenu',
+    (e) => {
+      e.preventDefault();
+
+      const menu = new Menu();
+      const selectText = window.getSelection().toString().replace(/\n+/g, ' ');
+
+      if (selectText) {
+        menu.append(
+          new MenuItem({
+            label:
+              'Search Google for "' + (selectText.length > 20 ? selectText.substr(0, 17) + '...' : selectText) + '"',
+            click: function () {
+              shell.openExternal('https://www.google.com/search?q=' + encodeURIComponent(selectText));
+            },
+          }),
+        );
+        menu.append(
+          new MenuItem({
+            type: 'separator',
+          }),
+        );
+      }
+
+      menu.append(
+        new MenuItem({
+          label: 'Copy',
+          accelerator: 'CmdOrCtrl+C',
+          role: 'copy',
+        }),
+      );
+
+      menu.popup({ window: getCurrentWindow() });
+    },
+    false,
+  );
 };

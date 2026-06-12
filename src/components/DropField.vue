@@ -3,8 +3,7 @@
 </template>
 
 <script>
-import { webUtils } from 'electron';
-import { getSelectedResult } from '@/adapters/electron.js';
+import { getSelectedResult, getPathForFile } from '@/adapters/electron.js';
 
 export default {
   name: 'DropField',
@@ -29,8 +28,7 @@ export default {
       );
     },
     dropFile(file, ext) {
-      // Electron >= 32 removed File.path; webUtils is the supported way to get it.
-      const path = webUtils.getPathForFile(file);
+      const path = getPathForFile(file);
       if (this.isAllowExt(file.type, ext)) {
         // Editor determines encryption from the emitted path.
         this.$emit('open-file-path', path);

@@ -4,8 +4,6 @@ import { redo, redoDepth, undo, undoDepth } from '@codemirror/commands';
 import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
 import { HighlightStyle, syntaxHighlighting } from '@codemirror/language';
 import { tags } from '@lezer/highlight';
-import store from '../store';
-
 // Colors come from the CSS custom properties in Generic/_tokens.scss,
 // so the editor follows the OS light/dark scheme without a separate theme.
 const markdownHighlight = HighlightStyle.define([
@@ -58,10 +56,6 @@ export default class Editor {
     return this.cm;
   }
 
-  initFilePath(path) {
-    store.dispatch('initFilePath', path);
-  }
-
   setValue(value) {
     const docLength = this.view.state.doc.length;
     this.view.dispatch({
@@ -72,7 +66,6 @@ export default class Editor {
 
   clean() {
     this.setValue('');
-    this.initFilePath('');
     this.clearHistory();
   }
 
@@ -80,21 +73,9 @@ export default class Editor {
     return this.cm.isClean();
   }
 
-  isUnsaveFile() {
-    return store.state.Editor.filePath;
-  }
-
-  updateHistory() {
-    const { undo, redo } = this.cm.historySize();
-    store.dispatch('setCanUndo', undo > 0);
-    store.dispatch('setCanRedo', redo > 0);
-  }
-
   clearHistory() {
     this.cm.markClean();
     this.createView(this.cm.getValue());
-    store.dispatch('setCanUndo', false);
-    store.dispatch('setCanRedo', false);
   }
 
   insertTextToEditor(text, line, ch) {
@@ -156,11 +137,9 @@ export default class Editor {
       }),
       undo: () => {
         undo(this.view);
-        this.updateHistory();
       },
       redo: () => {
         redo(this.view);
-        this.updateHistory();
       },
       getCursor: () => {
         const pos = this.view.state.selection.main.head;
