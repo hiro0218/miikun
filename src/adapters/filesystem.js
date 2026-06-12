@@ -28,6 +28,10 @@ class Filesystem {
     return path.endsWith('.mii');
   }
 
+  hasKey() {
+    return this.key !== '' && this.key !== null;
+  }
+
   writeFile(path, content, cb, key = null) {
     if (this.shouldEncrypt(path)) {
       // Use the cached key instead of state, because when readFile fail, I
