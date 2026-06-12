@@ -1,4 +1,6 @@
-import { BrowserWindow, dialog } from '@electron/remote';
+import { BrowserWindow, dialog, getCurrentWindow, shell } from '@electron/remote';
+
+import { isURL } from '@/shared/url';
 
 export const openDialog = (type, message) => {
   const focusedWindow = BrowserWindow.getFocusedWindow();
@@ -44,5 +46,30 @@ export const getSelectedResult = ({ title, message, type, buttons, detail }) => 
     type,
     buttons,
     detail,
+  });
+};
+
+export const openLinkExternal = () => {
+  const currentWindow = getCurrentWindow();
+
+  document.addEventListener('click', (e) => {
+    if (e.target.tagName !== 'A') return;
+    const href = e.target.getAttribute('href');
+
+    if (isURL(href)) {
+      e.preventDefault();
+      // get status
+      const status = currentWindow.isAlwaysOnTop();
+      // on top
+      currentWindow.setAlwaysOnTop(true);
+      // open link
+      shell.openExternal(href);
+      // restore
+      if (!status) {
+        setTimeout(function () {
+          currentWindow.setAlwaysOnTop(false);
+        }, 1000);
+      }
+    }
   });
 };

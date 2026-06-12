@@ -7,7 +7,7 @@ import store from './store';
 import setupFontAwesome from './plugins/fontawesome/index';
 
 // Miikun Menu
-import appMenu from './service/app-menu';
+import appMenu from './services/app-menu';
 
 const app = createApp(App);
 

@@ -5,7 +5,7 @@ const { name } = packageJson;
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
 import store from '../store';
-import AppMenuController from '@/service/app-menu-controller';
+import AppMenuController from '@/services/app-menu-controller';
 
 export default {
   menuInstance: null,

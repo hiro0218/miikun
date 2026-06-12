@@ -1,8 +1,8 @@
 'use strict';
 
 import fs from 'fs';
-import encryptor from './Encryptor';
-import { NullKeyError, DecryptFailError } from './Errors';
+import encryptor from './encryptor';
+import { NullKeyError, DecryptFailError } from '@/shared/errors';
 import store from '../store';
 
 // This file looks looks

@@ -17,7 +17,7 @@
 
 <script>
 import { mapState } from 'vuex';
-import AppMenuController from '@/service/app-menu-controller';
+import AppMenuController from '@/services/app-menu-controller';
 
 export default {
   name: 'MiiToolbar',

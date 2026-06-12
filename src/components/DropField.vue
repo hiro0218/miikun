@@ -4,7 +4,7 @@
 
 <script>
 import { webUtils } from 'electron';
-import { getSelectedResult } from '@/modules/dialog.js';
+import { getSelectedResult } from '@/adapters/electron.js';
 
 export default {
   name: 'DropField',

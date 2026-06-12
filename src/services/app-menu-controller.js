@@ -1,9 +1,9 @@
 import { getCurrentWindow, nativeTheme } from '@electron/remote';
 
 import store from '../store';
-import AppMenu from '@/service/app-menu';
+import AppMenu from '@/services/app-menu';
 
-import { EventBus } from '@/lib/event-bus';
+import { EventBus } from '@/shared/event-bus';
 
 const AppMenuController = {
   toggleAlwaysOnTop() {

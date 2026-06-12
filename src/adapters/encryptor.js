@@ -1,7 +1,7 @@
 'use strict';
 
 import crypto from 'crypto';
-import { DecryptFailError } from './Errors';
+import { DecryptFailError } from '@/shared/errors';
 
 class Encryptor {
   constructor() {

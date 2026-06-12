@@ -12,15 +12,16 @@
 <script>
 import { mapState } from 'vuex';
 import debounce from 'debounce';
-import fs from '@/modules/Filesystem.js';
-import Markdown from '@/lib/markdown.js';
-import { openDialog, showFileOpenDialog, getSavePath, getSelectedResult } from '@/modules/dialog.js';
-import Editor from '@/modules/editor.js';
+import fs from '@/adapters/filesystem.js';
+import Markdown from '@/adapters/markdown.js';
+import { openDialog, showFileOpenDialog, getSavePath, getSelectedResult } from '@/adapters/electron.js';
+import Editor from '@/adapters/editor.js';
 import DropField from '@/components/DropField';
 import KeyPrompt from '@/components/KeyPrompt';
-import { UnexpectedStateError } from '@/modules/Errors';
-import { EventBus } from '@/lib/event-bus';
-import { openLinkExternal, getLinkWithTitle } from '@/lib/utils';
+import { UnexpectedStateError } from '@/shared/errors';
+import { EventBus } from '@/shared/event-bus';
+import { openLinkExternal } from '@/adapters/electron';
+import { getLinkWithTitle } from '@/services/link-title';
 
 export default {
   name: 'MiiEditor',
