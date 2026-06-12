@@ -64,7 +64,7 @@ export const openLinkExternal = () => {
       // on top
       currentWindow.setAlwaysOnTop(true);
       // open link
-      shell.openExternal(href);
+      openExternal(href);
       // restore
       if (!status) {
         setTimeout(function () {
@@ -120,7 +120,7 @@ export const setupContextMenu = () => {
             label:
               'Search Google for "' + (selectText.length > 20 ? selectText.substr(0, 17) + '...' : selectText) + '"',
             click: function () {
-              shell.openExternal('https://www.google.com/search?q=' + encodeURIComponent(selectText));
+              openExternal('https://www.google.com/search?q=' + encodeURIComponent(selectText));
             },
           }),
         );

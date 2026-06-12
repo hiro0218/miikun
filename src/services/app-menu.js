@@ -15,7 +15,7 @@ import store from '../store';
 import AppMenuController from '@/services/app-menu-controller';
 
 export default {
-  appmMenuList: [
+  appMenuList: [
     {
       label: name,
       submenu: [{ role: 'quit' }],
@@ -186,7 +186,7 @@ export default {
       : []),
   ],
   setupAppMenu() {
-    setApplicationMenu(this.appmMenuList);
+    setApplicationMenu(this.appMenuList);
 
     // Update based on store
     // set always on top

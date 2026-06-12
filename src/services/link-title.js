@@ -14,10 +14,6 @@ export const getLinkWithTitle = (event) => {
     .then((res) => res.text())
     .then((text) => new DOMParser().parseFromString(text, 'text/html'))
     .then((parsedBody) => `[${parsedBody.title}](${pastedString})`)
-    .then((assembledString) => {
-      // 組み立てた文字列を挿入
-      return assembledString;
-    })
     .catch((e) => {
       // 見つからない場合は貼り付けたテキストをそのまま挿入
       return pastedString;
