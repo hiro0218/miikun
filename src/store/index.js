@@ -1,8 +1,14 @@
 import { createStore } from 'vuex';
+import createPersistedState from 'vuex-persistedstate';
 
 import modules from './modules';
 
 export default createStore({
   modules,
-  strict: process.env.NODE_ENV !== 'production',
+  plugins: [
+    createPersistedState({
+      key: 'miikun',
+      paths: ['App.isAlwaysOnTop', 'App.theme', 'Editor.isPreview', 'Editor.openToolbar'],
+    }),
+  ],
 });
