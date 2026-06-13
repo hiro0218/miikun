@@ -176,13 +176,19 @@ export default {
     onEditorReady() {
       // Native menu accelerators bypass the KeyPrompt overlay, so every command
       // is frozen here while a crypt operation is pending.
-      const guarded = (fn) => () => {
-        if (this.isKeyPromptOpen()) return;
-        fn();
+      const guarded = (fn) => {
+        return (...args) => {
+          if (this.isKeyPromptOpen()) return;
+          fn(...args);
+        };
       };
       registerEditorCommands({
         undo: guarded(() => this.editor.cm.undo()),
         redo: guarded(() => this.editor.cm.redo()),
+        setHeadingLevel: guarded((level) => this.editor.cm.setHeadingLevel(level)),
+        toggleBold: guarded(() => this.editor.cm.toggleBold()),
+        insertLink: guarded(() => this.editor.cm.insertLink()),
+        toggleBulletList: guarded(() => this.editor.cm.toggleBulletList()),
         newFile: guarded(() => this.newFile()),
         openFile: guarded(() => this.openFile()),
         saveFile: guarded(() => this.saveFile()),

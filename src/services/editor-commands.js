@@ -3,6 +3,10 @@ import { EventBus } from '@/shared/event-bus';
 export const registerEditorCommands = ({
   undo,
   redo,
+  setHeadingLevel,
+  toggleBold,
+  insertLink,
+  toggleBulletList,
   newFile,
   openFile,
   saveFile,
@@ -13,6 +17,10 @@ export const registerEditorCommands = ({
 }) => {
   EventBus.$on('undo', undo);
   EventBus.$on('redo', redo);
+  EventBus.$on('setHeadingLevel', setHeadingLevel);
+  EventBus.$on('toggleBold', toggleBold);
+  EventBus.$on('insertLink', insertLink);
+  EventBus.$on('toggleBulletList', toggleBulletList);
   EventBus.$on('newFile', newFile);
   EventBus.$on('openFile', openFile);
   EventBus.$on('saveFile', saveFile);

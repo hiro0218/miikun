@@ -21,6 +21,18 @@ const AppMenuController = {
   redo() {
     EventBus.$emit('redo');
   },
+  setHeadingLevel(level) {
+    EventBus.$emit('setHeadingLevel', level);
+  },
+  toggleBold() {
+    EventBus.$emit('toggleBold');
+  },
+  insertLink() {
+    EventBus.$emit('insertLink');
+  },
+  toggleBulletList() {
+    EventBus.$emit('toggleBulletList');
+  },
   newFile() {
     EventBus.$emit('newFile');
   },
