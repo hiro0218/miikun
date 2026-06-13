@@ -1,7 +1,8 @@
-import { webUtils } from 'electron';
-import { BrowserWindow, dialog, getCurrentWindow, shell, Menu, MenuItem, nativeTheme } from '@electron/remote';
-
 import { isURL } from '@/shared/url';
+
+const { webUtils } = window.require('electron');
+const { BrowserWindow, dialog, getCurrentWindow, shell, Menu, MenuItem, nativeTheme } =
+  window.require('@electron/remote');
 
 export const openDialog = (type, message) => {
   const focusedWindow = BrowserWindow.getFocusedWindow();

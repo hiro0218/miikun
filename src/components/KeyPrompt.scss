@@ -1,0 +1,99 @@
+.keyprompt {
+  display: flex;
+  position: fixed;
+  z-index: 10;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  align-items: center;
+  justify-content: center;
+  background: var(--overlay);
+}
+
+.keyprompt-dialog {
+  width: min(420px, 90vw);
+  padding: 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg);
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -4px rgba(0, 0, 0, 0.1);
+
+  &__title {
+    margin-bottom: 1rem;
+    color: var(--text);
+    font-size: 1.125rem;
+    font-weight: 600;
+  }
+
+  &__form {
+    margin-bottom: 1.5rem;
+  }
+
+  &__input {
+    width: 100%;
+    min-height: 2.25rem;
+    padding: 0.25rem 0.75rem;
+    transition:
+      border-color 0.15s ease-out,
+      box-shadow 0.15s ease-out;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    outline: none;
+    background-color: transparent;
+    color: var(--text);
+    font-size: $font-size-sm;
+
+    &::placeholder {
+      color: var(--text-muted);
+    }
+
+    &:focus {
+      border-color: var(--ring);
+      box-shadow: var(--focus-ring);
+    }
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+  }
+
+  &__button--ok,
+  &__button--cancel {
+    min-height: 2.25rem;
+    padding: 0 1rem;
+    transition: background-color 0.15s ease-out;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    font-size: $font-size-sm;
+    font-weight: 500;
+    white-space: nowrap;
+    cursor: pointer;
+    user-select: none;
+    appearance: none;
+  }
+
+  &__button--ok {
+    background-color: var(--accent);
+    color: var(--accent-foreground);
+
+    &:hover {
+      background-color: var(--accent-hover);
+    }
+  }
+
+  &__button--cancel {
+    border-color: var(--border);
+    background-color: transparent;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    color: var(--text);
+
+    &:hover {
+      background-color: var(--code-bg);
+    }
+  }
+}

@@ -1,0 +1,149 @@
+.editor-container {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  overflow: hidden;
+
+  .toolbar.open + & {
+    width: calc(100vw - #{$toolbar-width});
+  }
+}
+
+.panes {
+  display: flex;
+  position: relative;
+  flex: 1;
+  min-height: 0;
+}
+
+.input,
+.preview {
+  flex-basis: 50%;
+  width: 50%;
+}
+
+.input {
+  position: relative;
+  transition:
+    flex-basis 0.2s ease-out,
+    width 0.2s ease-out;
+
+  &.open {
+    flex-basis: 100%;
+    width: 100%;
+  }
+
+  .cm-editor {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.empty-state {
+  display: flex;
+  position: absolute;
+  z-index: 1;
+  align-items: flex-start;
+  justify-content: center;
+  padding: clamp(5rem, 24vh, 9rem) 1.5rem 1.5rem;
+  animation: empty-state-fade 0.15s ease-out;
+  background: var(--bg);
+  pointer-events: auto;
+  inset: 0;
+
+  &__panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    max-width: min(360px, 100%);
+    text-align: center;
+  }
+
+  &__title {
+    margin: 0;
+    color: var(--text);
+    font-size: 1rem;
+    font-weight: 600;
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+  }
+
+  &__button {
+    min-width: 7rem;
+    min-height: 2.25rem;
+    padding: 0 1rem;
+    transition:
+      background-color 0.15s ease-out,
+      color 0.15s ease-out;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background-color: var(--bg-secondary);
+    color: var(--text);
+    font-size: $font-size-sm;
+    font-weight: 500;
+    white-space: nowrap;
+    cursor: pointer;
+    user-select: none;
+    appearance: none;
+
+    &:hover:not(:disabled) {
+      background-color: var(--code-bg);
+    }
+
+    &:focus-visible {
+      outline: none;
+      box-shadow: var(--focus-ring);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: default;
+    }
+
+    &--primary {
+      border-color: transparent;
+      background-color: var(--accent);
+      color: var(--accent-foreground);
+
+      &:hover:not(:disabled) {
+        background-color: var(--accent-hover);
+      }
+    }
+  }
+
+  &__hint {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: $font-size-sm;
+  }
+}
+
+@keyframes empty-state-fade {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.preview {
+  overflow: auto;
+  border-left: 1px solid var(--border);
+
+  .markdown-body {
+    max-width: $content-max-width;
+    margin: 0 auto;
+    padding: $document-padding-block $document-padding-inline 50vh;
+    line-height: $line-height-base;
+  }
+}

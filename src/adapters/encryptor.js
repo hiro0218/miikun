@@ -1,7 +1,8 @@
 'use strict';
 
-import crypto from 'crypto';
 import { DecryptFailError } from '@/shared/errors';
+
+const crypto = window.require('crypto');
 
 class Encryptor {
   constructor() {
