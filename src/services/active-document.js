@@ -11,6 +11,7 @@ export const createUntitledTab = ({ editor, store }) => {
   const id = openDocuments.createSession();
   editor.openFresh('');
   store.dispatch('addTab', { id, path: '' });
+  return id;
 };
 
 export const openDocumentInNewTab = ({ editor, store, path, content, key = null }) => {
@@ -18,6 +19,7 @@ export const openDocumentInNewTab = ({ editor, store, path, content, key = null 
   const id = openDocuments.createSession(key);
   editor.openFresh(content);
   store.dispatch('addTab', { id, path });
+  return id;
 };
 
 export const activateTab = ({ editor, store, tabId }) => {
@@ -52,7 +54,7 @@ export const removeTab = ({ editor, store, tabId }) => {
     }
   }
 
-  createUntitledTab({ editor, store });
+  editor.openFresh('');
 };
 
 // A clean (non-dirty) tab holding `path` is stale once another tab saves over

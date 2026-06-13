@@ -6,6 +6,22 @@
         <textarea ref="editor" v-model="code" />
       </div>
       <div v-if="isPreview == true" class="preview"><div class="markdown-body" v-html="htmlCode" /></div>
+      <div v-if="showEmptyState" class="empty-state">
+        <div class="empty-state__panel">
+          <h2 class="empty-state__title">What would you like to do?</h2>
+          <div class="empty-state__actions">
+            <button
+              type="button"
+              class="empty-state__button empty-state__button--primary"
+              @click="activateEmptyStatePrimaryAction"
+            >
+              Start writing
+            </button>
+            <button type="button" class="empty-state__button" @click="openFile">Open file...</button>
+          </div>
+          <p class="empty-state__hint">Drop .md / .txt / .mii to open</p>
+        </div>
+      </div>
     </div>
     <DropField @open-file-path="openFilePath" />
     <KeyPrompt @done="onKeyPromptDone" />
@@ -55,20 +71,51 @@ export default {
       htmlCode: '',
       saveTimer: -1,
       pendingCloseTabId: null,
+      // Live emptiness signal: state.Editor.code lags typing by a 200ms debounce
+      // and is global, so the empty state reads this instead to hide on the first keystroke.
+      isActiveDocEmpty: true,
+      emptyStateTabIds: [],
     };
   },
   computed: {
     path() {
       return this.$store.getters.filePath;
     },
+    showEmptyState() {
+      return !this.cryptEnable && (this.hasNoTabs || this.shouldShowActiveTabEmptyState);
+    },
+    canUsePreview() {
+      return !this.showEmptyState && this.activeTabId != null;
+    },
+    hasNoTabs() {
+      return this.tabs.length === 0;
+    },
+    shouldShowActiveTabEmptyState() {
+      return (
+        this.activeTabId != null &&
+        this.emptyStateTabIds.includes(this.activeTabId) &&
+        !this.path &&
+        this.isActiveDocEmpty
+      );
+    },
     ...mapState({
       code: (state) => state.Editor.code,
       isPreview: (state) => state.Editor.isPreview,
       tabs: (state) => state.Editor.tabs,
       activeTabId: (state) => state.Editor.activeTabId,
+      cryptEnable: (state) => state.Editor.crypt.enable,
     }),
   },
   watch: {
+    canUsePreview: {
+      handler: function (value) {
+        this.$store.dispatch('setCanPreview', value);
+        if (!value && this.isPreview) {
+          this.$store.dispatch('updateIsPreview', false);
+        }
+      },
+      immediate: true,
+    },
     isPreview: {
       handler: function (value) {
         if (!value) return;
@@ -93,6 +140,11 @@ export default {
       this.editor = new Editor(this.$refs.editor);
 
       this.editor.cm.on('change', () => {
+        const value = this.editor.cm.getValue();
+        this.isActiveDocEmpty = value.length === 0;
+        if (value.length > 0) {
+          this.dismissEmptyStateForActiveTab();
+        }
         this.onEditorCodeChange();
       });
 
@@ -116,7 +168,6 @@ export default {
         this.saveTimer = -1;
       });
 
-      createUntitledTab({ editor: this.editor, store: this.$store });
       this._beforeUnloadHandler = (e) => this.confirmWindowClose(e);
       window.addEventListener('beforeunload', this._beforeUnloadHandler);
       this.onEditorReady();
@@ -153,7 +204,7 @@ export default {
       const newCode = this.editor.cm.getValue();
       this.$store.dispatch('updateCode', newCode);
 
-      if (newCode && this.isPreview) {
+      if (this.isPreview) {
         this.renderPreview(newCode);
       }
     }, 200),
@@ -165,22 +216,26 @@ export default {
     syncActiveDocumentView() {
       this.syncUndoRedoState(this.editor.cm);
       const current = this.editor.cm.getValue();
+      this.isActiveDocEmpty = current.length === 0;
       this.$store.dispatch('updateCode', current);
       this.renderPipeline.discardPendingResults();
       this.htmlCode = '';
-      if (this.isPreview) {
+      if (this.isPreview && this.canUsePreview) {
         this.renderPreview(current);
       }
-      this.editor.focus();
+      if (this.activeTabId != null) {
+        this.editor.focus();
+      }
     },
     async onTabSelect(tabId) {
       if (activateTab({ editor: this.editor, store: this.$store, tabId })) {
         this.syncActiveDocumentView();
-      } else {
+      } else if (this.activeTabId != null) {
         this.editor.focus();
       }
     },
     async onTabClose(tabId) {
+      if (tabId == null) return;
       // Activate the target tab first so the user sees what saveModifyFile asks about.
       await this.onTabSelect(tabId);
       const canContinue = await this.saveModifyFile();
@@ -190,6 +245,7 @@ export default {
       }
       if (!canContinue) return;
       removeTab({ editor: this.editor, store: this.$store, tabId });
+      this.emptyStateTabIds = this.emptyStateTabIds.filter((id) => id !== tabId);
       this.syncActiveDocumentView();
     },
     cycleTab(step) {
@@ -222,8 +278,22 @@ export default {
       return response !== 2;
     },
     newFile() {
-      createUntitledTab({ editor: this.editor, store: this.$store });
+      const id = createUntitledTab({ editor: this.editor, store: this.$store });
+      this.emptyStateTabIds = [...this.emptyStateTabIds, id];
       this.syncActiveDocumentView();
+    },
+    activateEmptyStatePrimaryAction() {
+      if (this.hasNoTabs) {
+        createUntitledTab({ editor: this.editor, store: this.$store });
+        this.syncActiveDocumentView();
+        return;
+      }
+
+      this.dismissEmptyStateForActiveTab();
+      this.editor.focus();
+    },
+    dismissEmptyStateForActiveTab() {
+      this.emptyStateTabIds = this.emptyStateTabIds.filter((id) => id !== this.activeTabId);
     },
     async openFile() {
       const files = showFileOpenDialog();
@@ -279,6 +349,8 @@ export default {
       this.syncActiveDocumentView();
     },
     async saveFile() {
+      if (this.activeTabId == null) return false;
+
       const isNewFile = !this.path;
       let savePath = this.path;
 
@@ -300,6 +372,8 @@ export default {
       return this.saveEncryptedFile(savePath, key, this.activeTabId);
     },
     async saveAs() {
+      if (this.activeTabId == null) return false;
+
       const savePath = selectDocumentSavePath();
 
       if (!savePath) return false;
@@ -405,6 +479,7 @@ export default {
         const saved = await this.saveEncryptedFile(path, key, op.tabId);
         if (saved && this.pendingCloseTabId === op.tabId) {
           removeTab({ editor: this.editor, store: this.$store, tabId: op.tabId });
+          this.emptyStateTabIds = this.emptyStateTabIds.filter((id) => id !== op.tabId);
           this.syncActiveDocumentView();
         }
       } else {
@@ -433,6 +508,7 @@ export default {
 
 .panes {
   display: flex;
+  position: relative;
   flex: 1;
   min-height: 0;
 }
@@ -444,6 +520,7 @@ export default {
 }
 
 .input {
+  position: relative;
   transition:
     flex-basis 0.2s ease-out,
     width 0.2s ease-out;
@@ -455,6 +532,100 @@ export default {
   :deep(.cm-editor) {
     width: 100%;
     height: 100%;
+  }
+}
+
+.empty-state {
+  display: flex;
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  pointer-events: auto;
+  background: var(--bg);
+  animation: empty-state-fade 0.15s ease-out;
+
+  &__panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    max-width: min(360px, 100%);
+    text-align: center;
+  }
+
+  &__title {
+    margin: 0;
+    color: var(--text);
+    font-size: 1rem;
+    font-weight: 600;
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+  }
+
+  &__button {
+    min-height: 2.25rem;
+    padding: 0 1rem;
+    transition:
+      background-color 0.15s ease-out,
+      color 0.15s ease-out;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background-color: var(--bg-secondary);
+    color: var(--text);
+    font-size: $font-size-sm;
+    font-weight: 500;
+    white-space: nowrap;
+    cursor: pointer;
+    user-select: none;
+    appearance: none;
+
+    &:hover:not(:disabled) {
+      background-color: var(--code-bg);
+    }
+
+    &:focus-visible {
+      outline: none;
+      box-shadow: var(--focus-ring);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: default;
+    }
+
+    &--primary {
+      border-color: transparent;
+      background-color: var(--accent);
+      color: var(--accent-foreground);
+
+      &:hover:not(:disabled) {
+        background-color: var(--accent-hover);
+      }
+    }
+  }
+
+  &__hint {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: $font-size-sm;
+  }
+}
+
+@keyframes empty-state-fade {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
   }
 }
 

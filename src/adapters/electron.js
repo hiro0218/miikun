@@ -88,6 +88,11 @@ export const checkedMenuItem = (menuId, state) => {
   if (menuItem) menuItem.checked = state;
 };
 
+export const enableMenuItem = (menuId, state) => {
+  const menuItem = menuInstance && menuInstance.getMenuItemById(menuId);
+  if (menuItem) menuItem.enabled = state;
+};
+
 export const setThemeSource = (theme) => {
   nativeTheme.themeSource = theme;
 };

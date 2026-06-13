@@ -1,6 +1,7 @@
 import {
   setApplicationMenu,
   checkedMenuItem,
+  enableMenuItem,
   setupContextMenu as setupNativeContextMenu,
   setThemeSource,
   setWindowAlwaysOnTop,
@@ -117,6 +118,7 @@ export default {
           label: 'Toggle Preview Panel',
           type: 'checkbox',
           checked: store.state.Editor.isPreview,
+          enabled: store.state.Editor.canPreview,
           click() {
             AppMenuController.togglePreview();
           },
@@ -250,6 +252,8 @@ export default {
     store.subscribe((mutation, state) => {
       if (mutation.type === 'UPDATE_ISPREVIEW') {
         checkedMenuItem('toggle_preview_panel', state.Editor.isPreview);
+      } else if (mutation.type === 'SET_CAN_PREVIEW') {
+        enableMenuItem('toggle_preview_panel', state.Editor.canPreview);
       } else if (mutation.type === 'TOGGLE_TOOLBAR') {
         checkedMenuItem('toggle_toolbar', state.Editor.openToolbar);
       }

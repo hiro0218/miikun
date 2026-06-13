@@ -4,6 +4,7 @@ const state = {
   openToolbar: true,
   canUndo: false,
   canRedo: false,
+  canPreview: false,
   tabs: [],
   activeTabId: null,
   crypt: {
@@ -39,6 +40,9 @@ const mutations = {
   SET_CAN_REDO(state, bool) {
     state.canRedo = bool;
   },
+  SET_CAN_PREVIEW(state, bool) {
+    state.canPreview = bool;
+  },
   SET_CRYPT_ENABLE(state, bool) {
     state.crypt.enable = bool;
   },
@@ -56,6 +60,9 @@ const mutations = {
   },
   REMOVE_TAB(state, id) {
     state.tabs = state.tabs.filter((t) => t.id !== id);
+    if (state.activeTabId === id) {
+      state.activeTabId = state.tabs[0]?.id ?? null;
+    }
   },
   SET_ACTIVE_TAB(state, id) {
     if (!findTab(state, id)) return;
@@ -98,6 +105,9 @@ const actions = {
   },
   setCanRedo({ commit }, bool) {
     commit('SET_CAN_REDO', bool);
+  },
+  setCanPreview({ commit }, bool) {
+    commit('SET_CAN_PREVIEW', bool);
   },
   setCryptEnable({ commit }, bool) {
     commit('SET_CRYPT_ENABLE', bool);
