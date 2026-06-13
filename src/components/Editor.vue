@@ -637,7 +637,8 @@ export default {
   .markdown-body {
     max-width: $content-max-width;
     margin: 0 auto;
-    padding: 3rem 1.5rem;
+    padding: $document-padding-block $document-padding-inline 50vh;
+    line-height: $line-height-base;
   }
 }
 </style>

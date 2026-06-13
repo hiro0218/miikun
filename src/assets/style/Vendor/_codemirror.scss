@@ -19,7 +19,7 @@
   .cm-content {
     max-width: $content-max-width;
     margin: 0 auto;
-    padding: 3rem 1.5rem 50vh;
+    padding: $document-padding-block $document-padding-inline 50vh;
   }
 
   .cm-line {
