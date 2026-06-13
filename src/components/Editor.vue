@@ -8,7 +8,7 @@
       <div v-if="isPreview == true" class="preview"><div class="markdown-body" v-html="htmlCode" /></div>
       <div v-if="showEmptyState" class="empty-state">
         <div class="empty-state__panel">
-          <h2 class="empty-state__title">What would you like to do?</h2>
+          <h2 class="empty-state__title">Start a document</h2>
           <div class="empty-state__actions">
             <button
               type="button"
@@ -17,9 +17,9 @@
             >
               Start writing
             </button>
-            <button type="button" class="empty-state__button" @click="openFile">Open file...</button>
+            <button type="button" class="empty-state__button" @click="openFile">Open file&hellip;</button>
           </div>
-          <p class="empty-state__hint">Drop .md / .txt / .mii to open</p>
+          <p class="empty-state__hint">Drop .md, .txt, or .mii files to open</p>
         </div>
       </div>
     </div>
@@ -540,9 +540,9 @@ export default {
   position: absolute;
   z-index: 1;
   inset: 0;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
-  padding: 1.5rem;
+  padding: clamp(5rem, 24vh, 9rem) 1.5rem 1.5rem;
   pointer-events: auto;
   background: var(--bg);
   animation: empty-state-fade 0.15s ease-out;
@@ -571,6 +571,7 @@ export default {
   }
 
   &__button {
+    min-width: 7rem;
     min-height: 2.25rem;
     padding: 0 1rem;
     transition:
@@ -636,7 +637,8 @@ export default {
   .markdown-body {
     max-width: $content-max-width;
     margin: 0 auto;
-    padding: 3rem 1.5rem;
+    padding: $document-padding-block $document-padding-inline 50vh;
+    line-height: $line-height-base;
   }
 }
 </style>
