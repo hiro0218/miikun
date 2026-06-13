@@ -12,7 +12,7 @@
           class="tab"
           role="tab"
           draggable="true"
-          tabindex="0"
+          :tabindex="tab.id === activeTabId ? 0 : -1"
           @click="$emit('select', tab.id)"
           @auxclick.middle.prevent="$emit('close', tab.id)"
           @dragstart="onDragStart($event, tab)"
@@ -21,6 +21,10 @@
           @dragend="onDragEnd"
           @keydown.enter.prevent="$emit('select', tab.id)"
           @keydown.space.prevent="$emit('select', tab.id)"
+          @keydown.left.prevent="selectAdjacentTab(-1)"
+          @keydown.right.prevent="selectAdjacentTab(1)"
+          @keydown.home.prevent="selectEdgeTab(0)"
+          @keydown.end.prevent="selectEdgeTab(tabs.length - 1)"
         >
           <span class="tab-label">{{ labelFor(tab) }}</span>
           <span v-if="tab.isDirty" class="dirty-dot" aria-hidden="true" />
@@ -58,7 +62,12 @@ export default {
   watch: {
     activeTabId() {
       this.$nextTick(() => {
-        this.activeTabElement()?.scrollIntoView({ inline: 'nearest', block: 'nearest' });
+        const activeTab = this.activeTabElement();
+        activeTab?.scrollIntoView({ inline: 'nearest', block: 'nearest' });
+        if (this._focusActiveAfterSelect) {
+          activeTab?.focus();
+          this._focusActiveAfterSelect = false;
+        }
       });
     },
     'tabs.length'() {
@@ -85,6 +94,24 @@ export default {
     activeTabElement() {
       const ref = this.$refs.activeTab;
       return Array.isArray(ref) ? ref[0] : ref;
+    },
+    selectTabFromKeyboard(tab) {
+      if (!tab) return;
+      if (tab.id === this.activeTabId) {
+        this.activeTabElement()?.focus();
+        return;
+      }
+      this._focusActiveAfterSelect = true;
+      this.$emit('select', tab.id);
+    },
+    selectAdjacentTab(step) {
+      if (this.tabs.length < 2) return;
+      const index = this.tabs.findIndex((tab) => tab.id === this.activeTabId);
+      if (index === -1) return;
+      this.selectTabFromKeyboard(this.tabs[(index + step + this.tabs.length) % this.tabs.length]);
+    },
+    selectEdgeTab(index) {
+      this.selectTabFromKeyboard(this.tabs[index]);
     },
     updateOverflow() {
       const el = this.$refs.scroller;

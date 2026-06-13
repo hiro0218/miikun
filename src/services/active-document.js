@@ -36,6 +36,8 @@ export const activateTab = ({ editor, store, tabId }) => {
 export const removeTab = ({ editor, store, tabId }) => {
   const tabs = store.state.Editor.tabs;
   const index = tabs.findIndex((t) => t.id === tabId);
+  if (tabId == null || index === -1) return;
+
   const neighbor = tabs[index + 1] || tabs[index - 1];
 
   openDocuments.removeSession(tabId);
