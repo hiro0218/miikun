@@ -4,7 +4,7 @@
 
 ![miikun screenshot](screenshot.png)
 
-miikun is an Electron + React desktop Markdown editor I built because I wanted a simple place to write. It
+miikun is an Electron + React + TypeScript desktop Markdown editor I built because I wanted a simple place to write. It
 edits plain `.md` and `.txt` files, saves password-protected `.mii` files, and keeps the UI quiet so the
 document stays in front.
 
@@ -68,8 +68,11 @@ npm run electron:build
 # Build Electron main and renderer output without packaging
 npm run prebuild
 
-# Lint JavaScript and React files
+# Lint JavaScript, TypeScript, and React files
 npm run lint
+
+# Type-check TypeScript sources
+npm run typecheck
 
 # Check SCSS
 npm run lint:scss
