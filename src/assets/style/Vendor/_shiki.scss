@@ -1,9 +1,9 @@
 // Shiki inlines light-theme colors and carries the dark palette in
 // --shiki-dark-* custom properties; dark mode swaps them via
-// prefers-color-scheme. The block background stays on --code-bg so code
-// blocks keep following the app surface tokens (see Elements/_code.scss).
+// prefers-color-scheme. The block background stays on --bg so code
+// blocks render as bordered panels (see Elements/_code.scss).
 .shiki {
-  background-color: var(--code-bg) !important;
+  background-color: var(--bg) !important;
   tab-size: 4;
 }
 

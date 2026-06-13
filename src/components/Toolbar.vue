@@ -97,7 +97,7 @@ button {
   }
 
   &:disabled {
-    opacity: 0.35;
+    opacity: 0.5;
     cursor: default;
   }
 
