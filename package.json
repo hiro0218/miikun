@@ -5,7 +5,8 @@
   "description": "A Simple Markdown Editor",
   "author": "hiro <hiro0218@gmail.com>",
   "scripts": {
-    "lint": "eslint . --ext .js,.jsx",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "typecheck": "tsc --noEmit",
     "prebuild": "electron-vite build",
     "electron:build": "npm run prebuild && electron-builder --mac zip",
     "electron:serve": "electron-vite dev",
@@ -38,6 +39,11 @@
     "shiki": "^4.2.0"
   },
   "devDependencies": {
+    "@types/node": "^25.9.3",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "@typescript-eslint/eslint-plugin": "^8.61.0",
+    "@typescript-eslint/parser": "^8.61.0",
     "@vitejs/plugin-react": "^5.2.0",
     "autoprefixer": "^10.5.0",
     "electron": "^42.4.0",
@@ -57,6 +63,7 @@
     "stylelint-config-recommended-scss": "^17.0.1",
     "stylelint-declaration-block-no-ignored-properties": "^3.0.0",
     "stylelint-scss": "^7.2.0",
+    "typescript": "^6.0.3",
     "vite": "^7.3.5"
   },
   "bugs": {
@@ -65,7 +72,7 @@
   "homepage": "https://github.com/hiro0218/Miikun#readme",
   "license": "MIT",
   "lint-staged": {
-    "**/*.{js,jsx}": [
+    "**/*.{js,jsx,ts,tsx}": [
       "eslint --fix"
     ]
   },

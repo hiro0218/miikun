@@ -13,7 +13,7 @@ module.exports = {
     },
   },
   extends: ['prettier', 'plugin:prettier/recommended'],
-  plugins: ['prettier'],
+  plugins: ['prettier', '@typescript-eslint'],
   ignorePatterns: ['out/', 'dist/', 'dist_electron/'],
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
@@ -70,7 +70,21 @@ module.exports = {
   },
   overrides: [
     {
-      files: ['src/adapters/**/*.js'],
+      files: ['**/*.ts', '**/*.tsx'],
+      parser: '@typescript-eslint/parser',
+      rules: {
+        'no-unused-vars': 'off',
+        '@typescript-eslint/no-unused-vars': [
+          'error',
+          {
+            args: 'none',
+            varsIgnorePattern: '^[A-Z]',
+          },
+        ],
+      },
+    },
+    {
+      files: ['src/adapters/**/*.{js,ts}'],
       rules: {
         'no-restricted-imports': [
           'error',
@@ -86,7 +100,7 @@ module.exports = {
       },
     },
     {
-      files: ['src/background.js'],
+      files: ['src/background.ts'],
       rules: {
         'no-restricted-imports': 'off',
       },
