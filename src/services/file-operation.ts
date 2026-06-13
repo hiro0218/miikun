@@ -5,7 +5,7 @@ export const selectDocumentSavePath = () => {
   return getSavePath([
     { name: 'Markdown file', extensions: ['md'] },
     { name: 'Text file', extensions: ['txt'] },
-    { name: 'Mii file', extensions: ['mii'] },
+    { name: 'Encrypted miikun file', extensions: ['mii'] },
   ]);
 };
 
