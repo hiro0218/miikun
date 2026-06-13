@@ -547,6 +547,7 @@ export default function Editor() {
 
     return () => {
       window.removeEventListener('beforeunload', confirmWindowClose);
+      onEditorCodeChange.clear();
       editorRef.current?.view?.destroy?.();
     };
   }, [

@@ -23,7 +23,7 @@ export default function KeyPrompt({ onDone }) {
       return;
     }
 
-    setTitle('Unkown operation');
+    setTitle('Unknown operation');
   }, [enable, store]);
 
   const done = () => {

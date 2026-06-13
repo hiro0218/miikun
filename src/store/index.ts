@@ -235,8 +235,12 @@ const actionTypes: Record<string, string> = {
   updateTheme: 'SET_THEME',
 };
 
+const persistedMutationTypes = new Set(['SET_ALWAYS_ON_TOP', 'SET_THEME', 'UPDATE_ISPREVIEW', 'TOGGLE_TOOLBAR']);
+
 const notify = (type, payload) => {
-  persistState();
+  if (persistedMutationTypes.has(type)) {
+    persistState();
+  }
   const mutation = { type, payload };
   mutationListeners.forEach((listener) => listener(mutation, state));
   stateListeners.forEach((listener) => listener());
