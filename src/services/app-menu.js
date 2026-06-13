@@ -26,8 +26,19 @@ export default {
       submenu: [
         {
           id: 'new',
-          label: 'New',
+          label: 'New Tab',
+          accelerator: 'CmdOrCtrl+T',
+          click() {
+            AppMenuController.newFile();
+          },
+        },
+        {
+          // Hidden alias: editors conventionally also create a new document with Cmd+N.
+          id: 'new_alias',
+          label: 'New Tab',
           accelerator: 'CmdOrCtrl+N',
+          visible: false,
+          acceleratorWorksWhenHidden: true,
           click() {
             AppMenuController.newFile();
           },
@@ -54,6 +65,15 @@ export default {
           accelerator: 'CmdOrCtrl+Shift+S',
           click() {
             AppMenuController.saveAs();
+          },
+        },
+        { type: 'separator' },
+        {
+          id: 'close_tab',
+          label: 'Close Tab',
+          accelerator: 'CmdOrCtrl+W',
+          click() {
+            AppMenuController.closeTab();
           },
         },
       ],
@@ -108,6 +128,23 @@ export default {
           checked: store.state.Editor.openToolbar,
           click() {
             AppMenuController.toggleToolbar();
+          },
+        },
+        { type: 'separator' },
+        {
+          id: 'next_tab',
+          label: 'Next Tab',
+          accelerator: 'Ctrl+Tab',
+          click() {
+            AppMenuController.nextTab();
+          },
+        },
+        {
+          id: 'previous_tab',
+          label: 'Previous Tab',
+          accelerator: 'Ctrl+Shift+Tab',
+          click() {
+            AppMenuController.prevTab();
           },
         },
         { type: 'separator' },

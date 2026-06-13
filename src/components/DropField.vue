@@ -19,10 +19,10 @@ export default {
         'drop',
         (e) => {
           e.preventDefault();
-          const file = e.dataTransfer.files[0];
-          if (!file) return;
-          const ext = this.getFileExtension(file.name);
-          this.dropFile(file, ext);
+          Array.from(e.dataTransfer.files).forEach((file) => {
+            const ext = this.getFileExtension(file.name);
+            this.dropFile(file, ext);
+          });
         },
         true,
       );
@@ -46,6 +46,8 @@ export default {
       const dropZone = document.querySelector('.dropfield');
 
       window.addEventListener('dragenter', function (e) {
+        // Internal drags (e.g. tab reordering) must not raise the file-drop overlay.
+        if (!e.dataTransfer || !e.dataTransfer.types.includes('Files')) return;
         dropZone.style.opacity = 1;
         dropZone.style.zIndex = 100;
       });
@@ -62,6 +64,9 @@ export default {
       });
 
       document.addEventListener('dragstart', function (e) {
+        // Block accidental drags (text selection, images) but let explicitly
+        // draggable elements (e.g. tabs) start their own drag.
+        if (e.target.closest?.('[draggable="true"]')) return;
         e.preventDefault();
       });
 
@@ -94,7 +99,7 @@ export default {
   align-items: center;
   justify-content: center;
   transition: opacity 0.2s ease-out;
-  outline: 2px dashed var(--accent);
+  outline: 2px dashed rgba(255, 255, 255, 0.9);
   outline-offset: -16px;
   opacity: 0;
   background: var(--overlay);

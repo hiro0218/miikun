@@ -26,7 +26,6 @@ export default class Editor {
   constructor(element) {
     this.element = element;
     this.parent = element.parentNode;
-    this.cleanValue = element.value || '';
     this.handlers = {
       change: [],
       changes: [],
@@ -49,7 +48,8 @@ export default class Editor {
     ]);
     this.cm = this.createCompatApi();
     this.element.style.display = 'none';
-    this.createView(this.cleanValue);
+    this.createView(element.value || '');
+    this.cleanValue = this.view.state.doc;
   }
 
   getCmInstance() {
@@ -64,9 +64,26 @@ export default class Editor {
     this.cm.save();
   }
 
-  clean() {
-    this.setValue('');
-    this.clearHistory();
+  captureDoc() {
+    return { state: this.view.state, cleanValue: this.cleanValue, scroll: this.view.scrollSnapshot() };
+  }
+
+  restoreDoc(snapshot) {
+    this.view.setState(snapshot.state);
+    this.cleanValue = snapshot.cleanValue;
+    if (snapshot.scroll) {
+      this.view.dispatch({ effects: snapshot.scroll });
+    }
+  }
+
+  openFresh(content = '') {
+    this.createView(content);
+    this.cleanValue = this.view.state.doc;
+    this.cm.save();
+  }
+
+  focus() {
+    this.view.focus();
   }
 
   isClean() {
@@ -126,9 +143,10 @@ export default class Editor {
       save: () => {
         this.element.value = this.view.state.doc.toString();
       },
-      isClean: () => this.view.state.doc.toString() === this.cleanValue,
+      // cleanValue holds a CM6 Text; Text.eq compares ropes without flattening the document.
+      isClean: () => this.view.state.doc.eq(this.cleanValue),
       markClean: () => {
-        this.cleanValue = this.view.state.doc.toString();
+        this.cleanValue = this.view.state.doc;
       },
       clearHistory: () => this.createView(this.view.state.doc.toString()),
       historySize: () => ({
