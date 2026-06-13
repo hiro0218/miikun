@@ -21,6 +21,9 @@ const markdownHighlight = HighlightStyle.define([
   { tag: tags.quote, color: 'var(--text-muted)' },
   { tag: [tags.processingInstruction, tags.meta, tags.labelName, tags.contentSeparator], color: 'var(--text-muted)' },
 ]);
+const EDITABLE_HEADING_LEVELS = [0, 1, 2, 3];
+const HEADING_MARKER = /^(#{1,6})(?:\s+|$)/;
+const BULLET_MARKER = /^(\s*)[-*+]\s+/;
 
 export default class Editor {
   constructor(element) {
@@ -104,6 +107,74 @@ export default class Editor {
     this.cm.replaceRange(text, { line, ch }, { line, ch });
   }
 
+  setHeadingLevel(level) {
+    const headingLevel = Number(level);
+    if (!EDITABLE_HEADING_LEVELS.includes(headingLevel)) return false;
+
+    const { doc, selection } = this.view.state;
+    const selectedLineEnd = this.getSelectedLineEnd(selection.main, doc);
+    const fromLine = doc.lineAt(selection.main.from).number;
+    const toLine = doc.lineAt(selectedLineEnd).number;
+    const changes = [];
+
+    for (let lineNumber = fromLine; lineNumber <= toLine; lineNumber += 1) {
+      const change = this.getHeadingLineChange(doc.line(lineNumber), headingLevel);
+      if (change) changes.push(change);
+    }
+
+    if (changes.length > 0) {
+      this.view.dispatch({ changes });
+    }
+
+    this.view.focus();
+    return true;
+  }
+
+  toggleBold() {
+    const applied = this.toggleSelectionWrap(this.view, '**');
+    this.view.focus();
+    return applied;
+  }
+
+  insertLink() {
+    const selection = this.view.state.selection.main;
+    const selectedText = this.view.state.sliceDoc(selection.from, selection.to);
+    const label = selectedText || 'text';
+    const insert = `[${label}](url)`;
+    const selectionFrom = selectedText ? selection.from + label.length + 3 : selection.from + 1;
+    const selectionTo = selectedText ? selectionFrom + 3 : selectionFrom + label.length;
+
+    this.view.dispatch({
+      changes: {
+        from: selection.from,
+        to: selection.to,
+        insert,
+      },
+      selection: {
+        anchor: selectionFrom,
+        head: selectionTo,
+      },
+    });
+    this.view.focus();
+    return true;
+  }
+
+  toggleBulletList() {
+    const { doc, selection } = this.view.state;
+    const selectedLineEnd = this.getSelectedLineEnd(selection.main, doc);
+    const fromLine = doc.lineAt(selection.main.from).number;
+    const toLine = doc.lineAt(selectedLineEnd).number;
+    const changes = [];
+
+    for (let lineNumber = fromLine; lineNumber <= toLine; lineNumber += 1) {
+      changes.push(this.getBulletLineChange(doc.line(lineNumber)));
+    }
+
+    this.view.dispatch({ changes });
+    this.view.focus();
+    return true;
+  }
+
   createView(doc) {
     if (this.view) {
       this.view.destroy();
@@ -175,6 +246,51 @@ export default class Editor {
           changes: { from: fromPos, to: toPos, insert: text },
         });
       },
+      setHeadingLevel: (level) => this.setHeadingLevel(level),
+      toggleBold: () => this.toggleBold(),
+      insertLink: () => this.insertLink(),
+      toggleBulletList: () => this.toggleBulletList(),
+    };
+  }
+
+  getSelectedLineEnd(selection, doc) {
+    if (selection.to <= selection.from) return selection.to;
+
+    const endsAtLineBreak = doc.sliceString(selection.to - 1, selection.to) === '\n';
+    return endsAtLineBreak ? selection.to - 1 : selection.to;
+  }
+
+  getHeadingLineChange(line, level) {
+    const marker = line.text.match(HEADING_MARKER);
+    const currentMarker = marker ? marker[0] : '';
+    const nextMarker = level === 0 ? '' : `${'#'.repeat(level)} `;
+
+    if (currentMarker === nextMarker) return null;
+
+    return {
+      from: line.from,
+      to: line.from + currentMarker.length,
+      insert: nextMarker,
+    };
+  }
+
+  getBulletLineChange(line) {
+    const marker = line.text.match(BULLET_MARKER);
+
+    if (marker) {
+      const markerFrom = line.from + marker[1].length;
+      return {
+        from: markerFrom,
+        to: line.from + marker[0].length,
+        insert: '',
+      };
+    }
+
+    const indent = line.text.match(/^\s*/)[0];
+    return {
+      from: line.from + indent.length,
+      to: line.from + indent.length,
+      insert: '- ',
     };
   }
 
