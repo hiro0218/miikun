@@ -375,7 +375,12 @@ export default {
         message: `${displayCount} tab(s) have unsaved changes`,
         detail: 'Unsaved changes will be lost. Quit anyway?',
       });
-      if (response === 0) e.returnValue = false;
+      if (response === 0) {
+        e.preventDefault();
+        e.returnValue = 'Unsaved changes will be lost.';
+        return 'Unsaved changes will be lost.';
+      }
+      return undefined;
     },
     async onKeyPromptDone(key) {
       const op = this.$store.state.Editor.crypt.op;

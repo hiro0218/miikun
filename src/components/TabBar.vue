@@ -12,12 +12,15 @@
           class="tab"
           role="tab"
           draggable="true"
+          tabindex="0"
           @click="$emit('select', tab.id)"
           @auxclick.middle.prevent="$emit('close', tab.id)"
           @dragstart="onDragStart($event, tab)"
           @dragover.prevent="onDragOver($event, tab)"
           @drop.prevent="onDragEnd"
           @dragend="onDragEnd"
+          @keydown.enter.prevent="$emit('select', tab.id)"
+          @keydown.space.prevent="$emit('select', tab.id)"
         >
           <span class="tab-label">{{ labelFor(tab) }}</span>
           <span v-if="tab.isDirty" class="dirty-dot" aria-hidden="true" />
@@ -55,7 +58,7 @@ export default {
   watch: {
     activeTabId() {
       this.$nextTick(() => {
-        this.$refs.activeTab?.[0]?.scrollIntoView({ inline: 'nearest', block: 'nearest' });
+        this.activeTabElement()?.scrollIntoView({ inline: 'nearest', block: 'nearest' });
       });
     },
     'tabs.length'() {
@@ -78,6 +81,10 @@ export default {
     },
     basename(path) {
       return path.split(/[\\/]/).pop() || path;
+    },
+    activeTabElement() {
+      const ref = this.$refs.activeTab;
+      return Array.isArray(ref) ? ref[0] : ref;
     },
     updateOverflow() {
       const el = this.$refs.scroller;
@@ -193,6 +200,11 @@ export default {
   &:hover {
     background: var(--code-bg);
     color: var(--text);
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: inset var(--focus-ring);
   }
 
   &.active {
