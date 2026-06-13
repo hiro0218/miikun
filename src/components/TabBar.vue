@@ -6,9 +6,10 @@
           v-for="tab in tabs"
           :key="tab.id"
           :ref="tab.id === activeTabId ? 'activeTab' : undefined"
+          :aria-label="ariaLabelFor(tab)"
           :aria-selected="tab.id === activeTabId"
-          :class="{ active: tab.id === activeTabId, dragging: tab.id === draggingTabId }"
-          :title="tab.path || labelFor(tab)"
+          :class="{ active: tab.id === activeTabId, dirty: tab.isDirty, dragging: tab.id === draggingTabId }"
+          :title="titleFor(tab)"
           class="tab"
           role="tab"
           draggable="true"
@@ -28,13 +29,13 @@
         >
           <span class="tab-label">{{ labelFor(tab) }}</span>
           <span v-if="tab.isDirty" class="dirty-dot" aria-hidden="true" />
-          <button class="close-btn" :aria-label="'Close ' + labelFor(tab)" @click.stop="$emit('close', tab.id)">
+          <button type="button" class="close-btn" :aria-label="closeLabelFor(tab)" @click.stop="$emit('close', tab.id)">
             <font-awesome-icon icon="xmark" />
           </button>
         </div>
       </div>
     </div>
-    <button class="new-tab-btn" aria-label="New tab" @click="$emit('new-tab')">
+    <button type="button" class="new-tab-btn" aria-label="New tab" @click="$emit('new-tab')">
       <font-awesome-icon icon="plus" />
     </button>
   </div>
@@ -87,6 +88,19 @@ export default {
   methods: {
     labelFor(tab) {
       return tab.path ? this.basename(tab.path) : 'Untitled-' + tab.id;
+    },
+    titleFor(tab) {
+      const label = tab.path || this.labelFor(tab);
+      return tab.isDirty ? `${label} - Unsaved changes` : label;
+    },
+    ariaLabelFor(tab) {
+      const label = this.labelFor(tab);
+      const state = tab.id === this.activeTabId ? 'selected' : 'not selected';
+      return tab.isDirty ? `${label}, unsaved changes, ${state}` : `${label}, ${state}`;
+    },
+    closeLabelFor(tab) {
+      const label = this.labelFor(tab);
+      return tab.isDirty ? `Close ${label} with unsaved changes` : `Close ${label}`;
     },
     basename(path) {
       return path.split(/[\\/]/).pop() || path;
@@ -216,7 +230,7 @@ export default {
   flex-shrink: 0;
   align-items: center;
   gap: 0.25rem;
-  padding: 0 0.5rem 0 0.75rem;
+  padding: 0 0.25rem 0 0.75rem;
   cursor: pointer;
   border-right: 1px solid var(--border);
   color: var(--text-muted);
@@ -237,6 +251,10 @@ export default {
   &.active {
     background: var(--bg);
     color: var(--text);
+  }
+
+  &.dirty .tab-label {
+    font-weight: 600;
   }
 
   &.dragging {
@@ -265,10 +283,10 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 18px;
-  height: 18px;
+  width: 28px;
+  height: 28px;
   flex-shrink: 0;
-  border-radius: 4px;
+  border-radius: 6px;
   color: var(--text-muted);
   transition:
     background-color 0.15s ease-out,
@@ -277,6 +295,11 @@ export default {
   &:hover {
     background: var(--border);
     color: var(--text);
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring);
   }
 
   .svg-inline--fa {
@@ -289,7 +312,7 @@ export default {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  width: $tabbar-height;
+  width: 2.5rem;
   color: var(--text-muted);
   transition:
     background-color 0.15s ease-out,
@@ -298,6 +321,11 @@ export default {
   &:hover {
     background: var(--code-bg);
     color: var(--text);
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: inset var(--focus-ring);
   }
 
   .svg-inline--fa {

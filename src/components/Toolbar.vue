@@ -1,13 +1,19 @@
 <template>
   <div :class="{ open: openToolbar }" class="toolbar">
     <div class="menu">
-      <button :disabled="!canUndo" title="Undo" @click="undo">
+      <button type="button" :disabled="!canUndo" aria-label="Undo" title="Undo" @click="undo">
         <font-awesome-icon icon="undo" />
       </button>
-      <button :disabled="!canRedo" title="Redo" @click="redo">
+      <button type="button" :disabled="!canRedo" aria-label="Redo" title="Redo" @click="redo">
         <font-awesome-icon icon="redo" />
       </button>
-      <button :disabled="!canPreview" :title="previewButtonTitle" @click="togglePreview">
+      <button
+        type="button"
+        :disabled="!canPreview"
+        :aria-label="previewButtonTitle"
+        :title="previewButtonTitle"
+        @click="togglePreview"
+      >
         <font-awesome-icon v-if="isPreview" icon="eye" />
         <font-awesome-icon v-else icon="eye-slash" />
       </button>
@@ -83,8 +89,8 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   margin: 0 auto;
   transition:
     background-color 0.15s ease-out,
@@ -99,6 +105,11 @@ button {
   &:hover:not(:disabled) {
     background: var(--code-bg);
     color: var(--text);
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring);
   }
 
   &:disabled {
