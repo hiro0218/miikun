@@ -1,26 +1,107 @@
 # miikun
 
-> A Simple Markdown Editor
+> A simple Markdown editor built for focused writing.
 
-<img src="screenshot.png">
+![miikun screenshot](screenshot.png)
 
-## Build Setup
+miikun is an Electron + Vue 3 desktop Markdown editor I built because I wanted a simple place to write. It
+edits plain `.md` and `.txt` files, saves password-protected `.mii` files, and keeps the UI quiet so the
+document stays in front.
 
-``` bash
-# install dependencies
+Use it when you want local files, native desktop shortcuts, tabs, and preview without a workspace or account.
+
+## Highlights
+
+- Simple local editing for `.md`, `.txt`, and encrypted `.mii` files
+- Multi-tab workflow with dirty-state indicators, tab closing, and drag reordering
+- Optional live Markdown preview with tables, checkboxes, footnotes, anchors, definition lists, and Shiki
+  syntax highlighting
+- Password prompt for opening and saving `.mii` files
+- Native desktop menus and shortcuts for file, edit, preview, theme, zoom, and window controls
+- Light, dark, and system themes, plus an Always on Top mode for reference notes
+- Drag-and-drop file opening
+- URL paste helper that turns a pasted URL into a Markdown link when the page title can be read
+
+## Quick Start
+
+Prerequisites:
+
+- Node.js
+- npm
+
+Install dependencies and launch the Electron app:
+
+```bash
 npm install
+npm run electron:serve
+```
 
-# serve
+The development server runs on port `8888`. Browser-only `npm run serve` / `npm run build` scripts are not
+defined because the renderer uses Electron and Node APIs directly.
+
+## Everyday Use
+
+| Action | Shortcut / Path |
+| --- | --- |
+| New tab | `CmdOrCtrl+T` or `CmdOrCtrl+N` |
+| Open file | `CmdOrCtrl+O` or drag a file into the window |
+| Save | `CmdOrCtrl+S` |
+| Save as | `CmdOrCtrl+Shift+S` |
+| Close tab | `CmdOrCtrl+W` |
+| Next / previous tab | `Ctrl+Tab` / `Ctrl+Shift+Tab` |
+| Toggle preview | `View` -> `Toggle Preview Panel` |
+| Change theme | `View` -> `Theme` |
+| Always on Top | `CmdOrCtrl+Shift+T` |
+
+To create an encrypted note, save the document with the `.mii` extension and enter a password. Opening that
+file later asks for the password before the content is loaded.
+
+## Development
+
+```bash
+# Run the Electron app in development
 npm run electron:serve
 
-# build electron app for production
+# Build the production desktop app
 npm run electron:build
 
-# lint all JS/Vue component files in `app/src`
+# Lint JavaScript and Vue files
 npm run lint
+
+# Check SCSS
+npm run lint:scss
+
+# Auto-format SCSS
+npm run format:scss
 ```
-More information can be found [here](https://simulatedgreg.gitbooks.io/electron-vue/content/).
 
----
+The current production build configuration targets a macOS zip package.
 
-This project was generated from [electron-vue](https://github.com/SimulatedGREG/electron-vue) using [vue-cli](https://github.com/vuejs/vue-cli). Documentation about this project can be found [here](https://simulatedgreg.gitbooks.io/electron-vue/content/index.html).
+## Architecture
+
+miikun keeps the Electron main process small and puts the editor workflow in the Vue renderer. Third-party
+libraries are isolated behind adapter modules so the rest of the app depends on app-facing APIs instead of
+direct library imports.
+
+Key areas:
+
+- `src/adapters/` wraps CodeMirror, markdown-it/Shiki, filesystem, encryption, and Electron APIs
+- `src/services/` owns editor commands, file operations, render sequencing, menus, and tab document state
+- `src/components/` contains the editor, tab bar, toolbar, drag-and-drop overlay, and password prompt
+- `docs/architecture/editor-boundaries.md` explains editor/file/preview/command ownership in more detail
+
+## Contributing
+
+Issues and focused pull requests are welcome. Before opening a PR, run:
+
+```bash
+npm run lint
+npm run lint:scss
+```
+
+There is no automated test suite yet. For changes that affect behavior, also launch the app with
+`npm run electron:serve` and verify the edited workflow manually.
+
+## License
+
+MIT
