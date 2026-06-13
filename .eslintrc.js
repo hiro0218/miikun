@@ -3,9 +3,18 @@ module.exports = {
   env: {
     browser: true,
     node: true,
+    es2022: true,
   },
-  extends: ['prettier', 'plugin:vue/recommended', 'plugin:prettier/recommended'],
-  plugins: ['vue', 'prettier'],
+  parserOptions: {
+    ecmaVersion: 'latest',
+    sourceType: 'module',
+    ecmaFeatures: {
+      jsx: true,
+    },
+  },
+  extends: ['prettier', 'plugin:prettier/recommended'],
+  plugins: ['prettier', '@typescript-eslint'],
+  ignorePatterns: ['out/', 'dist/', 'dist_electron/'],
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
@@ -14,6 +23,7 @@ module.exports = {
       'error',
       {
         args: 'none',
+        varsIgnorePattern: '^[A-Z]',
       },
     ],
     'no-underscore-dangle': 0,
@@ -30,17 +40,6 @@ module.exports = {
     'global-require': 0,
     'prefer-const': 2,
     'max-depth': ['error', 3],
-    'vue/max-attributes-per-line': 'off',
-    'vue/no-v-html': 0,
-    'vue/html-self-closing': [
-      'error',
-      {
-        html: {
-          void: 'always',
-        },
-      },
-    ],
-    'vue/singleline-html-element-content-newline': 0,
     'no-restricted-imports': [
       'error',
       {
@@ -71,7 +70,21 @@ module.exports = {
   },
   overrides: [
     {
-      files: ['src/adapters/**/*.js'],
+      files: ['**/*.ts', '**/*.tsx'],
+      parser: '@typescript-eslint/parser',
+      rules: {
+        'no-unused-vars': 'off',
+        '@typescript-eslint/no-unused-vars': [
+          'error',
+          {
+            args: 'none',
+            varsIgnorePattern: '^[A-Z]',
+          },
+        ],
+      },
+    },
+    {
+      files: ['src/adapters/**/*.{js,ts}'],
       rules: {
         'no-restricted-imports': [
           'error',
@@ -87,7 +100,7 @@ module.exports = {
       },
     },
     {
-      files: ['src/background.js'],
+      files: ['src/background.ts'],
       rules: {
         'no-restricted-imports': 'off',
       },

@@ -8,6 +8,8 @@ const ERR_UNEXPECTED_STATE = -104;
 const _Error = Error;
 
 class UserCancelError extends _Error {
+  code: number;
+
   constructor() {
     super('User Canceled.');
     this.name = 'UserCancelError';
@@ -16,6 +18,8 @@ class UserCancelError extends _Error {
 }
 
 class EncryptFailError extends _Error {
+  code: number;
+
   constructor(reason) {
     super(reason);
     this.name = 'EncryptFailError';
@@ -24,6 +28,8 @@ class EncryptFailError extends _Error {
 }
 
 class DecryptFailError extends _Error {
+  code: number;
+
   constructor(reason) {
     super(reason);
     this.name = 'DecryptFailError';
@@ -32,6 +38,8 @@ class DecryptFailError extends _Error {
 }
 
 class NullKeyError extends _Error {
+  code: number;
+
   constructor() {
     super('Cannot find key.');
     this.name = 'NullKeyError';
@@ -40,6 +48,8 @@ class NullKeyError extends _Error {
 }
 
 class UnexpectedStateError extends _Error {
+  code: number;
+
   constructor(name, value) {
     super('Unexpected state "' + name + '" with value "' + value + '"');
     this.name = 'UnexpectedStateError';

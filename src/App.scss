@@ -1,0 +1,7 @@
+@use '@/assets/style/main';
+
+#app {
+  display: flex;
+  flex-direction: initial;
+  background: var(--bg);
+}

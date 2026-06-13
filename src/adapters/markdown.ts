@@ -9,19 +9,20 @@ import { createHighlighter, bundledLanguages } from 'shiki';
 
 const THEMES = { light: 'github-light', dark: 'github-dark' };
 const FENCE_LANG_PATTERN = /^ {0,3}(?:`{3,}|~{3,}) *(\S+)/gm;
+const loadedLanguages = new Set();
+let highlighter = null;
+const highlighterReady = createHighlighter({
+  themes: Object.values(THEMES),
+  langs: [],
+}).then((instance) => {
+  highlighter = instance;
+  return instance;
+});
 
 export default class Markdown {
-  constructor() {
-    this.highlighter = null;
-    this.loadedLanguages = new Set();
-    this.highlighterReady = createHighlighter({
-      themes: Object.values(THEMES),
-      langs: [],
-    }).then((highlighter) => {
-      this.highlighter = highlighter;
-      return highlighter;
-    });
+  markdownIt: MarkdownIt;
 
+  constructor() {
     this.markdownIt = new MarkdownIt({
       html: true,
       xhtmlOut: false,
@@ -43,12 +44,12 @@ export default class Markdown {
   }
 
   highlight(str, lang) {
-    const language = lang.toLowerCase();
-    if (!this.loadedLanguages.has(language)) {
+    const language = String(lang || '').toLowerCase();
+    if (!language || !highlighter || !loadedLanguages.has(language)) {
       return '';
     }
     const code = str.endsWith('\n') ? str.slice(0, -1) : str;
-    return this.highlighter.codeToHtml(code, {
+    return highlighter.codeToHtml(code, {
       lang: language,
       themes: THEMES,
     });
@@ -66,7 +67,7 @@ export default class Markdown {
 
     for (const match of markdown.matchAll(FENCE_LANG_PATTERN)) {
       const language = match[1].toLowerCase();
-      if (!this.loadedLanguages.has(language) && language in bundledLanguages) {
+      if (!loadedLanguages.has(language) && language in bundledLanguages) {
         requested.add(language);
       }
     }
@@ -75,11 +76,11 @@ export default class Markdown {
       return;
     }
 
-    const highlighter = this.highlighter || (await this.highlighterReady);
+    const instance = highlighter || (await highlighterReady);
     await Promise.all(
       [...requested].map(async (language) => {
-        await highlighter.loadLanguage(language);
-        this.loadedLanguages.add(language);
+        await instance.loadLanguage(language);
+        loadedLanguages.add(language);
       }),
     );
   }

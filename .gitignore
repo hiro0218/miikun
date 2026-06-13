@@ -2,6 +2,7 @@
 .report
 node_modules
 /dist
+/out
 
 # local env files
 .env.local

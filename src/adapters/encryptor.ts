@@ -1,9 +1,21 @@
 'use strict';
 
-import crypto from 'crypto';
 import { DecryptFailError } from '@/shared/errors';
 
+const crypto = window.require('crypto');
+
 class Encryptor {
+  info: {
+    cipher: {
+      algorithm: string;
+      ivLength: number;
+    };
+    hmac: {
+      algorithm: string;
+      key: string;
+    };
+  };
+
   constructor() {
     this.info = {
       cipher: {
@@ -36,7 +48,7 @@ class Encryptor {
     const decipher = crypto.createDecipheriv(this.info.cipher.algorithm, this.hmac(key), Buffer.from(iv));
     try {
       return Buffer.concat([decipher.update(raw), decipher.final()]);
-    } catch (err) {
+    } catch {
       throw new DecryptFailError('Wrong Password');
     }
   }

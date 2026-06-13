@@ -1,0 +1,130 @@
+.toolbar {
+  display: flex;
+  flex-direction: column;
+  width: 0;
+  min-height: 0;
+  padding: 0.75rem 0;
+  overflow: hidden;
+  transition: width 0.2s ease-out;
+  background: var(--bg-secondary);
+
+  > .menu {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-height: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    transition: opacity 0.15s ease-out;
+    opacity: 0;
+    scrollbar-width: thin;
+  }
+
+  &.open {
+    width: $toolbar-width;
+    border-right: 1px solid var(--border);
+
+    > .menu {
+      opacity: 1;
+    }
+  }
+}
+
+.toolbar button,
+.toolbar .heading-control {
+  width: 36px;
+  height: 36px;
+  margin: 0 auto;
+  transition:
+    background-color 0.15s ease-out,
+    color 0.15s ease-out;
+  border-radius: 8px;
+  color: var(--text-muted);
+}
+
+.menu-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  & + & {
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--border);
+  }
+}
+
+.toolbar button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover:not(:disabled) {
+    background: var(--code-bg);
+    color: var(--text);
+  }
+
+  &.active:not(:disabled) {
+    background: var(--code-bg);
+    color: var(--text);
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+
+  .svg-inline--fa {
+    font-size: 14px;
+  }
+}
+
+.toolbar .heading-control {
+  display: block;
+  position: relative;
+
+  &:hover:not(.disabled) {
+    background: var(--code-bg);
+    color: var(--text);
+  }
+
+  &.disabled {
+    opacity: 0.5;
+  }
+
+  &__icon {
+    position: absolute;
+    right: 6px;
+    bottom: 7px;
+    font-size: 8px;
+    pointer-events: none;
+  }
+}
+
+.toolbar .heading-select {
+  width: 100%;
+  height: 100%;
+  padding: 0 0.5rem 0 0;
+  border-radius: inherit;
+  color: inherit;
+  font-size: $font-size-sm;
+  font-weight: 600;
+  text-align: center;
+  text-align-last: center;
+  cursor: pointer;
+  appearance: none;
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring);
+  }
+
+  &:disabled {
+    cursor: default;
+  }
+}

@@ -4,7 +4,7 @@
 
 ![miikun screenshot](screenshot.png)
 
-miikun is an Electron + Vue 3 desktop Markdown editor I built because I wanted a simple place to write. It
+miikun is an Electron + React + TypeScript desktop Markdown editor I built because I wanted a simple place to write. It
 edits plain `.md` and `.txt` files, saves password-protected `.mii` files, and keeps the UI quiet so the
 document stays in front.
 
@@ -36,8 +36,8 @@ npm install
 npm run electron:serve
 ```
 
-The development server runs on port `8888`. Browser-only `npm run serve` / `npm run build` scripts are not
-defined because the renderer uses Electron and Node APIs directly.
+The development server is managed by electron-vite and Vite. Browser-only `npm run serve` / `npm run build`
+scripts are not defined because the renderer uses Electron and Node APIs directly.
 
 ## Everyday Use
 
@@ -65,8 +65,14 @@ npm run electron:serve
 # Build the production desktop app
 npm run electron:build
 
-# Lint JavaScript and Vue files
+# Build Electron main and renderer output without packaging
+npm run prebuild
+
+# Lint JavaScript, TypeScript, and React files
 npm run lint
+
+# Type-check TypeScript sources
+npm run typecheck
 
 # Check SCSS
 npm run lint:scss
@@ -79,7 +85,7 @@ The current production build configuration targets a macOS zip package.
 
 ## Architecture
 
-miikun keeps the Electron main process small and puts the editor workflow in the Vue renderer. Third-party
+miikun keeps the Electron main process small and puts the editor workflow in the React renderer. Third-party
 libraries are isolated behind adapter modules so the rest of the app depends on app-facing APIs instead of
 direct library imports.
 

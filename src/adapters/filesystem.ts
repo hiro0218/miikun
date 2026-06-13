@@ -1,13 +1,22 @@
 'use strict';
 
-import fs from 'fs';
 import encryptor from './encryptor';
 import { NullKeyError, DecryptFailError } from '@/shared/errors';
+
+const fs = window.require('fs');
 // This file looks looks
 // | Base info | HMAC | IV | Enc Content |
 // | 16        | 32   | 16 | ..          |
 
 class Filesystem {
+  header: {
+    length: number;
+    baseLength: number;
+    hmacLength: number;
+    ivLength: number;
+  };
+  key: string | null;
+
   constructor() {
     this.header = {
       length: 64,
@@ -36,7 +45,7 @@ class Filesystem {
     if (this.shouldEncrypt(path)) {
       // Use the cached key instead of state, because when readFile fail, I
       // can keep the old key of current file.
-      // It's hard and will make code looks ugly if implemnt in Editor.vue.
+      // Keeping the cached key here avoids leaking file encryption details into Editor.tsx.
       key = key === null ? this.key : key;
       // Prevent null key, it should not happen
       // at this time.

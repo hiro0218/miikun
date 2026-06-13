@@ -1,0 +1,25 @@
+.dropfield {
+  display: flex;
+  position: fixed;
+  z-index: -100;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s ease-out;
+  outline: 2px dashed rgba(255, 255, 255, 0.9);
+  outline-offset: -16px;
+  opacity: 0;
+  background: var(--overlay);
+  color: #fff;
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  user-select: none;
+
+  &::before {
+    content: 'Drop file here';
+  }
+}
