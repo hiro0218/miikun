@@ -7,17 +7,17 @@ import { tags } from '@lezer/highlight';
 // Colors come from the CSS custom properties in Generic/_tokens.scss,
 // so the editor follows the OS light/dark scheme without a separate theme.
 const markdownHighlight = HighlightStyle.define([
-  { tag: tags.heading1, fontSize: '1.75em', fontWeight: 'bold' },
-  { tag: tags.heading2, fontSize: '1.5em', fontWeight: 'bold' },
-  { tag: tags.heading3, fontSize: '1.25em', fontWeight: 'bold' },
-  { tag: tags.heading4, fontSize: '1.1em', fontWeight: 'bold' },
-  { tag: tags.heading5, fontWeight: 'bold' },
-  { tag: tags.heading6, fontWeight: 'bold', color: 'var(--text-muted)' },
+  { tag: tags.heading1, fontSize: '1.75em', fontWeight: '600' },
+  { tag: tags.heading2, fontSize: '1.5em', fontWeight: '600' },
+  { tag: tags.heading3, fontSize: '1.25em', fontWeight: '600' },
+  { tag: tags.heading4, fontSize: '1.1em', fontWeight: '600' },
+  { tag: tags.heading5, fontWeight: '600' },
+  { tag: tags.heading6, fontWeight: '600', color: 'var(--text-muted)' },
   { tag: tags.strong, fontWeight: 'bold' },
   { tag: tags.emphasis, fontStyle: 'italic' },
   { tag: tags.strikethrough, textDecoration: 'line-through' },
   { tag: tags.monospace, fontFamily: 'var(--font-mono)' },
-  { tag: [tags.link, tags.url], color: 'var(--accent)' },
+  { tag: [tags.link, tags.url], color: 'var(--text-muted)', textDecoration: 'underline' },
   { tag: tags.quote, color: 'var(--text-muted)' },
   { tag: [tags.processingInstruction, tags.meta, tags.labelName, tags.contentSeparator], color: 'var(--text-muted)' },
 ]);
@@ -26,7 +26,6 @@ export default class Editor {
   constructor(element) {
     this.element = element;
     this.parent = element.parentNode;
-    this.cleanValue = element.value || '';
     this.handlers = {
       change: [],
       changes: [],
@@ -49,7 +48,8 @@ export default class Editor {
     ]);
     this.cm = this.createCompatApi();
     this.element.style.display = 'none';
-    this.createView(this.cleanValue);
+    this.createView(element.value || '');
+    this.cleanValue = this.view.state.doc;
   }
 
   getCmInstance() {
@@ -64,9 +64,26 @@ export default class Editor {
     this.cm.save();
   }
 
-  clean() {
-    this.setValue('');
-    this.clearHistory();
+  captureDoc() {
+    return { state: this.view.state, cleanValue: this.cleanValue, scroll: this.view.scrollSnapshot() };
+  }
+
+  restoreDoc(snapshot) {
+    this.view.setState(snapshot.state);
+    this.cleanValue = snapshot.cleanValue;
+    if (snapshot.scroll) {
+      this.view.dispatch({ effects: snapshot.scroll });
+    }
+  }
+
+  openFresh(content = '') {
+    this.createView(content);
+    this.cleanValue = this.view.state.doc;
+    this.cm.save();
+  }
+
+  focus() {
+    this.view.focus();
   }
 
   isClean() {
@@ -126,9 +143,10 @@ export default class Editor {
       save: () => {
         this.element.value = this.view.state.doc.toString();
       },
-      isClean: () => this.view.state.doc.toString() === this.cleanValue,
+      // cleanValue holds a CM6 Text; Text.eq compares ropes without flattening the document.
+      isClean: () => this.view.state.doc.eq(this.cleanValue),
       markClean: () => {
-        this.cleanValue = this.view.state.doc.toString();
+        this.cleanValue = this.view.state.doc;
       },
       clearHistory: () => this.createView(this.view.state.doc.toString()),
       historySize: () => ({

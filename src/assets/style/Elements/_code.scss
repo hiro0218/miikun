@@ -8,7 +8,7 @@ pre {
 code {
   margin: 0;
   padding: .2em .4em;
-  border-radius: 4px;
+  border-radius: 6px;
   background-color: var(--code-bg);
   font-family: $font-family-monospace;
   &::before,
@@ -21,8 +21,9 @@ code {
 pre {
   padding: 1rem;
   overflow: auto;
-  border-radius: 8px;
-  background-color: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background-color: var(--bg);
   font-family: $font-family-monospace;
   overflow-wrap: normal;
 

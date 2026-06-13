@@ -96,44 +96,46 @@ export default {
 
 .keyprompt-dialog {
   width: min(420px, 90vw);
-  padding: 1.25rem;
+  padding: 1.5rem;
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: 10px;
   background: var(--bg);
-  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.24);
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -4px rgba(0, 0, 0, 0.1);
 
   &__title {
     margin-bottom: 1rem;
     color: var(--text);
-    font-size: $font-size-base;
+    font-size: 1.125rem;
     font-weight: 600;
   }
 
   &__form {
-    margin-bottom: 1.25rem;
+    margin-bottom: 1.5rem;
   }
 
   &__input {
     width: 100%;
     min-height: 2.25rem;
-    padding: 0.375rem 0.75rem;
+    padding: 0.25rem 0.75rem;
     transition:
       border-color 0.15s ease-out,
       box-shadow 0.15s ease-out;
     border: 1px solid var(--border);
     border-radius: 8px;
     outline: none;
-    background-color: var(--bg);
+    background-color: transparent;
     color: var(--text);
-    font-size: $font-size-base;
+    font-size: $font-size-sm;
 
     &::placeholder {
       color: var(--text-muted);
     }
 
     &:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px var(--selection);
+      border-color: var(--ring);
+      box-shadow: var(--focus-ring);
     }
   }
 
@@ -145,11 +147,13 @@ export default {
 
   &__button--ok,
   &__button--cancel {
-    padding: 6px 14px;
+    min-height: 2.25rem;
+    padding: 0 1rem;
     transition: background-color 0.15s ease-out;
     border: 1px solid transparent;
     border-radius: 8px;
     font-size: $font-size-sm;
+    font-weight: 500;
     white-space: nowrap;
     cursor: pointer;
     user-select: none;
@@ -158,7 +162,7 @@ export default {
 
   &__button--ok {
     background-color: var(--accent);
-    color: #fff;
+    color: var(--accent-foreground);
 
     &:hover {
       background-color: var(--accent-hover);
@@ -168,6 +172,7 @@ export default {
   &__button--cancel {
     border-color: var(--border);
     background-color: transparent;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
     color: var(--text);
 
     &:hover {

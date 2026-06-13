@@ -25,7 +25,7 @@ function createWindow() {
     show: false,
     center: true,
     // Match Generic/_tokens.scss --bg so the window doesn't flash white in dark mode.
-    backgroundColor: nativeTheme.shouldUseDarkColors ? '#1e1e20' : '#ffffff',
+    backgroundColor: nativeTheme.shouldUseDarkColors ? '#141414' : '#ffffff',
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,

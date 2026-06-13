@@ -1,27 +1,29 @@
 const state = {
-  filePath: '',
   code: '',
   isPreview: false,
   openToolbar: true,
   canUndo: false,
   canRedo: false,
+  tabs: [],
+  activeTabId: null,
   crypt: {
     enable: false,
     key: null,
     op: {
       name: null,
       path: null,
+      tabId: null,
     },
   },
 };
 
+const findTab = (state, id) => state.tabs.find((t) => t.id === id);
+
+const getters = {
+  filePath: (state) => findTab(state, state.activeTabId)?.path ?? '',
+};
+
 const mutations = {
-  RESET_FILEPATH(state) {
-    state.filePath = '';
-  },
-  SET_FILEPATH(state, path) {
-    state.filePath = path;
-  },
   UPDATE_CODE(state, payload) {
     state.code = payload;
   },
@@ -46,13 +48,42 @@ const mutations = {
   SET_CRYPT_OP(state, obj) {
     state.crypt.op.name = obj.name;
     state.crypt.op.path = obj.path;
+    state.crypt.op.tabId = obj.tabId ?? null;
+  },
+  ADD_TAB(state, { id, path }) {
+    state.tabs.push({ id, path: path || '', isDirty: false });
+    state.activeTabId = id;
+  },
+  REMOVE_TAB(state, id) {
+    state.tabs = state.tabs.filter((t) => t.id !== id);
+  },
+  SET_ACTIVE_TAB(state, id) {
+    if (!findTab(state, id)) return;
+    state.activeTabId = id;
+  },
+  SET_TAB_PATH(state, { id, path }) {
+    const tab = findTab(state, id);
+    if (tab) tab.path = path;
+  },
+  SET_TAB_DIRTY(state, { id, isDirty }) {
+    const tab = findTab(state, id);
+    if (tab) tab.isDirty = isDirty;
+  },
+  MOVE_TAB(state, { id, targetId, after }) {
+    const fromIndex = state.tabs.findIndex((t) => t.id === id);
+    const targetIndex = state.tabs.findIndex((t) => t.id === targetId);
+    if (fromIndex === -1 || targetIndex === -1) return;
+    let toIndex = after ? targetIndex + 1 : targetIndex;
+    if (fromIndex < toIndex) toIndex -= 1;
+    if (toIndex === fromIndex) return;
+    const tabs = [...state.tabs];
+    const [moved] = tabs.splice(fromIndex, 1);
+    tabs.splice(toIndex, 0, moved);
+    state.tabs = tabs;
   },
 };
 
 const actions = {
-  updateFilePath({ commit }, path) {
-    commit('SET_FILEPATH', path);
-  },
   updateCode({ commit }, payload) {
     commit('UPDATE_CODE', payload);
   },
@@ -68,11 +99,6 @@ const actions = {
   setCanRedo({ commit }, bool) {
     commit('SET_CAN_REDO', bool);
   },
-  initFilePath({ commit }, path) {
-    commit('SET_FILEPATH', path);
-    commit('SET_CAN_UNDO', false);
-    commit('SET_CAN_REDO', false);
-  },
   setCryptEnable({ commit }, bool) {
     commit('SET_CRYPT_ENABLE', bool);
   },
@@ -82,10 +108,29 @@ const actions = {
   setCryptOP({ commit }, obj) {
     commit('SET_CRYPT_OP', obj);
   },
+  addTab({ commit }, { id, path }) {
+    commit('ADD_TAB', { id, path });
+  },
+  removeTab({ commit }, id) {
+    commit('REMOVE_TAB', id);
+  },
+  activateTab({ commit }, id) {
+    commit('SET_ACTIVE_TAB', id);
+  },
+  setTabPath({ commit }, { id, path }) {
+    commit('SET_TAB_PATH', { id, path });
+  },
+  setTabDirty({ commit }, { id, isDirty }) {
+    commit('SET_TAB_DIRTY', { id, isDirty });
+  },
+  moveTab({ commit }, { id, targetId, after }) {
+    commit('MOVE_TAB', { id, targetId, after });
+  },
 };
 
 export default {
   state,
+  getters,
   mutations,
   actions,
 };

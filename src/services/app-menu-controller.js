@@ -33,6 +33,15 @@ const AppMenuController = {
   saveAs() {
     EventBus.$emit('saveAs');
   },
+  closeTab() {
+    EventBus.$emit('closeTab');
+  },
+  nextTab() {
+    EventBus.$emit('nextTab');
+  },
+  prevTab() {
+    EventBus.$emit('prevTab');
+  },
   togglePreview() {
     store.dispatch('updateIsPreview', !this.isOpenPreview());
   },
