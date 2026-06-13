@@ -1,5 +1,9 @@
 # miikun
 
+<p align="center">
+  <img src="build/icons/icon_256x256.png" alt="miikun app icon" width="96" height="96">
+</p>
+
 > A simple Markdown editor built for focused writing.
 
 ![miikun screenshot](screenshot.png)
