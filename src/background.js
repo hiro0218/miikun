@@ -1,9 +1,10 @@
 'use strict';
 
-import { app, protocol, BrowserWindow, nativeTheme } from 'electron';
+import { app, BrowserWindow, nativeTheme } from 'electron';
 import { initialize, enable } from '@electron/remote/main';
-import { createProtocol } from 'vue-cli-plugin-electron-builder/lib';
-const isDevelopment = process.env.NODE_ENV !== 'production';
+import { join } from 'node:path';
+
+const isDevelopment = !app.isPackaged;
 
 initialize();
 
@@ -13,9 +14,6 @@ app.setAppUserModelId('jp.0218.miikun');
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win;
-
-// Scheme must be registered before the app is ready
-protocol.registerSchemesAsPrivileged([{ scheme: 'app', privileges: { secure: true, standard: true } }]);
 
 function createWindow() {
   // Create the browser window.
@@ -29,20 +27,18 @@ function createWindow() {
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
-      webSecurity: false,
     },
   });
   enable(win.webContents);
 
-  if (process.env.WEBPACK_DEV_SERVER_URL) {
+  if (process.env.ELECTRON_RENDERER_URL) {
     // Load the url of the dev server if in development mode
-    win.loadURL(process.env.WEBPACK_DEV_SERVER_URL);
+    win.loadURL(process.env.ELECTRON_RENDERER_URL);
 
     if (!process.env.IS_TEST) win.webContents.openDevTools();
   } else {
-    createProtocol('app');
     // Load the index.html when not in development
-    win.loadURL('app://./index.html');
+    win.loadFile(join(__dirname, '../renderer/index.html'));
   }
 
   win.once('ready-to-show', () => {
