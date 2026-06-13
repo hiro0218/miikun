@@ -43,6 +43,7 @@ const AppMenuController = {
     EventBus.$emit('prevTab');
   },
   togglePreview() {
+    if (!store.state.Editor.canPreview) return;
     store.dispatch('updateIsPreview', !this.isOpenPreview());
   },
   toggleToolbar() {

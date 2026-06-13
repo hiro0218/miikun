@@ -7,7 +7,7 @@
       <button :disabled="!canRedo" title="Redo" @click="redo">
         <font-awesome-icon icon="redo" />
       </button>
-      <button :title="isPreview ? 'Hide preview' : 'Show preview'" @click="togglePreview">
+      <button :disabled="!canPreview" :title="previewButtonTitle" @click="togglePreview">
         <font-awesome-icon v-if="isPreview" icon="eye" />
         <font-awesome-icon v-else icon="eye-slash" />
       </button>
@@ -30,7 +30,12 @@ export default {
       openToolbar: (state) => state.Editor.openToolbar,
       canUndo: (state) => state.Editor.canUndo,
       canRedo: (state) => state.Editor.canRedo,
+      canPreview: (state) => state.Editor.canPreview,
     }),
+    previewButtonTitle() {
+      if (!this.canPreview) return 'Preview unavailable';
+      return this.isPreview ? 'Hide preview' : 'Show preview';
+    },
   },
   watch: {},
   methods: {

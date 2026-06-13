@@ -90,6 +90,10 @@ export default class Editor {
     return this.cm.isClean();
   }
 
+  getDocLength() {
+    return this.view.state.doc.length;
+  }
+
   clearHistory() {
     this.cm.markClean();
     this.createView(this.cm.getValue());
