@@ -9,6 +9,11 @@ export default function KeyPrompt({ onDone }) {
   const [title, setTitle] = useState('');
   const enable = store.state.Editor.crypt.enable;
   const key = store.state.Editor.crypt.key || '';
+  const operationName = store.state.Editor.crypt.op.name;
+  const placeholder =
+    operationName === 'open'
+      ? 'Enter the password to open the encrypted file.'
+      : 'Enter a password to encrypt the file.';
 
   useEffect(() => {
     if (!enable) return;
@@ -46,7 +51,7 @@ export default function KeyPrompt({ onDone }) {
             value={key}
             type="password"
             className="keyprompt-dialog__input"
-            placeholder="Enter a password to encrypt the file."
+            placeholder={placeholder}
             maxLength={50}
             onChange={(event) => store.dispatch('setCryptKey', event.target.value)}
           />
