@@ -1,5 +1,5 @@
-import Toolbar from '@/components/Toolbar.jsx';
-import Editor from '@/components/Editor.jsx';
+import Toolbar from '@/components/Toolbar';
+import Editor from '@/components/Editor';
 
 import './App.scss';
 

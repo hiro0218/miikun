@@ -2,7 +2,54 @@ import { useEffect, useReducer } from 'react';
 
 const STORAGE_KEY = 'miikun';
 
-const state = {
+type Theme = 'system' | 'light' | 'dark';
+
+type Tab = {
+  id: number;
+  path: string;
+  isDirty: boolean;
+};
+
+type CryptOperation = {
+  name: 'open' | 'save' | null;
+  path: string | null;
+  tabId: number | null;
+};
+
+type StoreState = {
+  App: {
+    isAlwaysOnTop: boolean;
+    theme: Theme;
+  };
+  Editor: {
+    code: string;
+    isPreview: boolean;
+    openToolbar: boolean;
+    canUndo: boolean;
+    canRedo: boolean;
+    canPreview: boolean;
+    tabs: Tab[];
+    activeTabId: number | null;
+    crypt: {
+      enable: boolean;
+      key: string | null;
+      op: CryptOperation;
+    };
+  };
+};
+
+type Getters = {
+  readonly filePath: string;
+  readonly isAlwaysOnTop: boolean;
+  readonly theme: Theme;
+};
+
+type Mutation = {
+  type: string;
+  payload: unknown;
+};
+
+const state: StoreState = {
   App: {
     isAlwaysOnTop: false,
     theme: 'system',
@@ -28,8 +75,8 @@ const state = {
   },
 };
 
-const stateListeners = new Set();
-const mutationListeners = new Set();
+const stateListeners = new Set<() => void>();
+const mutationListeners = new Set<(mutation: Mutation, state: StoreState) => void>();
 
 const findTab = (editorState, id) => editorState.tabs.find((t) => t.id === id);
 
@@ -47,7 +94,7 @@ const applyPersistedState = () => {
       state.Editor.isPreview = persisted.Editor.isPreview ?? state.Editor.isPreview;
       state.Editor.openToolbar = persisted.Editor.openToolbar ?? state.Editor.openToolbar;
     }
-  } catch (e) {
+  } catch {
     // Ignore invalid legacy persisted state.
   }
 };
@@ -67,14 +114,14 @@ const persistState = () => {
         },
       }),
     );
-  } catch (e) {
+  } catch {
     // localStorage can be unavailable in restricted runtimes.
   }
 };
 
 applyPersistedState();
 
-const getters = {};
+const getters = {} as Getters;
 
 Object.defineProperties(getters, {
   filePath: {
@@ -94,7 +141,7 @@ Object.defineProperties(getters, {
   },
 });
 
-const mutations = {
+const mutations: Record<string, (payload?: any) => void> = {
   UPDATE_CODE(payload) {
     state.Editor.code = payload;
   },
@@ -168,7 +215,7 @@ const mutations = {
   },
 };
 
-const actionTypes = {
+const actionTypes: Record<string, string> = {
   updateCode: 'UPDATE_CODE',
   updateIsPreview: 'UPDATE_ISPREVIEW',
   toggleToolbar: 'TOGGLE_TOOLBAR',
@@ -198,20 +245,24 @@ const notify = (type, payload) => {
 const store = {
   state,
   getters,
-  dispatch(action, payload) {
+  dispatch(action: string, payload?: any) {
     const type = actionTypes[action];
     if (!type) return Promise.resolve();
     mutations[type](payload);
     notify(type, payload);
     return Promise.resolve();
   },
-  subscribe(listener) {
+  subscribe(listener: (mutation: Mutation, state: StoreState) => void) {
     mutationListeners.add(listener);
-    return () => mutationListeners.delete(listener);
+    return () => {
+      mutationListeners.delete(listener);
+    };
   },
-  subscribeState(listener) {
+  subscribeState(listener: () => void) {
     stateListeners.add(listener);
-    return () => stateListeners.delete(listener);
+    return () => {
+      stateListeners.delete(listener);
+    };
   },
 };
 

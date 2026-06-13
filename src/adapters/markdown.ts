@@ -20,6 +20,8 @@ const highlighterReady = createHighlighter({
 });
 
 export default class Markdown {
+  markdownIt: MarkdownIt;
+
   constructor() {
     this.markdownIt = new MarkdownIt({
       html: true,

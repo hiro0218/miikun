@@ -9,6 +9,14 @@ const fs = window.require('fs');
 // | 16        | 32   | 16 | ..          |
 
 class Filesystem {
+  header: {
+    length: number;
+    baseLength: number;
+    hmacLength: number;
+    ivLength: number;
+  };
+  key: string | null;
+
   constructor() {
     this.header = {
       length: 64,

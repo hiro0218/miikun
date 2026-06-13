@@ -55,7 +55,7 @@ export const openLinkExternal = () => {
   const currentWindow = getCurrentWindow();
 
   document.addEventListener('click', (e) => {
-    if (e.target.tagName !== 'A') return;
+    if (!(e.target instanceof HTMLAnchorElement)) return;
     const href = e.target.getAttribute('href');
 
     if (isURL(href)) {

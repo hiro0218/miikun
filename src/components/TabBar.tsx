@@ -1,7 +1,7 @@
 import { faPlus, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { useEffect, useRef, useState } from 'react';
 
-import Icon from '@/components/Icon.jsx';
+import Icon from '@/components/Icon';
 import { useStore } from '@/store';
 
 import './TabBar.scss';

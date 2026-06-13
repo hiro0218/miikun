@@ -3,7 +3,7 @@ const eventTarget = new EventTarget();
 export const EventBus = {
   $on(name, handler) {
     eventTarget.addEventListener(name, (event) => {
-      handler(...event.detail);
+      handler(...(event as CustomEvent).detail);
     });
   },
   $emit(name, ...args) {

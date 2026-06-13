@@ -1,12 +1,12 @@
 import debounce from 'debounce';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-import fs from '@/adapters/filesystem.js';
-import { getSelectedResult, openDialog, openLinkExternal, showFileOpenDialog } from '@/adapters/electron.js';
-import EditorAdapter from '@/adapters/editor.js';
-import DropField from '@/components/DropField.jsx';
-import KeyPrompt from '@/components/KeyPrompt.jsx';
-import TabBar from '@/components/TabBar.jsx';
+import fs from '@/adapters/filesystem';
+import { getSelectedResult, openDialog, openLinkExternal, showFileOpenDialog } from '@/adapters/electron';
+import EditorAdapter from '@/adapters/editor';
+import DropField from '@/components/DropField';
+import KeyPrompt from '@/components/KeyPrompt';
+import TabBar from '@/components/TabBar';
 import { UnexpectedStateError } from '@/shared/errors';
 import {
   activateTab,

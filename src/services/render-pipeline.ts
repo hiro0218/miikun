@@ -1,6 +1,9 @@
-import Markdown from '@/adapters/markdown.js';
+import Markdown from '@/adapters/markdown';
 
 export default class RenderPipeline {
+  renderer: Markdown;
+  renderSeq: number;
+
   constructor(renderer = new Markdown()) {
     this.renderer = renderer;
     this.renderSeq = 0;

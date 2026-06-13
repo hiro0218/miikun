@@ -47,7 +47,7 @@ export default function KeyPrompt({ onDone }) {
             type="password"
             className="keyprompt-dialog__input"
             placeholder="Enter a password to encrypt the file."
-            maxLength="50"
+            maxLength={50}
             onChange={(event) => store.dispatch('setCryptKey', event.target.value)}
           />
         </div>

@@ -4,6 +4,10 @@ import { redo, redoDepth, undo, undoDepth } from '@codemirror/commands';
 import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
 import { HighlightStyle, syntaxHighlighting } from '@codemirror/language';
 import { tags } from '@lezer/highlight';
+
+type EditorHandler = (...args: any[]) => void;
+type CompatApi = Record<string, any>;
+
 // Colors come from the CSS custom properties in Generic/_tokens.scss,
 // so the editor follows the OS light/dark scheme without a separate theme.
 const markdownHighlight = HighlightStyle.define([
@@ -26,9 +30,17 @@ const HEADING_MARKER = /^(#{1,6})(?:\s+|$)/;
 const BULLET_MARKER = /^(\s*)[-*+]\s+/;
 
 export default class Editor {
-  constructor(element) {
+  element: HTMLTextAreaElement;
+  parent: HTMLElement;
+  handlers: Record<string, EditorHandler[]>;
+  customKeymap: any;
+  cm: CompatApi;
+  view: EditorView;
+  cleanValue: any;
+
+  constructor(element: HTMLTextAreaElement) {
     this.element = element;
-    this.parent = element.parentNode;
+    this.parent = element.parentNode as HTMLElement;
     this.handlers = {
       change: [],
       changes: [],

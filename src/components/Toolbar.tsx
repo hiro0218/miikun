@@ -9,7 +9,7 @@ import {
   faUndo,
 } from '@fortawesome/free-solid-svg-icons';
 
-import Icon from '@/components/Icon.jsx';
+import Icon from '@/components/Icon';
 import AppMenuController from '@/services/app-menu-controller';
 import { useStore } from '@/store';
 

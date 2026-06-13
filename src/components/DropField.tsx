@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 
-import { getPathForFile, getSelectedResult } from '@/adapters/electron.js';
+import { getPathForFile, getSelectedResult } from '@/adapters/electron';
 
 import './DropField.scss';
 
@@ -27,7 +27,7 @@ export default function DropField({ onOpenFilePath }) {
     };
     const onWindowDrop = (event) => {
       event.preventDefault();
-      Array.from(event.dataTransfer.files).forEach((file) => {
+      Array.from(event.dataTransfer.files as FileList).forEach((file) => {
         const path = getPathForFile(file);
         const ext = getFileExtension(file.name);
 
