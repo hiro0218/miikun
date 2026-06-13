@@ -61,7 +61,7 @@ const mutations = {
   REMOVE_TAB(state, id) {
     state.tabs = state.tabs.filter((t) => t.id !== id);
     if (state.activeTabId === id) {
-      state.activeTabId = state.tabs[0]?.id ?? null;
+      state.activeTabId = null;
     }
   },
   SET_ACTIVE_TAB(state, id) {

@@ -140,9 +140,9 @@ export default {
       this.editor = new Editor(this.$refs.editor);
 
       this.editor.cm.on('change', () => {
-        const value = this.editor.cm.getValue();
-        this.isActiveDocEmpty = value.length === 0;
-        if (value.length > 0) {
+        const docLength = this.editor.getDocLength();
+        this.isActiveDocEmpty = docLength === 0;
+        if (docLength > 0) {
           this.dismissEmptyStateForActiveTab();
         }
         this.onEditorCodeChange();
@@ -204,7 +204,7 @@ export default {
       const newCode = this.editor.cm.getValue();
       this.$store.dispatch('updateCode', newCode);
 
-      if (this.isPreview) {
+      if (this.isPreview && this.canUsePreview) {
         this.renderPreview(newCode);
       }
     }, 200),
