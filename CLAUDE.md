@@ -19,7 +19,7 @@ npm run format:scss      # stylelint --fix
 
 There is no test suite. Verification = `npm run lint` + confirming the app still launches via `electron:serve`.
 
-`npm run serve` / `npm run build` exist but target the browser; the renderer imports Node builtins (`fs`, `crypto`) directly, so the app only truly runs under Electron.
+Browser-only `npm run serve` / `npm run build` scripts are intentionally not defined; the renderer imports Node builtins (`fs`, `crypto`) directly, so the app only truly runs under Electron.
 
 ## Architecture
 
