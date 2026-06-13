@@ -95,8 +95,7 @@ export default {
     },
     ariaLabelFor(tab) {
       const label = this.labelFor(tab);
-      const state = tab.id === this.activeTabId ? 'selected' : 'not selected';
-      return tab.isDirty ? `${label}, unsaved changes, ${state}` : `${label}, ${state}`;
+      return tab.isDirty ? `${label}, unsaved changes` : label;
     },
     closeLabelFor(tab) {
       const label = this.labelFor(tab);
