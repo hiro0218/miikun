@@ -1,0 +1,2 @@
+# Prevent broken global fsmonitor output from being parsed as staged file names.
+GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=core.fsmonitor GIT_CONFIG_VALUE_0=false lint-staged
