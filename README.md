@@ -88,7 +88,7 @@ Key areas:
 - `src/adapters/` wraps CodeMirror, markdown-it/Shiki, filesystem, encryption, and Electron APIs
 - `src/services/` owns editor commands, file operations, render sequencing, menus, and tab document state
 - `src/components/` contains the editor, tab bar, toolbar, drag-and-drop overlay, and password prompt
-- `docs/architecture/editor-boundaries.md` explains editor/file/preview/command ownership in more detail
+- `src/services/` and `src/adapters/` define the boundaries between editor state, file operations, preview rendering, and commands
 
 ## Contributing
 
