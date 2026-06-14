@@ -112,12 +112,15 @@ class Filesystem {
           return;
         }
 
+        let decoded;
         try {
-          this.updateKey(key);
-          cb(null, this.decodeText(content));
+          decoded = this.decodeText(content);
         } catch {
           cb(new BinaryFileError(), null);
+          return;
         }
+        this.updateKey(key);
+        cb(null, decoded);
       });
     });
   }
