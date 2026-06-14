@@ -1,9 +1,18 @@
 'use strict';
 
 import encryptor from './encryptor';
-import { NullKeyError, DecryptFailError } from '@/shared/errors';
+import {
+  BinaryFileError,
+  DecryptFailError,
+  FileTooLargeError,
+  NullKeyError,
+  UnsupportedFileError,
+} from '@/shared/errors';
 
 const fs = window.require('fs');
+const MAX_READ_BYTES = 10 * 1024 * 1024;
+const BINARY_SNIFF_BYTES = 8 * 1024;
+const utf8Decoder = new TextDecoder('utf-8', { fatal: true });
 // This file looks looks
 // | Base info | HMAC | IV | Enc Content |
 // | 16        | 32   | 16 | ..          |
@@ -73,25 +82,80 @@ class Filesystem {
         return;
       }
     }
-    // Notice it's an async function, only return
-    // the callback, not readFile
-    fs.readFile(path, (err, content) => {
-      if (err) {
-        cb(err, null);
+    this.validateReadableFile(path, (statErr) => {
+      if (statErr) {
+        cb(statErr, null);
         return;
       }
-      // Decrypt
-      if (isEncrypt) {
-        try {
-          content = this.decrypt(key, content);
-        } catch (err2) {
-          cb(err2, null);
+
+      // Notice it's an async function, only return
+      // the callback, not readFile
+      fs.readFile(path, (err, content) => {
+        if (err) {
+          cb(err, null);
           return;
         }
-      }
-      this.updateKey(key);
-      cb(null, content.toString('utf8'));
+        if (this.isTooLarge(content)) {
+          cb(new FileTooLargeError(content.byteLength, MAX_READ_BYTES), null);
+          return;
+        }
+        // Decrypt
+        if (isEncrypt) {
+          try {
+            content = this.decrypt(key, content);
+          } catch (err2) {
+            cb(err2, null);
+            return;
+          }
+        } else if (this.isBinary(content)) {
+          cb(new BinaryFileError(), null);
+          return;
+        }
+
+        let decoded;
+        try {
+          decoded = this.decodeText(content);
+        } catch {
+          cb(new BinaryFileError(), null);
+          return;
+        }
+        this.updateKey(key);
+        cb(null, decoded);
+      });
     });
+  }
+
+  validateReadableFile(path, cb) {
+    fs.stat(path, (err, stats) => {
+      if (err) {
+        cb(err);
+        return;
+      }
+
+      if (!stats.isFile()) {
+        cb(new UnsupportedFileError());
+        return;
+      }
+
+      if (stats.size > MAX_READ_BYTES) {
+        cb(new FileTooLargeError(stats.size, MAX_READ_BYTES));
+        return;
+      }
+
+      cb(null);
+    });
+  }
+
+  isTooLarge(content) {
+    return content.byteLength > MAX_READ_BYTES;
+  }
+
+  isBinary(content) {
+    return content.slice(0, BINARY_SNIFF_BYTES).includes(0);
+  }
+
+  decodeText(content) {
+    return utf8Decoder.decode(content);
   }
 
   encrypt(key, content) {
