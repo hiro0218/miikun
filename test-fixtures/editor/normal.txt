@@ -1,0 +1,4 @@
+Normal text fixture
+
+This file is used to confirm that plain `.txt` files still open correctly.
+It intentionally contains only UTF-8 text.
