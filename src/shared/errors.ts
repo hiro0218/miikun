@@ -5,6 +5,7 @@ const ERR_NULL_KEY = -103;
 const ERR_UNEXPECTED_STATE = -104;
 const ERR_FILE_TOO_LARGE = -105;
 const ERR_BINARY_FILE = -106;
+const ERR_UNSUPPORTED_FILE = -107;
 
 /* Workaround of ReferenceError: _construct is not defined */
 const _Error = Error;
@@ -89,6 +90,16 @@ class BinaryFileError extends _Error {
   }
 }
 
+class UnsupportedFileError extends _Error {
+  code: number;
+
+  constructor() {
+    super('Only regular files can be opened.');
+    this.name = 'UnsupportedFileError';
+    this.code = ERR_UNSUPPORTED_FILE;
+  }
+}
+
 export {
   ERR_USER_CANCEL,
   UserCancelError,
@@ -104,4 +115,6 @@ export {
   FileTooLargeError,
   ERR_BINARY_FILE,
   BinaryFileError,
+  ERR_UNSUPPORTED_FILE,
+  UnsupportedFileError,
 };

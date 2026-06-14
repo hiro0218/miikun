@@ -1,7 +1,13 @@
 'use strict';
 
 import encryptor from './encryptor';
-import { BinaryFileError, DecryptFailError, FileTooLargeError, NullKeyError } from '@/shared/errors';
+import {
+  BinaryFileError,
+  DecryptFailError,
+  FileTooLargeError,
+  NullKeyError,
+  UnsupportedFileError,
+} from '@/shared/errors';
 
 const fs = window.require('fs');
 const MAX_READ_BYTES = 10 * 1024 * 1024;
@@ -89,6 +95,10 @@ class Filesystem {
           cb(err, null);
           return;
         }
+        if (this.isTooLarge(content)) {
+          cb(new FileTooLargeError(content.byteLength, MAX_READ_BYTES), null);
+          return;
+        }
         // Decrypt
         if (isEncrypt) {
           try {
@@ -119,6 +129,11 @@ class Filesystem {
         return;
       }
 
+      if (!stats.isFile()) {
+        cb(new UnsupportedFileError());
+        return;
+      }
+
       if (stats.size > MAX_READ_BYTES) {
         cb(new FileTooLargeError(stats.size, MAX_READ_BYTES));
         return;
@@ -126,6 +141,10 @@ class Filesystem {
 
       cb(null);
     });
+  }
+
+  isTooLarge(content) {
+    return content.byteLength > MAX_READ_BYTES;
   }
 
   isBinary(content) {
