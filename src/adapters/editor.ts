@@ -110,8 +110,17 @@ export default class Editor {
   }
 
   clearHistory() {
-    this.cm.markClean();
-    this.createView(this.cm.getValue());
+    const value = this.cm.getValue();
+    const selection = this.view.state.selection;
+    const scroll = this.view.scrollSnapshot();
+    const wasFocused = this.view.hasFocus;
+
+    this.createView(value);
+    this.cleanValue = this.view.state.doc;
+    this.view.dispatch({ selection, effects: scroll });
+    if (wasFocused) {
+      this.view.focus();
+    }
   }
 
   insertTextToEditor(text, line, ch) {
@@ -235,7 +244,7 @@ export default class Editor {
       markClean: () => {
         this.cleanValue = this.view.state.doc;
       },
-      clearHistory: () => this.createView(this.view.state.doc.toString()),
+      clearHistory: () => this.clearHistory(),
       historySize: () => ({
         undo: undoDepth(this.view.state),
         redo: redoDepth(this.view.state),
