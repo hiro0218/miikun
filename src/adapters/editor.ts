@@ -1,5 +1,6 @@
 import { minimalSetup, EditorView } from 'codemirror';
-import { keymap } from '@codemirror/view';
+import { Compartment } from '@codemirror/state';
+import { keymap, lineNumbers } from '@codemirror/view';
 import { redo, redoDepth, undo, undoDepth } from '@codemirror/commands';
 import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
 import { HighlightStyle, syntaxHighlighting } from '@codemirror/language';
@@ -34,11 +35,13 @@ export default class Editor {
   parent: HTMLElement;
   handlers: Record<string, EditorHandler[]>;
   customKeymap: any;
+  lineNumbersCompartment: Compartment;
+  showLineNumbers: boolean;
   cm: CompatApi;
   view: EditorView;
   cleanValue: any;
 
-  constructor(element: HTMLTextAreaElement) {
+  constructor(element: HTMLTextAreaElement, options: { showLineNumbers?: boolean } = {}) {
     this.element = element;
     this.parent = element.parentNode as HTMLElement;
     this.handlers = {
@@ -61,6 +64,8 @@ export default class Editor {
         run: (view) => this.toggleSelectionWrap(view, '`'),
       },
     ]);
+    this.lineNumbersCompartment = new Compartment();
+    this.showLineNumbers = options.showLineNumbers === true;
     this.cm = this.createCompatApi();
     this.element.style.display = 'none';
     this.createView(element.value || '');
@@ -99,6 +104,13 @@ export default class Editor {
 
   focus() {
     this.view.focus();
+  }
+
+  setLineNumbers(showLineNumbers) {
+    this.showLineNumbers = showLineNumbers;
+    this.view.dispatch({
+      effects: this.lineNumbersCompartment.reconfigure(this.getLineNumberExtension()),
+    });
   }
 
   isClean() {
@@ -205,6 +217,7 @@ export default class Editor {
       doc,
       extensions: [
         minimalSetup,
+        this.lineNumbersCompartment.of(this.getLineNumberExtension()),
         this.customKeymap,
         markdown({ base: markdownLanguage }),
         syntaxHighlighting(markdownHighlight),
@@ -225,6 +238,10 @@ export default class Editor {
       ],
       parent: this.parent,
     });
+  }
+
+  getLineNumberExtension() {
+    return this.showLineNumbers ? lineNumbers() : [];
   }
 
   createCompatApi() {

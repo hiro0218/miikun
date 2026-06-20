@@ -61,11 +61,17 @@ const AppMenuController = {
   toggleToolbar() {
     store.dispatch('toggleToolbar');
   },
+  toggleLineNumbers() {
+    store.dispatch('toggleLineNumbers');
+  },
   isOpenPreview() {
     return store.state.Editor.isPreview;
   },
   isOpenToolbar() {
     return store.state.Editor.openToolbar;
+  },
+  isShowingLineNumbers() {
+    return store.state.Editor.showLineNumbers;
   },
 };
 

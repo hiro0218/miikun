@@ -115,7 +115,7 @@ export default {
       submenu: [
         {
           id: 'toggle_preview_panel',
-          label: 'Toggle Preview Panel',
+          label: 'Preview Panel',
           type: 'checkbox',
           checked: store.state.Editor.isPreview,
           enabled: store.state.Editor.canPreview,
@@ -124,8 +124,17 @@ export default {
           },
         },
         {
+          id: 'toggle_line_numbers',
+          label: 'Line Numbers',
+          type: 'checkbox',
+          checked: store.state.Editor.showLineNumbers,
+          click() {
+            AppMenuController.toggleLineNumbers();
+          },
+        },
+        {
           id: 'toggle_toolbar',
-          label: 'Toggle Toolbar',
+          label: 'Toolbar',
           type: 'checkbox',
           checked: store.state.Editor.openToolbar,
           click() {
@@ -256,6 +265,8 @@ export default {
         enableMenuItem('toggle_preview_panel', state.Editor.canPreview);
       } else if (mutation.type === 'TOGGLE_TOOLBAR') {
         checkedMenuItem('toggle_toolbar', state.Editor.openToolbar);
+      } else if (mutation.type === 'TOGGLE_LINE_NUMBERS') {
+        checkedMenuItem('toggle_line_numbers', state.Editor.showLineNumbers);
       }
     });
   },

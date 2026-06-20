@@ -22,6 +22,18 @@
     padding: $document-padding-block $document-padding-inline 50vh;
   }
 
+  .cm-gutters {
+    border-right: 1px solid var(--border);
+    background: var(--bg-secondary);
+    color: var(--text-muted);
+  }
+
+  .cm-lineNumbers .cm-gutterElement {
+    min-width: 2.5rem;
+    padding: 0 0.75rem 0 0.5rem;
+    font-size: $font-size-sm;
+  }
+
   .cm-line {
     padding: 0;
   }
