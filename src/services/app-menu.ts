@@ -46,7 +46,7 @@ export default {
         },
         {
           id: 'open',
-          label: 'Open',
+          label: 'Open...',
           accelerator: 'CmdOrCtrl+O',
           click() {
             AppMenuController.openFile();
@@ -62,7 +62,7 @@ export default {
         },
         {
           id: 'save_as',
-          label: 'Save as',
+          label: 'Save As...',
           accelerator: 'CmdOrCtrl+Shift+S',
           click() {
             AppMenuController.saveAs();
