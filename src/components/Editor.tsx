@@ -278,7 +278,7 @@ export default function Editor() {
     const response = getSelectedResult({
       title: '',
       type: 'warning',
-      buttons: ['Yes', 'No', 'Cancel'],
+      buttons: ['Save', 'Discard', 'Cancel'],
       message: store.getters.filePath || 'Untitled',
       detail: 'Would you like to save changes?',
     });
