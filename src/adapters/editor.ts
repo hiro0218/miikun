@@ -1,6 +1,6 @@
 import { minimalSetup, EditorView } from 'codemirror';
 import { Compartment } from '@codemirror/state';
-import { keymap, lineNumbers } from '@codemirror/view';
+import { highlightActiveLine, highlightActiveLineGutter, keymap, lineNumbers, type BlockInfo } from '@codemirror/view';
 import { redo, redoDepth, undo, undoDepth } from '@codemirror/commands';
 import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
 import { HighlightStyle, syntaxHighlighting } from '@codemirror/language';
@@ -217,6 +217,8 @@ export default class Editor {
       doc,
       extensions: [
         minimalSetup,
+        highlightActiveLine(),
+        highlightActiveLineGutter(),
         this.lineNumbersCompartment.of(this.getLineNumberExtension()),
         this.customKeymap,
         markdown({ base: markdownLanguage }),
@@ -241,7 +243,24 @@ export default class Editor {
   }
 
   getLineNumberExtension() {
-    return this.showLineNumbers ? lineNumbers() : [];
+    return this.showLineNumbers
+      ? lineNumbers({
+          domEventHandlers: {
+            mousedown: (view, line, event) => this.moveCursorToLine(view, line, event),
+          },
+        })
+      : [];
+  }
+
+  moveCursorToLine(view: EditorView, line: BlockInfo, event: Event) {
+    if (!(event instanceof MouseEvent) || event.button !== 0) return false;
+
+    view.dispatch({
+      selection: { anchor: line.from },
+      scrollIntoView: true,
+    });
+    view.focus();
+    return true;
   }
 
   createCompatApi() {

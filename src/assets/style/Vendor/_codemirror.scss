@@ -32,10 +32,16 @@
     min-width: 2.5rem;
     padding: 0 0.75rem 0 0.5rem;
     font-size: $font-size-sm;
+    cursor: pointer;
   }
 
   .cm-line {
     padding: 0;
+  }
+
+  .cm-activeLine,
+  .cm-activeLineGutter {
+    background: var(--active-line);
   }
 
   .cm-cursor,
