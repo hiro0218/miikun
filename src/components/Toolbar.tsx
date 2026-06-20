@@ -2,7 +2,7 @@ import {
   faBold,
   faChevronDown,
   faEye,
-  faEyeSlash,
+  faHashtag,
   faLink,
   faListUl,
   faRedo,
@@ -20,6 +20,7 @@ export default function Toolbar() {
   const {
     isPreview,
     openToolbar,
+    showLineNumbers,
     canUndo,
     canRedo,
     canPreview,
@@ -27,7 +28,8 @@ export default function Toolbar() {
     crypt: { enable: cryptEnable },
   } = store.state.Editor;
   const canEditDocument = activeTabId != null && !cryptEnable;
-  const previewButtonTitle = !canPreview ? 'Preview unavailable' : isPreview ? 'Hide preview' : 'Show preview';
+  const previewButtonTitle = canPreview ? 'Preview panel' : 'Preview unavailable';
+  const lineNumbersButtonTitle = 'Line numbers';
 
   const setHeadingLevel = (event) => {
     const { value } = event.target;
@@ -40,7 +42,7 @@ export default function Toolbar() {
   return (
     <div className={`toolbar${openToolbar ? ' open' : ''}`}>
       <div className="menu" aria-label="Markdown toolbar">
-        <div className="menu-section">
+        <div className="menu-section" role="group" aria-label="History">
           <button
             type="button"
             disabled={!canUndo}
@@ -60,7 +62,7 @@ export default function Toolbar() {
             <Icon definition={faRedo} />
           </button>
         </div>
-        <div className="menu-section">
+        <div className="menu-section" role="group" aria-label="Formatting">
           <span className={`heading-control${canEditDocument ? '' : ' disabled'}`}>
             <select
               className="heading-select"
@@ -108,7 +110,17 @@ export default function Toolbar() {
             <Icon definition={faListUl} />
           </button>
         </div>
-        <div className="menu-section">
+        <div className="menu-section menu-section--view" role="group" aria-label="View options">
+          <button
+            type="button"
+            className={showLineNumbers ? 'active' : ''}
+            aria-label={lineNumbersButtonTitle}
+            aria-pressed={showLineNumbers}
+            title={lineNumbersButtonTitle}
+            onClick={() => AppMenuController.toggleLineNumbers()}
+          >
+            <Icon definition={faHashtag} />
+          </button>
           <button
             type="button"
             className={isPreview ? 'active' : ''}
@@ -118,7 +130,7 @@ export default function Toolbar() {
             title={previewButtonTitle}
             onClick={() => AppMenuController.togglePreview()}
           >
-            <Icon definition={isPreview ? faEye : faEyeSlash} />
+            <Icon definition={faEye} />
           </button>
         </div>
       </div>

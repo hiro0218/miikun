@@ -1,5 +1,6 @@
 import { minimalSetup, EditorView } from 'codemirror';
-import { keymap } from '@codemirror/view';
+import { Compartment } from '@codemirror/state';
+import { highlightActiveLine, highlightActiveLineGutter, keymap, lineNumbers, type BlockInfo } from '@codemirror/view';
 import { redo, redoDepth, undo, undoDepth } from '@codemirror/commands';
 import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
 import { HighlightStyle, syntaxHighlighting } from '@codemirror/language';
@@ -34,11 +35,13 @@ export default class Editor {
   parent: HTMLElement;
   handlers: Record<string, EditorHandler[]>;
   customKeymap: any;
+  lineNumbersCompartment: Compartment;
+  showLineNumbers: boolean;
   cm: CompatApi;
   view: EditorView;
   cleanValue: any;
 
-  constructor(element: HTMLTextAreaElement) {
+  constructor(element: HTMLTextAreaElement, options: { showLineNumbers?: boolean } = {}) {
     this.element = element;
     this.parent = element.parentNode as HTMLElement;
     this.handlers = {
@@ -61,6 +64,8 @@ export default class Editor {
         run: (view) => this.toggleSelectionWrap(view, '`'),
       },
     ]);
+    this.lineNumbersCompartment = new Compartment();
+    this.showLineNumbers = options.showLineNumbers === true;
     this.cm = this.createCompatApi();
     this.element.style.display = 'none';
     this.createView(element.value || '');
@@ -101,6 +106,13 @@ export default class Editor {
     this.view.focus();
   }
 
+  setLineNumbers(showLineNumbers) {
+    this.showLineNumbers = showLineNumbers;
+    this.view.dispatch({
+      effects: this.lineNumbersCompartment.reconfigure(this.getLineNumberExtension()),
+    });
+  }
+
   isClean() {
     return this.cm.isClean();
   }
@@ -110,8 +122,17 @@ export default class Editor {
   }
 
   clearHistory() {
-    this.cm.markClean();
-    this.createView(this.cm.getValue());
+    const value = this.cm.getValue();
+    const selection = this.view.state.selection;
+    const scroll = this.view.scrollSnapshot();
+    const wasFocused = this.view.hasFocus;
+
+    this.createView(value);
+    this.cleanValue = this.view.state.doc;
+    this.view.dispatch({ selection, effects: scroll });
+    if (wasFocused) {
+      this.view.focus();
+    }
   }
 
   insertTextToEditor(text, line, ch) {
@@ -196,6 +217,9 @@ export default class Editor {
       doc,
       extensions: [
         minimalSetup,
+        highlightActiveLine(),
+        highlightActiveLineGutter(),
+        this.lineNumbersCompartment.of(this.getLineNumberExtension()),
         this.customKeymap,
         markdown({ base: markdownLanguage }),
         syntaxHighlighting(markdownHighlight),
@@ -218,6 +242,27 @@ export default class Editor {
     });
   }
 
+  getLineNumberExtension() {
+    return this.showLineNumbers
+      ? lineNumbers({
+          domEventHandlers: {
+            mousedown: (view, line, event) => this.moveCursorToLine(view, line, event),
+          },
+        })
+      : [];
+  }
+
+  moveCursorToLine(view: EditorView, line: BlockInfo, event: Event) {
+    if (!(event instanceof MouseEvent) || event.button !== 0) return false;
+
+    view.dispatch({
+      selection: { anchor: line.from },
+      scrollIntoView: true,
+    });
+    view.focus();
+    return true;
+  }
+
   createCompatApi() {
     return {
       on: (name, handler) => {
@@ -235,7 +280,7 @@ export default class Editor {
       markClean: () => {
         this.cleanValue = this.view.state.doc;
       },
-      clearHistory: () => this.createView(this.view.state.doc.toString()),
+      clearHistory: () => this.clearHistory(),
       historySize: () => ({
         undo: undoDepth(this.view.state),
         redo: redoDepth(this.view.state),

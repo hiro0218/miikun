@@ -19,7 +19,7 @@ export const showFileOpenDialog = () => {
   const focusedWindow = BrowserWindow.getFocusedWindow();
 
   return dialog.showOpenDialogSync(focusedWindow, {
-    title: 'Open Dialog',
+    title: 'Open File',
     filters: [
       {
         name: 'Documents',
@@ -34,7 +34,7 @@ export const getSavePath = (extensions) => {
   const focusedWindow = BrowserWindow.getFocusedWindow();
 
   return dialog.showSaveDialogSync(focusedWindow, {
-    title: 'Save Dialog',
+    title: 'Save File',
     filters: extensions,
   });
 };

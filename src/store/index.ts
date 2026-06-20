@@ -25,6 +25,7 @@ type StoreState = {
     code: string;
     isPreview: boolean;
     openToolbar: boolean;
+    showLineNumbers: boolean;
     canUndo: boolean;
     canRedo: boolean;
     canPreview: boolean;
@@ -58,6 +59,7 @@ const state: StoreState = {
     code: '',
     isPreview: false,
     openToolbar: true,
+    showLineNumbers: false,
     canUndo: false,
     canRedo: false,
     canPreview: false,
@@ -93,6 +95,7 @@ const applyPersistedState = () => {
     if (persisted.Editor) {
       state.Editor.isPreview = persisted.Editor.isPreview ?? state.Editor.isPreview;
       state.Editor.openToolbar = persisted.Editor.openToolbar ?? state.Editor.openToolbar;
+      state.Editor.showLineNumbers = persisted.Editor.showLineNumbers ?? state.Editor.showLineNumbers;
     }
   } catch {
     // Ignore invalid legacy persisted state.
@@ -111,6 +114,7 @@ const persistState = () => {
         Editor: {
           isPreview: state.Editor.isPreview,
           openToolbar: state.Editor.openToolbar,
+          showLineNumbers: state.Editor.showLineNumbers,
         },
       }),
     );
@@ -150,6 +154,9 @@ const mutations: Record<string, (payload?: any) => void> = {
   },
   TOGGLE_TOOLBAR() {
     state.Editor.openToolbar = !state.Editor.openToolbar;
+  },
+  TOGGLE_LINE_NUMBERS() {
+    state.Editor.showLineNumbers = !state.Editor.showLineNumbers;
   },
   SET_CAN_UNDO(bool) {
     state.Editor.canUndo = bool;
@@ -219,6 +226,7 @@ const actionTypes: Record<string, string> = {
   updateCode: 'UPDATE_CODE',
   updateIsPreview: 'UPDATE_ISPREVIEW',
   toggleToolbar: 'TOGGLE_TOOLBAR',
+  toggleLineNumbers: 'TOGGLE_LINE_NUMBERS',
   setCanUndo: 'SET_CAN_UNDO',
   setCanRedo: 'SET_CAN_REDO',
   setCanPreview: 'SET_CAN_PREVIEW',
@@ -235,7 +243,13 @@ const actionTypes: Record<string, string> = {
   updateTheme: 'SET_THEME',
 };
 
-const persistedMutationTypes = new Set(['SET_ALWAYS_ON_TOP', 'SET_THEME', 'UPDATE_ISPREVIEW', 'TOGGLE_TOOLBAR']);
+const persistedMutationTypes = new Set([
+  'SET_ALWAYS_ON_TOP',
+  'SET_THEME',
+  'UPDATE_ISPREVIEW',
+  'TOGGLE_TOOLBAR',
+  'TOGGLE_LINE_NUMBERS',
+]);
 
 const notify = (type, payload) => {
   if (persistedMutationTypes.has(type)) {

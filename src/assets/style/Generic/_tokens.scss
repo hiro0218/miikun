@@ -15,6 +15,7 @@
   --ring: #a1a1a1;
   --focus-ring: 0 0 0 3px rgba(161, 161, 161, .5);
   --selection: rgba(52, 120, 246, .18);
+  --active-line: rgba(0, 0, 0, .04);
   --overlay: rgba(0, 0, 0, .5);
   --code-bg: rgba(0, 0, 0, .04);
   --scrollbar: rgba(0, 0, 0, .18);
@@ -34,6 +35,7 @@
     --ring: #737373;
     --focus-ring: 0 0 0 3px rgba(115, 115, 115, .5);
     --selection: rgba(64, 156, 255, .25);
+    --active-line: rgba(255, 255, 255, .055);
     --overlay: rgba(0, 0, 0, .6);
     --code-bg: rgba(255, 255, 255, .04);
     --scrollbar: rgba(255, 255, 255, .22);

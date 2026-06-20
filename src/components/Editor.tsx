@@ -43,7 +43,7 @@ export default function Editor() {
   const [isActiveDocEmpty, setIsActiveDocEmpty] = useState(true);
   const [emptyStateTabIds, setEmptyStateTabIdsState] = useState([]);
 
-  const { code, isPreview, tabs, activeTabId, crypt } = store.state.Editor;
+  const { code, isPreview, showLineNumbers, tabs, activeTabId, crypt } = store.state.Editor;
   const path = store.getters.filePath;
   const hasNoTabs = tabs.length === 0;
   const shouldShowActiveTabEmptyState =
@@ -278,7 +278,7 @@ export default function Editor() {
     const response = getSelectedResult({
       title: '',
       type: 'warning',
-      buttons: ['Yes', 'No', 'Cancel'],
+      buttons: ['Save', 'Discard', 'Cancel'],
       message: store.getters.filePath || 'Untitled',
       detail: 'Would you like to save changes?',
     });
@@ -487,7 +487,13 @@ export default function Editor() {
   }, [isPreview, renderPreview, store]);
 
   useEffect(() => {
-    const editor = new EditorAdapter(editorElementRef.current);
+    editorRef.current?.setLineNumbers(showLineNumbers);
+  }, [showLineNumbers]);
+
+  useEffect(() => {
+    const editor = new EditorAdapter(editorElementRef.current, {
+      showLineNumbers: store.state.Editor.showLineNumbers,
+    });
     editorRef.current = editor;
 
     editor.cm.on('change', () => {
