@@ -28,11 +28,11 @@ export default function KeyPrompt({ onDone }) {
   useEffect(() => {
     if (!enable) return;
 
-    let fname = store.state.Editor.crypt.op.path;
+    const path = store.state.Editor.crypt.op.path;
     const opname = store.state.Editor.crypt.op.name;
 
-    if (typeof fname === 'string' && typeof opname === 'string') {
-      fname = fname.split('/').pop();
+    if (typeof path === 'string' && typeof opname === 'string') {
+      const fname = path.split(/[\\/]/).pop() || path;
       const operationLabel = opname === 'open' ? 'Unlock' : 'Encrypt';
       setTitle(`${operationLabel} ${fname}`);
       return;
